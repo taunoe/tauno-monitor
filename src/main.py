@@ -40,6 +40,7 @@ class TaunoMonitorApplication(Adw.Application):
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
 
+        # shortcut
         self.set_accels_for_action('win.open', ['<Ctrl>o'])
 
         # Dark Mode
@@ -58,6 +59,7 @@ class TaunoMonitorApplication(Adw.Application):
         dark_mode_action.connect("change-state", self.change_color_scheme)
         self.add_action(dark_mode_action)
 
+
     def do_activate(self):
         """Called when the application is activated.
 
@@ -69,20 +71,6 @@ class TaunoMonitorApplication(Adw.Application):
             win = TaunoMonitorWindow(application=self)
         win.present()
 
-    def on_about_action(self, widget, _):
-        """Callback for the app.about action."""
-        about = Adw.AboutWindow(transient_for=self.props.active_window,
-                                application_name='tauno-monitor',
-                                application_icon='art.taunoerik.TaunoMonitor',
-                                developer_name='Tauno Erik',
-                                version='0.1.0',
-                                developers=['Tauno Erik'],
-                                copyright='© 2023 Tauno Erik')
-        about.present()
-
-    def on_preferences_action(self, widget, _):
-        """Callback for the app.preferences action."""
-        print('app.preferences action activated')
 
     def create_action(self, name, callback, shortcuts=None):
         """Add an application action.
@@ -98,6 +86,23 @@ class TaunoMonitorApplication(Adw.Application):
         self.add_action(action)
         if shortcuts:
             self.set_accels_for_action(f"app.{name}", shortcuts)
+
+
+    def on_about_action(self, widget, _):
+        """Callback for the app.about action."""
+        about = Adw.AboutWindow(transient_for=self.props.active_window,
+                                application_name='Tauno Monitor',
+                                application_icon='art.taunoerik.TaunoMonitor',
+                                website='https://github.com/taunoe/tauno-monitor',
+                                developer_name='Tauno Erik',
+                                version='0.1.0',
+                                developers=['Tauno Erik'],
+                                copyright='© 2023 Tauno Erik')
+        about.present()
+
+    def on_preferences_action(self, widget, _):
+        """Callback for the app.preferences action."""
+        print('app.preferences action activated')
 
     def toggle_dark_mode(self, action, _):
         """

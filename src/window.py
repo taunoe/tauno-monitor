@@ -17,22 +17,25 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Adw
-from gi.repository import Gtk
-from gi.repository import Gio
+from gi.repository import Adw, Gtk, Gio
 
 @Gtk.Template(resource_path='/art/taunoerik/TaunoMonitor/window.ui')
 
 class TaunoMonitorWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'TaunoMonitorWindow'
 
-    main_monitor_view = Gtk.Template.Child()
+    input_text_view = Gtk.Template.Child()
     open_button = Gtk.Template.Child()
+    send_button = Gtk.Template.Child()
+    send_cmd = Gtk.Template.Child()
+    port_drop_down_list = Gtk.Template.Child()
+    baud_drop_down_list = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         self.settings = Gio.Settings(schema_id="art.taunoerik.TaunoMonitor")
+
         self.settings.bind("window-width", self, "default-width",
                             Gio.SettingsBindFlags.DEFAULT)
         self.settings.bind("window-height", self, "default-height",
@@ -49,6 +52,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         open_action.connect("activate", self.open_serial_port)
         self.add_action(open_action)
 
+        # CMD Entry
+        self.send_cmd.set_placeholder_text("Enter cmd")
+
+
         # Button Send
         send_action = Gio.SimpleAction(name="send")
         send_action.connect("activate", self.send_to_serial_port)
@@ -63,7 +70,21 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def send_to_serial_port(self, action, _):
         print("Btn Send")
-        #text = entry.get_text()
-        text = Gtk.EntryBuffer()
+        #text = self.send_cmd.get_buffer()
+        buffer = self.send_cmd.get_buffer()
+        text = buffer.get_text()
         print(f"Entry text changed: {text}")
-        
+        buffer.delete_text(0, len(text))
+
+
+    def add_serial_output_to_text_view(self, data):
+        try:
+            text = data.decode('utf-8')
+        except Exception:
+            print(Exception)
+            return
+
+        buffer = self.input_text_view.get_buffer()
+
+
+

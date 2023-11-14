@@ -11,15 +11,15 @@
         <child type="top">
           <object class="AdwHeaderBar" id="header_bar">
             <child type="start">
-              <object class="GtkLabel" id="Select_Port">
+              <object class="GtkLabel" id="port_label">
                 <property name="margin-start">6</property>
                 <property name="label" translatable="yes">Port:</property>
               </object>
             </child>
             <child type="start">
-              <object class="GtkDropDown">
+              <object class="GtkDropDown" id="port_drop_down">
                 <property name="model">
-                  <object class="GtkStringList">
+                  <object class="GtkStringList"  id="port_drop_down_list">
                     <items>
                       <item>port 1</item>
                       <item>port 2</item>
@@ -30,15 +30,15 @@
               </object>
             </child>
             <child type="start">
-              <object class="GtkLabel" id="Select_Baud">
+              <object class="GtkLabel" id="baud_label">
                 <property name="margin-start">18</property>
                 <property name="label" translatable="yes">Baud Rate:</property>
               </object>
             </child>
             <child type="start">
-              <object class="GtkDropDown">
+              <object class="GtkDropDown" id="baud_drop_down">
                 <property name="model">
-                  <object class="GtkStringList">
+                  <object class="GtkStringList" id="baud_drop_down_list">
                     <items>
                       <item>110</item>
                       <item>300</item>
@@ -99,15 +99,9 @@
               <child>
                 <object class="GtkBox">
                   <property name="orientation">horizontal</property>
+
                   <child type="start">
-                    <object class="GtkLabel" id="Entry_label">
-                        <property name="margin-start">6</property>
-                        <property name="margin-top">6</property>
-                        <property name="label" translatable="yes">Entry:</property>
-                    </object>
-                  </child>
-                  <child>
-                    <object class="GtkEntry" id="entry">
+                    <object class="GtkEntry" id="send_cmd">
                       <property name="width_chars">60</property>
                       <property name="hexpand">True</property>
                       <property name="visible">True</property>
@@ -119,7 +113,7 @@
                   <child>
                     <object class="GtkBox">
                       <child type="end">
-                        <object class="GtkButton" id="Send_label">
+                        <object class="GtkButton" id="send_button">
                           <property name="margin-start">6</property>
                           <property name="margin-top">6</property>
                           <property name="label" translatable="yes">Send</property>
@@ -132,7 +126,7 @@
               </child>
 
               <child>
-                <object class="GtkScrolledWindow">
+                <object class="GtkScrolledWindow" id="input_window">
                   <property name="hexpand">true</property>
                   <property name="vexpand">true</property>
                   <property name="margin-top">6</property>
@@ -140,7 +134,7 @@
                   <property name="margin-start">6</property>
                   <property name="margin-end">6</property>
                   <property name="child">
-                    <object class="GtkTextView" id="main_monitor_view">
+                    <object class="GtkTextView" id="input_text_view">
                       <property name="monospace">true</property>
                     </object>
                   </property>
