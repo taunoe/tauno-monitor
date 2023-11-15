@@ -131,3 +131,4 @@ def main(version):
     """The application's entry point."""
     app = TaunoMonitorApplication()
     return app.run(sys.argv)
+
