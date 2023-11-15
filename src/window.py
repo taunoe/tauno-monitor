@@ -57,26 +57,49 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         send_action.connect("activate", self.send_to_serial_port)
         self.add_action(send_action)
 
+        # list available serial ports
         self.scan_serial_ports()
+        # Get Serial instance, open laiter
+        self.myserial = serial.Serial()
 
 
     def scan_serial_ports(self):
         self.port_drop_down_list.remove(0) # Removes: not available
 
+        serial.tools.list_ports.comports()
+
         ports = list(serial.tools.list_ports.comports())
         for port in ports:
-            self.port_drop_down_list.append(port)
+            self.port_drop_down_list.append(str(port[0]))
+            #print(port[1])  # info
+
 
     def open_serial_port(self, action, _):
         print("Btn Open")
-        # Selected Port
-        port_obj = self.port_drop_down.get_selected_item()
-        selected_port = port_obj.get_string()
-        print(selected_port)
-        # selected Baud Rate
-        baud_obj = self.baud_drop_down.get_selected_item()
-        selected_baud_rate = baud_obj.get_string()
-        print(selected_baud_rate)
+
+        if self.myserial.is_open:
+            self.myserial.close()
+            if self.myserial.is_open is False:
+                print("Serial is closed")
+                self.open_button.set_label("Open")
+        else:
+            # Selected Port
+            port_obj = self.port_drop_down.get_selected_item()
+            selected_port = port_obj.get_string()
+            print(selected_port)
+            # selected Baud Rate
+            baud_obj = self.baud_drop_down.get_selected_item()
+            selected_baud_rate = baud_obj.get_string()
+            print(selected_baud_rate)
+            # Open Serial import
+            self.myserial.baudrate = selected_baud_rate
+            self.myserial.port = selected_port
+            self.myserial.open()
+
+            if self.myserial.is_open:
+                print("Serial is open")
+                self.open_button.set_label("Close")
+
 
 
     def send_to_serial_port(self, action, _):
@@ -84,6 +107,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         buffer = self.send_cmd.get_buffer()
         text = buffer.get_text()
         print(f"Enter CMD: {text}")
+
+        if self.myserial.is_open:
+            self.myserial.write(text.encode('utf-8'))
+
         buffer.delete_text(0, len(text))
 
 
