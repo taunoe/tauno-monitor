@@ -27,6 +27,7 @@ from gi.repository import Gtk, Gio, Adw, GLib
 from .window import TaunoMonitorWindow
 
 
+
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
