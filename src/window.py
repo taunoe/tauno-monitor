@@ -50,19 +50,19 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Button Open action
         open_action = Gio.SimpleAction(name="open")
-        open_action.connect("activate", self.open_serial_port)
+        open_action.connect("activate", self.btn_open)
         self.add_action(open_action)
 
         # Button Send
         send_action = Gio.SimpleAction(name="send")
-        send_action.connect("activate", self.send_to_serial_port)
+        send_action.connect("activate", self.btn_send)
         self.add_action(send_action)
 
         # list available serial ports
         self.scan_serial_ports()
 
         # Get Serial instance, open later
-        self.myserial = serial.Serial()
+        self.tauno_serial = TaunoSerial(window_reference=self)
 
 
     def scan_serial_ports(self):
@@ -76,97 +76,135 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             #print(port[1])  # info
 
 
-    def open_serial_port(self, action, _):
+    def btn_open(self, action, _):
         print("Btn Open")
 
-        # Close if open
-        if self.myserial.is_open:
-            self.myserial.close()
-            if self.myserial.is_open is False:
-                print("Serial is closed")
-                self.open_button.set_label("Open")
-        # Open Serial
+        # Selected Port
+        port_obj = self.port_drop_down.get_selected_item()
+        selected_port = port_obj.get_string()
+        print(selected_port)
+
+        # selected Baud Rate
+        baud_obj = self.baud_drop_down.get_selected_item()
+        selected_baud_rate = baud_obj.get_string()
+        print(selected_baud_rate)
+
+        self.tauno_serial.open(selected_port, selected_baud_rate)
+
+        if self.tauno_serial.is_open:
+            self.open_button.set_label("Close")
         else:
-            # Selected Port
-            port_obj = self.port_drop_down.get_selected_item()
-            selected_port = port_obj.get_string()
-            print(selected_port)
-            # selected Baud Rate
-            baud_obj = self.baud_drop_down.get_selected_item()
-            selected_baud_rate = baud_obj.get_string()
-            print(selected_baud_rate)
-            # Open Serial import
-            self.myserial.baudrate = selected_baud_rate
-            self.myserial.port = selected_port
-            self.myserial.open()
+            self.open_button.set_label("Open")
 
-            if self.myserial.is_open:
-                print("Serial is open")
-                self.open_button.set_label("Close")
-
-            # Start read serial
-            self.read_serial_port()
-
-
-    def send_to_serial_port(self, action, _):
-        print("Btn Send")
-        buffer = self.send_cmd.get_buffer()
-        text = buffer.get_text()
-        print(f"Enter CMD: {text}")
-
-        if self.myserial.is_open:
-            self.myserial.write(text.encode('utf-8'))
-
-        buffer.delete_text(0, len(text))
-
-    def read_serial_port(self):
-        if self.myserial.is_open:
-
-            tauno_serial = TaunoSerial()
-
+        # Read serial
+        if self.tauno_serial.is_open:
             async_worker = AsyncWorker(
-                operation = tauno_serial.read,
-                operation_callback = tauno_serial.close
+                operation = self.tauno_serial.read,
+                operation_callback = self.read_finished
             )
             async_worker.start()
 
+    def read_finished(self, worker, result, handler_data):
+        """Handle the RESULT of the asynchronous operation performed by
+        WORKER.
+
+        WORKER (AsyncWorker)
+          The worker performing the asynchronous operation.
+
+        RESULT (Gio.AsyncResult)
+          The asynchronous result of the asynchronous operation.
+
+        HANDLER_DATA (None)
+          Additional data passed to this handler by the worker when the
+          job is done. It should be None in this case.
+        """
+        outcome = worker.return_value(result)
+        print("read_finished:")
+        print(outcome)
 
 
-    def async_read(self):
-        print("async_read")
+    def update(self, data):
+        print("update:")
+        print(data)
+        # Update text-view
         try:
-            data_in = self.myserial.readline().decode('utf8')
-            print(data_in)
+            buffer = self.input_text_view.get_buffer()
+            buffer.insert_at_cursor(data.decode('utf-8'))
+        except Exception as ex:
+            print(ex)
+
+        # Auto-scroll to end
+        try:
+            mark = buffer.get_insert()
+            self.input_text_view.scroll_to_mark(mark, 0.0,True, 0.0, 1.0)
         except Exception as ex:
             print(ex)
 
 
+    def btn_send(self, action, _):
+        print("Btn Send")
 
-    def add_serial_output_to_text_view(self, data):
-        try:
-            text = data.decode('utf-8')
-        except Exception:
-            print(Exception)
-            return
+        buffer = self.send_cmd.get_buffer()
+        text = buffer.get_text()
+        print(f"Entry: {text}")
 
-        buffer = self.input_text_view.get_buffer()
+        self.tauno_serial.write(text)
+
+        buffer.delete_text(0, len(text))
 
 
 class TaunoSerial():
 
-    def init(self):
-        self.serial_instance = serial.Serial()
+    def __init__(self, window_reference):
+        self.window_reference = window_reference
+        print("Tauno Serial Init")
+        self.is_open = False
+        self.myserial = serial.Serial()
 
-    def open(self):
-        print("Tauno Serial Open")
+    def open(self, port, baud):
+        print("Tauno Serial Open()")
+
+        # Close if already open
+        if self.myserial.is_open:
+            self.close()
+        else:
+            # Open Serial import
+            self.myserial.baudrate = baud
+            self.myserial.port = port
+            self.myserial.open()
+
+            if self.myserial.is_open:
+                self.is_open = True
+                print("Serial is open")
+
 
     def close(self):
-        print("Tauno Serial Close")
+        print("Tauno Serial Close()")
+        self.myserial.close()
+        if self.myserial.is_open is False:
+            self.is_open = False
+            print("Serial is closed")
 
 
     def read(self):
-        time.sleep(1)
-        print("Tauno Serial Read")
+        print("Tauno Serial Read()")
+
+        while self.is_open:
+            try:
+                data_in = self.myserial.readline()#.decode('utf8')
+                #return data_in
+                self.window_reference.update(data_in)
+            except Exception as ex:
+                print(ex)
+
+
+    def write(self, data):
+        print("Tauno Serial Write()")
+
+        print(f"Write: {data}")
+
+        if self.myserial.is_open:
+            self.myserial.write(data.encode('utf-8'))
 
 
 

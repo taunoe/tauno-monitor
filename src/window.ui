@@ -27,6 +27,11 @@
                 </property>
               </object>
             </child>
+            <child>
+              <object class="GtkButton" id="update_ports">
+                  <property name="icon-name">update-symbolic</property>
+              </object>
+            </child>>
             <child type="start">
               <object class="GtkLabel" id="baud_label">
                 <property name="margin-start">18</property>
@@ -138,7 +143,13 @@
                   <property name="margin-end">6</property>
                   <property name="child">
                     <object class="GtkTextView" id="input_text_view">
+                      <property name="visible">True</property>
                       <property name="monospace">true</property>
+                      <property name="editable">false</property>
+                      <property name="cursor-visible">false</property>
+                      <property name="hexpand">true</property>
+                      <property name="vexpand">true</property>
+                      <property name="can_focus">True</property>
                     </object>
                   </property>
                 </object>
