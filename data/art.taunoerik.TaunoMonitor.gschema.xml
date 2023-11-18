@@ -13,5 +13,11 @@
 	  <key name="dark-mode" type="b">
       <default>false</default>
     </key>
+	  <key name="baud-index" type="i">
+      <default>8</default>
+    </key>
+	  <key name="port-str" type="s">
+      <default>'/dev/ttyACM0'</default>
+    </key>
 	</schema>
 </schemalist>

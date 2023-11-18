@@ -29,7 +29,8 @@
             </child>
             <child>
               <object class="GtkButton" id="update_ports">
-                  <property name="icon-name">update-symbolic</property>
+                <property name="icon-name">update-symbolic</property>
+                <property name="action-name">win.update</property>
               </object>
             </child>>
             <child type="start">

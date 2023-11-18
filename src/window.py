@@ -34,12 +34,14 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     port_drop_down = Gtk.Template.Child()
     port_drop_down_list = Gtk.Template.Child()
     baud_drop_down = Gtk.Template.Child()
+    update_ports = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         self.settings = Gio.Settings(schema_id="art.taunoerik.TaunoMonitor")
 
+        # get saved ui width etc.
         self.settings.bind("window-width", self, "default-width",
                             Gio.SettingsBindFlags.DEFAULT)
         self.settings.bind("window-height", self, "default-height",
@@ -47,6 +49,25 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.settings.bind("window-maximized", self, "maximized",
                             Gio.SettingsBindFlags.DEFAULT)
 
+        # Get saved baud index:
+        baud_index = self.settings.get_int("baud-index")
+        self.baud_drop_down.set_selected(baud_index)
+
+        # Get saved port string
+        port_str = self.settings.get_string("port-str")
+        print(port_str)
+        self.ports_str_list = []
+        self.scan_serial_ports()
+        # set selection
+        if port_str in self.ports_str_list:
+            port_index = self.ports_str_list.index(port_str)
+            self.port_drop_down.set_selected(port_index)
+
+
+        # Update available ports list
+        update_ports_action = Gio.SimpleAction(name="update")
+        update_ports_action.connect("activate", self.btn_update_ports)
+        self.add_action(update_ports_action)
 
         # Button Open action
         open_action = Gio.SimpleAction(name="open")
@@ -58,22 +79,31 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         send_action.connect("activate", self.btn_send)
         self.add_action(send_action)
 
-        # list available serial ports
-        self.scan_serial_ports()
-
         # Get Serial instance, open later
         self.tauno_serial = TaunoSerial(window_reference=self)
 
+        # Buffer
+        self.text_buffer = self.input_text_view.get_buffer()
+        self.text_iter_end = self.text_buffer.get_end_iter()
+        self.text_mark_end = self.text_buffer.create_mark("", self.text_iter_end, False)
+
 
     def scan_serial_ports(self):
-        self.port_drop_down_list.remove(0) # Removes: not available
-
-        serial.tools.list_ports.comports()
+        """ Scans available serial ports and adds them to drop down list"""
+        old_size = len(self.port_drop_down_list)
 
         ports = list(serial.tools.list_ports.comports())
+
+        self.ports_str_list.clear()
         for port in ports:
-            self.port_drop_down_list.append(str(port[0]))
-            #print(port[1])  # info
+            self.ports_str_list.append(str(port[0]))
+
+        self.port_drop_down_list.splice(0, old_size, self.ports_str_list)
+
+
+    def btn_update_ports(self, action, _):
+        print("Btn Update")
+        self.scan_serial_ports()
 
 
     def btn_open(self, action, _):
@@ -82,13 +112,16 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # Selected Port
         port_obj = self.port_drop_down.get_selected_item()
         selected_port = port_obj.get_string()
-        print(selected_port)
+        # save port to settings
+        self.settings.set_string("port-str", selected_port)
 
         # selected Baud Rate
         baud_obj = self.baud_drop_down.get_selected_item()
         selected_baud_rate = baud_obj.get_string()
-        print(selected_baud_rate)
-
+        # save baud settings to settings
+        baud_index = self.baud_drop_down.get_selected()
+        self.settings.set_int("baud-index", baud_index)
+        # Open Serial Port
         self.tauno_serial.open(selected_port, selected_baud_rate)
 
         if self.tauno_serial.is_open:
@@ -124,21 +157,25 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
 
     def update(self, data):
-        print("update:")
-        print(data)
-        # Update text-view
+        """ Update Text View """
+
         try:
-            buffer = self.input_text_view.get_buffer()
-            buffer.insert_at_cursor(data.decode('utf-8'))
+            self.text_buffer = self.input_text_view.get_buffer()
+            self.text_iter_end = self.text_buffer.get_end_iter()
+            self.text_buffer.insert(self.text_iter_end, data.decode('utf-8'))
+
+            self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
             print(ex)
 
-        # Auto-scroll to end
+
+    def scroll_to_end(self):
         try:
-            mark = buffer.get_insert()
-            self.input_text_view.scroll_to_mark(mark, 0.0,True, 0.0, 1.0)
+            pass
+            #self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
             print(ex)
+
 
 
     def btn_send(self, action, _):
@@ -157,7 +194,7 @@ class TaunoSerial():
 
     def __init__(self, window_reference):
         self.window_reference = window_reference
-        print("Tauno Serial Init")
+        #print("Tauno Serial Init")
         self.is_open = False
         self.myserial = serial.Serial()
 
@@ -194,6 +231,7 @@ class TaunoSerial():
                 data_in = self.myserial.readline()#.decode('utf8')
                 #return data_in
                 self.window_reference.update(data_in)
+                #self.window_reference.scroll_to_end()
             except Exception as ex:
                 print(ex)
 
