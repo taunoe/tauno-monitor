@@ -10,9 +10,17 @@ It remembers the last settings (Theme, Baud Rate, Port).
 
 ## Screenshots
 
-![Dark mode](img/dark.png)
+![Dark mode](data/screenshots/dark.png)
 
-![Light mode](img/light.png)
+![Light mode](data/screenshots/light.png)
+
+## Install
+
+## Build
+
+You can build Tauno Monitor using GNOME Builder: import the project and press the Play button.
+
+## Support
 
 <a href="https://www.buymeacoffee.com/taunoerik" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
