@@ -11,9 +11,15 @@ description: |
 grade: stable
 confinement: strict
 
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: armhf
+
 apps:
   tauno-monitor:
     command: bin/tauno-monitor
+    extensions: [ gnome ]
     plugs:
       - raw-usb
       - serial-port
@@ -22,16 +28,19 @@ apps:
 parts:
   tauno-monitor:
     plugin: meson
-    meson-version: '>=0.62.0'  # Specify the required version of Meson
     source-type: git
     source: https://github.com/taunoe/tauno-monitor
+    parse-info: [ usr/share/appdata/art.taunoerik.TaunoMonitor.appdata.xml ]
     build-packages:
-      - libgtk-4-dev
-      - meson
-      - python3-dev
-      - python3-pip  # Added to ensure pip is available
-    stage-packages:
-      - python3
+      - blueprint-compiler
+      #- libgtk-4-dev
+      #- meson
+      #- python3-dev
+      #- python3-pip  # Added to ensure pip is available
+    meson-parameters:
+      - --prefix=/snap/tauno-monitor/current/usr
+    #stage-packages:
+    #  - python3
     override-build: |
       snapcraftctl build
       pip3 install --target=$SNAPCRAFT_PART_INSTALL/ pyserial
