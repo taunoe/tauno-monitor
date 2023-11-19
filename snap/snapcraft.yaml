@@ -22,6 +22,7 @@ apps:
 parts:
   tauno-monitor:
     plugin: meson
+    meson-version: '>=0.62.0'  # Specify the required version of Meson
     source-type: git
     source: https://github.com/taunoe/tauno-monitor
     build-packages:
