@@ -14,7 +14,7 @@ confinement: strict #devmode # use 'strict' once you have the right plugs and sl
 parts:
   my-part:
     # See 'snapcraft plugins'
-    plugin: python
+    plugin: meson
     source-type: git
     source: https://github.com/taunoe/tauno-monitor
     #stage-packages:
