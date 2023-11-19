@@ -38,7 +38,7 @@ parts:
       - --prefix=/usr
       - --buildtype=release
     override-build: |
-      craftctl build
+      craftctl default
       pip3 install --target=$SNAPCRAFT_PART_INSTALL/ pyserial
     #organize:
     #  "bin/tauno-monitor": "bin/tauno-monitor"
