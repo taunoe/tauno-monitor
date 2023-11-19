@@ -22,7 +22,7 @@ apps:
 parts:
   tauno-monitor:
     plugin: meson
-    python-version: python3
+    source-type: git
     source: https://github.com/taunoe/tauno-monitor
     build-packages:
       - libgtk-4-dev
