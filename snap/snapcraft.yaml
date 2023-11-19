@@ -8,8 +8,8 @@ description: |
   It aims to be beginner-friendly, small and easy to use.
   Not feature-rich and professional.
 
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+grade: stabel #devel # must be 'stable' to release into candidate/stable channels
+confinement: strict #devmode # use 'strict' once you have the right plugs and slots
 
 parts:
   my-part:
@@ -17,8 +17,7 @@ parts:
     plugin: python
     source-type: git
     source: https://github.com/taunoe/tauno-monitor
-
-    requirements:
+    stage-packages:
       - pyserial
 
 apps:
