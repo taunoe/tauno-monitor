@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="desktop-application">
+  <id>art.taunoerik.TaunoMonitor</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Tauno Monitor</name>
+  <summary>Simple stand-alone serial port monitor.</summary>
+  <developer_name>Tauno Erik</developer_name>
+
+  <description>
+    <p>
+      It aims to be beginner-friendly, small and easy to use. Not feature-rich and professional.<br/>>
+      Remembers the last settings (Theme, Baud Rate, Port etc).
+    </p>
+  </description>
+
+  <launchable type="desktop-id">art.taunoerik.TaunoMonitor.desktop.in</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Dark mode</caption>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/dark.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Light mode</caption>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Preferences</caption>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/pref.png</image>
+    </screenshot>
+  </screenshots>
+
+  <categories>
+    <category>Utility</category>
+  </categories>
+
+  <url type="homepage">https://github.com/taunoe/tauno-monitor</url>
+
+  <content_rating type="oars-1.0" />
+
+  <releases>
+    <release version="0.1.0" date="2023-11-19"/>
+     <description>
+			  <ul>
+					<li>First release</li>
+				</ul>
+		  </description>
+  </releases>
+</component>
