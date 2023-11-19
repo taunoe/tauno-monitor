@@ -12,14 +12,23 @@ grade: stable #devel # must be 'stable' to release into candidate/stable channel
 confinement: strict #devmode # use 'strict' once you have the right plugs and slots
 
 parts:
-  my-part:
+  tauno-monitor:
     # See 'snapcraft plugins'
     plugin: meson
     source-type: git
     source: https://github.com/taunoe/tauno-monitor
-    #stage-packages:
-    python-packages:
+    build-packages:
+      - meson
+      #- ninja
+      - libgtk-4-dev  # Add any necessary build dependencies here
+      - python3
       - pyserial
+    meson-parameters:
+      - --buildtype=release
+      - -Dpython=true  # If the project requires Python support
+    #stage-packages:
+    #python-packages:
+    #  - pyserial
 
 apps:
   tauno-monitor:
