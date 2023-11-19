@@ -8,33 +8,31 @@ description: |
   It aims to be beginner-friendly, small and easy to use.
   Not feature-rich and professional.
 
-grade: stable #devel # must be 'stable' to release into candidate/stable channels
-confinement: strict #devmode # use 'strict' once you have the right plugs and slots
-
-parts:
-  tauno-monitor:
-    # See 'snapcraft plugins'
-    plugin: meson
-    source-type: git
-    source: https://github.com/taunoe/tauno-monitor
-    build-packages:
-      - meson
-      #- ninja
-      - libgtk-4-dev  # Add any necessary build dependencies here
-      - python3
-      - pyserial
-    meson-parameters:
-      - --buildtype=release
-      - -Dpython=true  # If the project requires Python support
-    #stage-packages:
-    #python-packages:
-    #  - pyserial
+grade: stable
+confinement: strict
 
 apps:
   tauno-monitor:
     command: bin/tauno-monitor
     plugs:
-      # https://snapcraft.io/docs/supported-interfaces
       - raw-usb
       - serial-port
       - hardware-observe
+
+parts:
+  tauno-monitor:
+    plugin: meson
+    python-version: python3
+    source: https://github.com/taunoe/tauno-monitor
+    build-packages:
+      - libgtk-4-dev
+      - python3-dev
+      - python3-pip  # Added to ensure pip is available
+    stage-packages:
+      - python3
+    override-build: |
+      snapcraftctl build
+      pip3 install --target=$SNAPCRAFT_PART_INSTALL/ pyserial
+    organize:
+      "bin/tauno-monitor": "bin/tauno-monitor"
+
