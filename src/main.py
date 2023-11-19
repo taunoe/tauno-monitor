@@ -27,7 +27,6 @@ from gi.repository import Gtk, Gio, Adw, GLib
 from .window import TaunoMonitorWindow
 
 
-
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
@@ -44,21 +43,15 @@ class TaunoMonitorApplication(Adw.Application):
         # shortcut
         self.set_accels_for_action('win.open', ['<Ctrl>o'])
 
-        # Dark Mode
-        dark_mode = self.settings.get_boolean("dark-mode")
+        # Get saved Mode
+        self.dark_mode_saved = self.settings.get_boolean("dark-mode")
         style_manager = Adw.StyleManager.get_default()
 
-        if dark_mode:
+        if self.dark_mode_saved: # is True
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
         else:
-            #style_manager.set_color_scheme(Adw.ColorScheme.DEFAULT)
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
 
-        dark_mode_action = Gio.SimpleAction(name="dark-mode",
-                                            state=GLib.Variant.new_boolean(dark_mode))
-        dark_mode_action.connect("activate", self.toggle_dark_mode)
-        dark_mode_action.connect("change-state", self.change_color_scheme)
-        self.add_action(dark_mode_action)
 
 
     def do_activate(self):
@@ -67,10 +60,10 @@ class TaunoMonitorApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
-        win = self.props.active_window
-        if not win:
-            win = TaunoMonitorWindow(application=self)
-        win.present()
+        self.win = self.props.active_window
+        if not self.win:
+            self.win = TaunoMonitorWindow(application=self)
+        self.win.present()
 
 
     def create_action(self, name, callback, shortcuts=None):
@@ -101,35 +94,65 @@ class TaunoMonitorApplication(Adw.Application):
                                 copyright='© 2023 Tauno Erik')
         about.present()
 
+
     def on_preferences_action(self, widget, _):
         """Callback for the app.preferences action."""
-        print('app.preferences action activated')
+        preferences = Adw.PreferencesWindow(transient_for=self.props.active_window)
 
-    def toggle_dark_mode(self, action, _):
-        """
-        this callback toggles the state of the dark-mode action between “true” and “false”
-        """
-        state = action.get_state()
-        old_state = state.get_boolean()
-        new_state = not old_state
-        action.change_state(GLib.Variant.new_boolean(new_state))
+        # Title
+        settings_page = Adw.PreferencesPage(title="Preferences")
+        settings_page.set_icon_name("applications-system-symbolic")
+        preferences.add(settings_page)
 
-    def change_color_scheme(self, action, new_state):
-        """
-        this callback is responsible for switching the application’s color scheme using the AdwStyleManager API
-        """
-        dark_mode = new_state.get_boolean()
+        # UI group
+        ui_group = Adw.PreferencesGroup(title="Appearance")
+        settings_page.add(ui_group)
+        # Text size
+        font_row = Adw.ActionRow(title="Text size")
+        ui_group.add(font_row)
+
+        spin_adjustment = Gtk.Adjustment(value=self.win.font_size_saved,
+                                 lower=2,
+                                 upper=100,
+                                 step_increment=1)
+        font_spin_button = Gtk.SpinButton(valign = Gtk.Align.CENTER,
+                                    adjustment=spin_adjustment,
+                                    climb_rate=1,
+                                    digits=0)
+        font_row.add_suffix(font_spin_button)
+
+        # Dark Mode
+        dark_mode_row = Adw.ActionRow(title="Dark Mode")
+        ui_group.add(dark_mode_row)
+        dark_mode_switch = Gtk.Switch(valign = Gtk.Align.CENTER,)
+        dark_mode_row.add_suffix(dark_mode_switch)
+        # Current mode: True is Dark
+        dark_mode_switch.set_active(self.settings.get_boolean("dark-mode"))
+        #
+        preferences.present()
+        #
+        font_spin_button.connect("value-changed", self.text_size_action)
+        dark_mode_switch.connect("state-set", self.dark_mode_switch_action)
+
+
+    def dark_mode_switch_action(self, widget, state):
+        dark_mode = state
+
         style_manager = Adw.StyleManager.get_default()
-        if dark_mode:
+
+        if dark_mode: # is True
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
         else:
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
-        action.set_state(new_state)
         self.settings.set_boolean("dark-mode", dark_mode)
 
 
+    def text_size_action(self, action):
+        new_size = action.get_value_as_int()
+        self.win.change_font_size(new_size)
+
+
 def main(version):
-    """The application's entry point."""
     app = TaunoMonitorApplication()
     return app.run(sys.argv)
 

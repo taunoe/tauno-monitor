@@ -1,0 +1,31 @@
+# https://snapcraft.io/docs/create-a-new-snap
+name: tauno-monitor # you probably want to 'snapcraft register <name>'
+base: core22 # the base snap is the execution environment for this snap
+version: '0.1.0' # just for humans, typically '1.2+git' or '1.3.2'
+summary: Simple stand-alone serial port monitor # 79 char long summary
+description: |
+  Simple a stand-alone serial port monitor for the GNOME desktop.
+  It aims to be beginner-friendly, small and easy to use.
+  Not feature-rich and professional.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+parts:
+  my-part:
+    # See 'snapcraft plugins'
+    plugin: python
+    source-type: git
+    source: https://github.com/taunoe/tauno-monitor
+
+    stage-packages:
+      - pyserial
+
+apps:
+  tauno-monitor:
+    command: bin/tauno-monitor
+    plugs:
+      # https://snapcraft.io/docs/supported-interfaces
+      - raw-usb
+      - serial-port
+      - hardware-observe

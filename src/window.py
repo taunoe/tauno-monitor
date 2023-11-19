@@ -17,7 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Adw, Gtk, Gio, GObject, GLib
+from gi.repository import Adw, Gtk, Gio, GObject, GLib, Gdk
 import os
 import serial
 import serial.tools.list_ports
@@ -43,10 +43,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         self.settings = Gio.Settings(schema_id="art.taunoerik.TaunoMonitor")
 
-        #resource = Gio.resource_load(os.path.join('@PKGDATA_DIR@', 'resources.gresource.xml'))
-        #Gio.Resource._register(resource)
-
-        # get saved ui width etc.
+        # Get saved settings from gschema.xml
         self.settings.bind("window-width", self, "default-width",
                             Gio.SettingsBindFlags.DEFAULT)
         self.settings.bind("window-height", self, "default-height",
@@ -54,22 +51,18 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.settings.bind("window-maximized", self, "maximized",
                             Gio.SettingsBindFlags.DEFAULT)
 
-        # Get saved baud index:
-        baud_index = self.settings.get_int("baud-index")
-        self.baud_drop_down.set_selected(baud_index)
+        baud_index_saved = self.settings.get_int("baud-index")
 
-        # Get saved port string
-        port_str = self.settings.get_string("port-str")
-        print(port_str)
+        self.baud_drop_down.set_selected(baud_index_saved)
+
         self.ports_str_list = []
-        self.scan_serial_ports()
-        # set selection
-        if port_str in self.ports_str_list:
-            port_index = self.ports_str_list.index(port_str)
-            self.port_drop_down.set_selected(port_index)
+        self.load_saved_port()
 
+        # font size
+        self.font_size_saved = self.settings.get_int("font-size")
+        self.change_font_size(self.font_size_saved)
 
-        # Update available ports list
+        # Button Update available ports list
         update_ports_action = Gio.SimpleAction(name="update")
         update_ports_action.connect("activate", self.btn_update_ports)
         self.add_action(update_ports_action)
@@ -87,10 +80,28 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # Get Serial instance, open later
         self.tauno_serial = TaunoSerial(window_reference=self)
 
-        # Buffer
+        # TextView Buffer
         self.text_buffer = self.input_text_view.get_buffer()
         self.text_iter_end = self.text_buffer.get_end_iter()
         self.text_mark_end = self.text_buffer.create_mark("", self.text_iter_end, False)
+
+
+
+    def load_saved_port(self):
+        port_str = self.settings.get_string("port-str")
+
+        self.scan_serial_ports()
+        # set selection
+        if port_str in self.ports_str_list:
+            port_index = self.ports_str_list.index(port_str)
+            self.port_drop_down.set_selected(port_index)
+
+
+    def change_font_size(self, new_size):
+        """ Changes the css file"""
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_string('textview { font-size: ' + str(new_size) + 'pt; }')
+        Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
 
     def scan_serial_ports(self):
@@ -124,8 +135,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         baud_obj = self.baud_drop_down.get_selected_item()
         selected_baud_rate = baud_obj.get_string()
         # save baud settings to settings
-        baud_index = self.baud_drop_down.get_selected()
-        self.settings.set_int("baud-index", baud_index)
+        baud_index_new = self.baud_drop_down.get_selected()
+        self.settings.set_int("baud-index", baud_index_new)
         # Open Serial Port
         self.tauno_serial.open(selected_port, selected_baud_rate)
 
