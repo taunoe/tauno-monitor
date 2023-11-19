@@ -32,6 +32,8 @@ parts:
       - python3-pip  # Added to ensure pip is available
     stage-packages:
       - python3
+    build-attributes:
+      - build-packages: [ninja-build]
     override-build: |
       snapcraftctl build
       pip3 install --target=$SNAPCRAFT_PART_INSTALL/ pyserial
