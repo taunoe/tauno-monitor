@@ -26,6 +26,8 @@ parts:
     source: https://github.com/taunoe/tauno-monitor
     build-packages:
       - libgtk-4-dev
+      - meson
+      - ninja
       - python3-dev
       - python3-pip  # Added to ensure pip is available
     stage-packages:
