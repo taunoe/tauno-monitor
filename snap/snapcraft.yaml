@@ -18,7 +18,7 @@ parts:
     source-type: git
     source: https://github.com/taunoe/tauno-monitor
 
-    stage-packages:
+    requirements:
       - pyserial
 
 apps:
