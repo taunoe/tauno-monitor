@@ -4,6 +4,8 @@
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
 	<description>
-	  <p>No description</p>
+	  <p>Simple a stand-alone serial port monitor for the GNOME desktop.
+  It aims to be beginner-friendly, small and easy to use.
+  Not feature-rich and professional.</p>
 	</description>
 </component>

@@ -41,11 +41,13 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="0.1.1" date="2023-11-20"/>
+
     <release version="0.1.0" date="2023-11-19"/>
      <description>
-			  <ul>
-					<li>First release</li>
-				</ul>
-		  </description>
+       <ul>
+         <li>First release</li>
+       </ul>
+		 </description>
   </releases>
 </component>
