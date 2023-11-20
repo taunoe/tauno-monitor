@@ -19,7 +19,7 @@ architectures:
 apps:
   tauno-monitor:
     extensions: [ gnome ]
-    command: bin/tauno-monitor
+    command: usr/bin/tauno-monitor
     desktop: usr/share/applications/art.taunoerik.tauno-monitor.desktop
     common-id: art.taunoerik.tauno-monitor
     plugs:
@@ -40,6 +40,7 @@ parts:
     override-build: |
       craftctl default
       pip3 install --target=$SNAPCRAFT_PART_INSTALL/ pyserial
-    #organize:
-    #  "bin/tauno-monitor": "bin/tauno-monitor"
+
+      # Point icon to the correct location
+      sed -i.bak -e 's|Icon=art.taunoerik.tauno-monitore|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.tauno-monitor.svg|g' data/art.taunoerik.tauno-monitor.desktop.in
 
