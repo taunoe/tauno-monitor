@@ -1,5 +1,5 @@
 {
-    "app-id" : "art.taunoerik.TaunoMonitor",
+    "app-id" : "art.taunoerik.tauno-monitor",
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "45",
     "sdk" : "org.gnome.Sdk",

@@ -20,8 +20,8 @@ apps:
   tauno-monitor:
     extensions: [ gnome ]
     command: bin/tauno-monitor
-    desktop: usr/share/applications/art.taunoerik.TaunoMonitor.desktop
-    common-id: art.taunoerik.TaunoMonitor
+    desktop: usr/share/applications/art.taunoerik.tauno-monitor.desktop
+    common-id: art.taunoerik.tauno-monitor
     plugs:
       - raw-usb
       - serial-port
@@ -32,7 +32,7 @@ parts:
     plugin: meson
     source-type: git
     source: https://github.com/taunoe/tauno-monitor
-    parse-info: [ usr/share/appdata/art.taunoerik.TaunoMonitor.appdata.xml ]
+    parse-info: [ usr/share/appdata/art.taunoerik.tauno-monitor.appdata.xml ]
 
     meson-parameters:
       - --prefix=/usr

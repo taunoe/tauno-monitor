@@ -24,7 +24,7 @@ import serial.tools.list_ports
 import threading
 import time
 
-@Gtk.Template(resource_path='/art/taunoerik/TaunoMonitor/window.ui')
+@Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 
 class TaunoMonitorWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'TaunoMonitorWindow'
@@ -41,7 +41,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.settings = Gio.Settings(schema_id="art.taunoerik.TaunoMonitor")
+        self.settings = Gio.Settings(schema_id="art.taunoerik.tauno-monitor")
 
         # Get saved settings from gschema.xml
         self.settings.bind("window-width", self, "default-width",

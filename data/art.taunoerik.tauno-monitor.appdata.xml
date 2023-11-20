@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <component type="desktop-application">
-  <id>art.taunoerik.TaunoMonitor</id>
+  <id>art.taunoerik.tauno-monitor</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Tauno Monitor</name>
@@ -15,7 +15,7 @@
     </p>
   </description>
 
-  <launchable type="desktop-id">art.taunoerik.TaunoMonitor.desktop.in</launchable>
+  <launchable type="desktop-id">art.taunoerik.tauno-monitor.desktop.in</launchable>
 
   <screenshots>
     <screenshot type="default">

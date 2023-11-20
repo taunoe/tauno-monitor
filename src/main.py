@@ -31,10 +31,10 @@ class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
     def __init__(self):
-        super().__init__(application_id='art.taunoerik.TaunoMonitor',
+        super().__init__(application_id='art.taunoerik.tauno-monitor',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
 
-        self.settings = Gio.Settings(schema_id="art.taunoerik.TaunoMonitor")
+        self.settings = Gio.Settings(schema_id="art.taunoerik.tauno-monitor")
 
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
@@ -86,7 +86,7 @@ class TaunoMonitorApplication(Adw.Application):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='Tauno Monitor',
-                                application_icon='art.taunoerik.TaunoMonitor',
+                                application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
                                 version='0.1.0',

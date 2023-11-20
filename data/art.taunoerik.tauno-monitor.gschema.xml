@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="tauno-monitor">
-	<schema id="art.taunoerik.TaunoMonitor" path="/art/taunoerik/TaunoMonitor/">
+	<schema id="art.taunoerik.tauno-monitor" path="/art/taunoerik/tauno-monitor/">
 	  <key name="window-width" type="i">
       <default>600</default>
     </key>
