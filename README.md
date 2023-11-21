@@ -22,7 +22,7 @@ It remembers the last settings (Theme, Baud Rate, Port etc).
 
 ## Build
 
-You can build Tauno Monitor using GNOME Builder: import the project and press the Play button.
+You can build Tauno Monitor using [GNOME Builder](https://flathub.org/et/apps/org.gnome.Builder): import the project and press the Play button.
 
 ## Support
 

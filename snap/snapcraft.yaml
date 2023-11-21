@@ -42,3 +42,4 @@ parts:
 
       craftctl default
       pip3 install --target=$SNAPCRAFT_PART_INSTALL/ pyserial
+      chmod +x $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
