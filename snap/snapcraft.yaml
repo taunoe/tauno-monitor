@@ -23,9 +23,9 @@ apps:
     desktop: usr/share/applications/art.taunoerik.tauno-monitor.desktop
     common-id: art.taunoerik.tauno-monitor
     plugs:
-      - raw-usb
+      #- raw-usb
       - serial-port
-      - hardware-observe
+      #- hardware-observe
 
 parts:
   tauno-monitor:
