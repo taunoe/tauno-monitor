@@ -38,7 +38,7 @@ parts:
       - --buildtype=release
     override-build: |
       # Point icon to the correct location
-      sed -i.bak -e 's|Icon=art.taunoerik.tauno-monitor|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.tauno-monitor.svg|g' $CRAFT_PART_SRC/data/art.taunoerik.tauno-monitor.desktop.in
+      sed -i.bak -e 's|Icon=art.taunoerik.tauno-monitor|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.tauno-monitor.svg|g' data/art.taunoerik.tauno-monitor.desktop.in
 
       craftctl default
       pip3 install --target=$SNAPCRAFT_PART_INSTALL/ pyserial
