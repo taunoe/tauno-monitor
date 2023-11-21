@@ -2,6 +2,8 @@
 
 # Tauno Monitor
 
+[![tauno-monitor](https://snapcraft.io/tauno-monitor/badge.svg)](https://snapcraft.io/tauno-monitor)
+
 The goal is to make a stand-alone simple serial port monitor for the GNOME desktop.
 
 It aims to be beginner-friendly, small and easy to use. Not feature-rich and professional.
@@ -19,6 +21,8 @@ It remembers the last settings (Theme, Baud Rate, Port etc).
 ![Preferences window](data/screenshots/pref.png)
 
 ## Install
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/tauno-monitor)
 
 ## Build
 
