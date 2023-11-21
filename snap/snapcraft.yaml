@@ -30,17 +30,16 @@ apps:
 parts:
   tauno-monitor:
     plugin: meson
-    source-type: git
-    source: https://github.com/taunoe/tauno-monitor
+    source: .
     parse-info: [ usr/share/appdata/art.taunoerik.tauno-monitor.appdata.xml ]
 
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release
     override-build: |
+      # Point icon to the correct location
+      sed -i.bak -e 's|Icon=art.taunoerik.tauno-monitor|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.tauno-monitor.svg|g' $CRAFT_PART_SRC/data/art.taunoerik.tauno-monitor.desktop.in
+
       craftctl default
       pip3 install --target=$SNAPCRAFT_PART_INSTALL/ pyserial
-
-      # Point icon to the correct location
-      #sed -i.bak -e 's|Icon=art.taunoerik.tauno-monitore|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.tauno-monitor.svg|g' data/art.taunoerik.tauno-monitor.desktop.in
 
