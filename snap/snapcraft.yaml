@@ -52,5 +52,6 @@ parts:
       sed -i.bak -e 's|Icon=art.taunoerik.tauno-monitor|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.tauno-monitor.svg|g' $CRAFT_PART_SRC/data/art.taunoerik.tauno-monitor.desktop.in
       sed -i -e 's|/snap/gnome-42-2204-sdk/current/usr/bin/python3|/usr/bin/env python3|g' $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
       pip3 install --target=$SNAPCRAFT_PART_INSTALL/ pyserial
-      chmod +x $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
+      chmod +x $CRAFT_PART_INSTALL/bin/tauno-monitor
+      #chmod +x $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
 
