@@ -11,7 +11,7 @@
 It aims to be beginner friendly, small and easy to use.
 Not feature-rich and professional. Remembers the last settings (Theme, Baud Rate, Port etc.).</p>
 	</description>
-  <launchable type="desktop-id">art.taunoerik.tauno-monitor.desktop.in</launchable>
+  <launchable type="desktop-id">art.taunoerik.tauno-monitor.desktop</launchable>
   <url type="homepage">https://github.com/taunoe/tauno-monitor</url>
   <content_rating type="oars-1.0" />
   <screenshots>
