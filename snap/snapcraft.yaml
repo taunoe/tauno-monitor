@@ -55,6 +55,7 @@ parts:
       chmod +x $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
 
 cleanup:
+    after: tauno-monitor
     plugin: nil
     build-snaps:  # List all content-snaps and base snaps you're using here
       - core22
