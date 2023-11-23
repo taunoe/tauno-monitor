@@ -137,22 +137,26 @@
               </child>
 
               <child>
-                <object class="GtkScrolledWindow" id="input_window">
-                  <property name="hexpand">true</property>
-                  <property name="vexpand">true</property>
-                  <property name="margin-top">6</property>
-                  <property name="margin-bottom">6</property>
-                  <property name="margin-start">6</property>
-                  <property name="margin-end">6</property>
+                <object class="AdwToastOverlay" id="toast_overlay">
                   <property name="child">
-                    <object class="GtkTextView" id="input_text_view">
-                      <property name="visible">True</property>
-                      <property name="monospace">true</property>
-                      <property name="editable">false</property>
-                      <property name="cursor-visible">false</property>
+                    <object class="GtkScrolledWindow" id="input_window">
                       <property name="hexpand">true</property>
                       <property name="vexpand">true</property>
-                      <property name="can_focus">True</property>
+                      <property name="margin-top">6</property>
+                      <property name="margin-bottom">6</property>
+                      <property name="margin-start">6</property>
+                      <property name="margin-end">6</property>
+                      <property name="child">
+                        <object class="GtkTextView" id="input_text_view">
+                          <property name="visible">True</property>
+                          <property name="monospace">true</property>
+                          <property name="editable">false</property>
+                          <property name="cursor-visible">false</property>
+                          <property name="hexpand">true</property>
+                          <property name="vexpand">true</property>
+                          <property name="can_focus">True</property>
+                        </object>
+                      </property>
                     </object>
                   </property>
                 </object>

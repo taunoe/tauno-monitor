@@ -37,6 +37,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     port_drop_down_list = Gtk.Template.Child()
     baud_drop_down = Gtk.Template.Child()
     update_ports = Gtk.Template.Child()
+    toast_overlay = Gtk.Template.Child()  # notifications
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -108,13 +109,19 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """ Scans available serial ports and adds them to drop down list"""
         old_size = len(self.port_drop_down_list)
 
-        ports = list(serial.tools.list_ports.comports())
+        try:
+            ports = list(serial.tools.list_ports.comports())
 
-        self.ports_str_list.clear()
-        for port in ports:
-            self.ports_str_list.append(str(port[0]))
+            self.ports_str_list.clear()
+            for port in ports:
+                self.ports_str_list.append(str(port[0]))
 
-        self.port_drop_down_list.splice(0, old_size, self.ports_str_list)
+            self.port_drop_down_list.splice(0, old_size, self.ports_str_list)
+        except Exception as e:
+            # The user is not probably in 'dialout' group
+            print("The error: ",e)
+            self.toast_overlay.add_toast(Adw.Toast(title=f"Unable to scan serial ports!"))
+            return
 
 
     def btn_update_ports(self, action, _):
@@ -142,8 +149,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         if self.tauno_serial.is_open:
             self.open_button.set_label("Close")
+            #self.toast_overlay.add_toast(Adw.Toast(title=f"Opened"))
         else:
             self.open_button.set_label("Open")
+            #self.toast_overlay.add_toast(Adw.Toast(title=f"Closed"))
 
         if self.tauno_serial.is_open:
             # THREAD version
@@ -162,7 +171,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
-            print(ex)
+            print("The error:", ex)
+            return
 
 
     def btn_send(self, action, _):
@@ -181,7 +191,6 @@ class TaunoSerial():
 
     def __init__(self, window_reference):
         self.window_reference = window_reference
-        #print("Tauno Serial Init")
         self.is_open = False
         self.myserial = serial.Serial()
 
@@ -219,6 +228,7 @@ class TaunoSerial():
                 GLib.idle_add(self.window_reference.update, data_in)
             except Exception as ex:
                 print(ex)
+                return
 
 
     def write(self, data):
