@@ -36,7 +36,8 @@ apps:
       - home
       - raw-usb
       - serial-port
-      #- hardware-observe
+      - hardware-observe
+      - removable-media
 
 layout:
   /usr/share/tauno-monitor:

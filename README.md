@@ -2,13 +2,21 @@
 
 # Tauno Monitor
 
-[![tauno-monitor](https://snapcraft.io/tauno-monitor/badge.svg)](https://snapcraft.io/tauno-monitor)
-
 The goal is to make a stand-alone simple serial port monitor for the GNOME desktop.
 
 It aims to be beginner-friendly, small and easy to use. Not feature-rich and professional.
 
 It remembers the last settings (Theme, Baud Rate, Port etc).
+
+## Important
+
+Depending on your system you may need to add a user to dialout group to open serial ports:
+
+```bash
+sudo usermod -a -G dialout $USER
+```
+
+You may also need to install udev rules. PlatformIO have a good [instructions](https://docs.platformio.org/en/latest/core/installation/udev-rules.html)
 
 ## Screenshots
 
