@@ -32,6 +32,12 @@ Not feature-rich and professional. Remembers the last settings (Theme, Baud Rate
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.3" date="2023-11-23"/>
+      <description>
+        <ul>
+          <li>Meta info fixes</li>
+        </ul>
+      </description>
     <release version="0.1.2" date="2023-11-21"/>
       <description>
         <ul>
