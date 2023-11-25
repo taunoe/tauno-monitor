@@ -102,72 +102,80 @@
           </object>
         </child>
         <property name="content">
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-
-              <child>
-                <object class="GtkBox">
-                  <property name="orientation">horizontal</property>
-
-                  <child type="start">
-                    <object class="GtkEntry" id="send_cmd">
-                      <property name="width_chars">60</property>
-                      <property name="hexpand">True</property>
-                      <property name="visible">True</property>
-                      <property name="can_focus">True</property>
-                      <property name="margin-start">6</property>
-                      <property name="margin-top">6</property>
-                      <property name="placeholder-text" translatable="yes">Enter cmd</property>
-                    </object>
-                  </child>
-                  <child>
-                    <object class="GtkBox">
-                      <child type="end">
-                        <object class="GtkButton" id="send_button">
+          <object class="GtkOverlay" id="overlay">
+            <child type="overlay">
+              <object class="AdwBanner" id="banner_no_ports">
+                <property name="title" translatable="yes">Unable to open serial ports! Learn how to enable -></property>
+                <property name="button-label" translatable="yes">Guide</property>
+                <property name="valign">1</property>
+                <property name="action-name">win.guide</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                      <child type="start">
+                        <object class="GtkEntry" id="send_cmd">
+                          <property name="width_chars">60</property>
+                          <property name="hexpand">True</property>
+                          <property name="visible">True</property>
+                          <property name="can_focus">True</property>
                           <property name="margin-start">6</property>
-                          <property name="margin-end">6</property>
                           <property name="margin-top">6</property>
-                          <property name="label" translatable="yes">Send</property>
-                          <property name="action-name">win.send</property>
+                          <property name="placeholder-text" translatable="yes">Enter cmd</property>
+                        </object>
+                      </child>
+                      <child>
+                        <object class="GtkBox">
+                          <child type="end">
+                            <object class="GtkButton" id="send_button">
+                              <property name="margin-start">6</property>
+                              <property name="margin-end">6</property>
+                              <property name="margin-top">6</property>
+                              <property name="label" translatable="yes">Send</property>
+                              <property name="action-name">win.send</property>
+                            </object>
+                          </child>
                         </object>
                       </child>
                     </object>
                   </child>
-                </object>
-              </child>
-
-              <child>
-                <object class="AdwToastOverlay" id="toast_overlay">
-                  <property name="child">
-                    <object class="GtkScrolledWindow" id="input_window">
-                      <property name="hexpand">true</property>
-                      <property name="vexpand">true</property>
-                      <property name="margin-top">6</property>
-                      <property name="margin-bottom">6</property>
-                      <property name="margin-start">6</property>
-                      <property name="margin-end">6</property>
-                      <property name="child">
-                        <object class="GtkTextView" id="input_text_view">
-                          <property name="visible">True</property>
-                          <property name="monospace">true</property>
-                          <property name="editable">false</property>
-                          <property name="cursor-visible">false</property>
-                          <property name="hexpand">true</property>
-                          <property name="vexpand">true</property>
-                          <property name="can_focus">True</property>
-                        </object>
-                      </property>
-                    </object>
-                  </property>
-                </object>
-              </child>
-
-
+                  <child>
+                  <object class="AdwToastOverlay" id="toast_overlay">
+                    <property name="child">
+                      <object class="GtkScrolledWindow" id="input_window">
+                        <property name="hexpand">true</property>
+                        <property name="vexpand">true</property>
+                        <property name="margin-top">6</property>
+                        <property name="margin-bottom">6</property>
+                        <property name="margin-start">6</property>
+                        <property name="margin-end">6</property>
+                        <property name="child">
+                          <object class="GtkTextView" id="input_text_view">
+                            <property name="visible">True</property>
+                            <property name="monospace">true</property>
+                            <property name="editable">false</property>
+                            <property name="cursor-visible">false</property>
+                            <property name="hexpand">true</property>
+                            <property name="vexpand">true</property>
+                            <property name="can_focus">True</property>
+                          </object>
+                        </property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </property>
       </object>
     </property>
   </template>
+
   <menu id="primary_menu">
     <section>
       <item>
@@ -184,4 +192,6 @@
       </item>
     </section>
   </menu>
+
 </interface>
+

@@ -38,6 +38,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     baud_drop_down = Gtk.Template.Child()
     update_ports = Gtk.Template.Child()
     toast_overlay = Gtk.Template.Child()  # notifications
+    banner_no_ports = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -78,6 +79,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         send_action.connect("activate", self.btn_send)
         self.add_action(send_action)
 
+        # Button Guide
+        guide_action = Gio.SimpleAction(name="guide")
+        guide_action.connect("activate", self.btn_guide)
+        self.add_action(guide_action)
+
         # Get Serial instance, open later
         self.tauno_serial = TaunoSerial(window_reference=self)
 
@@ -87,8 +93,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.text_mark_end = self.text_buffer.create_mark("", self.text_iter_end, False)
 
 
-
     def load_saved_port(self):
+        """ Load saved port from saved settings """
+
         port_str = self.settings.get_string("port-str")
 
         self.scan_serial_ports()
@@ -120,17 +127,65 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         except Exception as e:
             # The user is not probably in 'dialout' group
             print("The error: ",e)
-            self.toast_overlay.add_toast(Adw.Toast(title=f"Unable to scan serial ports!"))
+            self.banner_no_ports.set_revealed(revealed=True)
             return
 
 
+    def btn_guide(self, action, _):
+        """ Button Guide action """
+        self.banner_no_ports.set_revealed(revealed=False)
+
+        guide = Gtk.Window.new()
+        guide.set_modal(modal=True)
+        guide.set_transient_for(self)
+        guide.set_default_size(width=600, height=300)
+        guide.set_size_request(width=600, height=300)
+        guide.set_titlebar(Gtk.HeaderBar())
+        guide.set_title(title='Guide')
+
+        vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        vbox.set_margin_top(margin=12)
+        vbox.set_margin_end(margin=12)
+        vbox.set_margin_bottom(margin=12)
+        vbox.set_margin_start(margin=12)
+        guide.set_child(child=vbox)
+
+        scrolled_window_1 = Gtk.ScrolledWindow.new()
+        vbox.append(child=scrolled_window_1)
+
+        txt1 = Gtk.TextView.new()
+        buffer1 = txt1.get_buffer()
+        buffer1.set_text("To make serial ports visible to the app add the user to 'dialout' group.\n\
+Please open Terminal and type:")
+        txt1.set_cursor_visible(False)
+        txt1.set_editable(False)
+        scrolled_window_1.set_child(txt1)
+
+        scrolled_window_2 = Gtk.ScrolledWindow.new()
+        vbox.append(child=scrolled_window_2)
+
+        txt2 = Gtk.TextView.new()
+        buffer2 = txt2.get_buffer()
+        buffer2.set_text("sudo usermod -a -G uucp $USER\n\
+sudo usermod -a -G lock $USER")
+        txt2.set_cursor_visible(True)
+        txt2.set_editable(False)
+        scrolled_window_2.set_child(txt2)
+
+        lnbtn = Gtk.LinkButton.new_with_label('https://github.com/taunoe/tauno-monitor', 'More information on the project\'s GitHub page')
+        vbox.append(child=lnbtn)
+
+        guide.present()
+
+
+
     def btn_update_ports(self, action, _):
-        print("Btn Update")
+        """ Button Update ports list action """
         self.scan_serial_ports()
 
 
     def btn_open(self, action, _):
-        print("Btn Open")
+        """ Button Open action """
 
         # Selected Port
         port_obj = self.port_drop_down.get_selected_item()
@@ -155,11 +210,14 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             #self.toast_overlay.add_toast(Adw.Toast(title=f"Closed"))
 
         if self.tauno_serial.is_open:
+            self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} connected"))
             # THREAD version
             # https://pygobject.readthedocs.io/en/latest/guide/threading.html
             thread = threading.Thread(target=self.tauno_serial.read)
             thread.daemon = True
             thread.start()
+        else:
+            self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} closed"))
 
 
     def update(self, data):
@@ -171,12 +229,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
-            print("The error:", ex)
+            print("update error:", ex)
             return
 
 
     def btn_send(self, action, _):
-        print("Btn Send")
+        """ Button Send action """
 
         buffer = self.send_cmd.get_buffer()
         text = buffer.get_text()
@@ -195,48 +253,49 @@ class TaunoSerial():
         self.myserial = serial.Serial()
 
     def open(self, port, baud):
-        print("Tauno Serial Open()")
-
+        """ Open to serial port """
         # Close if already open
         if self.myserial.is_open:
             self.close()
         else:
-            # Open Serial import
+            # Open Serial port
+            print("Open: " + port + " " + baud)
             self.myserial.baudrate = baud
             self.myserial.port = port
             self.myserial.open()
 
             if self.myserial.is_open:
                 self.is_open = True
-                print("Serial is open")
+                print("Opened successfully")
+            else:
+                print("Unable to open: " + port + " " + baud)
 
 
     def close(self):
-        print("Tauno Serial Close()")
+        """ Close serial port """
+        print("Close: " + str(self.myserial.port) + " " + str(self.myserial.baudrate) )
         self.myserial.close()
         if self.myserial.is_open is False:
             self.is_open = False
-            print("Serial is closed")
+            print("Closed successfully")
+        else:
+            print("Unable to open: " + str(self.myserial.port) + " " + str(self.myserial.baudrate) )
 
 
     def read(self):
-        """ Read while serial is open """
-        print("Tauno Serial Read()")
+        """ Read while serial port is open """
         while self.is_open:
             try:
                 data_in = self.myserial.readline()#.decode('utf8')
                 GLib.idle_add(self.window_reference.update, data_in)
             except Exception as ex:
-                print(ex)
+                print("Serial read error: ", ex)
                 return
 
 
     def write(self, data):
-        print("Tauno Serial Write()")
-
+        """ Write to serial port """
         print(f"Write: {data}")
 
         if self.myserial.is_open:
             self.myserial.write(data.encode('utf-8'))
-
-

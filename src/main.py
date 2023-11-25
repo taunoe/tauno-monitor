@@ -39,6 +39,7 @@ class TaunoMonitorApplication(Adw.Application):
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
+        #self.create_action('guide', self.on_guide_action)
 
         # shortcut
         self.set_accels_for_action('win.open', ['<Ctrl>o'])
@@ -81,6 +82,11 @@ class TaunoMonitorApplication(Adw.Application):
         if shortcuts:
             self.set_accels_for_action(f"app.{name}", shortcuts)
 
+    def on_guide_action(self, widget, _):
+        """Callback for the app.guide action."""
+        guide = Adw.tWindow(transient_for=self.props.active_window)
+        guide.present()
+
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
@@ -89,7 +95,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.3',
+                                version='0.1.4',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023 Tauno Erik')
         about.present()
