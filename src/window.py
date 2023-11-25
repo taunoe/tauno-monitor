@@ -152,38 +152,27 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         vbox.set_margin_start(margin=12)
         guide.set_child(child=vbox)
 
-        scrolled_window_1 = Gtk.ScrolledWindow.new()
-        vbox.append(child=scrolled_window_1)
 
-        txt1 = Gtk.TextView.new()
-        buffer1 = txt1.get_buffer()
-        buffer1.set_text("To make serial ports visible to the app add the user to 'dialout' group.\n\
-Please open Terminal and type:")
-        txt1.set_cursor_visible(False)
-        txt1.set_editable(False)
-        scrolled_window_1.set_child(txt1)
+        txt1 = "To make serial ports visible to the app add the user to 'dialout' group.\n\
+Please open Terminal and type:"
+        label1 = Gtk.Label.new(txt1)
+        vbox.append(child=label1)
 
-        scrolled_window_2 = Gtk.ScrolledWindow.new()
-        vbox.append(child=scrolled_window_2)
+        code_window = Gtk.ScrolledWindow.new()
+        vbox.append(child=code_window)
 
-        txt2 = Gtk.TextView.new()
-        buffer2 = txt2.get_buffer()
-        buffer2.set_text("sudo usermod -a -G uucp $USER\n\
-sudo usermod -a -G lock $USER")
-        txt2.set_cursor_visible(True)
-        txt2.set_editable(False)
-        scrolled_window_2.set_child(txt2)
+        code = Gtk.TextView.new()
+        code_buffer = code.get_buffer()
+        code_buffer.set_text("sudo usermod -a -G dialout $USER\n\
+sudo usermod -a -G plugdev $USER")
+        code.set_cursor_visible(True)
+        code.set_editable(False)
+        code_window.set_child(code)
 
-        scrolled_window_3 = Gtk.ScrolledWindow.new()
-        vbox.append(child=scrolled_window_3)
-
-        txt3 = Gtk.TextView.new()
-        buffer3 = txt3.get_buffer()
-        buffer3.set_text("You will need to log out and log back in again (or reboot)\n\
-for the user group changes to take effect.")
-        txt3.set_cursor_visible(False)
-        txt3.set_editable(False)
-        scrolled_window_3.set_child(txt3)
+        txt2 = "You will need to log out and log back in again (or reboot) for the user\n\
+group changes to take effect."
+        label2 = Gtk.Label.new(txt2)
+        vbox.append(child=label2)
 
         lnbtn = Gtk.LinkButton.new_with_label('https://github.com/taunoe/tauno-monitor', 'More information on the project\'s GitHub page')
         vbox.append(child=lnbtn)
@@ -199,7 +188,7 @@ for the user group changes to take effect.")
 
     def btn_open(self, action, _):
         """ Button Open action """
-        # self.banner_no_ports.set_revealed(revealed=True) # for testing
+        #self.banner_no_ports.set_revealed(revealed=True) # for testing
         # Selected Port
         try:
             port_obj = self.port_drop_down.get_selected_item()
