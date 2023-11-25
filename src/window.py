@@ -119,6 +119,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         try:
             ports = list(serial.tools.list_ports.comports())
 
+            if len(ports) == 0:
+                self.banner_no_ports.set_revealed(revealed=True)
+
             self.ports_str_list.clear()
             for port in ports:
                 self.ports_str_list.append(str(port[0]))
@@ -127,7 +130,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         except Exception as e:
             # The user is not probably in 'dialout' group
             print("The error: ",e)
-            self.banner_no_ports.set_revealed(revealed=True)
             return
 
 
@@ -172,6 +174,17 @@ sudo usermod -a -G lock $USER")
         txt2.set_editable(False)
         scrolled_window_2.set_child(txt2)
 
+        scrolled_window_3 = Gtk.ScrolledWindow.new()
+        vbox.append(child=scrolled_window_3)
+
+        txt3 = Gtk.TextView.new()
+        buffer3 = txt3.get_buffer()
+        buffer3.set_text("You will need to log out and log back in again (or reboot)\n\
+for the user group changes to take effect.")
+        txt3.set_cursor_visible(False)
+        txt3.set_editable(False)
+        scrolled_window_3.set_child(txt3)
+
         lnbtn = Gtk.LinkButton.new_with_label('https://github.com/taunoe/tauno-monitor', 'More information on the project\'s GitHub page')
         vbox.append(child=lnbtn)
 
@@ -186,10 +199,14 @@ sudo usermod -a -G lock $USER")
 
     def btn_open(self, action, _):
         """ Button Open action """
-
+        # self.banner_no_ports.set_revealed(revealed=True) # for testing
         # Selected Port
-        port_obj = self.port_drop_down.get_selected_item()
-        selected_port = port_obj.get_string()
+        try:
+            port_obj = self.port_drop_down.get_selected_item()
+            selected_port = port_obj.get_string()
+        except Exception as ex:
+            print("Open error:", ex)
+            selected_port = 'not avaible'
         # save port to settings
         self.settings.set_string("port-str", selected_port)
 
