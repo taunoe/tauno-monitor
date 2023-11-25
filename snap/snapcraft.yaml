@@ -16,19 +16,55 @@ architectures:
   - build-on: arm64
   - build-on: armhf
 
-
+# ttyUSBX  (UART over USB devices)
+# ttyACMX  (ACM modem devices )
+# ttyXRUSBx  (Exar Corp. USB UART devices)
+# ttySX (UART serial ports)
+# ttyOX (UART serial ports on ARM)
+# ttymxcX (serial ports on i.mx6UL)
+# ttySCX (NXP SC16IS7xx serial devices)
+# ttyMSMX (Qualcomm msm7x serial devices)
+# ttyHSX (Qualcomm GENI based QTI serial cores)
+# ttyGSX (USB gadget serial devices)
 slots:
+  bt-serial:
+    interface: serial-port
+    path: /dev/ttyACM0
+  serial0:
+    interface: serial-port
+    path: /dev/ttyUSB0
+  serial1:
+    interface: serial-port
+    path: /dev/ttyUSB1
+  serial2:
+    interface: serial-port
+    path: /dev/ttyUSB2
+  serial3:
+    interface: serial-port
+    path: /dev/ttyUSB3
+  serial4:
+    interface: serial-port
+    path: /dev/ttyUSB4
+  serial5:
+    interface: serial-port
+    path: /dev/ttyUSB5
+  serial6:
+    interface: serial-port
+    path: /dev/ttyUSB6
+  serial7:
+    interface: serial-port
+    path: /dev/ttyUSB7
+  serial8:
+    interface: serial-port
+    path: /dev/ttyUSB8
+  serial9:
+    interface: serial-port
+    path: /dev/ttyUSB9
   # for GtkApplication registration
-  drawing:
-    interface: dbus
-    bus: session
-    name: art.taunoerik.tauno-monitor
-
-serial-port:
-  allow-auto-connection:
-    -
-      slot-attributes:
-        path:[ /dev/ttyACM0 ]
+  #drawing:
+  #  interface: dbus
+  #  bus: session
+  #  name: art.taunoerik.tauno-monitor
 
 
 apps:
