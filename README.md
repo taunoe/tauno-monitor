@@ -14,6 +14,7 @@ Depending on your system you may need to add a user to dialout group to open ser
 
 ```bash
 sudo usermod -a -G dialout $USER
+sudo usermod -a -G plugdev $USER
 ```
 
 You may also need to install udev rules. PlatformIO have a good [instructions](https://docs.platformio.org/en/latest/core/installation/udev-rules.html)
