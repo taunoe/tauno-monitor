@@ -31,7 +31,13 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ## Install
 
+### Snap
+
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/tauno-monitor)
+
+Ubuntu users also must enable "Access USB hardware directly" on the Ubuntu Store Software store:
+
+![Ubuntu premissions](data/ubuntu_access_usb_directly.png)
 
 ## Build
 

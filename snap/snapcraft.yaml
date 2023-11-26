@@ -27,44 +27,45 @@ architectures:
 # ttyHSX (Qualcomm GENI based QTI serial cores)
 # ttyGSX (USB gadget serial devices)
 slots:
-  bt-serial:
-    interface: serial-port
-    path: /dev/ttyACM0
-  serial0:
-    interface: serial-port
-    path: /dev/ttyUSB0
-  serial1:
-    interface: serial-port
-    path: /dev/ttyUSB1
-  serial2:
-    interface: serial-port
-    path: /dev/ttyUSB2
-  serial3:
-    interface: serial-port
-    path: /dev/ttyUSB3
-  serial4:
-    interface: serial-port
-    path: /dev/ttyUSB4
-  serial5:
-    interface: serial-port
-    path: /dev/ttyUSB5
-  serial6:
-    interface: serial-port
-    path: /dev/ttyUSB6
-  serial7:
-    interface: serial-port
-    path: /dev/ttyUSB7
-  serial8:
-    interface: serial-port
-    path: /dev/ttyUSB8
-  serial9:
-    interface: serial-port
-    path: /dev/ttyUSB9
   # for GtkApplication registration
-  #drawing:
-  #  interface: dbus
-  #  bus: session
-  #  name: art.taunoerik.tauno-monitor
+  tauno-monitor:
+    interface: dbus
+    bus: session
+    name: art.taunoerik.tauno-monitor
+ # bt-serial:
+ #   interface: serial-port
+ #   path: /dev/ttyACM0
+ # serial0:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB0
+ # serial1:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB1
+ # serial2:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB2
+ # serial3:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB3
+ # serial4:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB4
+ # serial5:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB5
+ # serial6:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB6
+ # serial7:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB7
+ # serial8:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB8
+ # serial9:
+ #   interface: serial-port
+ #   path: /dev/ttyUSB9
+
 
 
 apps:
@@ -76,12 +77,12 @@ apps:
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3.10/dist-packages:$SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages
     plugs:
-      - home
-      - desktop
+      #- home
+      #- desktop
       - raw-usb
       - serial-port
       - hardware-observe
-      - removable-media
+      #- removable-media
 
 
 layout:
