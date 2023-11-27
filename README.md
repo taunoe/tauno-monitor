@@ -31,6 +31,10 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ## Install
 
+### Flatpak
+
+_Soon_
+
 ### Snap
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/tauno-monitor)
@@ -47,3 +51,6 @@ You can build Tauno Monitor using [GNOME Builder](https://flathub.org/et/apps/or
 
 <a href="https://www.buymeacoffee.com/taunoerik" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
+ ___
+
+Copyright 2023 Tauno Erik https://taunoerik.art

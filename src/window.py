@@ -24,6 +24,14 @@ import serial.tools.list_ports
 import threading
 import time
 
+import gettext
+import locale
+from os import path
+from os.path import abspath, dirname, join, realpath
+
+locale.bindtextdomain('tauno-monitor', path.join(path.dirname(__file__).split('tauno-monitor')[0],'locale'))
+locale.textdomain('tauno-monitor')
+
 @Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 
 class TaunoMonitorWindow(Adw.ApplicationWindow):
@@ -54,7 +62,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                             Gio.SettingsBindFlags.DEFAULT)
 
         baud_index_saved = self.settings.get_int("baud-index")
-
         self.baud_drop_down.set_selected(baud_index_saved)
 
         self.ports_str_list = []
@@ -153,9 +160,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         guide.set_child(child=vbox)
 
 
-        txt1 = "To make serial ports visible to the app add the user to 'dialout' group.\n\
-Please open Terminal and type:"
+        txt1 = "To make serial ports visible to the app add the user to 'dialout' group. Please open Terminal and type:"
         label1 = Gtk.Label.new(txt1)
+        label1.props.xalign = False
         vbox.append(child=label1)
 
         code_window = Gtk.ScrolledWindow.new()
@@ -169,9 +176,9 @@ sudo usermod -a -G plugdev $USER")
         code.set_editable(False)
         code_window.set_child(code)
 
-        txt2 = "You will need to log out and log back in again (or reboot) for the user\n\
-group changes to take effect."
+        txt2 = "You will need to log out and log back in again (or reboot) for the user group changes to take effect."
         label2 = Gtk.Label.new(txt2)
+        label2.props.xalign = False
         vbox.append(child=label2)
 
         lnbtn = Gtk.LinkButton.new_with_label('https://github.com/taunoe/tauno-monitor', 'More information on the project\'s GitHub page')
@@ -195,7 +202,7 @@ group changes to take effect."
             selected_port = port_obj.get_string()
         except Exception as ex:
             print("Open error:", ex)
-            selected_port = 'not avaible'
+            selected_port = 'not avaible' # not avaible
         # save port to settings
         self.settings.set_string("port-str", selected_port)
 
@@ -208,22 +215,27 @@ group changes to take effect."
         # Open Serial Port
         self.tauno_serial.open(selected_port, selected_baud_rate)
 
+        # Change button label and titlr
         if self.tauno_serial.is_open:
             self.open_button.set_label("Close")
-            #self.toast_overlay.add_toast(Adw.Toast(title=f"Opened"))
+            self.set_title(str(selected_port)+":"+str(selected_baud_rate))
+
         else:
             self.open_button.set_label("Open")
-            #self.toast_overlay.add_toast(Adw.Toast(title=f"Closed"))
+            self.set_title("Tauno Monitor")
 
+        display_notifications = self.settings.get_boolean("notifications")
         if self.tauno_serial.is_open:
-            self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} connected"))
+            if display_notifications:
+                self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} connected"))
             # THREAD version
             # https://pygobject.readthedocs.io/en/latest/guide/threading.html
             thread = threading.Thread(target=self.tauno_serial.read)
             thread.daemon = True
             thread.start()
         else:
-            self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} closed"))
+            if display_notifications:
+                self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} closed"))
 
 
     def update(self, data):

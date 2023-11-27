@@ -26,6 +26,12 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gio, Adw, GLib
 from .window import TaunoMonitorWindow
 
+import gettext
+import locale
+from os import path
+
+locale.bindtextdomain('tauno-monitor', path.join(path.dirname(__file__).split('tauno-monitor')[0],'locale'))
+locale.textdomain('tauno-monitor')
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -39,7 +45,6 @@ class TaunoMonitorApplication(Adw.Application):
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
-        #self.create_action('guide', self.on_guide_action)
 
         # shortcut
         self.set_accels_for_action('win.open', ['<Ctrl>o'])
@@ -95,7 +100,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.4',
+                                version='0.1.5',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023 Tauno Erik')
         about.present()
@@ -113,6 +118,7 @@ class TaunoMonitorApplication(Adw.Application):
         # UI group
         ui_group = Adw.PreferencesGroup(title="Appearance")
         settings_page.add(ui_group)
+
         # Text size
         font_row = Adw.ActionRow(title="Text size")
         ui_group.add(font_row)
@@ -134,11 +140,21 @@ class TaunoMonitorApplication(Adw.Application):
         dark_mode_row.add_suffix(dark_mode_switch)
         # Current mode: True is Dark
         dark_mode_switch.set_active(self.settings.get_boolean("dark-mode"))
+
+        # Notifications
+        notifications_row = Adw.ActionRow(title="Notifications")
+        ui_group.add(notifications_row)
+        notifications_switch = Gtk.Switch(valign = Gtk.Align.CENTER,)
+        notifications_row.add_suffix(notifications_switch)
+        # Get saved state:
+        notifications_switch.set_active(self.settings.get_boolean("notifications"))
+
         #
         preferences.present()
         #
         font_spin_button.connect("value-changed", self.text_size_action)
         dark_mode_switch.connect("state-set", self.dark_mode_switch_action)
+        notifications_switch.connect("state-set", self.notifications_switch_action)
 
 
     def dark_mode_switch_action(self, widget, state):
@@ -153,9 +169,19 @@ class TaunoMonitorApplication(Adw.Application):
         self.settings.set_boolean("dark-mode", dark_mode)
 
 
+    def notifications_switch_action(self, widget, state):
+        """ Get notifications settings change and save """
+        notifications_state = state
+
+        # Save settings
+        self.settings.set_boolean("notifications", notifications_state)
+
+
     def text_size_action(self, action):
         new_size = action.get_value_as_int()
         self.win.change_font_size(new_size)
+        # Save settings
+        self.settings.set_int("font-size", new_size)
 
 
 def main(version):
