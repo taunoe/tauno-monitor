@@ -33,7 +33,7 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ### Flatpak
 
-_Soon_
+[![Get it from the Flathub](https://dl.flathub.org/assets/badges/flathub-badge-en.png)](https://flathub.org/apps/art.taunoerik.tauno-monitor)
 
 ### Snap
 
