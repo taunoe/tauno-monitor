@@ -127,6 +127,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             ports = list(serial.tools.list_ports.comports())
 
             if len(ports) == 0:
+                # TODO: Kui päriselt on 0 porti aga kõik töötab?
                 self.banner_no_ports.set_revealed(revealed=True)
 
             self.ports_str_list.clear()
@@ -135,8 +136,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
             self.port_drop_down_list.splice(0, old_size, self.ports_str_list)
         except Exception as e:
-            # The user is not probably in 'dialout' group
-            print("The error: ",e)
+            print("Scan serial ports error: ",e)
             return
 
 
@@ -180,6 +180,11 @@ sudo usermod -a -G plugdev $USER")
         label2 = Gtk.Label.new(txt2)
         label2.props.xalign = False
         vbox.append(child=label2)
+
+        txt3 = "Ubuntu users also must enable \"Access USB hardware directly\" in the Ubuntu Store Software store."
+        label3 = Gtk.Label.new(txt3)
+        label3.props.xalign = False
+        vbox.append(child=label3)
 
         lnbtn = Gtk.LinkButton.new_with_label('https://github.com/taunoe/tauno-monitor', 'More information on the project\'s GitHub page')
         vbox.append(child=lnbtn)
@@ -317,3 +322,4 @@ class TaunoSerial():
 
         if self.myserial.is_open:
             self.myserial.write(data.encode('utf-8'))
+
