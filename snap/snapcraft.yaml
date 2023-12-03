@@ -1,7 +1,7 @@
 #https://forum.snapcraft.io/t/snap-and-gtk4-sdk/37831/4
 name: tauno-monitor
 base: core22
-version: '0.1.5'
+version: '0.1.6'
 summary: Simple stand-alone serial port monitor
 description: |
   Simple a stand-alone serial port monitor for the GNOME desktop.
@@ -32,41 +32,6 @@ slots:
     interface: dbus
     bus: session
     name: art.taunoerik.tauno-monitor
- # bt-serial:
- #   interface: serial-port
- #   path: /dev/ttyACM0
- # serial0:
- #   interface: serial-port
- #   path: /dev/ttyUSB0
- # serial1:
- #   interface: serial-port
- #   path: /dev/ttyUSB1
- # serial2:
- #   interface: serial-port
- #   path: /dev/ttyUSB2
- # serial3:
- #   interface: serial-port
- #   path: /dev/ttyUSB3
- # serial4:
- #   interface: serial-port
- #   path: /dev/ttyUSB4
- # serial5:
- #   interface: serial-port
- #   path: /dev/ttyUSB5
- # serial6:
- #   interface: serial-port
- #   path: /dev/ttyUSB6
- # serial7:
- #   interface: serial-port
- #   path: /dev/ttyUSB7
- # serial8:
- #   interface: serial-port
- #   path: /dev/ttyUSB8
- # serial9:
- #   interface: serial-port
- #   path: /dev/ttyUSB9
-
-
 
 apps:
   tauno-monitor:

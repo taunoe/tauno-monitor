@@ -37,6 +37,12 @@ Depending on your system you may need to add a user to dialout group to open ser
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.6" date="2023-12-03"/>
+      <description>
+        <ul>
+          <li>Reads bytes, not lines!</li>
+        </ul>
+      </description>
     <release version="0.1.5" date="2023-11-27"/>
       <description>
         <ul>

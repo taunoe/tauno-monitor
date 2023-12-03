@@ -248,7 +248,9 @@ sudo usermod -a -G plugdev $USER")
         try:
             self.text_buffer = self.input_text_view.get_buffer()
             self.text_iter_end = self.text_buffer.get_end_iter()
-            self.text_buffer.insert(self.text_iter_end, data.decode('utf-8'))
+            #self.text_buffer.insert(self.text_iter_end, data.decode('utf-8'))
+            print("byte:", data)
+            self.text_buffer.insert(self.text_iter_end, data.decode()) #
 
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
@@ -309,7 +311,8 @@ class TaunoSerial():
         """ Read while serial port is open """
         while self.is_open:
             try:
-                data_in = self.myserial.readline()#.decode('utf8')
+                #data_in = self.myserial.readline() # read line
+                data_in = self.myserial.read()  # read a byte
                 GLib.idle_add(self.window_reference.update, data_in)
             except Exception as ex:
                 print("Serial read error: ", ex)
