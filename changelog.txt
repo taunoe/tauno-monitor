@@ -1,3 +1,7 @@
+0.1.7 (06.12.23)
+
+- Enter == Send
+
 0.1.6 (03.12.23)
 
 - It reads now bytes, not lines.

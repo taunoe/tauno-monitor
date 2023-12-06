@@ -81,6 +81,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         open_action.connect("activate", self.btn_open)
         self.add_action(open_action)
 
+        # Entry
+        self.send_cmd.connect('activate', self.on_key_enter_pressed)
+
         # Button Send
         send_action = Gio.SimpleAction(name="send")
         send_action.connect("activate", self.btn_send)
@@ -260,14 +263,21 @@ sudo usermod -a -G plugdev $USER")
 
     def btn_send(self, action, _):
         """ Button Send action """
-
         buffer = self.send_cmd.get_buffer()
         text = buffer.get_text()
         print(f"Entry: {text}")
-
         self.tauno_serial.write(text)
-
         buffer.delete_text(0, len(text))
+
+
+    def on_key_enter_pressed(self, entry):
+        #print(f'(activate) Value entered in entry: {entry.get_text()}')
+        if self.tauno_serial.is_open:
+            buffer = self.send_cmd.get_buffer()
+            text = buffer.get_text()
+            print(f"Entry: {text}")
+            self.tauno_serial.write(text)
+            buffer.delete_text(0, len(text))
 
 
 class TaunoSerial():
