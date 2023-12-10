@@ -36,6 +36,9 @@ locale.textdomain('tauno-monitor')
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
+    byte_sizes = ['FIVEBITS', 'SIXBITS', 'SEVENBITS', 'EIGHTBITS']  # serial
+    data_formats = ['ASCII', 'HEX']
+
     def __init__(self):
         super().__init__(application_id='art.taunoerik.tauno-monitor',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
@@ -49,7 +52,7 @@ class TaunoMonitorApplication(Adw.Application):
         # shortcut
         self.set_accels_for_action('win.open', ['<Ctrl>o'])
 
-        # Get saved Mode
+        # Get saved Color Mode
         self.dark_mode_saved = self.settings.get_boolean("dark-mode")
         style_manager = Adw.StyleManager.get_default()
 
@@ -57,6 +60,8 @@ class TaunoMonitorApplication(Adw.Application):
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
         else:
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
+
+
 
 
 
@@ -100,7 +105,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.7',
+                                version='0.1.8',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023 Tauno Erik')
         about.present()
@@ -115,14 +120,13 @@ class TaunoMonitorApplication(Adw.Application):
         settings_page.set_icon_name("applications-system-symbolic")
         preferences.add(settings_page)
 
-        # UI group
+        ## UI group
         ui_group = Adw.PreferencesGroup(title="Appearance")
         settings_page.add(ui_group)
 
-        # Text size
+        ### Text size
         font_row = Adw.ActionRow(title="Text size")
         ui_group.add(font_row)
-
         spin_adjustment = Gtk.Adjustment(value=self.win.font_size_saved,
                                  lower=2,
                                  upper=100,
@@ -133,15 +137,15 @@ class TaunoMonitorApplication(Adw.Application):
                                     digits=0)
         font_row.add_suffix(font_spin_button)
 
-        # Dark Mode
+        ### Dark Mode
         dark_mode_row = Adw.ActionRow(title="Dark Mode")
         ui_group.add(dark_mode_row)
         dark_mode_switch = Gtk.Switch(valign = Gtk.Align.CENTER,)
         dark_mode_row.add_suffix(dark_mode_switch)
-        # Current mode: True is Dark
+        ### Current mode: True is Dark
         dark_mode_switch.set_active(self.settings.get_boolean("dark-mode"))
 
-        # Notifications
+        ### Notifications
         notifications_row = Adw.ActionRow(title="Notifications")
         ui_group.add(notifications_row)
         notifications_switch = Gtk.Switch(valign = Gtk.Align.CENTER,)
@@ -149,12 +153,50 @@ class TaunoMonitorApplication(Adw.Application):
         # Get saved state:
         notifications_switch.set_active(self.settings.get_boolean("notifications"))
 
+        ## Data group
+        data_group = Adw.PreferencesGroup(title="Data")
+        settings_page.add(data_group)
+        rx_row = Adw.ActionRow(title="RX data format")
+        data_group.add(rx_row)
+        rx_format = Gtk.DropDown.new_from_strings(strings=self.data_formats)
+        rx_format.set_valign(Gtk.Align.CENTER)
+        # get saved index
+        index = self.data_formats.index(self.win.rx_format_saved)
+        rx_format.set_selected(position=index)
+        rx_row.add_suffix(rx_format)
+        """
+        TODO
+        ## Serial group
+        serial_group = Adw.PreferencesGroup(title="Serial")
+        settings_page.add(serial_group)
+        ### Byte-size row
+        bytesize_row = Adw.ActionRow(title="Byte-size")
+        serial_group.add(bytesize_row)
+        bytesize_drop_down = Gtk.DropDown.new_from_strings(strings=self.byte_sizes)
+        bytesize_drop_down.set_valign(Gtk.Align.CENTER)
+
+        bytesize_drop_down.set_selected(position=3)
+        bytesize_row.add_suffix(bytesize_drop_down)
+        #bytesize_drop_down.connect('notify::selected-item', self.on_selected_item)
+        """
         #
         preferences.present()
-        #
+
+        # Connects
         font_spin_button.connect("value-changed", self.text_size_action)
         dark_mode_switch.connect("state-set", self.dark_mode_switch_action)
         notifications_switch.connect("state-set", self.notifications_switch_action)
+        rx_format.connect("notify::selected-item", self.rx_data_format_action)
+
+    def rx_data_format_action(self, drop_down, g_param_object):
+        string_object = drop_down.get_selected_item()
+        index = drop_down.get_selected()
+        new_format = string_object.get_string()
+        #print(f'Position: {index} - value: {string_object.get_string()}')
+        # save settings
+        self.settings.set_string("rx-data-format", new_format)
+        # update pos
+        self.win.rx_format_saved = self.settings.get_string("rx-data-format")
 
 
     def dark_mode_switch_action(self, widget, state):

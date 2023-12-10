@@ -162,6 +162,7 @@
                             <property name="hexpand">true</property>
                             <property name="vexpand">true</property>
                             <property name="can_focus">True</property>
+                            <property name="wrap-mode">GTK_WRAP_CHAR</property>
                           </object>
                         </property>
                       </object>

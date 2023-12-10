@@ -23,6 +23,7 @@ import serial
 import serial.tools.list_ports
 import threading
 import time
+import codecs
 
 import gettext
 import locale
@@ -66,6 +67,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         self.ports_str_list = []
         self.load_saved_port()
+
+        # Saved RX data format
+        self.rx_format_saved = self.settings.get_string("rx-data-format")
 
         # font size
         self.font_size_saved = self.settings.get_int("font-size")
@@ -223,7 +227,7 @@ sudo usermod -a -G plugdev $USER")
         # Open Serial Port
         self.tauno_serial.open(selected_port, selected_baud_rate)
 
-        # Change button label and titlr
+        # Change button label and title
         if self.tauno_serial.is_open:
             self.open_button.set_label("Close")
             self.set_title(str(selected_port)+":"+str(selected_baud_rate))
@@ -251,9 +255,17 @@ sudo usermod -a -G plugdev $USER")
         try:
             self.text_buffer = self.input_text_view.get_buffer()
             self.text_iter_end = self.text_buffer.get_end_iter()
-            #self.text_buffer.insert(self.text_iter_end, data.decode('utf-8'))
-            print("byte:", data)
-            self.text_buffer.insert(self.text_iter_end, data.decode()) #
+            #print("byte:", data)
+            #print(repr(data.decode()))
+
+            if self.rx_format_saved == 'HEX':
+                # 0x0a == \n
+                # 0x0d == \r
+                self.text_buffer.insert(self.text_iter_end, data.hex())
+                self.text_buffer.insert(self.text_iter_end, ' ')
+            else: # ASCII
+                if data.decode() != '\r': # ignore \r - is it good idea??
+                    self.text_buffer.insert(self.text_iter_end, data.decode())
 
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
@@ -321,7 +333,6 @@ class TaunoSerial():
         """ Read while serial port is open """
         while self.is_open:
             try:
-                #data_in = self.myserial.readline() # read line
                 data_in = self.myserial.read()  # read a byte
                 GLib.idle_add(self.window_reference.update, data_in)
             except Exception as ex:

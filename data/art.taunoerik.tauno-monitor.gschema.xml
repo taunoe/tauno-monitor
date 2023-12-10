@@ -25,5 +25,8 @@
 	  <key name="notifications" type="b">
       <default>true</default>
     </key>
+	  <key name="rx-data-format" type="s">
+      <default>'ASCII'</default>
+    </key>
 	</schema>
 </schemalist>

@@ -1,3 +1,7 @@
+0.1.8 (10.12.23)
+
+- Added RX data HEX mode
+
 0.1.7 (06.12.23)
 
 - Enter == Send
