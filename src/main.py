@@ -1,6 +1,6 @@
 # main.py
 #
-# Copyright 2023 Tauno Erik
+# Copyright 2023-2024 Tauno Erik
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -105,9 +105,9 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.8',
+                                version='0.1.9',
                                 developers=['Tauno Erik'],
-                                copyright='© 2023 Tauno Erik')
+                                copyright='© 2023-204 Tauno Erik')
         about.present()
 
 

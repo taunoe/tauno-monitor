@@ -1,6 +1,6 @@
 # window.py
 #
-# Copyright 2023 Tauno Erik
+# Copyright 2023-2024 Tauno Erik
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -337,6 +337,9 @@ class TaunoSerial():
                 GLib.idle_add(self.window_reference.update, data_in)
             except Exception as ex:
                 print("Serial read error: ", ex)
+                # Close serial port
+                # It happens when some other program uses the same port
+                self.window_reference.btn_open("open", _)
                 return
 
 

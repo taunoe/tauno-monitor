@@ -1,7 +1,7 @@
 #https://forum.snapcraft.io/t/snap-and-gtk4-sdk/37831/4
 name: tauno-monitor
 base: core22
-version: '0.1.8'
+version: '0.1.9'
 summary: Simple stand-alone serial port monitor
 description: |
   Simple a stand-alone serial port monitor for the GNOME desktop.
@@ -16,16 +16,6 @@ architectures:
   - build-on: arm64
   - build-on: armhf
 
-# ttyUSBX  (UART over USB devices)
-# ttyACMX  (ACM modem devices )
-# ttyXRUSBx  (Exar Corp. USB UART devices)
-# ttySX (UART serial ports)
-# ttyOX (UART serial ports on ARM)
-# ttymxcX (serial ports on i.mx6UL)
-# ttySCX (NXP SC16IS7xx serial devices)
-# ttyMSMX (Qualcomm msm7x serial devices)
-# ttyHSX (Qualcomm GENI based QTI serial cores)
-# ttyGSX (USB gadget serial devices)
 slots:
   # for GtkApplication registration
   tauno-monitor:
