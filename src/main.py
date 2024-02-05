@@ -105,7 +105,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.9',
+                                version='0.1.10',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023-204 Tauno Erik')
         about.present()

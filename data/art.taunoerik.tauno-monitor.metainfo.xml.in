@@ -5,11 +5,10 @@
 	<project_license>GPL-3.0-or-later</project_license>
   <name>Tauno Monitor</name>
   <developer_name>Tauno Erik</developer_name>
-  <summary>Simple stand-alone serial port monitor.</summary>
+  <summary>Simple serial port monitor.</summary>
 	<description>
-	  <p>A Simple stand-alone serial port monitor for the GNOME desktop.
-It aims to be beginner friendly, small and easy to use.
-Not feature-rich and professional. Remembers the last settings (Theme, Baud Rate, Port etc.).<br/><br/>
+	  <p>A Simple serial port monitor for the GNOME desktop.
+Remembers the last settings (Theme, Baud Rate, Port etc.).<br/><br/>
 Depending on your system you may need to add a user to dialout group to open serial ports:
 	    <code>
 	      sudo usermod -a -G dialout $USER
@@ -37,6 +36,20 @@ Depending on your system you may need to add a user to dialout group to open ser
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.10" date="2024-02-05">
+      <description>
+        <ul>
+          <li>Automatically scan ports if connection is lost.</li>
+        </ul>
+      </description>
+     </release>
+    <release version="0.1.9" date="2024-02-04">
+      <description>
+        <ul>
+          <li>Automatically closes the serial port if the connection is lost.</li>
+        </ul>
+      </description>
+     </release>
     <release version="0.1.8" date="2023-12-10">
       <description>
         <ul>

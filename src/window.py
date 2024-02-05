@@ -207,7 +207,8 @@ sudo usermod -a -G plugdev $USER")
 
     def btn_open(self, action, _):
         """ Button Open action """
-        #self.banner_no_ports.set_revealed(revealed=True) # for testing
+        # rescan ports
+        self.scan_serial_ports()
         # Selected Port
         try:
             port_obj = self.port_drop_down.get_selected_item()
@@ -248,6 +249,21 @@ sudo usermod -a -G plugdev $USER")
         else:
             if display_notifications:
                 self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} closed"))
+
+
+    def close_if_error(self, selected_port, selected_baudrate):
+        self.tauno_serial.close()
+        # Change label
+        self.open_button.set_label("Open")
+        self.set_title("Tauno Monitor")
+        # Display notification
+        display_notifications = self.settings.get_boolean("notifications")
+        if display_notifications:
+                self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baudrate} closed"))
+        # scan ports
+        time.sleep(0.5)
+        self.scan_serial_ports()
+
 
 
     def update(self, data):
@@ -338,8 +354,8 @@ class TaunoSerial():
             except Exception as ex:
                 print("Serial read error: ", ex)
                 # Close serial port
-                # It happens when some other program uses the same port
-                self.window_reference.btn_open("open", _)
+                if self.myserial.is_open:
+                    self.window_reference.close_if_error(self.myserial.port, self.myserial.baudrate)
                 return
 
 
