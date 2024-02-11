@@ -1,3 +1,7 @@
+0.1.11 (11.02.24)
+
+ - Added timestamp setting
+
 0.1.10 (05.02.24)
 
  - Automatically scan ports if connection is lost

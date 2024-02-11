@@ -36,6 +36,13 @@ Depending on your system you may need to add a user to dialout group to open ser
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.11" date="2024-02-11">
+      <description>
+        <ul>
+          <li>Added timestamp setting.</li>
+        </ul>
+      </description>
+     </release>
     <release version="0.1.10" date="2024-02-05">
       <description>
         <ul>

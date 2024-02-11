@@ -105,7 +105,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.10',
+                                version='0.1.11',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023-204 Tauno Erik')
         about.present()
@@ -156,6 +156,7 @@ class TaunoMonitorApplication(Adw.Application):
         ## Data group
         data_group = Adw.PreferencesGroup(title="Data")
         settings_page.add(data_group)
+
         rx_row = Adw.ActionRow(title="RX data format")
         data_group.add(rx_row)
         rx_format = Gtk.DropDown.new_from_strings(strings=self.data_formats)
@@ -164,6 +165,14 @@ class TaunoMonitorApplication(Adw.Application):
         index = self.data_formats.index(self.win.rx_format_saved)
         rx_format.set_selected(position=index)
         rx_row.add_suffix(rx_format)
+
+        timestamp_row = Adw.ActionRow(title="Timestamp")
+        data_group.add(timestamp_row)
+        timestamp_switch = Gtk.Switch(valign = Gtk.Align.CENTER,)
+        timestamp_row.add_suffix(timestamp_switch)
+        # Get saved state:
+        timestamp_switch.set_active(self.settings.get_boolean("timestamp"))
+
         """
         TODO
         ## Serial group
@@ -187,6 +196,7 @@ class TaunoMonitorApplication(Adw.Application):
         dark_mode_switch.connect("state-set", self.dark_mode_switch_action)
         notifications_switch.connect("state-set", self.notifications_switch_action)
         rx_format.connect("notify::selected-item", self.rx_data_format_action)
+        timestamp_switch.connect("state-set", self.timestamp_switch_action)
 
     def rx_data_format_action(self, drop_down, g_param_object):
         string_object = drop_down.get_selected_item()
@@ -217,6 +227,13 @@ class TaunoMonitorApplication(Adw.Application):
 
         # Save settings
         self.settings.set_boolean("notifications", notifications_state)
+
+    def timestamp_switch_action(self, widget, state):
+        """ Get timestamp settings change and save """
+        timestamp_state = state
+
+        # Save settings
+        self.settings.set_boolean("timestamp", timestamp_state)
 
 
     def text_size_action(self, action):

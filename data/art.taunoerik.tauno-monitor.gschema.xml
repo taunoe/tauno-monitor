@@ -28,5 +28,8 @@
 	  <key name="rx-data-format" type="s">
       <default>'ASCII'</default>
     </key>
+	  <key name="timestamp" type="b">
+      <default>true</default>
+    </key>
 	</schema>
 </schemalist>

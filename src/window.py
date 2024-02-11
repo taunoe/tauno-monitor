@@ -22,7 +22,7 @@ import os
 import serial
 import serial.tools.list_ports
 import threading
-import time
+from datetime import datetime
 import codecs
 
 import gettext
@@ -105,6 +105,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.text_buffer = self.input_text_view.get_buffer()
         self.text_iter_end = self.text_buffer.get_end_iter()
         self.text_mark_end = self.text_buffer.create_mark("", self.text_iter_end, False)
+
+        self.prev_char = '\n'
 
 
     def load_saved_port(self):
@@ -215,7 +217,7 @@ sudo usermod -a -G plugdev $USER")
             selected_port = port_obj.get_string()
         except Exception as ex:
             print("Open error:", ex)
-            selected_port = 'not avaible' # not avaible
+            selected_port = 'not available' # not available
         # save port to settings
         self.settings.set_string("port-str", selected_port)
 
@@ -225,6 +227,7 @@ sudo usermod -a -G plugdev $USER")
         # save baud settings to settings
         baud_index_new = self.baud_drop_down.get_selected()
         self.settings.set_int("baud-index", baud_index_new)
+
         # Open Serial Port
         self.tauno_serial.open(selected_port, selected_baud_rate)
 
@@ -238,6 +241,7 @@ sudo usermod -a -G plugdev $USER")
             self.set_title("Tauno Monitor")
 
         display_notifications = self.settings.get_boolean("notifications")
+
         if self.tauno_serial.is_open:
             if display_notifications:
                 self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} connected"))
@@ -247,6 +251,7 @@ sudo usermod -a -G plugdev $USER")
             thread.daemon = True
             thread.start()
         else:
+
             if display_notifications:
                 self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} closed"))
 
@@ -261,18 +266,22 @@ sudo usermod -a -G plugdev $USER")
         if display_notifications:
                 self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baudrate} closed"))
         # scan ports
-        time.sleep(0.5)
         self.scan_serial_ports()
 
 
 
     def update(self, data):
         """ Update Text View """
+
         try:
             self.text_buffer = self.input_text_view.get_buffer()
             self.text_iter_end = self.text_buffer.get_end_iter()
             #print("byte:", data)
             #print(repr(data.decode()))
+
+            # get time
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S.%f -> ")
 
             if self.rx_format_saved == 'HEX':
                 # 0x0a == \n
@@ -280,8 +289,18 @@ sudo usermod -a -G plugdev $USER")
                 self.text_buffer.insert(self.text_iter_end, data.hex())
                 self.text_buffer.insert(self.text_iter_end, ' ')
             else: # ASCII
+                # TODO: timestamp
+                add_timestamp = self.settings.get_boolean("timestamp")
+                if add_timestamp:
+                    # add time when prev char was newline
+                    if self.prev_char == '\n':
+                        self.text_buffer.insert(self.text_iter_end, current_time)
+
                 if data.decode() != '\r': # ignore \r - is it good idea??
+                    # Store char
+                    self.prev_char = data.decode()
                     self.text_buffer.insert(self.text_iter_end, data.decode())
+
 
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
@@ -356,6 +375,7 @@ class TaunoSerial():
                 # Close serial port
                 if self.myserial.is_open:
                     self.window_reference.close_if_error(self.myserial.port, self.myserial.baudrate)
+                    self.close()
                 return
 
 
