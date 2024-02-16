@@ -43,6 +43,12 @@ Ubuntu users also must enable "Access USB hardware directly" on the Ubuntu Store
 
 ![Ubuntu premissions](data/screenshots/ubuntu_access_usb_directly.png)
 
+or from command line:
+
+```bash
+snap connect tauno-monitor:raw-usb
+```
+
 ## Build
 
 You can build Tauno Monitor using [GNOME Builder](https://flathub.org/et/apps/org.gnome.Builder): import the project and press the Play button.

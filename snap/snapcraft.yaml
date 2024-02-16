@@ -2,11 +2,9 @@
 name: tauno-monitor
 base: core22
 version: '0.1.11'
-summary: Simple stand-alone serial port monitor
+summary: Simple serial port monitor
 description: |
-  Simple a stand-alone serial port monitor for the GNOME desktop.
-  It aims to be beginner-friendly, small and easy to use.
-  Not feature-rich and professional.
+  Simple  serial port monitor for the GNOME desktop.
 
 grade: stable
 confinement: strict
