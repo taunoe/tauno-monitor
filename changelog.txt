@@ -1,22 +1,26 @@
+0.1.12 (20.04.24)
+
+ - Added "Clear" button.
+
 0.1.11 (11.02.24)
 
- - Added timestamp setting
+ - Added timestamp setting.
 
 0.1.10 (05.02.24)
 
- - Automatically scan ports if connection is lost
+ - Automatically scan ports if connection is lost.
 
 0.1.9 (04.02.24)
 
- - Automatically close serial port if the connection is lost
+ - Automatically close serial port if the connection is lost.
 
 0.1.8 (10.12.23)
 
-- Added RX data HEX mode
+- Added RX data HEX mode.
 
 0.1.7 (06.12.23)
 
-- Enter == Send
+- Enter == Send.
 
 0.1.6 (03.12.23)
 

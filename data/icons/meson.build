@@ -13,7 +13,8 @@ install_data(
 )
 
 action_dir = join_paths('hicolor', 'scalable', 'actions')
-action_icons = [join_paths(action_dir, 'update-symbolic.svg')]
+action_icons = [join_paths(action_dir, 'update-symbolic.svg'),
+  join_paths(action_dir, 'larger-brush-symbolic.svg')]
 install_data(
   action_icons,
   install_dir: join_paths(get_option('datadir'), 'icons', action_dir)

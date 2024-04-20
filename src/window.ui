@@ -27,7 +27,7 @@
                 </property>
               </object>
             </child>
-            <child>
+            <child type="start">
               <object class="GtkButton" id="update_ports">
                 <property name="icon-name">update-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Rescan</property>
@@ -92,6 +92,7 @@
                 <property name="action-name">win.open</property>
               </object>
             </child>
+
             <child type="end">
               <object class="GtkMenuButton">
                 <property name="primary">True</property>
@@ -100,6 +101,13 @@
                 <property name="menu-model">primary_menu</property>
               </object>
             </child>
+            <child type="end">
+              <object class="GtkButton" id="clear_button">
+                <property name="icon-name">larger-brush-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Clear</property>
+                <property name="action-name">win.clear</property>
+              </object>
+            </child>>
           </object>
         </child>
         <property name="content">

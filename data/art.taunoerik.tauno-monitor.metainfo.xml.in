@@ -36,6 +36,13 @@ Depending on your system you may need to add a user to dialout group to open ser
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.12" date="2024-04-20">
+      <description>
+        <ul>
+          <li>Added "Clear" button.</li>
+        </ul>
+      </description>
+     </release>
     <release version="0.1.11" date="2024-02-11">
       <description>
         <ul>

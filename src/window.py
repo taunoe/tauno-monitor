@@ -41,6 +41,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     input_text_view = Gtk.Template.Child()
     open_button = Gtk.Template.Child()
     send_button = Gtk.Template.Child()
+    clear_button = Gtk.Template.Child()
     send_cmd = Gtk.Template.Child()
     port_drop_down = Gtk.Template.Child()
     port_drop_down_list = Gtk.Template.Child()
@@ -97,6 +98,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         guide_action = Gio.SimpleAction(name="guide")
         guide_action.connect("activate", self.btn_guide)
         self.add_action(guide_action)
+
+        # Button clear textview
+        clear_textview_action = Gio.SimpleAction(name="clear")
+        clear_textview_action.connect("activate", self.btn_clear_textview)
+        self.add_action(clear_textview_action)
 
         # Get Serial instance, open later
         self.tauno_serial = TaunoSerial(window_reference=self)
@@ -205,6 +211,14 @@ sudo usermod -a -G plugdev $USER")
     def btn_update_ports(self, action, _):
         """ Button Update ports list action """
         self.scan_serial_ports()
+
+    def btn_clear_textview(self, action, _):
+        """ Clear textview buffer: data printed by serial """
+        # print("btn_clear_textview")
+        self.text_buffer = self.input_text_view.get_buffer()
+        self.text_iter_start = self.text_buffer.get_start_iter()
+        self.text_iter_end = self.text_buffer.get_end_iter()
+        self.text_buffer.delete(self.text_iter_start, self.text_iter_end)
 
 
     def btn_open(self, action, _):

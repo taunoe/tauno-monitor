@@ -21,13 +21,13 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ## Screenshots
 
-![Dark mode](data/screenshots/dark.png)
+![Dark mode](data/screenshots/dark_2024-04-20.png)
 
-![Light mode](data/screenshots/light.png)
+![Light mode](data/screenshots/light_2024-04-20.png)
 
-![About window](data/screenshots/about.png)
+![About window](data/screenshots/abot_2024-04-20.png)
 
-![Preferences window](data/screenshots/pref.png)
+![Preferences window](data/screenshots/pref_2024-04-20.png)
 
 ## Install
 
@@ -59,4 +59,4 @@ You can build Tauno Monitor using [GNOME Builder](https://flathub.org/et/apps/or
 
  ___
 
-Copyright 2023 Tauno Erik https://taunoerik.art
+Copyright 2023-2024 Tauno Erik https://taunoerik.art
