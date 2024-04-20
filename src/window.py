@@ -30,10 +30,10 @@ import locale
 from os import path
 from os.path import abspath, dirname, join, realpath
 
-locale.bindtextdomain('tauno-monitor', path.join(path.dirname(__file__).split('tauno-monitor')[0],'locale'))
-locale.textdomain('tauno-monitor')
+locale.bindtextdomain('tauno_monitor', path.join(path.dirname(__file__).split('tauno_monitor')[0],'locale'))
+locale.textdomain('tauno_monitor')
 
-@Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
+@Gtk.Template(resource_path='/art/taunoerik/tauno_monitor/window.ui')
 
 class TaunoMonitorWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'TaunoMonitorWindow'
@@ -53,7 +53,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.settings = Gio.Settings(schema_id="art.taunoerik.tauno-monitor")
+        self.settings = Gio.Settings(schema_id="art.taunoerik.tauno_monitor")
 
         # Get saved settings from gschema.xml
         self.settings.bind("window-width", self, "default-width",

@@ -1,7 +1,7 @@
 #https://forum.snapcraft.io/t/snap-and-gtk4-sdk/37831/4
-name: tauno-monitor
+name: tauno_monitor
 base: core22
-version: '0.1.12'
+version: '0.1.13'
 summary: Simple serial port monitor
 description: |
   Simple  serial port monitor for the GNOME desktop.
@@ -16,17 +16,17 @@ architectures:
 
 slots:
   # for GtkApplication registration
-  tauno-monitor:
+  tauno_monitor:
     interface: dbus
     bus: session
-    name: art.taunoerik.tauno-monitor
+    name: art.taunoerik.tauno_monitor
 
 apps:
-  tauno-monitor:
+  tauno_monitor:
     extensions: [ gnome ]
-    command: usr/bin/tauno-monitor
-    desktop: usr/share/applications/art.taunoerik.tauno-monitor.desktop
-    common-id: art.taunoerik.tauno-monitor
+    command: usr/bin/tauno_monitor
+    desktop: usr/share/applications/art.taunoerik.tauno_monitor.desktop
+    common-id: art.taunoerik.tauno_monitor
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3.10/dist-packages:$SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages
     plugs:
@@ -39,29 +39,29 @@ apps:
 
 
 layout:
-  /usr/share/tauno-monitor:
-    bind: $SNAP/usr/share/tauno-monitor
+  /usr/share/tauno_monitor:
+    bind: $SNAP/usr/share/tauno_monitor
 
 parts:
-  tauno-monitor:
+  tauno_monitor:
     plugin: meson
     source: .
-    parse-info: [ usr/share/metainfo/art.taunoerik.tauno-monitor.metainfo.xml ]
+    parse-info: [ usr/share/metainfo/art.taunoerik.tauno_monitor.metainfo.xml ]
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release
     override-build: |
       # Point icon to the correct location
-      sed -i.bak -e 's|Icon=art.taunoerik.tauno-monitor|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.tauno-monitor.svg|g' $CRAFT_PART_SRC/data/art.taunoerik.tauno-monitor.desktop.in
+      sed -i.bak -e 's|Icon=art.taunoerik.tauno_monitor|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.tauno_monitor.svg|g' $CRAFT_PART_SRC/data/art.taunoerik.tauno_monitor.desktop.in
 
       craftctl default
 
-      sed -i -e 's|/snap/gnome-42-2204-sdk/current/usr/bin/python3|/usr/bin/env python3|g' $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
+      sed -i -e 's|/snap/gnome-42-2204-sdk/current/usr/bin/python3|/usr/bin/env python3|g' $CRAFT_PART_INSTALL/usr/bin/tauno_monitor
 
-      chmod +x $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
+      chmod +x $CRAFT_PART_INSTALL/usr/bin/tauno_monitor
   pyserial:
     plugin: python
     source: .
-    after: [tauno-monitor]
+    after: [tauno_monitor]
     python-packages:
       - pyserial

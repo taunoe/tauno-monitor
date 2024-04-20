@@ -1,1 +1,1 @@
-i18n.gettext('tauno-monitor', preset: 'glib')
+i18n.gettext('tauno_monitor', preset: 'glib')

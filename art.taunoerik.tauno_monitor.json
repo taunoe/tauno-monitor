@@ -1,9 +1,9 @@
 {
-    "app-id" : "art.taunoerik.tauno-monitor",
+    "app-id" : "art.taunoerik.tauno_monitor",
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "45",
     "sdk" : "org.gnome.Sdk",
-    "command" : "tauno-monitor",
+    "command" : "tauno_monitor",
     "finish-args" : [
         "--share=network",
         "--share=ipc",
@@ -38,7 +38,7 @@
     	  ]
 	},
         {
-            "name" : "tauno-monitor",
+            "name" : "tauno_monitor",
             "builddir" : true,
             "buildsystem" : "meson",
             "sources" : [
