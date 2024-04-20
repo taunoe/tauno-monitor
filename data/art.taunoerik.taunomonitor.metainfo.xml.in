@@ -5,7 +5,7 @@
 	<project_license>GPL-3.0-or-later</project_license>
   <name>Tauno Monitor</name>
   <developer_name>Tauno Erik</developer_name>
-  <summary>Simple serial port monitor.</summary>
+  <summary>Serial port monitor.</summary>
 	<description>
 	  <p>A Simple serial port monitor for the GNOME desktop.
 Remembers the last settings (Theme, Baud Rate, Port etc.).
@@ -17,6 +17,10 @@ Depending on your system you may need to add a user to dialout group to open ser
 	</description>
   <launchable type="desktop-id">art.taunoerik.taunomonitor.desktop</launchable>
   <url type="homepage">https://github.com/taunoe/tauno-monitor</url>
+  <branding>
+    <color type="primary" scheme_preference="light">#f7d4aa</color>
+    <color type="primary" scheme_preference="dark">#686868</color>
+  </branding>
   <content_rating type="oars-1.0" />
   <screenshots>
     <screenshot type="default">
