@@ -1,3 +1,7 @@
+0.1.14 (20.04.24)
+
+ - Removed hyphen(`-`) and underscore (`_`) from app id.
+
 0.1.13 (20.04.24)
 
  - Replaced App ID hyphen(`-`) with underscore (`_`)

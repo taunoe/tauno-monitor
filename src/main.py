@@ -30,8 +30,8 @@ import gettext
 import locale
 from os import path
 
-locale.bindtextdomain('tauno_monitor', path.join(path.dirname(__file__).split('tauno_monitor')[0],'locale'))
-locale.textdomain('tauno_monitor')
+locale.bindtextdomain('taunomonitor', path.join(path.dirname(__file__).split('taunomonitor')[0],'locale'))
+locale.textdomain('taunomonitor')
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -40,10 +40,10 @@ class TaunoMonitorApplication(Adw.Application):
     data_formats = ['ASCII', 'HEX']
 
     def __init__(self):
-        super().__init__(application_id='art.taunoerik.tauno_monitor',
+        super().__init__(application_id='art.taunoerik.taunomonitor',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
 
-        self.settings = Gio.Settings(schema_id="art.taunoerik.tauno_monitor")
+        self.settings = Gio.Settings(schema_id="art.taunoerik.taunomonitor")
 
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
@@ -102,10 +102,10 @@ class TaunoMonitorApplication(Adw.Application):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='Tauno Monitor',
-                                application_icon='art.taunoerik.tauno_monitor',
+                                application_icon='art.taunoerik.taunomonitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.13',
+                                version='0.1.14',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023-204 Tauno Erik')
         about.present()

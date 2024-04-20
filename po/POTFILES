@@ -1,6 +1,6 @@
-data/art.taunoerik.tauno_monitor.desktop.in
-data/art.taunoerik.tauno_monitor.metainfo.xml.in
-data/art.taunoerik.tauno_monitor.gschema.xml
+data/art.taunoerik.taunomonitor.desktop.in
+data/art.taunoerik.taunomonitor.metainfo.xml.in
+data/art.taunoerik.taunomonitor.gschema.xml
 src/main.py
 src/window.py
 src/window.ui

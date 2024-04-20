@@ -1,4 +1,4 @@
-application_id = 'art.taunoerik.tauno_monitor'
+application_id = 'art.taunoerik.taunomonitor'
 
 scalable_dir = 'hicolor' / 'scalable' / 'apps'
 install_data(

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-	<id>art.taunoerik.tauno_monitor.desktop</id>
+	<id>art.taunoerik.taunomonitor.desktop</id>
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
   <name>Tauno Monitor</name>
@@ -15,7 +15,7 @@ Depending on your system you may need to add a user to dialout group to open ser
 	    </code>>
 	  </p>
 	</description>
-  <launchable type="desktop-id">art.taunoerik.tauno_monitor.desktop</launchable>
+  <launchable type="desktop-id">art.taunoerik.taunomonitor.desktop</launchable>
   <url type="homepage">https://github.com/taunoe/tauno-monitor</url>
   <content_rating type="oars-1.0" />
   <screenshots>
@@ -36,6 +36,13 @@ Depending on your system you may need to add a user to dialout group to open ser
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.14" date="2024-04-20">
+      <description>
+        <ul>
+          <li>Removed hyphen(`-`) and underscore (`_`) from app id.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.13" date="2024-04-20">
       <description>
         <ul>

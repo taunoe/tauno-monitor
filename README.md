@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/icons/hicolor/scalable/apps/art.taunoerik.tauno_monitor.svg" align="left">
+<img src="https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/icons/hicolor/scalable/apps/art.taunoerik.taunomonitor.svg" align="left">
 
 # Tauno Monitor
 
@@ -46,7 +46,7 @@ Ubuntu users also must enable "Access USB hardware directly" on the Ubuntu Store
 or from command line:
 
 ```bash
-snap connect tauno_monitor:raw-usb
+snap connect taunomonitor:raw-usb
 ```
 
 ## Build

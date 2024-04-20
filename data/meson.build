@@ -1,6 +1,6 @@
 desktop_file = i18n.merge_file(
-        input: 'art.taunoerik.tauno_monitor.desktop.in',
-       output: 'art.taunoerik.tauno_monitor.desktop',
+        input: 'art.taunoerik.taunomonitor.desktop.in',
+       output: 'art.taunoerik.taunomonitor.desktop',
          type: 'desktop',
        po_dir: '../po',
       install: true,
@@ -13,8 +13,8 @@ if desktop_utils.found()
 endif
 
 appstream_file = i18n.merge_file(
-        input: 'art.taunoerik.tauno_monitor.metainfo.xml.in',
-       output: 'art.taunoerik.tauno_monitor.metainfo.xml',
+        input: 'art.taunoerik.taunomonitor.metainfo.xml.in',
+       output: 'art.taunoerik.taunomonitor.metainfo.xml',
        po_dir: '../po',
       install: true,
   install_dir: get_option('datadir') / 'metainfo'
@@ -24,7 +24,7 @@ appstreamcli = find_program('appstreamcli', required: false, disabler: true)
 test('Validate appstream file', appstreamcli,
      args: ['validate', '--no-net', '--explain', appstream_file])
 
-install_data('art.taunoerik.tauno_monitor.gschema.xml',
+install_data('art.taunoerik.taunomonitor.gschema.xml',
   install_dir: get_option('datadir') / 'glib-2.0' / 'schemas'
 )
 
