@@ -52,7 +52,7 @@ parts:
       - --buildtype=release
     override-build: |
       # Point icon to the correct location
-      sed -i.bak -e 's|Icon=art.taunoerik.taunomonitor|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.taunomonitor.svg|g' $CRAFT_PART_SRC/data/art.taunoerik.tauno_monitor.desktop.in
+      sed -i.bak -e 's|Icon=art.taunoerik.taunomonitor|Icon=/usr/share/icons/hicolor/scalable/apps/art.taunoerik.taunomonitor.svg|g' $CRAFT_PART_SRC/data/art.taunoerik.taunomonitor.desktop.in
 
       craftctl default
 
