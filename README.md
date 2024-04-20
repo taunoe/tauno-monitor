@@ -46,7 +46,7 @@ Ubuntu users also must enable "Access USB hardware directly" on the Ubuntu Store
 or from command line:
 
 ```bash
-snap connect tauno-monitor:raw-usb
+snap connect tauno_monitor:raw-usb
 ```
 
 ## Build
