@@ -1,5 +1,5 @@
 #https://forum.snapcraft.io/t/snap-and-gtk4-sdk/37831/4
-name: tauno-monitor
+name: tauno_monitor
 base: core22
 version: '0.1.13'
 summary: Simple serial port monitor
@@ -16,15 +16,15 @@ architectures:
 
 slots:
   # for GtkApplication registration
-  tauno-monitor:
+  tauno_monitor:
     interface: dbus
     bus: session
     name: art.taunoerik.tauno-monitor
 
 apps:
-  tauno-monitor:
+  tauno_monitor:
     extensions: [ gnome ]
-    command: usr/bin/tauno-monitor
+    command: usr/bin/tauno_monitor
     desktop: usr/share/applications/art.taunoerik.tauno-monitor.desktop
     common-id: art.taunoerik.tauno-monitor
     environment:
@@ -39,11 +39,11 @@ apps:
 
 
 layout:
-  /usr/share/tauno-monitor:
-    bind: $SNAP/usr/share/tauno-monitor
+  /usr/share/tauno_monitor:
+    bind: $SNAP/usr/share/tauno_monitor
 
 parts:
-  tauno-monitor:
+  tauno_monitor:
     plugin: meson
     source: .
     parse-info: [ usr/share/metainfo/art.taunoerik.tauno_monitor.metainfo.xml ]
@@ -56,12 +56,12 @@ parts:
 
       craftctl default
 
-      sed -i -e 's|/snap/gnome-42-2204-sdk/current/usr/bin/python3|/usr/bin/env python3|g' $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
+      sed -i -e 's|/snap/gnome-42-2204-sdk/current/usr/bin/python3|/usr/bin/env python3|g' $CRAFT_PART_INSTALL/usr/bin/tauno_monitor
 
-      chmod +x $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
+      chmod +x $CRAFT_PART_INSTALL/usr/bin/tauno_monitor
   pyserial:
     plugin: python
     source: .
-    after: [tauno-monitor]
+    after: [tauno_monitor]
     python-packages:
       - pyserial
