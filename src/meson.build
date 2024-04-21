@@ -1,9 +1,9 @@
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
-moduledir = pkgdatadir / 'taunomonitor'
+moduledir = pkgdatadir / 'tauno_monitor'
 gnome = import('gnome')
 
-gnome.compile_resources('taunomonitor',
-  'taunomonitor.gresource.xml',
+gnome.compile_resources('tauno-monitor',
+  'tauno-monitor.gresource.xml',
   gresource_bundle: true,
   install: true,
   install_dir: pkgdatadir,
@@ -18,18 +18,18 @@ conf.set('localedir', get_option('prefix') / get_option('localedir'))
 conf.set('pkgdatadir', pkgdatadir)
 
 configure_file(
-  input: 'taunomonitor.in',
-  output: 'taunomonitor',
+  input: 'tauno-monitor.in',
+  output: 'tauno-monitor',
   configuration: conf,
   install: true,
   install_dir: get_option('bindir'),
   install_mode: 'r-xr--r--'
 )
 
-taunomonitor_sources = [
+tauno_monitor_sources = [
   '__init__.py',
   'main.py',
   'window.py',
 ]
 
-install_data(taunomonitor_sources, install_dir: moduledir)
+install_data(tauno_monitor_sources, install_dir: moduledir)

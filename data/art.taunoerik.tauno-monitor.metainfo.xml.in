@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-	<id>art.taunoerik.taunomonitor.desktop</id>
+	<id>art.taunoerik.tauno-monitor</id>
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
   <name>Tauno Monitor</name>
   <developer_name>Tauno Erik</developer_name>
   <summary>Serial port monitor.</summary>
 	<description>
-	  <p>A Simple serial port monitor for the GNOME desktop.
-Remembers the last settings (Theme, Baud Rate, Port etc.).
+	  <p>Remembers the last settings (Theme, Baud Rate, Port etc.).
 Depending on your system you may need to add a user to dialout group to open serial ports:
 	    <code>
 	      sudo usermod -a -G dialout $USER
 	    </code>>
 	  </p>
 	</description>
-  <launchable type="desktop-id">art.taunoerik.taunomonitor.desktop</launchable>
+  <launchable type="desktop-id">art.taunoerik.tauno-monitor.desktop</launchable>
   <url type="homepage">https://github.com/taunoe/tauno-monitor</url>
+  <content_rating type="oars-1.0" />
   <branding>
     <color type="primary" scheme_preference="light">#f7d4aa</color>
     <color type="primary" scheme_preference="dark">#686868</color>
   </branding>
-  <content_rating type="oars-1.0" />
   <screenshots>
     <screenshot type="default">
       <caption>Dark mode</caption>
@@ -40,6 +39,13 @@ Depending on your system you may need to add a user to dialout group to open ser
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.15" date="2024-04-21">
+      <description>
+        <ul>
+          <li>Changed back to tauno-monitor.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.14" date="2024-04-20">
       <description>
         <ul>

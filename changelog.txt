@@ -1,3 +1,7 @@
+0.1.15 (21.04.24)
+
+ - Changed back to tauno-monitor.
+
 0.1.14 (20.04.24)
 
  - Removed hyphen(`-`) and underscore (`_`) from app id.

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Tauno Monitor
-Exec=taunomonitor
-Icon=art.taunoerik.taunomonitor
+Exec=tauno-monitor
+Icon=art.taunoerik.tauno-monitor
 Terminal=false
 Type=Application
 Categories=GTK;

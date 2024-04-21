@@ -35,7 +35,7 @@ msgid "1"
 msgstr ""
 
 #: src/main.py:33 src/main.py:34 src/window.py:32 src/window.py:33
-msgid "taunomonitor"
+msgid "tauno-monitor"
 msgstr ""
 
 #: src/main.py:33 src/window.py:32
@@ -47,7 +47,7 @@ msgid "The main application singleton class."
 msgstr ""
 
 #: src/main.py:40 src/main.py:43 src/main.py:100 src/window.py:54
-msgid "art.taunoerik.taunomonitor"
+msgid "art.taunoerik.tauno-monitor"
 msgstr ""
 
 #: src/main.py:45
@@ -186,7 +186,7 @@ msgid "font-size"
 msgstr ""
 
 #: src/window.py:35
-msgid "/art/taunoerik/taunomonitor/window.ui"
+msgid "/art/taunoerik/tauno-monitor/window.ui"
 msgstr ""
 
 #: src/window.py:38 src/window.ui:5
