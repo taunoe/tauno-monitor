@@ -39,6 +39,13 @@ Depending on your system you may need to add a user to dialout group to open ser
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.16" date="2024-07-25">
+      <description>
+        <ul>
+          <li>Logging data to a file.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.15" date="2024-04-21">
       <description>
         <ul>

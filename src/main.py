@@ -25,19 +25,27 @@ gi.require_version('Adw', '1')
 
 from gi.repository import Gtk, Gio, Adw, GLib
 from .window import TaunoMonitorWindow
+import os
 
-import gettext
-import locale
-from os import path
+#import gettext
+#import locale
+#from os import path
 
-locale.bindtextdomain('tauno-monitor', path.join(path.dirname(__file__).split('tauno-monitor')[0],'locale'))
-locale.textdomain('tauno-monitor')
+
+# Set up translation for the application
+#locale.setlocale(locale.LC_ALL, '')
+#locale.bindtextdomain('tauno-monitor', os.path.join(os.path.dirname(__file__), 'locales'))
+#gettext.bindtextdomain('tauno-monitor', os.path.join(os.path.dirname(__file__), 'locales'))
+#gettext.textdomain('tauno-monitor')
+#_ = gettext.gettext
+
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
     byte_sizes = ['FIVEBITS', 'SIXBITS', 'SEVENBITS', 'EIGHTBITS']  # serial
     data_formats = ['ASCII', 'HEX']
+
 
     def __init__(self):
         super().__init__(application_id='art.taunoerik.tauno-monitor',
@@ -48,6 +56,7 @@ class TaunoMonitorApplication(Adw.Application):
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
+
 
         # shortcut
         self.set_accels_for_action('win.open', ['<Ctrl>o'])
@@ -61,7 +70,13 @@ class TaunoMonitorApplication(Adw.Application):
         else:
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
 
-
+        # Select log folder
+        self.filedialog = Gtk.FileDialog()
+        # Get saved log folder
+        self.log_folder_path = self.settings.get_string("log-folder")
+        # If default get user home
+        if self.log_folder_path == '/home':
+            self.log_folder_path = os.path.expanduser("~")
 
 
 
@@ -71,9 +86,14 @@ class TaunoMonitorApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
+        """
         self.win = self.props.active_window
         if not self.win:
             self.win = TaunoMonitorWindow(application=self)
+        self.win.present()
+        """
+        self.win = self.props.active_window
+        self.win = TaunoMonitorWindow(application=self)
         self.win.present()
 
 
@@ -105,20 +125,21 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.15',
+                                version='0.1.16',
                                 developers=['Tauno Erik'],
-                                copyright='© 2023-204 Tauno Erik')
+                                copyright='© 2023-2024 Tauno Erik')
         about.present()
+
 
 
     def on_preferences_action(self, widget, _):
         """Callback for the app.preferences action."""
-        preferences = Adw.PreferencesWindow(transient_for=self.props.active_window)
+        self.preferences = Adw.PreferencesWindow(transient_for=self.props.active_window)
 
         # Title
         settings_page = Adw.PreferencesPage(title="Preferences")
         settings_page.set_icon_name("applications-system-symbolic")
-        preferences.add(settings_page)
+        self.preferences.add(settings_page)
 
         ## UI group
         ui_group = Adw.PreferencesGroup(title="Appearance")
@@ -136,14 +157,16 @@ class TaunoMonitorApplication(Adw.Application):
                                     climb_rate=1,
                                     digits=0)
         font_row.add_suffix(font_spin_button)
+        font_spin_button.connect("value-changed", self.text_size_action)
 
         ### Dark Mode
         dark_mode_row = Adw.ActionRow(title="Dark Mode")
         ui_group.add(dark_mode_row)
         dark_mode_switch = Gtk.Switch(valign = Gtk.Align.CENTER,)
         dark_mode_row.add_suffix(dark_mode_switch)
-        ### Current mode: True is Dark
+        # Current mode: True is Dark
         dark_mode_switch.set_active(self.settings.get_boolean("dark-mode"))
+        dark_mode_switch.connect("state-set", self.dark_mode_switch_action)
 
         ### Notifications
         notifications_row = Adw.ActionRow(title="Notifications")
@@ -152,11 +175,13 @@ class TaunoMonitorApplication(Adw.Application):
         notifications_row.add_suffix(notifications_switch)
         # Get saved state:
         notifications_switch.set_active(self.settings.get_boolean("notifications"))
+        notifications_switch.connect("state-set", self.notifications_switch_action)
 
         ## Data group
         data_group = Adw.PreferencesGroup(title="Data")
         settings_page.add(data_group)
 
+        ### Data Format
         rx_row = Adw.ActionRow(title="RX data format")
         data_group.add(rx_row)
         rx_format = Gtk.DropDown.new_from_strings(strings=self.data_formats)
@@ -165,13 +190,35 @@ class TaunoMonitorApplication(Adw.Application):
         index = self.data_formats.index(self.win.rx_format_saved)
         rx_format.set_selected(position=index)
         rx_row.add_suffix(rx_format)
+        rx_format.connect("notify::selected-item", self.rx_data_format_action)
 
+        ### Timestamp
         timestamp_row = Adw.ActionRow(title="Timestamp")
         data_group.add(timestamp_row)
         timestamp_switch = Gtk.Switch(valign = Gtk.Align.CENTER,)
         timestamp_row.add_suffix(timestamp_switch)
         # Get saved state:
         timestamp_switch.set_active(self.settings.get_boolean("timestamp"))
+        timestamp_switch.connect("state-set", self.timestamp_switch_action)
+
+        ## Logging group
+        logging_group = Adw.PreferencesGroup(title="Logging")
+        settings_page.add(logging_group)
+        log_folder_row = Adw.ActionRow(title="Folder")
+        logging_group.add(log_folder_row)
+        #entry
+        log_folder_entry = Gtk.Entry.new()
+        log_folder_entry.set_valign(Gtk.Align.CENTER)
+        log_folder_entry.set_hexpand(True)
+        log_folder_row.add_suffix(log_folder_entry)
+        self.entry_buffer = log_folder_entry.get_buffer()
+        self.entry_buffer.set_text(self.log_folder_path, len(self.log_folder_path))
+        #button
+        select_log_folder_button = Gtk.Button(label="Select Folder")
+        select_log_folder_button.set_icon_name("search-folder-symbolic")
+        select_log_folder_button.set_valign(Gtk.Align.CENTER)
+        log_folder_row.add_suffix(select_log_folder_button)
+        select_log_folder_button.connect("clicked", self.select_log_folder_button_action)
 
         """
         TODO
@@ -189,14 +236,43 @@ class TaunoMonitorApplication(Adw.Application):
         #bytesize_drop_down.connect('notify::selected-item', self.on_selected_item)
         """
         #
-        preferences.present()
+        self.preferences.present()
 
-        # Connects
-        font_spin_button.connect("value-changed", self.text_size_action)
-        dark_mode_switch.connect("state-set", self.dark_mode_switch_action)
-        notifications_switch.connect("state-set", self.notifications_switch_action)
-        rx_format.connect("notify::selected-item", self.rx_data_format_action)
-        timestamp_switch.connect("state-set", self.timestamp_switch_action)
+
+    def select_log_folder_button_action(self, widget):
+        #print("select_log_folder_button_action")
+        self.filedialog.select_folder(
+            self.preferences, cancellable=None,
+            callback=self.on_filedialog_select_folder)
+
+    def on_filedialog_select_folder(self, filedialog, task):
+        try:
+            folder = filedialog.select_folder_finish(task)
+        except GLib.GError:
+            return
+
+        if folder is not None:
+            self.log_folder_path = folder.get_path()
+            #print(self.log_folder_path)
+
+            # if not a folder
+            if (os.path.exists(self.log_folder_path) == False):
+                self.win.toast_overlay.add_toast(Adw.Toast(title=f"{self.log_folder_path} is not a folder!"))
+            # is writeable?
+            test_file_path = self.log_folder_path+'/tauno_monitor_test.txt'
+            print(test_file_path)
+            try:
+                with open(test_file_path, 'w') as file:
+                    file.write('hello!')
+                    file.close()
+            except IOError as error:
+                self.win.toast_overlay.add_toast(Adw.Toast(title=f"No write permission on this directory!"))
+
+            # update label
+            self.entry_buffer.set_text(self.log_folder_path, len(self.log_folder_path))
+            # update settings
+            self.settings.set_string("log-folder", self.log_folder_path)
+
 
     def rx_data_format_action(self, drop_down, g_param_object):
         string_object = drop_down.get_selected_item()

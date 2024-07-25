@@ -31,5 +31,8 @@
 	  <key name="timestamp" type="b">
       <default>true</default>
     </key>
+	  <key name="log-folder" type="s">
+      <default>'/home/'</default>
+    </key>
 	</schema>
 </schemalist>

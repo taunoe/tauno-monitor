@@ -1,7 +1,7 @@
 #https://forum.snapcraft.io/t/snap-and-gtk4-sdk/37831/4
 name: tauno-monitor
 base: core22
-version: '0.1.15'
+version: '0.1.16'
 summary: Simple serial port monitor
 description: |
   Simple  serial port monitor for the GNOME desktop.
@@ -30,8 +30,8 @@ apps:
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3.10/dist-packages:$SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages
     plugs:
-      #- home
-      #- desktop
+      - home
+      - desktop
       - raw-usb
       - serial-port
       - hardware-observe

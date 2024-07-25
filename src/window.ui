@@ -30,7 +30,7 @@
             <child type="start">
               <object class="GtkButton" id="update_ports">
                 <property name="icon-name">update-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Rescan</property>
+                <property name="tooltip-text" translatable="yes">Update</property>
                 <property name="action-name">win.update</property>
               </object>
             </child>>
@@ -104,10 +104,21 @@
             <child type="end">
               <object class="GtkButton" id="clear_button">
                 <property name="icon-name">larger-brush-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Clear</property>
+                <property name="tooltip-text" translatable="yes">Clear screen</property>
                 <property name="action-name">win.clear</property>
               </object>
-            </child>>
+            </child>
+            <child type="end">
+              <object class="GtkSwitch" id="log_switch">
+                <property name="tooltip-text" translatable="yes">Write logs to file</property>
+                <property name="action-name">win.log</property>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkLabel" id="log_label">
+                <property name="label" translatable="yes">Log</property>
+              </object>
+            </child>
           </object>
         </child>
         <property name="content">

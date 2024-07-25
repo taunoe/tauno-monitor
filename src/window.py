@@ -18,20 +18,26 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from gi.repository import Adw, Gtk, Gio, GObject, GLib, Gdk
-import os
 import serial
 import serial.tools.list_ports
 import threading
 from datetime import datetime
 import codecs
 
-import gettext
-import locale
-from os import path
-from os.path import abspath, dirname, join, realpath
+#import os
+#import gettext
+#import locale
+#from os import path
+#from os.path import abspath, dirname, join, realpath
 
-locale.bindtextdomain('tauno-monitor', path.join(path.dirname(__file__).split('tauno-monitor')[0],'locale'))
-locale.textdomain('tauno-monitor')
+#locale.bindtextdomain('tauno-monitor', path.join(path.dirname(__file__).split('tauno-monitor')[0],'locale'))
+#locale.textdomain('tauno-monitor')
+# Set up translation for the application
+#locale.setlocale(locale.LC_ALL, '')
+#locale.bindtextdomain('tauno-monitor', os.path.join(os.path.dirname(__file__), 'locales'))
+#gettext.bindtextdomain('tauno-monitor', os.path.join(os.path.dirname(__file__), 'locales'))
+#gettext.textdomain('tauno-monitor')
+#_ = gettext.gettext
 
 @Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 
@@ -42,6 +48,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     open_button = Gtk.Template.Child()
     send_button = Gtk.Template.Child()
     clear_button = Gtk.Template.Child()
+    log_switch = Gtk.Template.Child()
     send_cmd = Gtk.Template.Child()
     port_drop_down = Gtk.Template.Child()
     port_drop_down_list = Gtk.Template.Child()
@@ -49,6 +56,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     update_ports = Gtk.Template.Child()
     toast_overlay = Gtk.Template.Child()  # notifications
     banner_no_ports = Gtk.Template.Child()
+
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -104,6 +112,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         clear_textview_action.connect("activate", self.btn_clear_textview)
         self.add_action(clear_textview_action)
 
+        # Switch log
+        log_action = Gio.SimpleAction(name="log")
+        log_action.connect("activate", self.btn_log)
+        self.add_action(log_action)
+        self.write_logs = False
+
         # Get Serial instance, open later
         self.tauno_serial = TaunoSerial(window_reference=self)
 
@@ -153,6 +167,14 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         except Exception as e:
             print("Scan serial ports error: ",e)
             return
+
+    # If log switch is activated
+    def btn_log(self, switch, _gparam):
+        if self.log_switch.props.active:
+            self.write_logs = True
+        else:
+            self.write_logs = False
+        #print(self.write_logs)
 
 
     def btn_guide(self, action, _):
@@ -314,6 +336,7 @@ sudo usermod -a -G plugdev $USER")
                     # Store char
                     self.prev_char = data.decode()
                     self.text_buffer.insert(self.text_iter_end, data.decode())
+                    self.logging(data.decode())
 
 
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
@@ -321,6 +344,17 @@ sudo usermod -a -G plugdev $USER")
             print("update error:", ex)
             return
 
+    def logging(self, char):
+        """ Write data to file """
+        # get folder
+        # get filename
+        if self.write_logs == True:
+            #print("write logs")
+            folder = self.settings.get_string("log-folder")
+            print(folder)
+            print(char) # one char
+        else:
+            pass
 
     def btn_send(self, action, _):
         """ Button Send action """
