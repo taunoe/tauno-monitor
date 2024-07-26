@@ -25,7 +25,7 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ![Dark mode](data/screenshots/dark.png)
 
-![About window](data/screenshots/abot.png)
+![About window](data/screenshots/about.png)
 
 ![Preferences window](data/screenshots/pref.png)
 
