@@ -21,13 +21,13 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ## Screenshots
 
-![Dark mode](data/screenshots/dark_2024-04-20.png)
+![Dark mode](data/screenshots/dark.png)
 
-![Light mode](data/screenshots/light_2024-04-20.png)
+![Light mode](data/screenshots/light.png)
 
-![About window](data/screenshots/abot_2024-04-20.png)
+![About window](data/screenshots/abot.png)
 
-![Preferences window](data/screenshots/pref_2024-04-20.png)
+![Preferences window](data/screenshots/pref.png)
 
 ## Install
 

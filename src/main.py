@@ -75,7 +75,7 @@ class TaunoMonitorApplication(Adw.Application):
         # Get saved log folder
         self.log_folder_path = self.settings.get_string("log-folder")
         # If default get user home
-        if self.log_folder_path == '/home':
+        if self.log_folder_path == '~':
             self.log_folder_path = os.path.expanduser("~")
 
 
@@ -240,37 +240,41 @@ class TaunoMonitorApplication(Adw.Application):
 
 
     def select_log_folder_button_action(self, widget):
-        #print("select_log_folder_button_action")
+        """ Button to select logging folder action """
         self.filedialog.select_folder(
             self.preferences, cancellable=None,
             callback=self.on_filedialog_select_folder)
 
+
     def on_filedialog_select_folder(self, filedialog, task):
+        """ Dialog to select logging folder """
         try:
+            # Folder selection dialog
             folder = filedialog.select_folder_finish(task)
         except GLib.GError:
             return
 
         if folder is not None:
             self.log_folder_path = folder.get_path()
-            #print(self.log_folder_path)
 
-            # if not a folder
+            # If not a folder
             if (os.path.exists(self.log_folder_path) == False):
                 self.win.toast_overlay.add_toast(Adw.Toast(title=f"{self.log_folder_path} is not a folder!"))
-            # is writeable?
+
+            # Is it writeable?
             test_file_path = self.log_folder_path+'/tauno_monitor_test.txt'
-            print(test_file_path)
+            # We create test file and then will remove it
             try:
                 with open(test_file_path, 'w') as file:
                     file.write('hello!')
                     file.close()
+                    os.remove(test_file_path)
             except IOError as error:
                 self.win.toast_overlay.add_toast(Adw.Toast(title=f"No write permission on this directory!"))
 
-            # update label
+            # Update label on preferences
             self.entry_buffer.set_text(self.log_folder_path, len(self.log_folder_path))
-            # update settings
+            # Update saved settings
             self.settings.set_string("log-folder", self.log_folder_path)
 
 

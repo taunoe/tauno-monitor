@@ -32,7 +32,7 @@
       <default>true</default>
     </key>
 	  <key name="log-folder" type="s">
-      <default>'/home/'</default>
+      <default>'~'</default>
     </key>
 	</schema>
 </schemalist>

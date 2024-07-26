@@ -117,6 +117,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         log_action.connect("activate", self.btn_log)
         self.add_action(log_action)
         self.write_logs = False
+        self.log_file_exist = False
+        self.log_file_path = ""
+        self.file_handle = None  # opened log file
 
         # Get Serial instance, open later
         self.tauno_serial = TaunoSerial(window_reference=self)
@@ -168,13 +171,27 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             print("Scan serial ports error: ",e)
             return
 
-    # If log switch is activated
+
     def btn_log(self, switch, _gparam):
+        """ Logging switch action """
+        current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+
         if self.log_switch.props.active:
+            print("switch active")
             self.write_logs = True
+            # Does log file exists?
+            if self.log_file_exist == False:
+                folder = self.settings.get_string("log-folder")
+                self.log_file_path = folder + "/tauno-monitor_log-" + current_datetime
+                # Create log file
+                f = open(self.log_file_path, "x")
+                self.log_file_exist = True
+
+            self.write_data_to_log("\nTauno-Monitor log started: " + current_datetime + "\n")
         else:
             self.write_logs = False
-        #print(self.write_logs)
+            self.close_log_file()
+
 
 
     def btn_guide(self, action, _):
@@ -331,12 +348,13 @@ sudo usermod -a -G plugdev $USER")
                     # add time when prev char was newline
                     if self.prev_char == '\n':
                         self.text_buffer.insert(self.text_iter_end, current_time)
+                        self.write_data_to_log(current_time)
 
                 if data.decode() != '\r': # ignore \r - is it good idea??
                     # Store char
                     self.prev_char = data.decode()
                     self.text_buffer.insert(self.text_iter_end, data.decode())
-                    self.logging(data.decode())
+                    self.write_data_to_log(data.decode())
 
 
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
@@ -344,17 +362,23 @@ sudo usermod -a -G plugdev $USER")
             print("update error:", ex)
             return
 
-    def logging(self, char):
-        """ Write data to file """
-        # get folder
-        # get filename
+
+    def write_data_to_log(self, data):  # data == char
+        """ Write data to log file """
         if self.write_logs == True:
-            #print("write logs")
-            folder = self.settings.get_string("log-folder")
-            print(folder)
-            print(char) # one char
-        else:
-            pass
+            if self.file_handle is None:
+                # Open the file the first time the method is called
+                self.file_handle = open(self.log_file_path, 'a')
+            # Write data to the file
+            self.file_handle.write(data)  # + '\n'
+
+
+    def close_log_file(self):
+        """ Close the log file """
+        if self.file_handle is not None:
+            self.file_handle.close()
+            self.file_handle = None
+
 
     def btn_send(self, action, _):
         """ Button Send action """

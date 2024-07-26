@@ -39,7 +39,7 @@ Depending on your system you may need to add a user to dialout group to open ser
     <category>Utility</category>
   </categories>
   <releases>
-    <release version="0.1.16" date="2024-07-25">
+    <release version="0.1.16" date="2024-07-26">
       <description>
         <ul>
           <li>Logging data to a file.</li>

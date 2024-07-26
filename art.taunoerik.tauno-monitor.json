@@ -46,8 +46,9 @@
             "buildsystem" : "meson",
             "sources" : [
                 {
-                    "type" : "dir",
-                    "url" : "."
+                    "type" : "git",
+                    "commit" : "1834dfea8475cd8af6520636e2ce898f1f04baca",
+                    "url" : "https://github.com/taunoe/tauno-monitor"
                 }
             ]
         }
