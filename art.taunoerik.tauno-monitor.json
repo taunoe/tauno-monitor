@@ -10,9 +10,7 @@
         "--socket=fallback-x11",
         "--device=all",
         "--socket=wayland",
-        "--filesystem=host",
-        "--filesystem=home",
-        "--filesystem=xdg-documents/home"
+        "--filesystem=home"
     ],
     "cleanup" : [
         "/include",

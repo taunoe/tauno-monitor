@@ -1,3 +1,7 @@
+0.1.17 (27.07.24)
+
+ - Auto reconnects to the serial port.
+
 0.1.16 (26.07.24)
 
  - Logging data to a file.

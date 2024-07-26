@@ -6,7 +6,7 @@ The goal is to make a stand-alone simple serial port monitor for the GNOME deskt
 
 It aims to be beginner-friendly, small and easy to use. Not feature-rich and professional.
 
-It remembers the last settings (Theme, Baud Rate, Port etc) and can log data to file.
+It remembers the last settings (Theme, Baud Rate, Port etc), auto reconnects to the serial port and can log data to a file.
 
 ## Important
 

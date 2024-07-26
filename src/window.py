@@ -23,6 +23,7 @@ import serial.tools.list_ports
 import threading
 from datetime import datetime
 import codecs
+import time
 
 #import os
 #import gettext
@@ -131,6 +132,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         self.prev_char = '\n'
 
+        # Reconnect
+        self.reconnecting_serial = False
+
 
     def load_saved_port(self):
         """ Load saved port from saved settings """
@@ -177,7 +181,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
         if self.log_switch.props.active:
-            print("switch active")
+            print("log switch active")
             self.write_logs = True
             # Does log file exists?
             if self.log_file_exist == False:
@@ -298,34 +302,58 @@ sudo usermod -a -G plugdev $USER")
         if self.tauno_serial.is_open:
             if display_notifications:
                 self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} connected"))
-            # THREAD version
-            # https://pygobject.readthedocs.io/en/latest/guide/threading.html
-            thread = threading.Thread(target=self.tauno_serial.read)
-            thread.daemon = True
-            thread.start()
+            self.thread_read_serial()
         else:
-
             if display_notifications:
                 self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} closed"))
 
+    def thread_read_serial(self):
+        """ Thread to read serial port"""
+        # THREAD version
+        # https://pygobject.readthedocs.io/en/latest/guide/threading.html
+        thread = threading.Thread(target=self.tauno_serial.read)
+        thread.daemon = True
+        thread.start()
 
-    def close_if_error(self, selected_port, selected_baudrate):
+
+    def reconnect_serial(self, selected_port, selected_baudrate):
+        print("reconnect_serial")
         self.tauno_serial.close()
         # Change label
-        self.open_button.set_label("Open")
-        self.set_title("Tauno Monitor")
+        # self.open_button.set_label("Open")  # ?
+        # self.set_title("Reconnecting")
+
         # Display notification
         display_notifications = self.settings.get_boolean("notifications")
         if display_notifications:
                 self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baudrate} closed"))
-        # scan ports
-        self.scan_serial_ports()
+
+        self.reconnecting_serial = True
+
+        if self.reconnecting_serial == True:
+            self.set_title("Reconnecting")
+            port_obj = self.port_drop_down.get_selected_item()
+            last_port = port_obj.get_string()
+
+            baud_obj = self.baud_drop_down.get_selected_item()
+            last_baud = baud_obj.get_string()
+
+            print("reconnecting ")
+            while self.tauno_serial.is_open == False:
+                time.sleep(0.75)
+                try:
+                    self.tauno_serial.open(last_port, last_baud)
+                except:
+                    print(".")
+            self.thread_read_serial()  # Start reading
+            self.reconnecting_serial = False
+            self.set_title(str(last_port)+":"+str(last_baud))
+            print(" reconnected!")
 
 
 
     def update(self, data):
         """ Update Text View """
-
         try:
             self.text_buffer = self.input_text_view.get_buffer()
             self.text_iter_end = self.text_buffer.get_end_iter()
@@ -342,7 +370,6 @@ sudo usermod -a -G plugdev $USER")
                 self.text_buffer.insert(self.text_iter_end, data.hex())
                 self.text_buffer.insert(self.text_iter_end, ' ')
             else: # ASCII
-                # TODO: timestamp
                 add_timestamp = self.settings.get_boolean("timestamp")
                 if add_timestamp:
                     # add time when prev char was newline
@@ -406,10 +433,12 @@ class TaunoSerial():
         self.is_open = False
         self.myserial = serial.Serial()
 
+
     def open(self, port, baud):
         """ Open to serial port """
         # Close if already open
         if self.myserial.is_open:
+            print("open sulgeb")
             self.close()
         else:
             # Open Serial port
@@ -427,7 +456,7 @@ class TaunoSerial():
 
     def close(self):
         """ Close serial port """
-        print("Close: " + str(self.myserial.port) + " " + str(self.myserial.baudrate) )
+        print("Close(): " + str(self.myserial.port) + " " + str(self.myserial.baudrate) )
         self.myserial.close()
         if self.myserial.is_open is False:
             self.is_open = False
@@ -446,8 +475,7 @@ class TaunoSerial():
                 print("Serial read error: ", ex)
                 # Close serial port
                 if self.myserial.is_open:
-                    self.window_reference.close_if_error(self.myserial.port, self.myserial.baudrate)
-                    self.close()
+                    self.window_reference.reconnect_serial(self.myserial.port, self.myserial.baudrate)
                 return
 
 
