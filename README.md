@@ -6,7 +6,7 @@ The goal is to make a stand-alone simple serial port monitor for the GNOME deskt
 
 It aims to be beginner-friendly, small and easy to use. Not feature-rich and professional.
 
-It remembers the last settings (Theme, Baud Rate, Port etc).
+It remembers the last settings (Theme, Baud Rate, Port etc) and can log data to file.
 
 ## Important
 
@@ -21,9 +21,9 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ## Screenshots
 
-![Dark mode](data/screenshots/dark.png)
-
 ![Light mode](data/screenshots/light.png)
+
+![Dark mode](data/screenshots/dark.png)
 
 ![About window](data/screenshots/abot.png)
 

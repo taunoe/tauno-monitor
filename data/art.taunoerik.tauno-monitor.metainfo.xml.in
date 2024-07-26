@@ -7,7 +7,7 @@
   <developer_name>Tauno Erik</developer_name>
   <summary>Serial port monitor.</summary>
 	<description>
-	  <p>Remembers the last settings (Theme, Baud Rate, Port etc.).
+	  <p>It remembers the last settings (Theme, Baud Rate, Port etc) and can log data to file.
 Depending on your system you may need to add a user to dialout group to open serial ports:
 	    <code>
 	      sudo usermod -a -G dialout $USER
@@ -23,16 +23,16 @@ Depending on your system you may need to add a user to dialout group to open ser
   </branding>
   <screenshots>
     <screenshot type="default">
-      <caption>Dark mode</caption>
-      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/dark_2024-04-20.png</image>
-    </screenshot>
-    <screenshot>
       <caption>Light mode</caption>
-      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/light_2024-04-20.png</image>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/light.png</image>
+    </screenshot>
+    <screenshot >
+      <caption>Dark mode</caption>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/dark.png</image>
     </screenshot>
     <screenshot>
       <caption>Preferences</caption>
-      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/pref_2024-04-20.png</image>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/pref.png</image>
     </screenshot>
   </screenshots>
   <categories>

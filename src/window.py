@@ -182,7 +182,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             # Does log file exists?
             if self.log_file_exist == False:
                 folder = self.settings.get_string("log-folder")
-                self.log_file_path = folder + "/tauno-monitor_log-" + current_datetime
+                self.log_file_path = folder + "/tauno-monitor_log-" + current_datetime + ".txt"
                 # Create log file
                 f = open(self.log_file_path, "x")
                 self.log_file_exist = True
