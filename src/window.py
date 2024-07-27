@@ -135,6 +135,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # Reconnect
         self.reconnecting_serial = False
 
+        # https://realpython.com/python-sleep/
+        self.event = threading.Event()
+
 
     def load_saved_port(self):
         """ Load saved port from saved settings """
@@ -268,6 +271,7 @@ sudo usermod -a -G plugdev $USER")
         """ Button Open action """
         # rescan ports
         self.scan_serial_ports()
+
         # Selected Port
         try:
             port_obj = self.port_drop_down.get_selected_item()
@@ -285,14 +289,20 @@ sudo usermod -a -G plugdev $USER")
         baud_index_new = self.baud_drop_down.get_selected()
         self.settings.set_int("baud-index", baud_index_new)
 
-        # Open Serial Port
-        self.tauno_serial.open(selected_port, selected_baud_rate)
+        # If we a middle of reconnection
+        if self.reconnecting_serial:
+            self.tauno_serial.close()
+            self.reconnecting_serial = False
+            self.open_button.set_label("Open")
+            self.set_title("Tauno Monitor")
+        else:
+            # Open Serial Port
+            self.tauno_serial.open(selected_port, selected_baud_rate)
 
         # Change button label and title
         if self.tauno_serial.is_open:
             self.open_button.set_label("Close")
             self.set_title(str(selected_port)+":"+str(selected_baud_rate))
-
         else:
             self.open_button.set_label("Open")
             self.set_title("Tauno Monitor")
@@ -307,6 +317,7 @@ sudo usermod -a -G plugdev $USER")
             if display_notifications:
                 self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} closed"))
 
+
     def thread_read_serial(self):
         """ Thread to read serial port"""
         # THREAD version
@@ -317,20 +328,18 @@ sudo usermod -a -G plugdev $USER")
 
 
     def reconnect_serial(self, selected_port, selected_baudrate):
-        print("reconnect_serial")
+        """ Tries to reconnect the serial connection. Using the latest settings. """
+        print("Auto reconnect_serial")
         self.tauno_serial.close()
-        # Change label
-        # self.open_button.set_label("Open")  # ?
-        # self.set_title("Reconnecting")
 
         # Display notification
         display_notifications = self.settings.get_boolean("notifications")
         if display_notifications:
-                self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baudrate} closed"))
+                self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baudrate} lost"))
 
         self.reconnecting_serial = True
 
-        if self.reconnecting_serial == True:
+        if self.reconnecting_serial:
             self.set_title("Reconnecting")
             port_obj = self.port_drop_down.get_selected_item()
             last_port = port_obj.get_string()
@@ -339,17 +348,38 @@ sudo usermod -a -G plugdev $USER")
             last_baud = baud_obj.get_string()
 
             print("reconnecting ")
-            while self.tauno_serial.is_open == False:
-                time.sleep(0.75)
+            i = 0
+            while self.tauno_serial.is_open == False and self.reconnecting_serial == True:
+                self.event.wait(0.75)
                 try:
                     self.tauno_serial.open(last_port, last_baud)
                 except:
-                    print(".")
+                    self.reconnecting_msg(i)  # Title animation
+                    i = i+1
+                    if i > 3:
+                        i = 0
+
             self.thread_read_serial()  # Start reading
             self.reconnecting_serial = False
-            self.set_title(str(last_port)+":"+str(last_baud))
-            print(" reconnected!")
 
+            if self.tauno_serial.is_open:
+                self.set_title(str(last_port)+":"+str(last_baud))
+                print(" reconnected!")
+            else: # Close button is pressed
+                pass
+
+
+    def reconnecting_msg(self, i):
+        """ Title animation """
+        print(".")
+        if i == 1:
+            self.set_title("Reconnecting .")
+        elif i == 2:
+            self.set_title("Reconnecting ..")
+        elif i == 3:
+            self.set_title("Reconnecting ...")
+        else:
+             self.set_title("Reconnecting ")
 
 
     def update(self, data):
