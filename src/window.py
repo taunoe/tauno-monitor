@@ -27,21 +27,6 @@ import time
 from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
 
-#import os
-#import gettext
-#import locale
-#from os import path
-#from os.path import abspath, dirname, join, realpath
-
-#locale.bindtextdomain('tauno-monitor', path.join(path.dirname(__file__).split('tauno-monitor')[0],'locale'))
-#locale.textdomain('tauno-monitor')
-# Set up translation for the application
-#locale.setlocale(locale.LC_ALL, '')
-#locale.bindtextdomain('tauno-monitor', os.path.join(os.path.dirname(__file__), 'locales'))
-#gettext.bindtextdomain('tauno-monitor', os.path.join(os.path.dirname(__file__), 'locales'))
-#gettext.textdomain('tauno-monitor')
-#_ = gettext.gettext
-
 @Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 
 class TaunoMonitorWindow(Adw.ApplicationWindow):
@@ -127,6 +112,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # Get Serial instance, open later
         self.tauno_serial = TaunoSerial(window_reference=self)
 
+        self.tauno_logging = TaunoLogging(window_reference=self)
+
         # TextView Buffer
         self.text_buffer = self.input_text_view.get_buffer()
         self.text_iter_end = self.text_buffer.get_end_iter()
@@ -143,7 +130,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def load_saved_port(self):
         """ Load saved port from saved settings """
-
         port_str = self.settings.get_string("port-str")
 
         self.scan_serial_ports()
@@ -198,9 +184,27 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
             self.write_data_to_log("\nTauno-Monitor log started: " + current_datetime + "\n")
         else:
+            print("log switch deactive")
+            self.write_data_to_log("Tauno-Monitor log ended: " + current_datetime + "\n")
             self.write_logs = False
             self.close_log_file()
 
+
+    def write_data_to_log(self, data):  # data == char
+        """ Write data to log file """
+        if self.write_logs == True:
+            if self.file_handle is None:
+                # Open the file the first time the method is called
+                self.file_handle = open(self.log_file_path, 'a')
+            # Write data to the file
+            self.file_handle.write(data)  # + '\n'
+
+
+    def close_log_file(self):
+        """ Close the log file """
+        if self.file_handle is not None:
+            self.file_handle.close()
+            self.file_handle = None
 
 
     def btn_guide(self, action, _):
@@ -394,7 +398,8 @@ sudo usermod -a -G plugdev $USER")
 
             # get time
             now = datetime.now()
-            current_time = now.strftime("%H:%M:%S.%f -> ")
+            current_time = now.strftime("%H:%M:%S.%f ")
+            arrow = '--> '
 
             if self.rx_format_saved == 'HEX':
                 # 0x0a == \n
@@ -408,6 +413,12 @@ sudo usermod -a -G plugdev $USER")
                     if self.prev_char == '\n':
                         self.text_buffer.insert(self.text_iter_end, current_time)
                         self.write_data_to_log(current_time)
+                        self.text_buffer.insert(self.text_iter_end, arrow)
+                        self.write_data_to_log(arrow)
+                else:
+                    if self.prev_char == '\n':
+                        self.text_buffer.insert(self.text_iter_end, arrow)
+                        self.write_data_to_log(arrow)
 
                 if data.decode() != '\r': # ignore \r - is it good idea??
                     # Store char
@@ -422,40 +433,56 @@ sudo usermod -a -G plugdev $USER")
             return
 
 
-    def write_data_to_log(self, data):  # data == char
-        """ Write data to log file """
-        if self.write_logs == True:
-            if self.file_handle is None:
-                # Open the file the first time the method is called
-                self.file_handle = open(self.log_file_path, 'a')
-            # Write data to the file
-            self.file_handle.write(data)  # + '\n'
 
-
-    def close_log_file(self):
-        """ Close the log file """
-        if self.file_handle is not None:
-            self.file_handle.close()
-            self.file_handle = None
 
 
     def btn_send(self, action, _):
         """ Button Send action """
         buffer = self.send_cmd.get_buffer()
         text = buffer.get_text()
-        print(f"Entry: {text}")
+        print(f"Entry send: {text}")
         self.tauno_serial.write(text)
+
+        text = '<-- ' + text + '\n'
+
+        self.text_buffer = self.input_text_view.get_buffer()
+        self.text_iter_end = self.text_buffer.get_end_iter()
+        add_timestamp = self.settings.get_boolean("timestamp")
+        if add_timestamp:
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S.%f ")
+            self.text_buffer.insert(self.text_iter_end, current_time)
+            self.write_data_to_log(current_time)
+
+        self.write_data_to_log(text)
+        self.text_buffer.insert(self.text_iter_end, text)
+
         buffer.delete_text(0, len(text))
 
 
     def on_key_enter_pressed(self, entry):
         #print(f'(activate) Value entered in entry: {entry.get_text()}')
+
         if self.tauno_serial.is_open:
             buffer = self.send_cmd.get_buffer()
             text = buffer.get_text()
-            print(f"Entry: {text}")
+            print(f"Entry enter: {text}")
             self.tauno_serial.write(text)
-            buffer.delete_text(0, len(text))
 
+            text = '<-- ' + text + '\n'
+
+            self.text_buffer = self.input_text_view.get_buffer()
+            self.text_iter_end = self.text_buffer.get_end_iter()
+            add_timestamp = self.settings.get_boolean("timestamp")
+            if add_timestamp:
+                now = datetime.now()
+                current_time = now.strftime("%H:%M:%S.%f ")
+                self.text_buffer.insert(self.text_iter_end, current_time)
+                self.write_data_to_log(current_time)
+
+            self.write_data_to_log(text)
+            self.text_buffer.insert(self.text_iter_end, text)
+
+            buffer.delete_text(0, len(text))
 
 

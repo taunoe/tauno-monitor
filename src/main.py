@@ -27,19 +27,6 @@ from gi.repository import Gtk, Gio, Adw, GLib
 from .window import TaunoMonitorWindow
 import os
 
-#import gettext
-#import locale
-#from os import path
-
-
-# Set up translation for the application
-#locale.setlocale(locale.LC_ALL, '')
-#locale.bindtextdomain('tauno-monitor', os.path.join(os.path.dirname(__file__), 'locales'))
-#gettext.bindtextdomain('tauno-monitor', os.path.join(os.path.dirname(__file__), 'locales'))
-#gettext.textdomain('tauno-monitor')
-#_ = gettext.gettext
-
-
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
