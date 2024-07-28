@@ -24,6 +24,8 @@ import threading
 from datetime import datetime
 import codecs
 import time
+from .tauno_serial import TaunoSerial
+from .tauno_logging import TaunoLogging
 
 #import os
 #import gettext
@@ -456,63 +458,4 @@ sudo usermod -a -G plugdev $USER")
             buffer.delete_text(0, len(text))
 
 
-class TaunoSerial():
-
-    def __init__(self, window_reference):
-        self.window_reference = window_reference
-        self.is_open = False
-        self.myserial = serial.Serial()
-
-
-    def open(self, port, baud):
-        """ Open to serial port """
-        # Close if already open
-        if self.myserial.is_open:
-            print("open sulgeb")
-            self.close()
-        else:
-            # Open Serial port
-            print("Open: " + port + " " + baud)
-            self.myserial.baudrate = baud
-            self.myserial.port = port
-            self.myserial.open()
-
-            if self.myserial.is_open:
-                self.is_open = True
-                print("Opened successfully")
-            else:
-                print("Unable to open: " + port + " " + baud)
-
-
-    def close(self):
-        """ Close serial port """
-        print("Close(): " + str(self.myserial.port) + " " + str(self.myserial.baudrate) )
-        self.myserial.close()
-        if self.myserial.is_open is False:
-            self.is_open = False
-            print("Closed successfully")
-        else:
-            print("Unable to open: " + str(self.myserial.port) + " " + str(self.myserial.baudrate) )
-
-
-    def read(self):
-        """ Read while serial port is open """
-        while self.is_open:
-            try:
-                data_in = self.myserial.read()  # read a byte
-                GLib.idle_add(self.window_reference.update, data_in)
-            except Exception as ex:
-                print("Serial read error: ", ex)
-                # Close serial port
-                if self.myserial.is_open:
-                    self.window_reference.reconnect_serial(self.myserial.port, self.myserial.baudrate)
-                return
-
-
-    def write(self, data):
-        """ Write to serial port """
-        print(f"Write: {data}")
-
-        if self.myserial.is_open:
-            self.myserial.write(data.encode('utf-8'))
 

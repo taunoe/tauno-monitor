@@ -30,6 +30,8 @@ tauno_monitor_sources = [
   '__init__.py',
   'main.py',
   'window.py',
+  'tauno_serial.py',
+  'tauno_logging.py',
 ]
 
 install_data(tauno_monitor_sources, install_dir: moduledir)

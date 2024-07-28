@@ -1,3 +1,7 @@
+0.1.18
+
+ -
+
 0.1.17 (27.07.24)
 
  - Auto reconnects to the serial port.
