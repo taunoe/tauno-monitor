@@ -112,7 +112,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.18',
+                                version='0.1.19',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023-2024 Tauno Erik')
         about.present()
@@ -253,7 +253,7 @@ class TaunoMonitorApplication(Adw.Application):
             # We create test file and then will remove it
             try:
                 with open(test_file_path, 'w') as file:
-                    file.write('hello!')
+                    file.write('Hello!')
                     file.close()
                     os.remove(test_file_path)
             except IOError as error:

@@ -1,3 +1,7 @@
+0.1.19 (29.07.24)
+
+ - Improved logging.
+
 0.1.18 (28.07.24)
 
  - Improved logging.

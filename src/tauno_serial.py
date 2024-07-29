@@ -50,7 +50,7 @@ class TaunoSerial():
         while self.is_open:
             try:
                 data_in = self.myserial.read()  # read a byte
-                GLib.idle_add(self.window_reference.update, data_in)
+                GLib.idle_add(self.window_reference.add_to_text_view, data_in)
             except Exception as ex:
                 print("Serial read error: ", ex)
                 # Close serial port

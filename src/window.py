@@ -17,6 +17,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# https://pygobject.gnome.org/tutorials/gtk4/textview.html
+
 from gi.repository import Adw, Gtk, Gio, GObject, GLib, Gdk
 import serial
 import serial.tools.list_ports
@@ -105,14 +107,13 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         log_action.connect("activate", self.btn_log)
         self.add_action(log_action)
         self.write_logs = False
-        self.log_file_exist = False
-        self.log_file_path = ""
+        self.log_file_exist = False #
         self.file_handle = None  # opened log file
 
         # Get Serial instance, open later
         self.tauno_serial = TaunoSerial(window_reference=self)
 
-        self.tauno_logging = TaunoLogging(window_reference=self)
+        self.logging = TaunoLogging(window_reference=self)
 
         # TextView Buffer
         self.text_buffer = self.input_text_view.get_buffer()
@@ -169,42 +170,23 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def btn_log(self, switch, _gparam):
         """ Logging switch action """
-        current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-
         if self.log_switch.props.active:
             print("log switch active")
             self.write_logs = True
             # Does log file exists?
             if self.log_file_exist == False:
                 folder = self.settings.get_string("log-folder")
-                self.log_file_path = folder + "/tauno-monitor_log-" + current_datetime + ".txt"
+                current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+                log_file_path = folder + "/tauno-monitor_log-" + current_datetime + ".txt"
                 # Create log file
-                f = open(self.log_file_path, "x")
-                self.log_file_exist = True
-
-            self.write_data_to_log("\nTauno-Monitor log started: " + current_datetime + "\n")
+                self.log_file_exist = self.logging.create_file(log_file_path)
         else:
             print("log switch deactive")
-            self.write_data_to_log("Tauno-Monitor log ended: " + current_datetime + "\n")
+            self.logging.close_file()
             self.write_logs = False
-            self.close_log_file()
 
 
-    def write_data_to_log(self, data):  # data == char
-        """ Write data to log file """
-        if self.write_logs == True:
-            if self.file_handle is None:
-                # Open the file the first time the method is called
-                self.file_handle = open(self.log_file_path, 'a')
-            # Write data to the file
-            self.file_handle.write(data)  # + '\n'
 
-
-    def close_log_file(self):
-        """ Close the log file """
-        if self.file_handle is not None:
-            self.file_handle.close()
-            self.file_handle = None
 
 
     def btn_guide(self, action, _):
@@ -283,7 +265,7 @@ sudo usermod -a -G plugdev $USER")
             port_obj = self.port_drop_down.get_selected_item()
             selected_port = port_obj.get_string()
         except Exception as ex:
-            print("Open error:", ex)
+            print("BTN Open error:", ex)
             selected_port = 'not available' # not available
         # save port to settings
         self.settings.set_string("port-str", selected_port)
@@ -308,7 +290,9 @@ sudo usermod -a -G plugdev $USER")
         # Change button label and title
         if self.tauno_serial.is_open:
             self.open_button.set_label("Close")
-            self.set_title(str(selected_port)+":"+str(selected_baud_rate))
+            title = str(selected_port)+":"+str(selected_baud_rate)
+            self.set_title(title)
+            self.logging.write_data("Opened " + title + "\n")
         else:
             self.open_button.set_label("Open")
             self.set_title("Tauno Monitor")
@@ -388,7 +372,7 @@ sudo usermod -a -G plugdev $USER")
              self.set_title("Reconnecting ")
 
 
-    def update(self, data):
+    def add_to_text_view(self, data):
         """ Update Text View """
         try:
             self.text_buffer = self.input_text_view.get_buffer()
@@ -412,77 +396,63 @@ sudo usermod -a -G plugdev $USER")
                     # add time when prev char was newline
                     if self.prev_char == '\n':
                         self.text_buffer.insert(self.text_iter_end, current_time)
-                        self.write_data_to_log(current_time)
+                        self.logging.write_data(current_time)
                         self.text_buffer.insert(self.text_iter_end, arrow)
-                        self.write_data_to_log(arrow)
+                        self.logging.write_data(arrow)
                 else:
                     if self.prev_char == '\n':
                         self.text_buffer.insert(self.text_iter_end, arrow)
-                        self.write_data_to_log(arrow)
+                        self.logging.write_data(arrow)
 
                 if data.decode() != '\r': # ignore \r - is it good idea??
                     # Store char
                     self.prev_char = data.decode()
                     self.text_buffer.insert(self.text_iter_end, data.decode())
-                    self.write_data_to_log(data.decode())
+                    self.logging.write_data(data.decode())
 
 
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
-            print("update error:", ex)
+            print("add_to_text_view error:", ex)
             return
-
-
-
 
 
     def btn_send(self, action, _):
         """ Button Send action """
         buffer = self.send_cmd.get_buffer()
-        text = buffer.get_text()
-        print(f"Entry send: {text}")
-        self.tauno_serial.write(text)
+        data = buffer.get_text()
+        self.send_to_serial(data)
+        buffer.delete_text(0, len(data))
 
-        text = '<-- ' + text + '\n'
 
+    def on_key_enter_pressed(self, entry):
+        """ Send cmd Enter key pressed """
+        buffer = self.send_cmd.get_buffer()
+        data = buffer.get_text()
+        self.send_to_serial(data)
+        buffer.delete_text(0, len(data))
+
+
+    def send_to_serial(self, data):
+        """ Write data to Serial port """
+        if self.tauno_serial.is_open:
+            # Send to Serial
+            self.tauno_serial.write(data)
+        else:
+            print("Send cmd: Serial is not Open")
+        # Write to screen
+        data = '<-- ' + data + '\n'
         self.text_buffer = self.input_text_view.get_buffer()
         self.text_iter_end = self.text_buffer.get_end_iter()
+        # Add timestamp
         add_timestamp = self.settings.get_boolean("timestamp")
         if add_timestamp:
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S.%f ")
             self.text_buffer.insert(self.text_iter_end, current_time)
-            self.write_data_to_log(current_time)
-
-        self.write_data_to_log(text)
-        self.text_buffer.insert(self.text_iter_end, text)
-
-        buffer.delete_text(0, len(text))
-
-
-    def on_key_enter_pressed(self, entry):
-        #print(f'(activate) Value entered in entry: {entry.get_text()}')
-
-        if self.tauno_serial.is_open:
-            buffer = self.send_cmd.get_buffer()
-            text = buffer.get_text()
-            print(f"Entry enter: {text}")
-            self.tauno_serial.write(text)
-
-            text = '<-- ' + text + '\n'
-
-            self.text_buffer = self.input_text_view.get_buffer()
-            self.text_iter_end = self.text_buffer.get_end_iter()
-            add_timestamp = self.settings.get_boolean("timestamp")
-            if add_timestamp:
-                now = datetime.now()
-                current_time = now.strftime("%H:%M:%S.%f ")
-                self.text_buffer.insert(self.text_iter_end, current_time)
-                self.write_data_to_log(current_time)
-
-            self.write_data_to_log(text)
-            self.text_buffer.insert(self.text_iter_end, text)
-
-            buffer.delete_text(0, len(text))
-
+            self.logging.write_data(current_time)
+        # Show
+        self.text_buffer.insert(self.text_iter_end, data)
+        # Log
+        self.logging.write_data(data)
 
