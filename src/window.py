@@ -108,7 +108,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.add_action(log_action)
         self.write_logs = False
         self.log_file_exist = False #
-        self.file_handle = None  # opened log file
 
         # Get Serial instance, open later
         self.tauno_serial = TaunoSerial(window_reference=self)
@@ -120,7 +119,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.text_iter_end = self.text_buffer.get_end_iter()
         self.text_mark_end = self.text_buffer.create_mark("", self.text_iter_end, False)
 
-        self.prev_char = '\n'
+        # Tags
+        # https://pygobject.gnome.org/tutorials/gtk4/textview.html
+        self.tag_arrow = self.text_buffer.create_tag('arrow', foreground='gray')
+        self.tag_out = self.text_buffer.create_tag('out', foreground='orange')
+
+        self.prev_char = '\n'  # store prev char
 
         # Reconnect
         self.reconnecting_serial = False
@@ -377,12 +381,7 @@ sudo usermod -a -G plugdev $USER")
         try:
             self.text_buffer = self.input_text_view.get_buffer()
             self.text_iter_end = self.text_buffer.get_end_iter()
-            #print("byte:", data)
-            #print(repr(data.decode()))
 
-            # get time
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S.%f ")
             arrow = '--> '
 
             if self.rx_format_saved == 'HEX':
@@ -392,7 +391,12 @@ sudo usermod -a -G plugdev $USER")
                 self.text_buffer.insert(self.text_iter_end, ' ')
             else: # ASCII
                 add_timestamp = self.settings.get_boolean("timestamp")
+                arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
+
                 if add_timestamp:
+                    # Get time
+                    now = datetime.now()
+                    current_time = now.strftime("%H:%M:%S.%f ")
                     # add time when prev char was newline
                     if self.prev_char == '\n':
                         self.text_buffer.insert(self.text_iter_end, current_time)
@@ -403,6 +407,9 @@ sudo usermod -a -G plugdev $USER")
                     if self.prev_char == '\n':
                         self.text_buffer.insert(self.text_iter_end, arrow)
                         self.logging.write_data(arrow)
+
+                arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
+                self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
 
                 if data.decode() != '\r': # ignore \r - is it good idea??
                     # Store char
@@ -419,18 +426,18 @@ sudo usermod -a -G plugdev $USER")
 
     def btn_send(self, action, _):
         """ Button Send action """
-        buffer = self.send_cmd.get_buffer()
-        data = buffer.get_text()
+        cmd_buffer = self.send_cmd.get_buffer()
+        data = cmd_buffer.get_text()
         self.send_to_serial(data)
-        buffer.delete_text(0, len(data))
+        cmd_buffer.delete_text(0, len(data))
 
 
     def on_key_enter_pressed(self, entry):
         """ Send cmd Enter key pressed """
-        buffer = self.send_cmd.get_buffer()
-        data = buffer.get_text()
+        cmd_buffer = self.send_cmd.get_buffer()
+        data = cmd_buffer.get_text()
         self.send_to_serial(data)
-        buffer.delete_text(0, len(data))
+        cmd_buffer.delete_text(0, len(data))
 
 
     def send_to_serial(self, data):
@@ -440,19 +447,36 @@ sudo usermod -a -G plugdev $USER")
             self.tauno_serial.write(data)
         else:
             print("Send cmd: Serial is not Open")
+
         # Write to screen
-        data = '<-- ' + data + '\n'
+        arrow = '<-- '
+        data =  data + '\n'
+
         self.text_buffer = self.input_text_view.get_buffer()
         self.text_iter_end = self.text_buffer.get_end_iter()
+
         # Add timestamp
         add_timestamp = self.settings.get_boolean("timestamp")
+        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
+
         if add_timestamp:
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S.%f ")
             self.text_buffer.insert(self.text_iter_end, current_time)
             self.logging.write_data(current_time)
+
+        self.text_buffer.insert(self.text_iter_end, arrow)
+        self.logging.write_data(arrow)
+
+        arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
+        self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
+
         # Show
+        out_start_mark = self.text_buffer.create_mark('out_start_mark', self.text_buffer.get_end_iter(), True)
         self.text_buffer.insert(self.text_iter_end, data)
+        out_end_mark = self.text_buffer.create_mark('out_end_mark', self.text_buffer.get_end_iter(), True)
+        self.text_buffer.apply_tag(self.tag_out, self.text_buffer.get_iter_at_mark(out_start_mark), self.text_buffer.get_iter_at_mark(out_end_mark))
+
         # Log
         self.logging.write_data(data)
 

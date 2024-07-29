@@ -24,21 +24,29 @@ Depending on your system you may need to add a user to dialout group to open ser
   <screenshots>
     <screenshot type="default">
       <caption>Light mode</caption>
-      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/light.png</image>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/light_new.png</image>
     </screenshot>
     <screenshot >
       <caption>Dark mode</caption>
-      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/dark.png</image>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/dark_new.png</image>
     </screenshot>
     <screenshot>
       <caption>Preferences</caption>
-      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/pref.png</image>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/pref_new.png</image>
     </screenshot>
   </screenshots>
   <categories>
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.19" date="2024-07-29">
+      <description>
+        <ul>
+          <li>Improved logging.</li>
+          <li>Coloured output.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.18" date="2024-07-28">
       <description>
         <ul>
