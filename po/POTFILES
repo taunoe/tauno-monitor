@@ -4,3 +4,5 @@ data/art.taunoerik.tauno-monitor.gschema.xml
 src/main.py
 src/window.py
 src/window.ui
+src/tauno_serial.py
+src/tauno_logging.py

@@ -1,11 +1,12 @@
 project('tauno-monitor',
-          version: '0.1.19',
+          version: '0.1.20',
     meson_version: '>= 0.62.0',
   default_options: [ 'warning_level=2', 'werror=false', ],
 )
 
 i18n = import('i18n')
 gnome = import('gnome')
+application_id = 'art.taunoerik.tauno-monitor'
 
 subdir('data')
 subdir('src')

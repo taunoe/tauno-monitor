@@ -23,9 +23,10 @@ import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Gio, Adw, GLib
+from gi.repository import Gtk, Gio, Adw, GLib, Gdk
 from .window import TaunoMonitorWindow
 import os
+import gettext, locale
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -57,13 +58,25 @@ class TaunoMonitorApplication(Adw.Application):
         else:
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
 
-        # Select log folder
+        # Folder dialog
         self.filedialog = Gtk.FileDialog()
         # Get saved log folder
         self.log_folder_path = self.settings.get_string("log-folder")
         # If default get user home
         if self.log_folder_path == '~':
             self.log_folder_path = os.path.expanduser("~")
+
+        # Color dialog
+        self.color_dialog = Gtk.ColorDialog.new()
+        self.color_dialog.set_modal(modal=True)
+        self.color_dialog.set_title(title='Select a color.')
+
+        #
+        localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
+        locale.setlocale(locale.LC_ALL, '')
+        gettext.bindtextdomain('art.taunoerik.tauno-monitor', localedir)
+        gettext.textdomain('art.taunoerik.tauno-monitor')
+        _ = gettext.gettext
 
 
 
@@ -112,7 +125,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.19',
+                                version='0.1.20',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023-2024 Tauno Erik')
         about.present()
@@ -165,11 +178,11 @@ class TaunoMonitorApplication(Adw.Application):
         notifications_switch.connect("state-set", self.notifications_switch_action)
 
         ## Data group
-        data_group = Adw.PreferencesGroup(title="Data")
+        data_group = Adw.PreferencesGroup(title="Data view")
         settings_page.add(data_group)
 
         ### Data Format
-        rx_row = Adw.ActionRow(title="RX data format")
+        rx_row = Adw.ActionRow(title="Format")
         data_group.add(rx_row)
         rx_format = Gtk.DropDown.new_from_strings(strings=self.data_formats)
         rx_format.set_valign(Gtk.Align.CENTER)
@@ -187,6 +200,46 @@ class TaunoMonitorApplication(Adw.Application):
         # Get saved state:
         timestamp_switch.set_active(self.settings.get_boolean("timestamp"))
         timestamp_switch.connect("state-set", self.timestamp_switch_action)
+
+        # https://github.com/natorsc/python-gtk-pygobject?tab=readme-ov-file#gtkcolordialogbutton
+
+        # Timestamp color
+        time_color_row = Adw.ActionRow(title="Timestamp Color")
+        data_group.add(time_color_row)
+        time_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
+        time_color = Gdk.RGBA()
+        time_color.parse(self.settings.get_string("saved-time-color"))
+        time_color_dialog_button.set_rgba(time_color)
+        time_color_dialog_button.set_valign(Gtk.Align.CENTER)
+        time_color_row.add_suffix(time_color_dialog_button)
+        time_color_dialog_button.connect('notify::rgba', self.on_time_color_selected)
+        # TODO reset color
+
+        # Arrow color
+        arrow_color_row = Adw.ActionRow(title="Arrow Color")
+        data_group.add(arrow_color_row)
+        arrow_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
+        arrow_color = Gdk.RGBA()
+        arrow_color.parse(self.settings.get_string("saved-arrow-color"))
+        arrow_color_dialog_button.set_rgba(arrow_color)
+        arrow_color_dialog_button.set_valign(Gtk.Align.CENTER)
+        arrow_color_row.add_suffix(arrow_color_dialog_button)
+        arrow_color_dialog_button.connect('notify::rgba', self.on_arrow_color_selected)
+        # TODO reset color
+
+        # Transmitted outgoing data color
+        out_color_row = Adw.ActionRow(title="TX Color")
+        data_group.add(out_color_row)
+        out_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
+        out_color = Gdk.RGBA()
+        out_color.parse(self.settings.get_string("saved-out-color"))
+        out_color_dialog_button.set_rgba(out_color)
+        out_color_dialog_button.set_valign(Gtk.Align.CENTER)
+        out_color_row.add_suffix(out_color_dialog_button)
+        out_color_dialog_button.connect('notify::rgba', self.on_out_color_selected)
+        # TODO reset color
+
+        # TODO: # Received incoming data color
 
         ## Logging group
         logging_group = Adw.PreferencesGroup(title="Logging")
@@ -225,6 +278,36 @@ class TaunoMonitorApplication(Adw.Application):
         #
         self.preferences.present()
 
+    def on_time_color_selected(self, color_dialog_button, g_param_boxed):
+        """ Get and save time tag color """
+        gdk_rgba = color_dialog_button.get_rgba()
+        print("New Time color " + gdk_rgba.to_string())
+        # save settings
+        self.settings.set_string("saved-time-color", gdk_rgba.to_string())
+        # TODO update tag
+
+    def on_arrow_color_selected(self, color_dialog_button, g_param_boxed):
+        """ Get and save Arrow tag color """
+        gdk_rgba = color_dialog_button.get_rgba()
+        print("New Arrow color " + gdk_rgba.to_string())
+        # save settings
+        self.settings.set_string("saved-arrow-color", gdk_rgba.to_string())
+
+    def on_out_color_selected(self, color_dialog_button, g_param_boxed):
+        """ Get and save Out tag color """
+        gdk_rgba = color_dialog_button.get_rgba()
+        print("New TX color " + gdk_rgba.to_string())
+        # save settings
+        self.settings.set_string("saved-out-color", gdk_rgba.to_string())
+
+
+    def on_color_selected(self, color_dialog_button, g_param_boxed):
+        gdk_rgba = color_dialog_button.get_rgba()
+        print(f'Color RGB = {gdk_rgba.to_string()}')
+        print(f'Alpha = {gdk_rgba.alpha}')
+        print(f'Red = {gdk_rgba.red}')
+        print(f'Green = {gdk_rgba.green}')
+        print(f'Blue = {gdk_rgba.blue}')
 
     def select_log_folder_button_action(self, widget):
         """ Button to select logging folder action """

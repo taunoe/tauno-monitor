@@ -1,3 +1,7 @@
+0.1.20 (30.07.24)
+
+ - User can customise text view colors.
+
 0.1.19 (29.07.24)
 
  - Improved logging.

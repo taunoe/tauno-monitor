@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="tauno-monitor">
-	<schema id="art.taunoerik.tauno-monitor" path="/art/taunoerik/tauno-monitor/">
-	  <key name="window-width" type="i">
+  <schema id="art.taunoerik.tauno-monitor" path="/art/taunoerik/tauno-monitor/">
+    <key name="window-width" type="i">
       <default>600</default>
     </key>
     <key name="window-height" type="i">
@@ -10,29 +10,47 @@
     <key name="window-maximized" type="b">
       <default>false</default>
     </key>
-	  <key name="dark-mode" type="b">
+    <key name="dark-mode" type="b">
       <default>false</default>
     </key>
-	  <key name="baud-index" type="i">
+    <key name="baud-index" type="i">
       <default>8</default>
     </key>
-	  <key name="port-str" type="s">
+    <key name="port-str" type="s">
       <default>'/dev/ttyACM0'</default>
     </key>
-	  <key name="font-size" type="i">
+    <key name="font-size" type="i">
       <default>12</default>
     </key>
-	  <key name="notifications" type="b">
+    <key name="notifications" type="b">
       <default>true</default>
     </key>
-	  <key name="rx-data-format" type="s">
+    <key name="rx-data-format" type="s">
       <default>'ASCII'</default>
     </key>
-	  <key name="timestamp" type="b">
+    <key name="timestamp" type="b">
       <default>true</default>
     </key>
-	  <key name="log-folder" type="s">
+    <key name="log-folder" type="s">
       <default>'~'</default>
     </key>
-	</schema>
+    <key name="default-time-color" type="s">
+      <default>'#9a9996'</default>
+    </key>
+    <key name="saved-time-color" type="s">
+      <default>'#9a9996'</default>
+    </key>
+    <key name="default-arrow-color" type="s">
+      <default>'#9a9996'</default>
+    </key>
+    <key name="saved-arrow-color" type="s">
+      <default>'#9a9996'</default>
+    </key>
+    <key name="default-out-color" type="s">
+      <default>'#e66100'</default>
+    </key>
+    <key name="saved-out-color" type="s">
+      <default>'#e66100'</default>
+    </key>
+  </schema>
 </schemalist>

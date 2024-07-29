@@ -24,7 +24,7 @@
         "*.a"
     ],
     "modules" : [
-    	{
+       {
     	"name": "python3-pyserial",
     	"buildsystem": "simple",
     	"build-commands": [

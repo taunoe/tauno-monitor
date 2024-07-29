@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-29 14:23+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2024-07-29 14:23+0300\n"
+"Last-Translator: Tauno Erik <sedumacre@gmail.com>\n"
+"Language-Team: Estonia\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,15 +40,15 @@ msgstr ""
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:26
 msgid "Light mode"
-msgstr ""
+msgstr "Hele teema"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:30
 msgid "Dark mode"
-msgstr ""
+msgstr "Tume teema"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:34 src/main.py:127
 msgid "Preferences"
-msgstr ""
+msgstr "Eelistused"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:45
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:53
@@ -135,23 +135,23 @@ msgstr ""
 
 #: src/window.ui:33
 msgid "Update"
-msgstr ""
+msgstr "Uuenda"
 
 #: src/window.ui:40
 msgid "Baud Rate:"
-msgstr ""
+msgstr "Kiirus"
 
 #: src/window.ui:90
 msgid "Open"
-msgstr ""
+msgstr "Ava"
 
 #: src/window.ui:100
 msgid "Menu"
-msgstr ""
+msgstr "Menüü"
 
 #: src/window.ui:107
 msgid "Clear screen"
-msgstr ""
+msgstr "Puhasta ekraan"
 
 #: src/window.ui:113
 msgid "Write logs to file"

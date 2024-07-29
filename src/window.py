@@ -28,6 +28,7 @@ import codecs
 import time
 from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
+import gettext, locale, os
 
 @Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 
@@ -50,6 +51,13 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
+        locale.setlocale(locale.LC_ALL, '')
+        gettext.bindtextdomain('art.taunoerik.tauno-monitor', localedir)
+        gettext.textdomain('art.taunoerik.tauno-monitor')
+        _ = gettext.gettext
+
 
         self.settings = Gio.Settings(schema_id="art.taunoerik.tauno-monitor")
 
@@ -121,8 +129,18 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Tags
         # https://pygobject.gnome.org/tutorials/gtk4/textview.html
-        self.tag_arrow = self.text_buffer.create_tag('arrow', foreground='gray')
-        self.tag_out = self.text_buffer.create_tag('out', foreground='orange')
+        # https://stackoverflow.com/questions/24619467/pygobject-hex-color-to-gdk-rgba
+        time_color = Gdk.RGBA()
+        time_color.parse(self.settings.get_string("saved-time-color"))
+        self.tag_time = self.text_buffer.create_tag('time', foreground=time_color.to_string())
+
+        arrow_color = Gdk.RGBA()
+        arrow_color.parse(self.settings.get_string("saved-arrow-color"))
+        self.tag_arrow = self.text_buffer.create_tag('arrow', foreground=arrow_color.to_string())
+
+        out_color = Gdk.RGBA()
+        out_color.parse(self.settings.get_string("saved-out-color"))
+        self.tag_out = self.text_buffer.create_tag('out', foreground=out_color.to_string())
 
         self.prev_char = '\n'  # store prev char
 
