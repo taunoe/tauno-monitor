@@ -52,5 +52,11 @@
     <key name="saved-out-color" type="s">
       <default>'#e66100'</default>
     </key>
+    <key name="default-in-color" type="s">
+      <default>'#1a5fb4'</default>
+    </key>
+    <key name="saved-in-color" type="s">
+      <default>'#1a5fb4'</default>
+    </key>
   </schema>
 </schemalist>

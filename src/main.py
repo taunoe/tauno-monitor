@@ -205,55 +205,97 @@ class TaunoMonitorApplication(Adw.Application):
 
         # Timestamp color
         time_color_row = Adw.ActionRow(title="Timestamp Color")
+        # Color Dialog
         data_group.add(time_color_row)
-        time_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
+        self.time_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
         time_color = Gdk.RGBA()
         time_color.parse(self.settings.get_string("saved-time-color"))
-        time_color_dialog_button.set_rgba(time_color)
-        time_color_dialog_button.set_valign(Gtk.Align.CENTER)
-        time_color_row.add_suffix(time_color_dialog_button)
-        time_color_dialog_button.connect('notify::rgba', self.on_time_color_selected)
-        # TODO reset color
+        self.time_color_dialog_button.set_rgba(time_color)
+        self.time_color_dialog_button.set_valign(Gtk.Align.CENTER)
+        time_color_row.add_suffix(self.time_color_dialog_button)
+        self.time_color_dialog_button.connect('notify::rgba', self.on_time_color_selected)
+        # Reset color btn
+        reset_time_color_button = Gtk.Button(label="Reset")
+        reset_time_color_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_time_color_button.set_valign(Gtk.Align.CENTER)
+        reset_time_color_button.set_has_frame(False)  # flat
+        reset_time_color_button.set_tooltip_text("Reset")
+        time_color_row.add_suffix(reset_time_color_button)
+        reset_time_color_button.connect("clicked", self.reset_time_color_button_action)
 
         # Arrow color
         arrow_color_row = Adw.ActionRow(title="Arrow Color")
+        # Color Dialog
         data_group.add(arrow_color_row)
-        arrow_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
+        self.arrow_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
         arrow_color = Gdk.RGBA()
         arrow_color.parse(self.settings.get_string("saved-arrow-color"))
-        arrow_color_dialog_button.set_rgba(arrow_color)
-        arrow_color_dialog_button.set_valign(Gtk.Align.CENTER)
-        arrow_color_row.add_suffix(arrow_color_dialog_button)
-        arrow_color_dialog_button.connect('notify::rgba', self.on_arrow_color_selected)
-        # TODO reset color
+        self.arrow_color_dialog_button.set_rgba(arrow_color)
+        self.arrow_color_dialog_button.set_valign(Gtk.Align.CENTER)
+        arrow_color_row.add_suffix(self.arrow_color_dialog_button)
+        self.arrow_color_dialog_button.connect('notify::rgba', self.on_arrow_color_selected)
+        # Reset color btn
+        reset_arrow_color_button = Gtk.Button(label="Reset")
+        reset_arrow_color_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_arrow_color_button.set_valign(Gtk.Align.CENTER)
+        reset_arrow_color_button.set_has_frame(False)  # flat
+        reset_arrow_color_button.set_tooltip_text("Reset")
+        arrow_color_row.add_suffix(reset_arrow_color_button)
+        reset_arrow_color_button.connect("clicked", self.reset_arrow_color_button_action)
 
         # Transmitted outgoing data color
         out_color_row = Adw.ActionRow(title="TX Color")
+        # Color Dialog
         data_group.add(out_color_row)
-        out_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
+        self.out_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
         out_color = Gdk.RGBA()
         out_color.parse(self.settings.get_string("saved-out-color"))
-        out_color_dialog_button.set_rgba(out_color)
-        out_color_dialog_button.set_valign(Gtk.Align.CENTER)
-        out_color_row.add_suffix(out_color_dialog_button)
-        out_color_dialog_button.connect('notify::rgba', self.on_out_color_selected)
-        # TODO reset color
+        self.out_color_dialog_button.set_rgba(out_color)
+        self.out_color_dialog_button.set_valign(Gtk.Align.CENTER)
+        out_color_row.add_suffix(self.out_color_dialog_button)
+        self.out_color_dialog_button.connect('notify::rgba', self.on_out_color_selected)
+        # Reset color btn
+        reset_out_color_button = Gtk.Button(label="Reset")
+        reset_out_color_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_out_color_button.set_valign(Gtk.Align.CENTER)
+        reset_out_color_button.set_has_frame(False)  # flat
+        reset_out_color_button.set_tooltip_text("Reset")
+        out_color_row.add_suffix(reset_out_color_button)
+        reset_out_color_button.connect("clicked", self.reset_out_color_button_action)
 
-        # TODO: # Received incoming data color
+        # Received incoming data color
+        in_color_row = Adw.ActionRow(title="RX Color")
+        # Color Dialog
+        data_group.add(in_color_row)
+        self.in_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
+        in_color = Gdk.RGBA()
+        in_color.parse(self.settings.get_string("saved-in-color"))
+        self.in_color_dialog_button.set_rgba(in_color)
+        self.in_color_dialog_button.set_valign(Gtk.Align.CENTER)
+        in_color_row.add_suffix(self.in_color_dialog_button)
+        self.in_color_dialog_button.connect('notify::rgba', self.on_in_color_selected)
+        # Reset color btn
+        reset_in_color_button = Gtk.Button(label="Reset")
+        reset_in_color_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_in_color_button.set_valign(Gtk.Align.CENTER)
+        reset_in_color_button.set_has_frame(False)  # flat
+        reset_in_color_button.set_tooltip_text("Reset")
+        in_color_row.add_suffix(reset_in_color_button)
+        reset_in_color_button.connect("clicked", self.reset_in_color_button_action)
 
         ## Logging group
         logging_group = Adw.PreferencesGroup(title="Logging")
         settings_page.add(logging_group)
         log_folder_row = Adw.ActionRow(title="Folder")
         logging_group.add(log_folder_row)
-        #entry
+        # Entry
         log_folder_entry = Gtk.Entry.new()
         log_folder_entry.set_valign(Gtk.Align.CENTER)
         log_folder_entry.set_hexpand(True)
         log_folder_row.add_suffix(log_folder_entry)
         self.entry_buffer = log_folder_entry.get_buffer()
         self.entry_buffer.set_text(self.log_folder_path, len(self.log_folder_path))
-        #button
+        # Select Folder Button
         select_log_folder_button = Gtk.Button(label="Select Folder")
         select_log_folder_button.set_icon_name("search-folder-symbolic")
         select_log_folder_button.set_valign(Gtk.Align.CENTER)
@@ -275,32 +317,75 @@ class TaunoMonitorApplication(Adw.Application):
         bytesize_row.add_suffix(bytesize_drop_down)
         #bytesize_drop_down.connect('notify::selected-item', self.on_selected_item)
         """
-        #
+        # Display all
         self.preferences.present()
+
 
     def on_time_color_selected(self, color_dialog_button, g_param_boxed):
         """ Get and save time tag color """
         gdk_rgba = color_dialog_button.get_rgba()
         print("New Time color " + gdk_rgba.to_string())
-        # save settings
+        # Save color settings
         self.settings.set_string("saved-time-color", gdk_rgba.to_string())
-        # TODO update tag
+        # Update tag
+        self.win.update_time_tag()
+
+    def reset_time_color_button_action(self, widget):
+        """ Reset time color to default one """
+        default_color = Gdk.RGBA()
+        default_color.parse(self.settings.get_string("default-time-color"))
+        self.settings.set_string("saved-time-color", default_color.to_string())
+        self.time_color_dialog_button.set_rgba(default_color)
 
     def on_arrow_color_selected(self, color_dialog_button, g_param_boxed):
         """ Get and save Arrow tag color """
         gdk_rgba = color_dialog_button.get_rgba()
         print("New Arrow color " + gdk_rgba.to_string())
-        # save settings
+        # Save color settings
         self.settings.set_string("saved-arrow-color", gdk_rgba.to_string())
+        # Update tag
+        self.win.update_arrow_tag()
+
+    def reset_arrow_color_button_action(self, widget):
+        print("Reset arrow color")
+        default_color = Gdk.RGBA()
+        default_color.parse(self.settings.get_string("default-arrow-color"))
+        self.settings.set_string("saved-arrow-color", default_color.to_string())
+        self.arrow_color_dialog_button.set_rgba(default_color)
 
     def on_out_color_selected(self, color_dialog_button, g_param_boxed):
         """ Get and save Out tag color """
         gdk_rgba = color_dialog_button.get_rgba()
         print("New TX color " + gdk_rgba.to_string())
-        # save settings
+        # Save color settings
         self.settings.set_string("saved-out-color", gdk_rgba.to_string())
+        # Update tag
+        self.win.update_out_tag()
 
+    def reset_out_color_button_action(self, widget):
+        #print("Reset TX color")
+        default_color = Gdk.RGBA()
+        default_color.parse(self.settings.get_string("default-out-color"))
+        self.settings.set_string("saved-out-color", default_color.to_string())
+        self.out_color_dialog_button.set_rgba(default_color)
 
+    def on_in_color_selected(self, color_dialog_button, g_param_boxed):
+        """ Get and save In tag color """
+        gdk_rgba = color_dialog_button.get_rgba()
+        print("New RX color " + gdk_rgba.to_string())
+        # Save color settings
+        self.settings.set_string("saved-in-color", gdk_rgba.to_string())
+        # Update tag
+        self.win.update_in_tag()
+
+    def reset_in_color_button_action(self, widget):
+        #print("Reset RX color")
+        default_color = Gdk.RGBA()
+        default_color.parse(self.settings.get_string("default-in-color"))
+        self.settings.set_string("saved-in-color", default_color.to_string())
+        self.in_color_dialog_button.set_rgba(default_color)
+
+    # ajutine!
     def on_color_selected(self, color_dialog_button, g_param_boxed):
         gdk_rgba = color_dialog_button.get_rgba()
         print(f'Color RGB = {gdk_rgba.to_string()}')

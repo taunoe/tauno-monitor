@@ -28,7 +28,7 @@ import codecs
 import time
 from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
-import gettext, locale, os
+import gettext, locale, os, random, string
 
 @Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 
@@ -130,17 +130,18 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # Tags
         # https://pygobject.gnome.org/tutorials/gtk4/textview.html
         # https://stackoverflow.com/questions/24619467/pygobject-hex-color-to-gdk-rgba
-        time_color = Gdk.RGBA()
-        time_color.parse(self.settings.get_string("saved-time-color"))
-        self.tag_time = self.text_buffer.create_tag('time', foreground=time_color.to_string())
 
-        arrow_color = Gdk.RGBA()
-        arrow_color.parse(self.settings.get_string("saved-arrow-color"))
-        self.tag_arrow = self.text_buffer.create_tag('arrow', foreground=arrow_color.to_string())
+        time_color = self.settings.get_string("saved-time-color")
+        self.tag_time = self.text_buffer.create_tag('time', foreground=time_color)
 
-        out_color = Gdk.RGBA()
-        out_color.parse(self.settings.get_string("saved-out-color"))
-        self.tag_out = self.text_buffer.create_tag('out', foreground=out_color.to_string())
+        arrow_color = self.settings.get_string("saved-arrow-color")
+        self.tag_arrow = self.text_buffer.create_tag('arrow', foreground=arrow_color)
+
+        out_color = self.settings.get_string("saved-out-color")
+        self.tag_out = self.text_buffer.create_tag('out', foreground=out_color)
+
+        in_color = self.settings.get_string("saved-in-color")
+        self.tag_in = self.text_buffer.create_tag('in', foreground=in_color)
 
         self.prev_char = '\n'  # store prev char
 
@@ -149,6 +150,53 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # https://realpython.com/python-sleep/
         self.event = threading.Event()
+
+
+    def generate_random_string(self, length):
+        """ Useful for creating a unique name """
+        # Create a pool of characters containing lowercase, uppercase letters and digits
+        characters = string.ascii_letters + string.digits
+        # Generate a random string of the specified length
+        random_string = ''.join(random.choice(characters) for _ in range(length))
+        return random_string
+
+
+    def update_time_tag(self):
+        """ Creates new tag with a new color """
+        # TODO How to change allready existing tag color?
+        #print("update_time_tag")
+        self.text_buffer = self.input_text_view.get_buffer()
+        color = self.settings.get_string("saved-time-color")
+        self.table = self.text_buffer.get_tag_table()
+        new_tag_name = 'time' + self.generate_random_string(10)
+        self.tag_time = self.text_buffer.create_tag(new_tag_name, foreground=color)
+
+    def update_arrow_tag(self):
+        """ Creates new tag with a new color """
+        #print("update_arrow_tag")
+        self.text_buffer = self.input_text_view.get_buffer()
+        color = self.settings.get_string("saved-arrow-color")
+        self.table = self.text_buffer.get_tag_table()
+        new_tag_name = 'arrow' + self.generate_random_string(10)
+        self.tag_arrow = self.text_buffer.create_tag(new_tag_name, foreground=color)
+
+    def update_out_tag(self):
+        """ Creates new tag with a new color """
+        #print("update_out_tag")
+        self.text_buffer = self.input_text_view.get_buffer()
+        color = self.settings.get_string("saved-out-color")
+        self.table = self.text_buffer.get_tag_table()
+        new_tag_name = 'out' + self.generate_random_string(10)
+        self.tag_out = self.text_buffer.create_tag(new_tag_name, foreground=color)
+
+    def update_in_tag(self):
+        """ Creates new tag with a new color """
+        #print("update_in_tag")
+        self.text_buffer = self.input_text_view.get_buffer()
+        color = self.settings.get_string("saved-in-color")
+        self.table = self.text_buffer.get_tag_table()
+        new_tag_name = 'in' + self.generate_random_string(10)
+        self.tag_in = self.text_buffer.create_tag(new_tag_name, foreground=color)
 
 
     def load_saved_port(self):
@@ -402,12 +450,17 @@ sudo usermod -a -G plugdev $USER")
 
             arrow = '--> '
 
+            # Display HEX
             if self.rx_format_saved == 'HEX':
                 # 0x0a == \n
                 # 0x0d == \r
+                in_start_mark = self.text_buffer.create_mark('in_start_mark', self.text_buffer.get_end_iter(), True)
                 self.text_buffer.insert(self.text_iter_end, data.hex())
                 self.text_buffer.insert(self.text_iter_end, ' ')
-            else: # ASCII
+                in_end_mark = self.text_buffer.create_mark('in_end_mark', self.text_buffer.get_end_iter(), True)
+                self.text_buffer.apply_tag(self.tag_in, self.text_buffer.get_iter_at_mark(in_start_mark), self.text_buffer.get_iter_at_mark(in_end_mark))
+            # Display ASCII
+            else:
                 add_timestamp = self.settings.get_boolean("timestamp")
                 arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
 
@@ -417,22 +470,41 @@ sudo usermod -a -G plugdev $USER")
                     current_time = now.strftime("%H:%M:%S.%f ")
                     # add time when prev char was newline
                     if self.prev_char == '\n':
+                        # Insert time
+                        time_start_mark = self.text_buffer.create_mark('time_start_mark', self.text_buffer.get_end_iter(), True)
                         self.text_buffer.insert(self.text_iter_end, current_time)
+                        time_end_mark = self.text_buffer.create_mark('time_end_mark', self.text_buffer.get_end_iter(), True)
+                        self.text_buffer.apply_tag(self.tag_time, self.text_buffer.get_iter_at_mark(time_start_mark), self.text_buffer.get_iter_at_mark(time_end_mark))
+                        # Log time
                         self.logging.write_data(current_time)
+                        # Insert arrow
+                        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
                         self.text_buffer.insert(self.text_iter_end, arrow)
+                        arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
+                        self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
+                        # Log arrow
                         self.logging.write_data(arrow)
                 else:
                     if self.prev_char == '\n':
+                        # Insert arrow
+                        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
                         self.text_buffer.insert(self.text_iter_end, arrow)
+                        arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
+                        self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
+                        # Log arrow
                         self.logging.write_data(arrow)
-
-                arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
-                self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
 
                 if data.decode() != '\r': # ignore \r - is it good idea??
                     # Store char
                     self.prev_char = data.decode()
+
+                    # Insert data
+                    in_start_mark = self.text_buffer.create_mark('in_start_mark', self.text_buffer.get_end_iter(), True)
                     self.text_buffer.insert(self.text_iter_end, data.decode())
+                    in_end_mark = self.text_buffer.create_mark('in_end_mark', self.text_buffer.get_end_iter(), True)
+                    self.text_buffer.apply_tag(self.tag_in, self.text_buffer.get_iter_at_mark(in_start_mark), self.text_buffer.get_iter_at_mark(in_end_mark))
+
+                    # Log data
                     self.logging.write_data(data.decode())
 
 
@@ -475,14 +547,18 @@ sudo usermod -a -G plugdev $USER")
 
         # Add timestamp
         add_timestamp = self.settings.get_boolean("timestamp")
-        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
 
         if add_timestamp:
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S.%f ")
+            time_start_mark = self.text_buffer.create_mark('time_start_mark', self.text_buffer.get_end_iter(), True)
             self.text_buffer.insert(self.text_iter_end, current_time)
+            time_end_mark = self.text_buffer.create_mark('time_end_mark', self.text_buffer.get_end_iter(), True)
+            self.text_buffer.apply_tag(self.tag_time, self.text_buffer.get_iter_at_mark(time_start_mark), self.text_buffer.get_iter_at_mark(time_end_mark))
+
             self.logging.write_data(current_time)
 
+        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
         self.text_buffer.insert(self.text_iter_end, arrow)
         self.logging.write_data(arrow)
 
@@ -495,6 +571,6 @@ sudo usermod -a -G plugdev $USER")
         out_end_mark = self.text_buffer.create_mark('out_end_mark', self.text_buffer.get_end_iter(), True)
         self.text_buffer.apply_tag(self.tag_out, self.text_buffer.get_iter_at_mark(out_start_mark), self.text_buffer.get_iter_at_mark(out_end_mark))
 
-        # Log
+        # Log TX data
         self.logging.write_data(data)
 
