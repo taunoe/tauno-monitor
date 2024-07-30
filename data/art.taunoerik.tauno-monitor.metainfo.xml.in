@@ -7,15 +7,14 @@
   <developer_name>Tauno Erik</developer_name>
   <summary>Serial port monitor.</summary>
   <description>
-    <p>Features:
-      <ul>
+    <p>Features:</p>
+    <ul>
         <li>Remembers the last used settings (Theme, Baud Rate, Port etc).</li>
         <li>Auto reconnects to the serial port when the connection is lost.</li>
         <li>Can log data to a file.</li>
         <li>Customizable colors.</li>
-      </ul>>
-
-Depending on your system you may need to add a user to dialout group to open serial ports:
+    </ul>
+    <p>Depending on your system you may need to add a user to dialout group to open serial ports:
       <code>
         sudo usermod -a -G dialout $USER
       </code>>
