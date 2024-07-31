@@ -1,3 +1,7 @@
+0.1.22 (31.07.24)
+
+ - Logs HEX data.
+
 0.1.20 (30.07.24)
 
  - User can customise text view colors.

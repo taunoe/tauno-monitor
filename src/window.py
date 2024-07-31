@@ -256,9 +256,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.write_logs = False
 
 
-
-
-
     def btn_guide(self, action, _):
         """ Button Guide action """
         self.banner_no_ports.set_revealed(revealed=False)
@@ -277,7 +274,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         vbox.set_margin_bottom(margin=12)
         vbox.set_margin_start(margin=12)
         guide.set_child(child=vbox)
-
 
         txt1 = "To make serial ports visible to the app add the user to 'dialout' group. Please open Terminal and type:"
         label1 = Gtk.Label.new(txt1)
@@ -361,7 +357,7 @@ sudo usermod -a -G plugdev $USER")
         if self.tauno_serial.is_open:
             self.open_button.set_label("Close")
             title = str(selected_port)+":"+str(selected_baud_rate)
-            self.set_title(title)
+            self.set_title(title) # port
             self.logging.write_data("Opened " + title + "\n")
         else:
             self.open_button.set_label("Open")
@@ -389,13 +385,13 @@ sudo usermod -a -G plugdev $USER")
 
     def reconnect_serial(self, selected_port, selected_baudrate):
         """ Tries to reconnect the serial connection. Using the latest settings. """
-        print("Auto reconnect_serial")
+        print("Auto reconnecting serial ")
         self.tauno_serial.close()
 
         # Display notification
         display_notifications = self.settings.get_boolean("notifications")
         if display_notifications:
-                self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baudrate} lost"))
+            self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baudrate} lost"))
 
         self.reconnecting_serial = True
 
@@ -407,10 +403,9 @@ sudo usermod -a -G plugdev $USER")
             baud_obj = self.baud_drop_down.get_selected_item()
             last_baud = baud_obj.get_string()
 
-            print("reconnecting ")
             i = 0
             while self.tauno_serial.is_open == False and self.reconnecting_serial == True:
-                self.event.wait(0.75)
+                self.event.wait(0.5)
                 try:
                     self.tauno_serial.open(last_port, last_baud)
                 except:
@@ -426,7 +421,8 @@ sudo usermod -a -G plugdev $USER")
                 self.set_title(str(last_port)+":"+str(last_baud))
                 print(" reconnected!")
             else: # Close button is pressed
-                pass
+                self.tauno_serial.close()
+                self.set_title('Tauno Monitor')
 
 
     def reconnecting_msg(self, i):
@@ -445,73 +441,93 @@ sudo usermod -a -G plugdev $USER")
     def add_to_text_view(self, data):
         """ Update Text View """
         try:
-            self.text_buffer = self.input_text_view.get_buffer()
-            self.text_iter_end = self.text_buffer.get_end_iter()
-
-            arrow = '--> '
-
-            # Display HEX
+            # HEX
             if self.rx_format_saved == 'HEX':
-                # 0x0a == \n
-                # 0x0d == \r
-                in_start_mark = self.text_buffer.create_mark('in_start_mark', self.text_buffer.get_end_iter(), True)
-                self.text_buffer.insert(self.text_iter_end, data.hex())
-                self.text_buffer.insert(self.text_iter_end, ' ')
-                in_end_mark = self.text_buffer.create_mark('in_end_mark', self.text_buffer.get_end_iter(), True)
-                self.text_buffer.apply_tag(self.tag_in, self.text_buffer.get_iter_at_mark(in_start_mark), self.text_buffer.get_iter_at_mark(in_end_mark))
-            # Display ASCII
+                self.insert_data_to_text_view(data, 'HEX')
+            # ASCII
             else:
-                add_timestamp = self.settings.get_boolean("timestamp")
-                arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
-
-                if add_timestamp:
-                    # Get time
-                    now = datetime.now()
-                    current_time = now.strftime("%H:%M:%S.%f ")
-                    # add time when prev char was newline
-                    if self.prev_char == '\n':
-                        # Insert time
-                        time_start_mark = self.text_buffer.create_mark('time_start_mark', self.text_buffer.get_end_iter(), True)
-                        self.text_buffer.insert(self.text_iter_end, current_time)
-                        time_end_mark = self.text_buffer.create_mark('time_end_mark', self.text_buffer.get_end_iter(), True)
-                        self.text_buffer.apply_tag(self.tag_time, self.text_buffer.get_iter_at_mark(time_start_mark), self.text_buffer.get_iter_at_mark(time_end_mark))
-                        # Log time
-                        self.logging.write_data(current_time)
-                        # Insert arrow
-                        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
-                        self.text_buffer.insert(self.text_iter_end, arrow)
-                        arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
-                        self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
-                        # Log arrow
-                        self.logging.write_data(arrow)
-                else:
-                    if self.prev_char == '\n':
-                        # Insert arrow
-                        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
-                        self.text_buffer.insert(self.text_iter_end, arrow)
-                        arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
-                        self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
-                        # Log arrow
-                        self.logging.write_data(arrow)
-
-                if data.decode() != '\r': # ignore \r - is it good idea??
-                    # Store char
-                    self.prev_char = data.decode()
-
-                    # Insert data
-                    in_start_mark = self.text_buffer.create_mark('in_start_mark', self.text_buffer.get_end_iter(), True)
-                    self.text_buffer.insert(self.text_iter_end, data.decode())
-                    in_end_mark = self.text_buffer.create_mark('in_end_mark', self.text_buffer.get_end_iter(), True)
-                    self.text_buffer.apply_tag(self.tag_in, self.text_buffer.get_iter_at_mark(in_start_mark), self.text_buffer.get_iter_at_mark(in_end_mark))
-
-                    # Log data
-                    self.logging.write_data(data.decode())
-
-
+                if self.prev_char == '\n':
+                    # Timestamp
+                    self.insert_time_to_text_view()
+                    # Arrow
+                    self.insert_arrow_to_text_view('RX')
+                if data.decode() != '\r':  # ignore \r - is it good idea??
+                    self.insert_data_to_text_view(data, 'ASCII')
+            # Scroll text view
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
             print("add_to_text_view error:", ex)
             return
+
+
+    def insert_data_to_text_view(self, data, type):
+        """ Types 'HEX', 'ASCII', 'TX' """
+        self.text_buffer = self.input_text_view.get_buffer()
+        self.text_iter_end = self.text_buffer.get_end_iter()
+        start_mark = self.text_buffer.create_mark('start_mark', self.text_buffer.get_end_iter(), True)
+
+        if type == 'HEX':
+            self.text_buffer.insert(self.text_iter_end, data.hex())
+            self.text_buffer.insert(self.text_iter_end, ' ')
+            self.logging.write_hex_data(data.hex())
+            tag = self.tag_in
+        elif type == 'ASCII':
+            self.prev_char = data.decode()  # Store char
+            self.text_buffer.insert(self.text_iter_end, data.decode())
+            self.logging.write_data(data.decode())
+            tag = self.tag_in
+        elif type == 'TX':
+            self.text_buffer.insert(self.text_iter_end, data)
+            self.logging.write_data(data)
+            tag = self.tag_out
+        else:
+            print("Wrong data type!")
+
+        end_mark = self.text_buffer.create_mark('end_mark', self.text_buffer.get_end_iter(), True)
+        self.text_buffer.apply_tag(tag, self.text_buffer.get_iter_at_mark(start_mark), self.text_buffer.get_iter_at_mark(end_mark))
+
+
+
+    def insert_arrow_to_text_view(self, type):
+        """" Display a arrow RX or TX"""
+        if type == 'TX':
+            arrow = '<-- '  # TX
+        else:
+            arrow = '--> '  # RX
+
+        self.text_buffer = self.input_text_view.get_buffer()
+        # start
+        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
+        # arrow
+        self.text_buffer.insert(self.text_iter_end, arrow)
+        # end
+        arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
+        # tag
+        self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
+        # Log arrow
+        self.logging.write_data(arrow)
+
+
+    def insert_time_to_text_view(self):
+        """ Add timestamp if needed """
+        is_timestamp = self.settings.get_boolean("timestamp")
+
+        if is_timestamp:
+            # Get time
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S.%f ")
+            # Buffer
+            self.text_buffer = self.input_text_view.get_buffer()
+            # Start
+            time_start_mark = self.text_buffer.create_mark('time_start_mark', self.text_buffer.get_end_iter(), True)
+            # Time
+            self.text_buffer.insert(self.text_iter_end, current_time)
+            # End
+            time_end_mark = self.text_buffer.create_mark('time_end_mark', self.text_buffer.get_end_iter(), True)
+            # Tag
+            self.text_buffer.apply_tag(self.tag_time, self.text_buffer.get_iter_at_mark(time_start_mark), self.text_buffer.get_iter_at_mark(time_end_mark))
+            # Log
+            self.logging.write_data(current_time)
 
 
     def btn_send(self, action, _):
@@ -533,44 +549,14 @@ sudo usermod -a -G plugdev $USER")
     def send_to_serial(self, data):
         """ Write data to Serial port """
         if self.tauno_serial.is_open:
-            # Send to Serial
             self.tauno_serial.write(data)
         else:
             print("Send cmd: Serial is not Open")
 
-        # Write to screen
-        arrow = '<-- '
         data =  data + '\n'
 
-        self.text_buffer = self.input_text_view.get_buffer()
-        self.text_iter_end = self.text_buffer.get_end_iter()
+        self.insert_time_to_text_view()
+        self.insert_arrow_to_text_view('TX')
+        self.insert_data_to_text_view(data, 'TX')
 
-        # Add timestamp
-        add_timestamp = self.settings.get_boolean("timestamp")
-
-        if add_timestamp:
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S.%f ")
-            time_start_mark = self.text_buffer.create_mark('time_start_mark', self.text_buffer.get_end_iter(), True)
-            self.text_buffer.insert(self.text_iter_end, current_time)
-            time_end_mark = self.text_buffer.create_mark('time_end_mark', self.text_buffer.get_end_iter(), True)
-            self.text_buffer.apply_tag(self.tag_time, self.text_buffer.get_iter_at_mark(time_start_mark), self.text_buffer.get_iter_at_mark(time_end_mark))
-
-            self.logging.write_data(current_time)
-
-        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
-        self.text_buffer.insert(self.text_iter_end, arrow)
-        self.logging.write_data(arrow)
-
-        arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
-        self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
-
-        # Show
-        out_start_mark = self.text_buffer.create_mark('out_start_mark', self.text_buffer.get_end_iter(), True)
-        self.text_buffer.insert(self.text_iter_end, data)
-        out_end_mark = self.text_buffer.create_mark('out_end_mark', self.text_buffer.get_end_iter(), True)
-        self.text_buffer.apply_tag(self.tag_out, self.text_buffer.get_iter_at_mark(out_start_mark), self.text_buffer.get_iter_at_mark(out_end_mark))
-
-        # Log TX data
-        self.logging.write_data(data)
 

@@ -71,7 +71,7 @@ class TaunoMonitorApplication(Adw.Application):
         self.color_dialog.set_modal(modal=True)
         self.color_dialog.set_title(title='Select a color.')
 
-        #
+        # Language
         localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
         locale.setlocale(locale.LC_ALL, '')
         gettext.bindtextdomain('art.taunoerik.tauno-monitor', localedir)
@@ -125,7 +125,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.20',
+                                version='0.1.22',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023-2024 Tauno Erik')
         about.present()
@@ -442,6 +442,13 @@ class TaunoMonitorApplication(Adw.Application):
         self.settings.set_string("rx-data-format", new_format)
         # update pos
         self.win.rx_format_saved = self.settings.get_string("rx-data-format")
+        if self.win.rx_format_saved != 'HEX':
+            # End the HEX data block with a newline
+            print("HEX --> ASCII")
+            data = '\n'
+            self.win.insert_data_to_text_view(data.encode(), 'ASCII')
+            self.win.logging.hex_counter = 0;
+            self.win.logging.write_data('')
 
 
     def dark_mode_switch_action(self, widget, state):
@@ -459,14 +466,13 @@ class TaunoMonitorApplication(Adw.Application):
     def notifications_switch_action(self, widget, state):
         """ Get notifications settings change and save """
         notifications_state = state
-
         # Save settings
         self.settings.set_boolean("notifications", notifications_state)
+
 
     def timestamp_switch_action(self, widget, state):
         """ Get timestamp settings change and save """
         timestamp_state = state
-
         # Save settings
         self.settings.set_boolean("timestamp", timestamp_state)
 
