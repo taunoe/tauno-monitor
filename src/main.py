@@ -45,8 +45,7 @@ class TaunoMonitorApplication(Adw.Application):
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
 
-
-        # shortcut
+        # Shortcuts
         self.set_accels_for_action('win.open', ['<Ctrl>o'])
 
         # Get saved Color Mode
@@ -99,7 +98,6 @@ class TaunoMonitorApplication(Adw.Application):
 
     def create_action(self, name, callback, shortcuts=None):
         """Add an application action.
-
         Args:
             name: the name of the action
             callback: the function to be called when the action is
@@ -111,6 +109,7 @@ class TaunoMonitorApplication(Adw.Application):
         self.add_action(action)
         if shortcuts:
             self.set_accels_for_action(f"app.{name}", shortcuts)
+
 
     def on_guide_action(self, widget, _):
         """Callback for the app.guide action."""
@@ -125,7 +124,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version='0.1.22',
+                                version='0.1.23',
                                 developers=['Tauno Erik'],
                                 copyright='© 2023-2024 Tauno Erik')
         about.present()

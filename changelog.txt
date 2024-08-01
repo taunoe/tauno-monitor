@@ -1,3 +1,7 @@
+0.1.23 (01.08.24)
+
+ - Started Estonian translation.
+
 0.1.22 (31.07.24)
 
  - Logs HEX data.

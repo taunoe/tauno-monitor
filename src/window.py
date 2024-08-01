@@ -83,37 +83,26 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.change_font_size(self.font_size_saved)
 
         # Button Update available ports list
-        update_ports_action = Gio.SimpleAction(name="update")
-        update_ports_action.connect("activate", self.btn_update_ports)
-        self.add_action(update_ports_action)
+        self.create_action('update', self.btn_update_ports)
 
         # Button Open action
-        open_action = Gio.SimpleAction(name="open")
-        open_action.connect("activate", self.btn_open)
-        self.add_action(open_action)
+        self.create_action('open', self.btn_open)
+
+        # Button Send
+        self.create_action('send', self.btn_send)
+
+        # Button Guide
+        self.create_action('guide', self.btn_guide)
+
+        # Button clear textview
+        self.create_action('clear', self.btn_clear_textview)
+
+        # Switch log
+        self.create_action('log', self.btn_log)
 
         # Entry
         self.send_cmd.connect('activate', self.on_key_enter_pressed)
 
-        # Button Send
-        send_action = Gio.SimpleAction(name="send")
-        send_action.connect("activate", self.btn_send)
-        self.add_action(send_action)
-
-        # Button Guide
-        guide_action = Gio.SimpleAction(name="guide")
-        guide_action.connect("activate", self.btn_guide)
-        self.add_action(guide_action)
-
-        # Button clear textview
-        clear_textview_action = Gio.SimpleAction(name="clear")
-        clear_textview_action.connect("activate", self.btn_clear_textview)
-        self.add_action(clear_textview_action)
-
-        # Switch log
-        log_action = Gio.SimpleAction(name="log")
-        log_action.connect("activate", self.btn_log)
-        self.add_action(log_action)
         self.write_logs = False
         self.log_file_exist = False #
 
@@ -150,6 +139,20 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # https://realpython.com/python-sleep/
         self.event = threading.Event()
+
+    def create_action(self, name, function, shortcuts=None):
+        """ Add an application action.
+        Args:
+            name: the name of the action
+            callback: the function to be called when the action is
+              activated
+            shortcuts: an optional list of accelerators
+        """
+        action = Gio.SimpleAction.new(name, None)
+        action.connect("activate", function)
+        self.add_action(action)
+        if shortcuts:
+            self.set_accels_for_action(f"app.{name}", shortcuts)
 
 
     def generate_random_string(self, length):

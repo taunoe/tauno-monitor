@@ -8,11 +8,187 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-23 17:44+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2024-07-29 14:23+0300\n"
+"PO-Revision-Date: 2024-07-29 14:23+0300\n"
+"Last-Translator: Tauno Erik <sedumacre@gmail.com>\n"
+"Language-Team: Estonia\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: data/art.taunoerik.tauno-monitor.desktop.in:3
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:6
+msgid "Tauno Monitor"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:7
+msgid "Tauno Erik"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
+msgid "Serial port monitor."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
+msgid ""
+"It remembers the last settings (Theme, Baud Rate, Port etc), auto reconnects "
+"to the serial port and can log data to a file. Depending on your system you "
+"may need to add a user to dialout group to open serial ports: <code>sudo "
+"usermod -a -G dialout $USER</code>&gt;"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:26
+msgid "Light mode"
+msgstr "Hele teema"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:30
+msgid "Dark mode"
+msgstr "Tume teema"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:34 src/main.py:127
+msgid "Preferences"
+msgstr "Eelistused"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:45
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:53
+msgid "Improved logging."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:46
+msgid "Coloured output."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:60
+msgid "Auto reconnects to the serial port."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:67
+msgid "Logging data to a file."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:74
+msgid "Changed back to tauno-monitor."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:81
+msgid "Removed hyphen(`-`) and underscore (`_`) from app id."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:88
+msgid "Replaced App ID hyphen(`-`) with underscore (`_`)."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:95
+msgid "Added \"Clear\" button."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:102
+msgid "Added timestamp setting."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:109
+msgid "Automatically scan ports if connection is lost."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:116
+msgid "Automatically closes the serial port if the connection is lost."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:123
+msgid "Added RX data HEX mode"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:130
+msgid "Enter == Send"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:137
+msgid "Reads bytes, not lines!"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:144
+msgid "Saves text size. Notifications settings."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:151
+msgid "Added a guide: what to do when serial ports are not available"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:158
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:165
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:172
+msgid "Meta info fixes"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:179
+msgid "First release"
+msgstr ""
+
+#: src/window.ui:16
+msgid "Port:"
+msgstr ""
+
+#: src/window.ui:24
+msgid "not available"
+msgstr ""
+
+#: src/window.ui:33
+msgid "Update"
+msgstr "Uuenda"
+
+#: src/window.ui:40
+msgid "Baud Rate:"
+msgstr "Kiirus"
+
+#: src/window.ui:90
+msgid "Open"
+msgstr "Ava"
+
+#: src/window.ui:100
+msgid "Menu"
+msgstr "Menüü"
+
+#: src/window.ui:107
+msgid "Clear screen"
+msgstr "Puhasta ekraan"
+
+#: src/window.ui:113
+msgid "Write logs to file"
+msgstr ""
+
+#: src/window.ui:119
+msgid "Log"
+msgstr ""
+
+#: src/window.ui:128
+msgid "Unable to open serial ports! Learn how to enable ->"
+msgstr ""
+
+#: src/window.ui:129
+msgid "Guide"
+msgstr ""
+
+#: src/window.ui:148
+msgid "Enter cmd"
+msgstr ""
+
+#: src/window.ui:158
+msgid "Send"
+msgstr ""
+
+#: src/window.ui:203
+msgid "_Guide"
+msgstr ""
+
+#: src/window.ui:207
+msgid "_Preferences"
+msgstr ""
+
+#: src/window.ui:211
+msgid "_Keyboard Shortcuts"
+msgstr ""
+
+#: src/window.ui:215
+msgid "_About Tauno Monitor"
+msgstr ""
