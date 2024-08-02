@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-01 08:35+0300\n"
+"POT-Creation-Date: 2024-08-02 21:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -195,7 +195,7 @@ msgstr ""
 msgid "Unable to open serial ports! Learn how to enable ->"
 msgstr ""
 
-#: src/window.ui:129
+#: src/window.ui:129 src/guide.ui:6
 msgid "Guide"
 msgstr ""
 
@@ -221,4 +221,33 @@ msgstr ""
 
 #: src/window.ui:215
 msgid "_About Tauno Monitor"
+msgstr ""
+
+#: src/guide.ui:20
+msgid ""
+"To make serial ports visible to the app add the user to 'dialout' group."
+msgstr ""
+
+#: src/guide.ui:26
+msgid "Please open Terminal and type:"
+msgstr ""
+
+#: src/guide.ui:44
+msgid ""
+"You will need to log out and log back in again (or reboot) for the user "
+"group changes to take effect."
+msgstr ""
+
+#: src/guide.ui:50
+msgid ""
+"Ubuntu users also must enable \"Access USB hardware directly\" in the Ubuntu "
+"Store Software store on or on the command line."
+msgstr ""
+
+#: src/guide.ui:56
+msgid "More information on:"
+msgstr ""
+
+#: src/guide.ui:67
+msgid "Close window"
 msgstr ""

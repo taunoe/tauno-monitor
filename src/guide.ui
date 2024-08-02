@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.0"/>
+  <template class="GuideWindow" parent="AdwWindow">
+    <property name="title" translatable="yes">Guide</property>
+    <property name="modal">true</property>
+    <property name="default-width">600</property>
+    <property name="default-height">300</property>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">1</property>
+        <property name="margin-top">20</property>
+        <property name="margin-end">20</property>
+        <property name="margin-bottom">20</property>
+        <property name="margin-start">20</property>
+        <property name="spacing">20</property>
+        <child>
+          <object class="GtkLabel" id="txt_1_label">
+            <property name="label" translatable="yes">To make serial ports visible to the app add the user to 'dialout' group.</property>
+            <property name="xalign">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="txt_2_label">
+            <property name="label" translatable="yes">Please open Terminal and type:</property>
+            <property name="xalign">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="code_window">
+            <child>
+              <object class="GtkTextView">
+                <property name="buffer">text_buffer</property>
+                <property name="editable">False</property>
+                <property name="cursor_visible">True</property>
+                <property name="vexpand">true</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="txt_3_label">
+            <property name="label" translatable="yes">You will need to log out and log back in again (or reboot) for the user group changes to take effect.</property>
+            <property name="xalign">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="txt_4_label">
+            <property name="label" translatable="yes">Ubuntu users also must enable "Access USB hardware directly" in the Ubuntu Store Software store on or on the command line.</property>
+            <property name="xalign">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="txt_5_label">
+            <property name="label" translatable="yes">More information on:</property>
+          </object>
+        </child>
+         <child>
+          <object class="GtkLinkButton">
+            <property name="label">github.com/taunoe/tauno-monitor</property>
+            <property name="uri">https://github.com/taunoe/tauno-monitor</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton">
+            <property name="label" translatable="yes">Close window</property>
+            <signal name="clicked" handler="on_button_close_clicked"/>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  <object class="GtkTextBuffer" id="text_buffer"></object>
+</interface>

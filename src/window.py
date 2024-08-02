@@ -30,8 +30,34 @@ from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
 import gettext, locale, os, random, string
 
-@Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 
+GUIDE_TEXT = """sudo usermod -a -G dialout $USER\n\
+sudo usermod -a -G plugdev $USER"""
+
+
+@Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/guide.ui')
+class GuideWindow(Adw.Window):
+    __gtype_name__ = 'GuideWindow'
+
+    text_buffer = Gtk.Template.Child('text_buffer')
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        # Adding rendered text to Gtk.TextView.
+        text_buffer_iter = self.text_buffer.get_end_iter()
+        self.text_buffer.insert_markup(
+            iter=text_buffer_iter,
+            markup=GUIDE_TEXT,
+            len=-1,
+        )
+
+    @Gtk.Template.Callback()
+    def on_button_close_clicked(self, button):
+        self.destroy()
+
+
+@Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 class TaunoMonitorWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'TaunoMonitorWindow'
 
@@ -260,55 +286,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
 
     def btn_guide(self, action, _):
-        """ Button Guide action """
-        self.banner_no_ports.set_revealed(revealed=False)
-
-        guide = Gtk.Window.new()
-        guide.set_modal(modal=True)
-        guide.set_transient_for(self)
-        guide.set_default_size(width=600, height=300)
-        guide.set_size_request(width=600, height=300)
-        guide.set_titlebar(Gtk.HeaderBar())
-        guide.set_title(title='Guide')
-
-        vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        vbox.set_margin_top(margin=12)
-        vbox.set_margin_end(margin=12)
-        vbox.set_margin_bottom(margin=12)
-        vbox.set_margin_start(margin=12)
-        guide.set_child(child=vbox)
-
-        txt1 = "To make serial ports visible to the app add the user to 'dialout' group. Please open Terminal and type:"
-        label1 = Gtk.Label.new(txt1)
-        label1.props.xalign = False
-        vbox.append(child=label1)
-
-        code_window = Gtk.ScrolledWindow.new()
-        vbox.append(child=code_window)
-
-        code = Gtk.TextView.new()
-        code_buffer = code.get_buffer()
-        code_buffer.set_text("sudo usermod -a -G dialout $USER\n\
-sudo usermod -a -G plugdev $USER")
-        code.set_cursor_visible(True)
-        code.set_editable(False)
-        code_window.set_child(code)
-
-        txt2 = "You will need to log out and log back in again (or reboot) for the user group changes to take effect."
-        label2 = Gtk.Label.new(txt2)
-        label2.props.xalign = False
-        vbox.append(child=label2)
-
-        txt3 = "Ubuntu users also must enable \"Access USB hardware directly\" in the Ubuntu Store Software store."
-        label3 = Gtk.Label.new(txt3)
-        label3.props.xalign = False
-        vbox.append(child=label3)
-
-        lnbtn = Gtk.LinkButton.new_with_label('https://github.com/taunoe/tauno-monitor', 'More information on the project\'s GitHub page')
-        vbox.append(child=lnbtn)
-
-        guide.present()
-
+        """ Dispplay Guide Window """
+        guide_window = GuideWindow(transient_for=self)
+        guide_window.present()
 
 
     def btn_update_ports(self, action, _):

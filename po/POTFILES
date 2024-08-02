@@ -6,3 +6,4 @@ src/window.py
 src/window.ui
 src/tauno_serial.py
 src/tauno_logging.py
+src/guide.ui
