@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="Adw" version="1.0"/>
-  <template class="GuideWindow" parent="AdwWindow">
+  <template class="TaunoGuideWindow" parent="AdwWindow">
     <property name="title" translatable="yes">Guide</property>
     <property name="modal">true</property>
     <property name="default-width">600</property>

@@ -28,33 +28,8 @@ import codecs
 import time
 from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
+from .guide import TaunoGuideWindow
 import gettext, locale, os, random, string
-
-
-GUIDE_TEXT = """sudo usermod -a -G dialout $USER\n\
-sudo usermod -a -G plugdev $USER"""
-
-
-@Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/guide.ui')
-class GuideWindow(Adw.Window):
-    __gtype_name__ = 'GuideWindow'
-
-    text_buffer = Gtk.Template.Child('text_buffer')
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        # Adding rendered text to Gtk.TextView.
-        text_buffer_iter = self.text_buffer.get_end_iter()
-        self.text_buffer.insert_markup(
-            iter=text_buffer_iter,
-            markup=GUIDE_TEXT,
-            len=-1,
-        )
-
-    @Gtk.Template.Callback()
-    def on_button_close_clicked(self, button):
-        self.destroy()
 
 
 @Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
@@ -78,6 +53,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        # https://github.com/natorsc/python-gtk-pygobject/blob/ac01a136a480ee18b55d5062f986336373a26d9b/src/gtk-widgets/translator-gettext/MainWindow.py
+        # # The default language of the operating system will be used.
         localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
         locale.setlocale(locale.LC_ALL, '')
         gettext.bindtextdomain('art.taunoerik.tauno-monitor', localedir)
@@ -287,7 +264,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def btn_guide(self, action, _):
         """ Dispplay Guide Window """
-        guide_window = GuideWindow(transient_for=self)
+        guide_window = TaunoGuideWindow(transient_for=self)
         guide_window.present()
 
 
@@ -306,6 +283,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def btn_open(self, action, _):
         """ Button Open action """
+        # TODO: korrastada ja lihtsustada!
         # rescan ports
         self.scan_serial_ports()
 
@@ -315,7 +293,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             selected_port = port_obj.get_string()
         except Exception as ex:
             print("BTN Open error:", ex)
-            selected_port = 'not available' # not available
+            selected_port = 'not available'
         # save port to settings
         self.settings.set_string("port-str", selected_port)
 
@@ -343,7 +321,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.set_title(title) # port
             self.logging.write_data("Opened " + title + "\n")
         else:
-            self.open_button.set_label("Open")
+            #self.open_button.set_label("Open")
             self.set_title("Tauno Monitor")
 
         display_notifications = self.settings.get_boolean("notifications")
