@@ -321,7 +321,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.set_title(title) # port
             self.logging.write_data("Opened " + title + "\n")
         else:
-            #self.open_button.set_label("Open")
+            self.open_button.set_label("Open")
             self.set_title("Tauno Monitor")
 
         display_notifications = self.settings.get_boolean("notifications")
