@@ -88,12 +88,6 @@ class TaunoMonitorApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
-        """
-        self.win = self.props.active_window
-        if not self.win:
-            self.win = TaunoMonitorWindow(application=self)
-        self.win.present()
-        """
         self.win = self.props.active_window
         self.win = TaunoMonitorWindow(application=self)
         self.win.present()
@@ -301,6 +295,19 @@ class TaunoMonitorApplication(Adw.Application):
         self.win.change_font_size(new_size)
         # Save settings
         self.settings.set_int("font-size", new_size)
+
+    def on_font_selected(self, font_dialog_button, g_param_boxed):
+        font_selected = font_dialog_button.get_font_desc()
+        print(f'Font name: {font_selected.get_family()}')
+
+        new_size = int(font_selected.get_size() / 1024)
+        print(f'Font size: {new_size}')
+        self.win.change_font_size(new_size)
+        # Save settings
+        self.settings.set_int("font-size", new_size)
+
+        print(f'Font style: {font_selected.get_style()}')
+        print(f'Font weight: {font_selected.get_weight()}')
 
 
 def main(version):

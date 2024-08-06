@@ -49,6 +49,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.23" date="2024-08-06">
+      <description>
+        <ul>
+          <li>Started Estonian translation.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.22" date="2024-07-31">
       <description>
         <ul>

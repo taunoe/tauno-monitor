@@ -12,8 +12,12 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+
+
     def on_guide_action(self, widget, _):
         self.preferences = Adw.PreferencesWindow(transient_for=self.props.active_window)
+        self.preferences.set_default_size(width=500, height=800)
+        self.preferences.set_size_request(width=500, height=800)
 
         # Title
         settings_page = Adw.PreferencesPage(title="Preferences")
@@ -24,9 +28,21 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         ui_group = Adw.PreferencesGroup(title="Appearance")
         settings_page.add(ui_group)
 
+
+        # TODO font selection
+        #font_dialog = Gtk.FontDialog.new()
+        #font_dialog.set_modal(modal=True)
+        #font_dialog.set_title(title='Select a font.')
+        #font_dialog_row = Adw.ActionRow(title="Font")
+        #ui_group.add(font_dialog_row)
+        #font_dialog_button = Gtk.FontDialogButton.new(dialog=font_dialog)
+        #font_dialog_button.set_valign(Gtk.Align.CENTER)
+        #font_dialog_row.add_suffix(font_dialog_button)
+        #font_dialog_button.connect('notify::font-desc', self.on_font_selected)
+
         ### Text size
-        font_row = Adw.ActionRow(title="Text size")
-        ui_group.add(font_row)
+        font_size_row = Adw.ActionRow(title="Text size")
+        ui_group.add(font_size_row)
         spin_adjustment = Gtk.Adjustment(value=self.win.font_size_saved,
                                  lower=2,
                                  upper=100,
@@ -35,7 +51,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
                                     adjustment=spin_adjustment,
                                     climb_rate=1,
                                     digits=0)
-        font_row.add_suffix(font_spin_button)
+        font_size_row.add_suffix(font_spin_button)
         font_spin_button.connect("value-changed", self.text_size_action)
 
         ### Dark Mode
@@ -198,6 +214,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         """
         # Display all
         self.preferences.present()
+
 
 
     #@Gtk.Template.Callback()

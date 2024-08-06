@@ -1,4 +1,4 @@
-0.1.23 (03.08.24)
+0.1.23 (06.08.24)
 
  - Started Estonian translation.
  - Improved code.
