@@ -16,8 +16,8 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
 
     def on_guide_action(self, widget, _):
         self.preferences = Adw.PreferencesWindow(transient_for=self.props.active_window)
-        self.preferences.set_default_size(width=500, height=800)
-        self.preferences.set_size_request(width=500, height=800)
+        self.preferences.set_default_size(width=500, height=650)
+        self.preferences.set_size_request(width=500, height=650)
 
         # Title
         settings_page = Adw.PreferencesPage(title="Preferences")
