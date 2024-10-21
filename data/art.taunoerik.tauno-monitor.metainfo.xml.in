@@ -49,6 +49,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.24" date="2024-10-21">
+      <description>
+        <ul>
+          <li>Improved Estonian translation</li>
+          <li>Reduced height of the preferences window.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.23" date="2024-08-06">
       <description>
         <ul>

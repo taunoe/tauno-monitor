@@ -5,7 +5,7 @@
   <template class="TaunoPreferencesWindow" parent="AdwPreferencesWindow">
     <property name="title" translatable="yes">Preferences</property>
     <property name="default-width">500</property>
-    <property name="default-height">800</property>
+    <property name="default-height">600</property>
       <child>
       <object class="AdwToastOverlay">
         <property name="child">

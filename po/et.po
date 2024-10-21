@@ -28,15 +28,15 @@ msgstr "Tauno Erik"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
 msgid "Serial port monitor."
-msgstr ""
+msgstr "Jadapordi jälgija"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
 msgid "Features:"
-msgstr ""
+msgstr "Omadused:"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:12
 msgid "Remembers the last used settings (Theme, Baud Rate, Port etc)."
-msgstr ""
+msgstr "Jätab meelde viimati kasutatud seaded (teema, edastuskiirus, port jne)."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:13
 msgid "Auto reconnects to the serial port when the connection is lost."
@@ -87,15 +87,15 @@ msgstr ""
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:70
 msgid "Coloured output."
-msgstr ""
+msgstr "Värviline väljund."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:84
 msgid "Auto reconnects to the serial port."
-msgstr ""
+msgstr "Taastab ühenduse."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:91
 msgid "Logging data to a file."
-msgstr ""
+msgstr "Logib andmed faili."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:98
 msgid "Changed back to tauno-monitor."
@@ -111,11 +111,11 @@ msgstr ""
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:119
 msgid "Added \"Clear\" button."
-msgstr ""
+msgstr "Lisatud ekraani puhastus nupp"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:126
 msgid "Added timestamp setting."
-msgstr ""
+msgstr "Lisatud ajatempel"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:133
 msgid "Automatically scan ports if connection is lost."
@@ -217,11 +217,11 @@ msgstr "_Seaded"
 
 #: src/window.ui:211
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Kiirklahvid"
 
 #: src/window.ui:215
 msgid "_About Tauno Monitor"
-msgstr ""
+msgstr "_Teave"
 
 #: src/guide.ui:20
 msgid ""

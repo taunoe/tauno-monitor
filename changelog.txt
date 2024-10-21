@@ -1,3 +1,7 @@
+0.1.23 (21.10.24)
+
+ - Reduced height of the preferences window.
+
 0.1.23 (06.08.24)
 
  - Started Estonian translation.
