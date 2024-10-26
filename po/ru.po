@@ -1,0 +1,278 @@
+# Russian translations for Tauno Monitor package.
+# Copyright (C) 2024 Tauno Erik
+# This file is distributed under the same license as the Tauno Monitor package.
+# Vladimir Kosolapov, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tauno-monitor\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-22 21:00+0300\n"
+"PO-Revision-Date: 2024-10-22 22:30+0300\n"
+"Last-Translator: Vladimir Kosolapov\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: data/art.taunoerik.tauno-monitor.desktop.in:3
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:6
+msgid "Tauno Monitor"
+msgstr "Tauno Monitor"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:7
+msgid "Tauno Erik"
+msgstr "Tauno Erik"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
+msgid "Serial port monitor."
+msgstr "Монитор последовательного порта."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
+msgid "Features:"
+msgstr "Особенности:"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:12
+msgid "Remembers the last used settings (Theme, Baud Rate, Port etc)."
+msgstr "Запоминает последние использованные настройки (тема, скорость "
+"передачи, порт и т. д.)."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:13
+msgid "Auto reconnects to the serial port when the connection is lost."
+msgstr ""
+"Автоматически восстанавливает соединение с последовательным портом при его "
+"потере."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:14
+msgid "Can log data to a file."
+msgstr "Может записывать данные в файл."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:15
+msgid "Customizable colors."
+msgstr "Настраиваемые цвета."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:17
+msgid ""
+"Depending on your system you may need to add a user to dialout group to open "
+"serial ports: <code>sudo usermod -a -G dialout $USER</code>&gt;"
+msgstr ""
+"В зависимости от системы может понадобиться добавить пользователя в группу "
+"dialout для открытия портов: <code>sudo usermod -a -G dialout $USER</code>&gt;"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:32
+msgid "Light mode"
+msgstr "Светлый режим"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:36
+msgid "Dark mode"
+msgstr "Тёмный режим"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:40
+msgid "Preferences"
+msgstr "Параметры"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:44
+msgid "Log file"
+msgstr "Файл журнала"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:55
+msgid "Improved Estonian translation"
+msgstr "Улучшен перевод на эстонский язык"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:56
+msgid "Reduced height of the preferences window."
+msgstr "Уменьшена высота окна настроек."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:63
+msgid "Started Estonian translation."
+msgstr "Начат перевод на эстонский язык."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:70
+msgid "Logs HEX data."
+msgstr "Запись данных в формате HEX."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:77
+msgid "User can customise text view colors."
+msgstr "Пользователь может настраивать цвета отображения текста."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:84
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:92
+msgid "Improved logging."
+msgstr "Улучшена система ведения журнала."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:85
+msgid "Coloured output."
+msgstr "Вывод получил цветовое оформление."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:99
+msgid "Auto reconnects to the serial port."
+msgstr "Автоматическое восстановление соединения с последовательным портом."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:106
+msgid "Logging data to a file."
+msgstr "Запись данных в файл."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:113
+msgid "Changed back to tauno-monitor."
+msgstr "Возвращено название tauno-monitor."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:120
+msgid "Removed hyphen(`-`) and underscore (`_`) from app id."
+msgstr "Удалены дефис (`-`) и подчеркивание (`_`) из ID приложения."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:127
+msgid "Replaced App ID hyphen(`-`) with underscore (`_`)."
+msgstr "Заменен дефис (`-`) на подчеркивание (`_`) в ID приложения."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:134
+msgid "Added \"Clear\" button."
+msgstr "Добавлена кнопка \"Очистить\"."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:141
+msgid "Added timestamp setting."
+msgstr "Добавлена настройка временной метки."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:148
+msgid "Automatically scan ports if connection is lost."
+msgstr "Автоматическое сканирование портов при потере соединения."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:155
+msgid "Automatically closes the serial port if the connection is lost."
+msgstr "Автоматическое закрытие последовательного порта при потере соединения."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:162
+msgid "Added RX data HEX mode"
+msgstr "Добавлен режим данных RX в формате HEX"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:169
+msgid "Enter == Send"
+msgstr "Enter == Отправить"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:176
+msgid "Reads bytes, not lines!"
+msgstr "Читает байты, а не строки!"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:183
+msgid "Saves text size. Notifications settings."
+msgstr "Сохраняет размер текста. Параметры уведомлений."
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:190
+msgid "Added a guide: what to do when serial ports are not available"
+msgstr ""
+"Добавлено руководство: что делать, если последовательные порты недоступны"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:197
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:204
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:211
+msgid "Meta info fixes"
+msgstr "Исправления метаданных"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:218
+msgid "First release"
+msgstr "Первый релиз"
+
+#: src/window.ui:16
+msgid "Port:"
+msgstr "Порт:"
+
+#: src/window.ui:24
+msgid "not available"
+msgstr "недоступен"
+
+#: src/window.ui:33
+msgid "Update"
+msgstr "Обновить"
+
+#: src/window.ui:40
+msgid "Baud Rate:"
+msgstr "Скорость передачи:"
+
+#: src/window.ui:90
+msgid "Open"
+msgstr "Открыть"
+
+#: src/window.ui:100
+msgid "Menu"
+msgstr "Главное меню"
+
+#: src/window.ui:107
+msgid "Clear screen"
+msgstr "Очистить экран"
+
+#: src/window.ui:113
+msgid "Write logs to file"
+msgstr "Записывать журнал в файл"
+
+#: src/window.ui:119
+msgid "Log"
+msgstr "Журнал"
+
+#: src/window.ui:128
+msgid "Unable to open serial ports! Learn how to enable ->"
+msgstr "Не удалось открыть последовательные порты! Узнайте, как это сделать ->"
+
+#: src/window.ui:129 src/guide.ui:6
+msgid "Guide"
+msgstr "Руководство"
+
+#: src/window.ui:148
+msgid "Enter cmd"
+msgstr "Введите команду"
+
+#: src/window.ui:158
+msgid "Send"
+msgstr "Отправить"
+
+#: src/window.ui:203
+msgid "_Guide"
+msgstr "_Руководство"
+
+#: src/window.ui:207
+msgid "_Preferences"
+msgstr "_Параметры"
+
+#: src/window.ui:211
+msgid "_Keyboard Shortcuts"
+msgstr "_Комбинации клавиш"
+
+#: src/window.ui:215
+msgid "_About Tauno Monitor"
+msgstr "_О приложении"
+
+#: src/guide.ui:20
+msgid ""
+"To make serial ports visible to the app add the user to 'dialout' group."
+msgstr ""
+"Чтобы сделать последовательные порты видимыми для приложения, добавьте "
+"пользователя в группу 'dialout'."
+
+#: src/guide.ui:26
+msgid "Please open Terminal and type:"
+msgstr "Пожалуйста, откройте терминал и введите:"
+
+#: src/guide.ui:44
+msgid ""
+"You will need to log out and log back in again (or reboot) for the user "
+"group changes to take effect."
+msgstr ""
+"Вам нужно будет выйти из системы и снова войти в нее (или перезагрузиться), "
+"чтобы изменения в группах пользователей вступили в силу."
+
+#: src/guide.ui:50
+msgid ""
+"Ubuntu users also must enable \"Access USB hardware directly\" in the Ubuntu "
+"Store Software store on or on the command line."
+msgstr ""
+"Пользователи Ubuntu также должны дать \"Прямой доступ к оборудованию USB\" в "
+"магазине Ubuntu Store или через команду в терминале."
+
+#: src/guide.ui:56
+msgid "More information on:"
+msgstr "Больше информации на:"
+
+#: src/guide.ui:67
+msgid "Close window"
+msgstr "Закрыть окно"
