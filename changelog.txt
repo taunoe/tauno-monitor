@@ -1,6 +1,7 @@
-0.1.23 (21.10.24)
+0.1.24 (26.10.24)
 
  - Reduced height of the preferences window.
+ - Added Russian translation.
 
 0.1.23 (06.08.24)
 
