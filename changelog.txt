@@ -1,3 +1,7 @@
+0.1.25 (02.11.24)
+
+ - org.gnome.Platform ver 47
+
 0.1.24 (26.10.24)
 
  - Reduced height of the preferences window.

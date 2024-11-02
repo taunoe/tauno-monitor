@@ -1,7 +1,7 @@
 {
     "app-id" : "art.taunoerik.tauno-monitor",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "45",
+    "runtime-version" : "47",
     "sdk" : "org.gnome.Sdk",
     "command" : "tauno-monitor",
     "finish-args" : [
