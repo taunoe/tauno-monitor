@@ -1,3 +1,5 @@
+0.1.26 (04.05.25)
+ - Added new baudrate: 1500000
 0.1.25 (02.11.24)
 
  - org.gnome.Platform ver 47

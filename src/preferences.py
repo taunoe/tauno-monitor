@@ -197,11 +197,12 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         log_folder_row.add_suffix(select_log_folder_button)
         select_log_folder_button.connect("clicked", self.select_log_folder_button_action)
 
-        """
-        TODO
+
+        #TODO
         ## Serial group
         serial_group = Adw.PreferencesGroup(title="Serial")
         settings_page.add(serial_group)
+        """
         ### Byte-size row
         bytesize_row = Adw.ActionRow(title="Byte-size")
         serial_group.add(bytesize_row)

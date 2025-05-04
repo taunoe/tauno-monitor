@@ -49,6 +49,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.26" date="2025-04-04">
+      <description>
+        <ul>
+          <li>Added new baudrate: 1500000</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.25" date="2024-11-02">
       <description>
         <ul>
