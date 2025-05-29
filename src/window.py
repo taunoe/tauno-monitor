@@ -257,7 +257,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 # Create log file
                 self.log_file_exist = self.logging.create_file(log_file_path)
         else:
-            print("log switch deactive")
+            print("log switch deactivate")
             self.logging.close_file()
             self.write_logs = False
 
