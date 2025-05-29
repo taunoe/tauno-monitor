@@ -46,7 +46,7 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 Ubuntu users also must enable "Access USB hardware directly" on the Ubuntu Store Software store:
 
-![Ubuntu premissions](data/screenshots/ubuntu_access_usb_directly.png)
+![Ubuntu permissions](data/screenshots/ubuntu_access_usb_directly.png)
 
 or from command line:
 
