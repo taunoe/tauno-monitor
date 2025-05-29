@@ -169,7 +169,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def update_time_tag(self):
         """ Creates new tag with a new color """
-        # TODO How to change allready existing tag color?
+        # TODO How to change already existing tag color?
         #print("update_time_tag")
         self.text_buffer = self.input_text_view.get_buffer()
         color = self.settings.get_string("saved-time-color")
