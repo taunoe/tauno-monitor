@@ -45,7 +45,12 @@
                 <property name="model">
                   <object class="GtkStringList" id="baud_drop_down_list">
                     <items>
+                      <item>50</item>
+                      <item>75</item>
                       <item>110</item>
+                      <item>134</item>
+                      <item>150</item>
+                      <item>200</item>
                       <item>300</item>
                       <item>600</item>
                       <item>750</item>
@@ -73,8 +78,13 @@
                       <item>576000</item>
                       <item>921600</item>
                       <item>1000000</item>
+                      <item>1152000</item>
                       <item>1500000</item>
                       <item>2000000</item>
+                      <item>2500000</item>
+                      <item>3000000</item>
+                      <item>3500000</item>
+                      <item>4000000</item>
                     </items>
                   </object>
                 </property>

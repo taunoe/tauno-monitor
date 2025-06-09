@@ -1,6 +1,6 @@
 # main.py
 #
-# Copyright 2023-2024 Tauno Erik
+# Copyright 2023-2025 Tauno Erik
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,13 +29,19 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-VERSION = '0.1.26'
+VERSION = '0.1.27'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
-    byte_sizes = ['FIVEBITS', 'SIXBITS', 'SEVENBITS', 'EIGHTBITS']  # serial
-    data_formats = ['ASCII', 'HEX']
+    # Serial byte sizes
+    serial_data_bits = ['FIVEBITS', 'SIXBITS', 'SEVENBITS', 'EIGHTBITS']
+    # Serial data formats
+    serial_data_formats = ['ASCII', 'HEX']
+    # Serial parities
+    serial_parities = ['None', 'Even', 'Odd', 'Mark', 'Space']
+    serial_stop_bits = ['1', '1.5', '2']
+    serial_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
 
 
     def __init__(self):

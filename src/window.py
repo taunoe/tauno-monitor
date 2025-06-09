@@ -1,6 +1,6 @@
 # window.py
 #
-# Copyright 2023-2024 Tauno Erik
+# Copyright 2023-2025 Tauno Erik
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

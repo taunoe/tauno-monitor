@@ -1,6 +1,6 @@
 # tauno_serial.py
 # Tauno Erik
-# 28.07.2024
+# 05.06.2025
 
 import serial
 import serial.tools.list_ports
@@ -18,7 +18,7 @@ class TaunoSerial():
         """ Open to serial port """
         # Close if already open
         if self.myserial.is_open:
-            print("open sulgeb")
+            print("Already open: Close()")
             self.close()
         else:
             # Open Serial port

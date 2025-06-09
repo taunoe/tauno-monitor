@@ -1,11 +1,12 @@
-# File:    preferences.py
-# Started: 03.08.2024
-# Author:  Tauno Erik
-# Displays Preferences window
+# File:        preferences.py
+# Started:     03.08.2024
+# Edited:      09.06.2025
+# Author:      Tauno Erik
+# Description: Displays Preferences window
 
 from gi.repository import Adw, Gtk, Gio, GObject, GLib, Gdk
 
-#@Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/preferences.ui')
+#@Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/preferences.ui')#not ready
 class TaunoPreferencesWindow(Adw.PreferencesWindow):
     __gtype_name__ = 'TaunoPreferencesWindow'
 
@@ -24,7 +25,9 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         settings_page.set_icon_name("applications-system-symbolic")
         self.preferences.add(settings_page)
 
+        ################################################################
         ## UI group
+        ################################################################
         ui_group = Adw.PreferencesGroup(title="Appearance")
         settings_page.add(ui_group)
 
@@ -72,17 +75,19 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         notifications_switch.set_active(self.settings.get_boolean("notifications"))
         notifications_switch.connect("state-set", self.notifications_switch_action)
 
+        #####################################################################
         ## Data group
+        #####################################################################
         data_group = Adw.PreferencesGroup(title="Data view")
         settings_page.add(data_group)
 
         ### Data Format
         rx_row = Adw.ActionRow(title="Format")
         data_group.add(rx_row)
-        rx_format = Gtk.DropDown.new_from_strings(strings=self.data_formats)
+        rx_format = Gtk.DropDown.new_from_strings(strings=self.serial_data_formats)
         rx_format.set_valign(Gtk.Align.CENTER)
-        # get saved index
-        index = self.data_formats.index(self.win.rx_format_saved)
+        # Get saved index
+        index = self.serial_data_formats.index(self.win.rx_format_saved)
         rx_format.set_selected(position=index)
         rx_row.add_suffix(rx_format)
         rx_format.connect("notify::selected-item", self.rx_data_format_action)
@@ -178,7 +183,13 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         in_color_row.add_suffix(reset_in_color_button)
         reset_in_color_button.connect("clicked", self.reset_in_color_button_action)
 
+        ### TODO: Show line endings
+
+        ### TODO: Line ending color
+
+        ####################################################################
         ## Logging group
+        ####################################################################
         logging_group = Adw.PreferencesGroup(title="Logging")
         settings_page.add(logging_group)
         log_folder_row = Adw.ActionRow(title="Folder")
@@ -199,26 +210,90 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
 
 
         #TODO
+        #####################################################################
         ## Serial group
+        #####################################################################
         serial_group = Adw.PreferencesGroup(title="Serial")
         settings_page.add(serial_group)
-        """
+
         ### Byte-size row
-        bytesize_row = Adw.ActionRow(title="Byte-size")
-        serial_group.add(bytesize_row)
-        bytesize_drop_down = Gtk.DropDown.new_from_strings(strings=self.byte_sizes)
-        bytesize_drop_down.set_valign(Gtk.Align.CENTER)
+        ### 5, 6, 7, 8
+        data_bits_row = Adw.ActionRow(title="Data bits")
+        serial_group.add(data_bits_row)
+        data_bits_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_data_bits)
+        data_bits_drop_down.set_valign(Gtk.Align.CENTER)
 
-        bytesize_drop_down.set_selected(position=3)
-        bytesize_row.add_suffix(bytesize_drop_down)
-        #bytesize_drop_down.connect('notify::selected-item', self.on_selected_item)
-        """
+        data_bits_drop_down.set_selected(position=3)#TODO read saved
+        data_bits_row.add_suffix(data_bits_drop_down)
+        #data_bits_drop_down.connect('notify::selected-item', self.on_selected_item)
+
+        reset_data_bits_button = Gtk.Button(label="Reset")
+        reset_data_bits_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_data_bits_button.set_valign(Gtk.Align.CENTER)
+        reset_data_bits_button.set_has_frame(False)  # flat
+        reset_data_bits_button.set_tooltip_text("Reset")
+        data_bits_row.add_suffix(reset_data_bits_button)
+        #TODO reset_data_bits_button.connect("clicked", self.reset_data_bits_button_action)
+
+        ### Parities row
+        ### N (none)
+        ### E (even)
+        ### O (odd)
+        ### M (mark)
+        ### S (space)
+        parities_row = Adw.ActionRow(title="Parity")
+        serial_group.add(parities_row)
+        parities_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_parities)
+        parities_drop_down.set_valign(Gtk.Align.CENTER)
+        parities_drop_down.set_selected(position=0)#TODO read saved
+        parities_row.add_suffix(parities_drop_down)
+
+        reset_parities_button = Gtk.Button(label="Reset")
+        reset_parities_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_parities_button.set_valign(Gtk.Align.CENTER)
+        reset_parities_button.set_has_frame(False)  # flat
+        reset_parities_button.set_tooltip_text("Reset")
+        parities_row.add_suffix(reset_parities_button)
+        #TODO reset_parities_button.connect("clicked", self.reset_parities_button_action)
+
+        ### Stop bits row
+        ### 1, 1.5, 2
+        stop_bits_row = Adw.ActionRow(title="Stop Bits")
+        serial_group.add(stop_bits_row)
+        stop_bits_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_stop_bits)
+        stop_bits_drop_down.set_valign(Gtk.Align.CENTER)
+        stop_bits_drop_down.set_selected(position=0)#TODO read saved
+        stop_bits_row.add_suffix(stop_bits_drop_down)
+
+        reset_stop_bits_button = Gtk.Button(label="Reset")
+        reset_stop_bits_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_stop_bits_button.set_valign(Gtk.Align.CENTER)
+        reset_stop_bits_button.set_has_frame(False)  # flat
+        reset_stop_bits_button.set_tooltip_text("Reset")
+        stop_bits_row.add_suffix(reset_stop_bits_button)
+        #TODO reset_stop_bits_button.connect("clicked", self.reset_stop_bits_button_action)
+
+        ### Enter sends:
+        ### \n, \r, \r\n or nothing
+        send_line_end_row = Adw.ActionRow(title="End of data sending line (Enter)")
+        serial_group.add(send_line_end_row)
+        send_line_end_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_line_endings)
+        send_line_end_drop_down.set_valign(Gtk.Align.CENTER)
+        send_line_end_drop_down.set_selected(position=0)#TODO read saved
+        send_line_end_row.add_suffix(send_line_end_drop_down)
+
+        reset_send_line_end_button = Gtk.Button(label="Reset")
+        reset_send_line_end_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_send_line_end_button.set_valign(Gtk.Align.CENTER)
+        reset_send_line_end_button.set_has_frame(False)  # flat
+        reset_send_line_end_button.set_tooltip_text("Reset")
+        send_line_end_row.add_suffix(reset_send_line_end_button)
+        #TODO reset_send_line_end_button.connect("clicked", self.reset_send_line_end_button_action)
+
+        ### TODO: Custom baud rate
+
+        ##################################################################
         # Display all
+        ##################################################################
         self.preferences.present()
-
-
-
-    #@Gtk.Template.Callback()
-    #def on_button_close_clicked(self, button):
-    #    self.destroy()
 
