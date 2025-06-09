@@ -14,7 +14,7 @@
       <default>false</default>
     </key>
     <key name="baud-index" type="i">
-      <default>14</default>
+      <default>15</default>
     </key>
     <key name="port-str" type="s">
       <default>'/dev/ttyACM0'</default>

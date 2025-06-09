@@ -58,12 +58,14 @@
                       <item>1800</item>
                       <item>2400</item>
                       <item>4800</item>
+                      <item>7200</item>
                       <item>9600</item>
                       <item>14400</item>
                       <item>19200</item>
                       <item>28800</item>
                       <item>31250</item>
                       <item>38400</item>
+                      <item>56000</item>
                       <item>57600</item>
                       <item>74880</item>
                       <item>76800</item>
