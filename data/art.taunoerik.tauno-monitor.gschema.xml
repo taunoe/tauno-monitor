@@ -13,20 +13,11 @@
     <key name="dark-mode" type="b">
       <default>false</default>
     </key>
-    <key name="baud-index" type="i">
-      <default>15</default>
-    </key>
-    <key name="port-str" type="s">
-      <default>'/dev/ttyACM0'</default>
-    </key>
     <key name="font-size" type="i">
       <default>12</default>
     </key>
     <key name="notifications" type="b">
       <default>true</default>
-    </key>
-    <key name="rx-data-format" type="s">
-      <default>'ASCII'</default>
     </key>
     <key name="timestamp" type="b">
       <default>true</default>
@@ -57,6 +48,39 @@
     </key>
     <key name="saved-in-color" type="s">
       <default>'#1a5fb4'</default>
+    </key>
+    <key name="port-str" type="s">
+      <default>'/dev/ttyACM0'</default>
+    </key>
+    <key name="baud-index" type="i">
+      <default>15</default>
+    </key>
+    <key name="saved-serial-rx-data-format" type="s">
+      <default>'ASCII'</default>
+    </key>
+    <key name="default-serial-data-bit-index" type="i">
+      <default>3</default>
+    </key>
+    <key name="saved-serial-data-bit-index" type="i">
+      <default>3</default>
+    </key>
+    <key name="default-serial-parity-index" type="i">
+      <default>0</default>
+    </key>
+    <key name="saved-serial-parity-index" type="i">
+      <default>0</default>
+    </key>
+    <key name="default-serial-stop-bit-index" type="i">
+      <default>0</default>
+    </key>
+    <key name="saved-serial-stop-bit-index" type="i">
+      <default>0</default>
+    </key>
+    <key name="default-serial-send-line-end-index" type="i">
+      <default>0</default>
+    </key>
+    <key name="saved-serial-send-line-end-index" type="i">
+      <default>0</default>
     </key>
   </schema>
 </schemalist>

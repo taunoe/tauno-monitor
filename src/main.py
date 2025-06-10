@@ -251,17 +251,19 @@ class TaunoMonitorApplication(Adw.Application):
             # Update saved settings
             self.settings.set_string("log-folder", self.log_folder_path)
 
-
+    """
+    Function called when Serial RX data format is changed in App preferences
+    """
     def rx_data_format_action(self, drop_down, g_param_object):
         string_object = drop_down.get_selected_item()
         index = drop_down.get_selected()
         new_format = string_object.get_string()
         #print(f'Position: {index} - value: {string_object.get_string()}')
         # save settings
-        self.settings.set_string("rx-data-format", new_format)
+        self.settings.set_string("saved-serial-rx-data-format", new_format)
         # update pos
-        self.win.rx_format_saved = self.settings.get_string("rx-data-format")
-        if self.win.rx_format_saved != 'HEX':
+        self.win.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
+        if self.win.get_rx_format_saved != 'HEX':
             # End the HEX data block with a newline
             print("HEX --> ASCII")
             data = '\n'
@@ -270,6 +272,127 @@ class TaunoMonitorApplication(Adw.Application):
             self.win.logging.write_data('')
 
 
+    """
+    Function called when Serial Data Bits selection is changed in App preferences
+    """
+    def serial_data_bits_action(self, drop_down, g_param_object):
+        # Get selected index
+        string_object = drop_down.get_selected_item()
+        index = drop_down.get_selected()
+        print(f'Selected Data Bit Pos: {index} val: {string_object.get_string()}')
+        # Save index
+        if self.win.get_data_bit_saved != index:
+            print("Saving Serial Data Bit index")
+            self.settings.set_int("saved-serial-data-bit-index", index)
+            # Reload setting
+            self.win.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
+
+
+    """
+    Function to reset Serial Data Bit to default value
+    """
+    def reset_data_bits_button_action(self, widget):
+        defalut_value = self.settings.get_int("default-serial-data-bit-index")
+        print(f"Reset Data Bit index to: {defalut_value}")
+        # save setting
+        self.settings.set_int("saved-serial-data-bit-index", defalut_value)
+        # reload setting
+        self.win.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
+        # reload UI from preferences.py
+        self.data_bits_drop_down.set_selected(position=defalut_value)
+
+
+    """
+    Function called when Serial Parity selection is changed in App preferences
+    """
+    def serial_parity_action(self, drop_down, g_param_object):
+        # Get selected index
+        string_object = drop_down.get_selected_item()
+        index = drop_down.get_selected()
+        print(f'Selected Parity Pos: {index} val: {string_object.get_string()}')
+        # Save index
+        if self.win.get_parity_saved != index:
+            print("Saving Serial Parity index")
+            self.settings.set_int("saved-serial-parity-index", index)
+            # Reload setting
+            self.win.get_data_bit_saved = self.settings.get_int("saved-serial-parity-index")
+
+
+    """
+    Function to reset Serial Parity to default value
+    """
+    def reset_parity_button_action(self, widget):
+        defalut_value = self.settings.get_int("default-serial-parity-index")
+        print(f"Reset Parity index to: {defalut_value}")
+        # save setting
+        self.settings.set_int("saved-serial-parity-index", defalut_value)
+        # reload setting
+        self.win.get_parity_saved = self.settings.get_int("saved-serial-parity-index")
+        # reload UI from preferences.py
+        self.parity_drop_down.set_selected(position=defalut_value)
+
+
+    """
+    Function called when Serial Stop Bits selection is changed in App preferences
+    """
+    def serial_stop_bits_action(self, drop_down, g_param_object):
+        # Get selected index
+        string_object = drop_down.get_selected_item()
+        index = drop_down.get_selected()
+        print(f'Selected Stop Bit Pos: {index} val: {string_object.get_string()}')
+        # Save index
+        if self.win.get_stop_bit_saved != index:
+            print("Saving Serial Stop Bit index")
+            self.settings.set_int("saved-serial-stop-bit-index", index)
+            # Reload setting
+            self.win.get_stop_bit_saved = self.settings.get_int("saved-serial-stop-bit-index")
+
+
+    """
+    Function to reset Serial Stop Bit to default value
+    """
+    def reset_stop_bits_button_action(self, widget):
+        defalut_value = self.settings.get_int("default-serial-stop-bit-index")
+        print(f"Reset Stop Bit index to: {defalut_value}")
+        # save setting
+        self.settings.set_int("saved-serial-stop-bit-index", defalut_value)
+        # reload setting
+        self.win.get_stop_bit_saved = self.settings.get_int("saved-serial-stop-bit-index")
+        # reload UI from preferences.py
+        self.stop_bits_drop_down.set_selected(position=defalut_value)
+
+
+    """
+    Function called when Serial Line End selection is changed in App preferences
+    """
+    def serial_send_line_end_action(self, drop_down, g_param_object):
+        # Get selected index
+        string_object = drop_down.get_selected_item()
+        index = drop_down.get_selected()
+        print(f'Selected Line End Pos: {index} val: {string_object.get_string()}')
+        # Save index
+        if self.win.get_send_line_end_saved != index:
+            print("Saving Serial Line End index")
+            self.settings.set_int("saved-serial-send-line-end-index", index)
+            # Reload setting
+            self.win.get_send_line_end_saved = self.settings.get_int("saved-serial-send-line-end-index")
+
+
+    """
+    Function to reset Serial Line End to default value
+    """
+    def reset_send_line_end_button_action(self, widget):
+        defalut_value = self.settings.get_int("default-serial-send-line-end-index")
+        print(f"Reset Line End index to: {defalut_value}")
+        # save setting
+        self.settings.set_int("saved-serial-send-line-end-index", defalut_value)
+        # reload setting
+        self.win.get_send_line_end_saved = self.settings.get_int("saved-serial-send-line-end-index")
+        # reload UI from preferences.py
+        self.send_line_end_drop_down.set_selected(position=defalut_value)
+
+    """
+    """
     def dark_mode_switch_action(self, widget, state):
         dark_mode = state
 

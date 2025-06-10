@@ -1,6 +1,6 @@
 # File:        preferences.py
 # Started:     03.08.2024
-# Edited:      09.06.2025
+# Edited:      10.06.2025
 # Author:      Tauno Erik
 # Description: Displays Preferences window
 
@@ -86,10 +86,11 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         data_group.add(rx_row)
         rx_format = Gtk.DropDown.new_from_strings(strings=self.serial_data_formats)
         rx_format.set_valign(Gtk.Align.CENTER)
-        # Get saved index
-        index = self.serial_data_formats.index(self.win.rx_format_saved)
+        # Get saved index from windows.py
+        index = self.serial_data_formats.index(self.win.get_rx_format_saved)
         rx_format.set_selected(position=index)
         rx_row.add_suffix(rx_format)
+        # Connect function from main.py
         rx_format.connect("notify::selected-item", self.rx_data_format_action)
 
         ### Timestamp
@@ -216,16 +217,19 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         serial_group = Adw.PreferencesGroup(title="Serial")
         settings_page.add(serial_group)
 
-        ### Byte-size row
+        #####################################################################
+        ### Data bits row
         ### 5, 6, 7, 8
         data_bits_row = Adw.ActionRow(title="Data bits")
         serial_group.add(data_bits_row)
-        data_bits_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_data_bits)
-        data_bits_drop_down.set_valign(Gtk.Align.CENTER)
-
-        data_bits_drop_down.set_selected(position=3)#TODO read saved
-        data_bits_row.add_suffix(data_bits_drop_down)
-        #data_bits_drop_down.connect('notify::selected-item', self.on_selected_item)
+        self.data_bits_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_data_bits)
+        self.data_bits_drop_down.set_valign(Gtk.Align.CENTER)
+        # Get saved index from windows.py
+        data_bit_index = self.win.get_data_bit_saved
+        self.data_bits_drop_down.set_selected(position=data_bit_index)
+        data_bits_row.add_suffix(self.data_bits_drop_down)
+        # Connect function from main.py to save
+        self.data_bits_drop_down.connect('notify::selected-item', self.serial_data_bits_action)
 
         reset_data_bits_button = Gtk.Button(label="Reset")
         reset_data_bits_button.set_icon_name("arrow-circular-small-top-left-symbolic")
@@ -233,37 +237,49 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         reset_data_bits_button.set_has_frame(False)  # flat
         reset_data_bits_button.set_tooltip_text("Reset")
         data_bits_row.add_suffix(reset_data_bits_button)
-        #TODO reset_data_bits_button.connect("clicked", self.reset_data_bits_button_action)
+        # Connect function from main.py to reset
+        reset_data_bits_button.connect("clicked", self.reset_data_bits_button_action)
 
+        ####################################################################
         ### Parities row
         ### N (none)
         ### E (even)
         ### O (odd)
         ### M (mark)
         ### S (space)
-        parities_row = Adw.ActionRow(title="Parity")
-        serial_group.add(parities_row)
-        parities_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_parities)
-        parities_drop_down.set_valign(Gtk.Align.CENTER)
-        parities_drop_down.set_selected(position=0)#TODO read saved
-        parities_row.add_suffix(parities_drop_down)
+        parity_row = Adw.ActionRow(title="Parity")
+        serial_group.add(parity_row)
+        self.parity_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_parities)
+        self.parity_drop_down.set_valign(Gtk.Align.CENTER)
+        # Get saved index from windows.py
+        parity_index = self.win.get_parity_saved
+        self.parity_drop_down.set_selected(position=parity_index)
+        parity_row.add_suffix(self.parity_drop_down)
+        # Connect function from main.py to save
+        self.parity_drop_down.connect('notify::selected-item', self.serial_parity_action)
 
-        reset_parities_button = Gtk.Button(label="Reset")
-        reset_parities_button.set_icon_name("arrow-circular-small-top-left-symbolic")
-        reset_parities_button.set_valign(Gtk.Align.CENTER)
-        reset_parities_button.set_has_frame(False)  # flat
-        reset_parities_button.set_tooltip_text("Reset")
-        parities_row.add_suffix(reset_parities_button)
-        #TODO reset_parities_button.connect("clicked", self.reset_parities_button_action)
+        reset_parity_button = Gtk.Button(label="Reset")
+        reset_parity_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_parity_button.set_valign(Gtk.Align.CENTER)
+        reset_parity_button.set_has_frame(False)  # flat
+        reset_parity_button.set_tooltip_text("Reset")
+        parity_row.add_suffix(reset_parity_button)
+        # Connect function from main.py to reset
+        reset_parity_button.connect("clicked", self.reset_parity_button_action)
 
+        #####################################################################
         ### Stop bits row
         ### 1, 1.5, 2
         stop_bits_row = Adw.ActionRow(title="Stop Bits")
         serial_group.add(stop_bits_row)
-        stop_bits_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_stop_bits)
-        stop_bits_drop_down.set_valign(Gtk.Align.CENTER)
-        stop_bits_drop_down.set_selected(position=0)#TODO read saved
-        stop_bits_row.add_suffix(stop_bits_drop_down)
+        self.stop_bits_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_stop_bits)
+        self.stop_bits_drop_down.set_valign(Gtk.Align.CENTER)
+        # Get saved index from windows.py
+        stop_bit_index = self.win.get_stop_bit_saved
+        self.stop_bits_drop_down.set_selected(position=stop_bit_index)
+        stop_bits_row.add_suffix(self.stop_bits_drop_down)
+        # Connect function from main.py to save
+        self.stop_bits_drop_down.connect('notify::selected-item', self.serial_stop_bits_action)
 
         reset_stop_bits_button = Gtk.Button(label="Reset")
         reset_stop_bits_button.set_icon_name("arrow-circular-small-top-left-symbolic")
@@ -271,16 +287,22 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         reset_stop_bits_button.set_has_frame(False)  # flat
         reset_stop_bits_button.set_tooltip_text("Reset")
         stop_bits_row.add_suffix(reset_stop_bits_button)
-        #TODO reset_stop_bits_button.connect("clicked", self.reset_stop_bits_button_action)
+        # Connect function from main.py to reset
+        reset_stop_bits_button.connect("clicked", self.reset_stop_bits_button_action)
 
+        ###################################################################
         ### Enter sends:
         ### \n, \r, \r\n or nothing
         send_line_end_row = Adw.ActionRow(title="End of data sending line (Enter)")
         serial_group.add(send_line_end_row)
-        send_line_end_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_line_endings)
-        send_line_end_drop_down.set_valign(Gtk.Align.CENTER)
-        send_line_end_drop_down.set_selected(position=0)#TODO read saved
-        send_line_end_row.add_suffix(send_line_end_drop_down)
+        self.send_line_end_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_line_endings)
+        self.send_line_end_drop_down.set_valign(Gtk.Align.CENTER)
+        # Get saved index from windows.py
+        line_end_index = self.win.get_send_line_end_saved
+        self.send_line_end_drop_down.set_selected(position=line_end_index)
+        send_line_end_row.add_suffix(self.send_line_end_drop_down)
+        # Connect function from main.py to save
+        self.send_line_end_drop_down.connect('notify::selected-item', self.serial_send_line_end_action)
 
         reset_send_line_end_button = Gtk.Button(label="Reset")
         reset_send_line_end_button.set_icon_name("arrow-circular-small-top-left-symbolic")
@@ -288,7 +310,8 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         reset_send_line_end_button.set_has_frame(False)  # flat
         reset_send_line_end_button.set_tooltip_text("Reset")
         send_line_end_row.add_suffix(reset_send_line_end_button)
-        #TODO reset_send_line_end_button.connect("clicked", self.reset_send_line_end_button_action)
+        # Connect function from main.py to reset
+        reset_send_line_end_button.connect("clicked", self.reset_send_line_end_button_action)
 
         ### TODO: Custom baud rate
 

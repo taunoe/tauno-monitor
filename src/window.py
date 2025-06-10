@@ -78,8 +78,13 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.ports_str_list = []
         self.load_saved_port()
 
-        # Saved RX data format
-        self.rx_format_saved = self.settings.get_string("rx-data-format")
+        # Get saved Serial RX data format
+        self.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
+        #
+        self.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
+        self.get_parity_saved = self.settings.get_int("saved-serial-parity-index")
+        self.get_stop_bit_saved = self.settings.get_int("saved-serial-stop-bit-index")
+        self.get_send_line_end_saved = self.settings.get_int("saved-serial-send-line-end-index")
 
         # font size
         self.font_size_saved = self.settings.get_int("font-size")
@@ -403,7 +408,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """ Update Text View """
         try:
             # HEX
-            if self.rx_format_saved == 'HEX':
+            if self.get_rx_format_saved == 'HEX':
                 self.insert_data_to_text_view(data, 'HEX')
             # ASCII
             else:
