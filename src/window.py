@@ -80,10 +80,13 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Get saved Serial RX data format
         self.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
-        #
+        # Get saved data bit
         self.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
+        # Get saved parity
         self.get_parity_saved = self.settings.get_int("saved-serial-parity-index")
+        # Get Stop Bit
         self.get_stop_bit_saved = self.settings.get_int("saved-serial-stop-bit-index")
+        # Get line end
         self.get_send_line_end_saved = self.settings.get_int("saved-serial-send-line-end-index")
 
         # font size
@@ -519,8 +522,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         cmd_buffer.delete_text(0, len(data))
 
 
+    """
+    Send cmd or Enter key pressed
+    """
     def on_key_enter_pressed(self, entry):
-        """ Send cmd Enter key pressed """
         cmd_buffer = self.send_cmd.get_buffer()
         data = cmd_buffer.get_text()
         self.send_to_serial(data)
@@ -534,7 +539,18 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         else:
             print("Send cmd: Serial is not Open")
 
-        data =  data + '\n'
+        # TODO: add line ending from settings
+        end = ''
+        index = self.get_send_line_end_saved
+
+        if index == 0:
+            end = '\n'
+        elif index == 1:
+            end = '\r'
+        elif index == 2:
+            end = '\r\n'
+
+        data =  data + end
 
         self.insert_time_to_text_view()
         self.insert_arrow_to_text_view('TX')

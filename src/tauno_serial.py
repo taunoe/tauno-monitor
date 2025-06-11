@@ -62,7 +62,6 @@ class TaunoSerial():
     def write(self, data):
         """ Write to serial port """
         print(f"Serial Port Write: {data}")
-
         if self.myserial.is_open:
             self.myserial.write(data.encode('utf-8'))
 
