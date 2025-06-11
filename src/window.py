@@ -140,6 +140,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         in_color = self.settings.get_string("saved-in-color")
         self.tag_in = self.text_buffer.create_tag('in', foreground=in_color)
 
+        line_end_color = self.settings.get_string("saved-show-line-end-color")
+        self.tag_line_end = self.text_buffer.create_tag('line_end', foreground=in_color)
+
         self.prev_char = '\n'  # store prev char
 
         # Reconnect
@@ -191,6 +194,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         new_tag_name = 'arrow' + self.generate_random_string(10)
         self.tag_arrow = self.text_buffer.create_tag(new_tag_name, foreground=color)
 
+
     def update_out_tag(self):
         """ Creates new tag with a new color """
         #print("update_out_tag")
@@ -200,6 +204,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         new_tag_name = 'out' + self.generate_random_string(10)
         self.tag_out = self.text_buffer.create_tag(new_tag_name, foreground=color)
 
+
     def update_in_tag(self):
         """ Creates new tag with a new color """
         #print("update_in_tag")
@@ -208,6 +213,16 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.table = self.text_buffer.get_tag_table()
         new_tag_name = 'in' + self.generate_random_string(10)
         self.tag_in = self.text_buffer.create_tag(new_tag_name, foreground=color)
+
+
+    def update_line_end_tag(self):
+        """ Creates new tag with a new color """
+        #print("update_line_end_tag")
+        self.text_buffer = self.input_text_view.get_buffer()
+        color = self.settings.get_string("saved-show-line-end-color")
+        self.table = self.text_buffer.get_tag_table()
+        new_tag_name = 'lineend' + self.generate_random_string(10)
+        self.tag_line_end = self.text_buffer.create_tag(new_tag_name, foreground=color)
 
 
     def load_saved_port(self):

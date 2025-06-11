@@ -49,11 +49,17 @@
     <key name="saved-in-color" type="s">
       <default>'#1a5fb4'</default>
     </key>
+    <key name="show-line-end" type="b">
+      <default>false</default>
+    </key>
+    <key name="saved-show-line-end-color" type="s">
+      <default>'#9a9996'</default>
+    </key>
     <key name="port-str" type="s">
       <default>'/dev/ttyACM0'</default>
     </key>
     <key name="baud-index" type="i">
-      <default>15</default>
+      <default>14</default>
     </key>
     <key name="saved-serial-rx-data-format" type="s">
       <default>'ASCII'</default>

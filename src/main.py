@@ -188,6 +188,18 @@ class TaunoMonitorApplication(Adw.Application):
         self.settings.set_string("saved-out-color", default_color.to_string())
         self.out_color_dialog_button.set_rgba(default_color)
 
+    """
+    Get and save line end tag color
+    """
+    def on_show_line_end_color_selected(self, color_dialog_button, g_param_boxed):
+        gdk_rgba = color_dialog_button.get_rgba()
+        print("Line End color " + gdk_rgba.to_string())
+        # Save color settings
+        self.settings.set_string("saved-show-line-end-color", gdk_rgba.to_string())
+        # Update tag
+        self.win.update_line_end_tag()
+
+
     def on_in_color_selected(self, color_dialog_button, g_param_boxed):
         """ Get and save In tag color """
         gdk_rgba = color_dialog_button.get_rgba()
@@ -411,12 +423,21 @@ class TaunoMonitorApplication(Adw.Application):
         # Save settings
         self.settings.set_boolean("notifications", notifications_state)
 
-
+    """
+    Get timestamp settings change and save
+    """
     def timestamp_switch_action(self, widget, state):
-        """ Get timestamp settings change and save """
         timestamp_state = state
         # Save settings
         self.settings.set_boolean("timestamp", timestamp_state)
+
+    """
+    Get show line endings settings change and save
+    """
+    def show_line_end_switch_action(self, widget, state):
+        show_line_end_state = state
+        # Save settings
+        self.settings.set_boolean("show-line-end", show_line_end_state)
 
 
     def text_size_action(self, action):

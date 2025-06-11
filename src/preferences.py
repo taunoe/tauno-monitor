@@ -1,6 +1,6 @@
 # File:        preferences.py
 # Started:     03.08.2024
-# Edited:      10.06.2025
+# Edited:      11.06.2025
 # Author:      Tauno Erik
 # Description: Displays Preferences window
 
@@ -184,9 +184,30 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         in_color_row.add_suffix(reset_in_color_button)
         reset_in_color_button.connect("clicked", self.reset_in_color_button_action)
 
-        ### TODO: Show line endings
+        ### Show line endings
+        show_line_end_row = Adw.ActionRow(title="Show line endings")
+        data_group.add(show_line_end_row)
+        show_line_end_switch = Gtk.Switch(valign = Gtk.Align.CENTER,)
+        show_line_end_row.add_suffix(show_line_end_switch)
+        # Get saved state: show-line-end
+        show_line_end_switch.set_active(self.settings.get_boolean("show-line-end"))
+        # Connect function from main.py to save
+        show_line_end_switch.connect("state-set", self.show_line_end_switch_action)
 
-        ### TODO: Line ending color
+        ### TODO: Show Line ending color
+        show_line_end_color_row = Adw.ActionRow(title="Line End Color")
+        # Color Dialog
+        data_group.add(show_line_end_color_row)
+        self.show_line_end_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
+        show_line_end_color = Gdk.RGBA()
+        #
+        show_line_end_color.parse(self.settings.get_string("saved-show-line-end-color"))
+        #
+        self.show_line_end_color_dialog_button.set_rgba(show_line_end_color)
+        self.show_line_end_color_dialog_button.set_valign(Gtk.Align.CENTER)
+        show_line_end_color_row.add_suffix(self.show_line_end_color_dialog_button)
+        #
+        self.show_line_end_color_dialog_button.connect('notify::rgba', self.on_show_line_end_color_selected)
 
         ####################################################################
         ## Logging group
