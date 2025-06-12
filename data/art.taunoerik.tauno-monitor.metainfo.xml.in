@@ -49,6 +49,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.1.27" date="2025-06-12">
+      <description>
+        <ul>
+          <li>New baud rates</li>
+          <li>Select line ending</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.26" date="2025-04-04">
       <description>
         <ul>

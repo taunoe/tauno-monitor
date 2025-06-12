@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-01 08:35+0300\n"
+"POT-Creation-Date: 2024-08-02 21:32+0300\n"
 "PO-Revision-Date: 2024-07-29 14:23+0300\n"
 "Last-Translator: Tauno Erik <sedumacre@gmail.com>\n"
 "Language-Team: Estonia\n"
@@ -28,15 +28,15 @@ msgstr "Tauno Erik"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
 msgid "Serial port monitor."
-msgstr ""
+msgstr "Jadapordi jälgija"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
 msgid "Features:"
-msgstr ""
+msgstr "Omadused:"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:12
 msgid "Remembers the last used settings (Theme, Baud Rate, Port etc)."
-msgstr ""
+msgstr "Jätab meelde viimati kasutatud seaded (teema, edastuskiirus, port jne)."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:13
 msgid "Auto reconnects to the serial port when the connection is lost."
@@ -87,15 +87,15 @@ msgstr ""
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:70
 msgid "Coloured output."
-msgstr ""
+msgstr "Värviline väljund."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:84
 msgid "Auto reconnects to the serial port."
-msgstr ""
+msgstr "Taastab ühenduse."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:91
 msgid "Logging data to a file."
-msgstr ""
+msgstr "Logib andmed faili."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:98
 msgid "Changed back to tauno-monitor."
@@ -111,11 +111,11 @@ msgstr ""
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:119
 msgid "Added \"Clear\" button."
-msgstr ""
+msgstr "Lisatud ekraani puhastus nupp"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:126
 msgid "Added timestamp setting."
-msgstr ""
+msgstr "Lisatud ajatempel"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:133
 msgid "Automatically scan ports if connection is lost."
@@ -195,7 +195,7 @@ msgstr "Logi"
 msgid "Unable to open serial ports! Learn how to enable ->"
 msgstr "Jadaporte ei saanud avada! Uuri, kuidas lubada ->"
 
-#: src/window.ui:129
+#: src/window.ui:129 src/guide.ui:6
 msgid "Guide"
 msgstr "Juhend"
 
@@ -217,8 +217,38 @@ msgstr "_Seaded"
 
 #: src/window.ui:211
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Kiirklahvid"
 
 #: src/window.ui:215
 msgid "_About Tauno Monitor"
-msgstr ""
+msgstr "_Teave"
+
+#: src/guide.ui:20
+msgid ""
+"To make serial ports visible to the app add the user to 'dialout' group."
+msgstr "Lisa kasuta 'dialout' gruppi, et rakendus näeks jadaporte."
+
+#: src/guide.ui:26
+msgid "Please open Terminal and type:"
+msgstr "Ava termainal ja sisesta käsud:"
+
+#: src/guide.ui:44
+msgid ""
+"You will need to log out and log back in again (or reboot) for the user "
+"group changes to take effect."
+msgstr "Pead välja- ja uuesti sisse logima, et muudatuse rakenduksid."
+
+#: src/guide.ui:50
+msgid ""
+"Ubuntu users also must enable \"Access USB hardware directly\" in the Ubuntu "
+"Store Software store on or on the command line."
+msgstr "Ubuntu kasutajad peavad lubama \"Access USB hardware directly\" Ubuntu "
+"rakenduste poest või käsurealt"
+
+#: src/guide.ui:56
+msgid "More information on:"
+msgstr "Rohkem infot:"
+
+#: src/guide.ui:67
+msgid "Close window"
+msgstr "Sule aken"
