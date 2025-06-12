@@ -1,6 +1,6 @@
 # tauno_serial.py
 # Tauno Erik
-# 05.06.2025
+# 12.06.2025
 
 import serial
 import serial.tools.list_ports
@@ -11,23 +11,23 @@ class TaunoSerial():
     def __init__(self, window_reference):
         self.window_reference = window_reference
         self.is_open = False
-        self.myserial = serial.Serial()
+        self.tauno_serial = serial.Serial()
 
 
     def open(self, port, baud):
         """ Open to serial port """
         # Close if already open
-        if self.myserial.is_open:
+        if self.tauno_serial.is_open:
             print("Already open: Close()")
             self.close()
         else:
             # Open Serial port
             print("Open: " + port + " " + baud)
-            self.myserial.baudrate = baud
-            self.myserial.port = port
-            self.myserial.open()
+            self.tauno_serial.baudrate = baud
+            self.tauno_serial.port = port
+            self.tauno_serial.open()
 
-            if self.myserial.is_open:
+            if self.tauno_serial.is_open:
                 self.is_open = True
                 print("Opened Serial Port successfully")
             else:
@@ -36,32 +36,33 @@ class TaunoSerial():
 
     def close(self):
         """ Close serial port """
-        print("Close(): " + str(self.myserial.port) + " " + str(self.myserial.baudrate) )
-        self.myserial.close()
-        if self.myserial.is_open is False:
+        print("Close(): " + str(self.tauno_serial.port) + " " + str(self.tauno_serial.baudrate) )
+        self.tauno_serial.close()
+        if self.tauno_serial.is_open is False:
             self.is_open = False
             print("Closed Serial Port successfully")
         else:
-            print("Unable to open: " + str(self.myserial.port) + " " + str(self.myserial.baudrate) )
+            print("Unable to open: " + str(self.tauno_serial.port) + " " + str(self.tauno_serial.baudrate) )
 
 
     def read(self):
         """ Read while serial port is open """
         while self.is_open:
             try:
-                data_in = self.myserial.read()  # read a byte
+                data_in = self.tauno_serial.read()  # read a byte
                 GLib.idle_add(self.window_reference.add_to_text_view, data_in)
             except Exception as ex:
                 print("Serial read error: ", ex)
                 # Close serial port
-                if self.myserial.is_open:
-                    self.window_reference.reconnect_serial(self.myserial.port, self.myserial.baudrate)
+                if self.tauno_serial.is_open:
+                    self.window_reference.reconnect_serial(self.tauno_serial.port, self.tauno_serial.baudrate)
                 return
+
 
 
     def write(self, data):
         """ Write to serial port """
         print(f"Serial Port Write: {data}")
-        if self.myserial.is_open:
-            self.myserial.write(data.encode('utf-8'))
+        if self.tauno_serial.is_open:
+            self.tauno_serial.write(data.encode('utf-8'))
 

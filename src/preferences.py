@@ -1,6 +1,6 @@
 # File:        preferences.py
 # Started:     03.08.2024
-# Edited:      11.06.2025
+# Edited:      12.06.2025
 # Author:      Tauno Erik
 # Description: Displays Preferences window
 
@@ -184,6 +184,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         in_color_row.add_suffix(reset_in_color_button)
         reset_in_color_button.connect("clicked", self.reset_in_color_button_action)
 
+        """
         ### Show line endings
         show_line_end_row = Adw.ActionRow(title="Show line endings")
         data_group.add(show_line_end_row)
@@ -208,6 +209,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         show_line_end_color_row.add_suffix(self.show_line_end_color_dialog_button)
         #
         self.show_line_end_color_dialog_button.connect('notify::rgba', self.on_show_line_end_color_selected)
+        """
 
         ####################################################################
         ## Logging group
@@ -237,7 +239,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         #####################################################################
         serial_group = Adw.PreferencesGroup(title="Serial")
         settings_page.add(serial_group)
-
+        """
         #####################################################################
         ### Data bits row
         ### 5, 6, 7, 8
@@ -310,7 +312,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         stop_bits_row.add_suffix(reset_stop_bits_button)
         # Connect function from main.py to reset
         reset_stop_bits_button.connect("clicked", self.reset_stop_bits_button_action)
-
+        """
         ###################################################################
         ### Enter sends:
         ### \n, \r, \r\n or nothing

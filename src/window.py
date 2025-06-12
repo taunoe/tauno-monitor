@@ -144,7 +144,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.tag_in = self.text_buffer.create_tag('in', foreground=in_color)
 
         line_end_color = self.settings.get_string("saved-show-line-end-color")
-        self.tag_line_end = self.text_buffer.create_tag('line_end', foreground=in_color)
+        self.tag_line_end = self.text_buffer.create_tag('line_end', foreground=line_end_color)
 
         self.prev_char = '\n'  # store prev char
 
@@ -180,7 +180,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def update_time_tag(self):
         """ Creates new tag with a new color """
-        # TODO How to change already existing tag color?
         #print("update_time_tag")
         self.text_buffer = self.input_text_view.get_buffer()
         color = self.settings.get_string("saved-time-color")
@@ -263,7 +262,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
             self.port_drop_down_list.splice(0, old_size, self.ports_str_list)
         except Exception as e:
-            print("Scan serial ports error: ",e)
+            print("Scan serial ports error: ", e)
             return
 
 
@@ -422,13 +421,16 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
              self.set_title("Reconnecting ")
 
 
+    """
+    Update Text View
+    """
     def add_to_text_view(self, data):
-        """ Update Text View """
+        #TODO: add line end
         try:
-            # HEX
+            # Show data as HEX
             if self.get_rx_format_saved == 'HEX':
                 self.insert_data_to_text_view(data, 'HEX')
-            # ASCII
+            # Show data as ASCII chars
             else:
                 if self.prev_char == '\n':
                     # Timestamp
@@ -444,8 +446,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             return
 
 
+    """
+    Insert data to text view
+    Types 'HEX', 'ASCII', 'TX'
+    """
     def insert_data_to_text_view(self, data, type):
-        """ Types 'HEX', 'ASCII', 'TX' """
         self.text_buffer = self.input_text_view.get_buffer()
         self.text_iter_end = self.text_buffer.get_end_iter()
         start_mark = self.text_buffer.create_mark('start_mark', self.text_buffer.get_end_iter(), True)
@@ -555,5 +560,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.insert_time_to_text_view()
         self.insert_arrow_to_text_view('TX')
         self.insert_data_to_text_view(data, 'TX')
+
 
 
