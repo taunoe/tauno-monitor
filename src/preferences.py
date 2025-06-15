@@ -1,6 +1,6 @@
 # File:        preferences.py
 # Started:     03.08.2024
-# Edited:      12.06.2025
+# Edited:      15.06.2025
 # Author:      Tauno Erik
 # Description: Displays Preferences window
 
@@ -184,7 +184,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         in_color_row.add_suffix(reset_in_color_button)
         reset_in_color_button.connect("clicked", self.reset_in_color_button_action)
 
-        """
+
         ### Show line endings
         show_line_end_row = Adw.ActionRow(title="Show line endings")
         data_group.add(show_line_end_row)
@@ -209,7 +209,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         show_line_end_color_row.add_suffix(self.show_line_end_color_dialog_button)
         #
         self.show_line_end_color_dialog_button.connect('notify::rgba', self.on_show_line_end_color_selected)
-        """
+
 
         ####################################################################
         ## Logging group
@@ -239,10 +239,11 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         #####################################################################
         serial_group = Adw.PreferencesGroup(title="Serial")
         settings_page.add(serial_group)
-        """
+
         #####################################################################
         ### Data bits row
         ### 5, 6, 7, 8
+        """
         data_bits_row = Adw.ActionRow(title="Data bits")
         serial_group.add(data_bits_row)
         self.data_bits_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_data_bits)
@@ -314,27 +315,49 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         reset_stop_bits_button.connect("clicked", self.reset_stop_bits_button_action)
         """
         ###################################################################
-        ### Enter sends:
+        ### TX transmitted data, Enter sends:
         ### \n, \r, \r\n or nothing
-        send_line_end_row = Adw.ActionRow(title="End of data sending line (Enter)")
-        serial_group.add(send_line_end_row)
-        self.send_line_end_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_line_endings)
-        self.send_line_end_drop_down.set_valign(Gtk.Align.CENTER)
+        TX_line_end_row = Adw.ActionRow(title="End of line of transmitted (TX) data")
+        serial_group.add(TX_line_end_row)
+        self.TX_line_end_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_tx_line_endings)
+        self.TX_line_end_drop_down.set_valign(Gtk.Align.CENTER)
         # Get saved index from windows.py
-        line_end_index = self.win.get_send_line_end_saved
-        self.send_line_end_drop_down.set_selected(position=line_end_index)
-        send_line_end_row.add_suffix(self.send_line_end_drop_down)
+        line_end_index = self.win.get_TX_line_end_saved
+        self.TX_line_end_drop_down.set_selected(position=line_end_index)
+        TX_line_end_row.add_suffix(self.TX_line_end_drop_down)
         # Connect function from main.py to save
-        self.send_line_end_drop_down.connect('notify::selected-item', self.serial_send_line_end_action)
+        self.TX_line_end_drop_down.connect('notify::selected-item', self.serial_TX_line_end_action)
 
-        reset_send_line_end_button = Gtk.Button(label="Reset")
-        reset_send_line_end_button.set_icon_name("arrow-circular-small-top-left-symbolic")
-        reset_send_line_end_button.set_valign(Gtk.Align.CENTER)
-        reset_send_line_end_button.set_has_frame(False)  # flat
-        reset_send_line_end_button.set_tooltip_text("Reset")
-        send_line_end_row.add_suffix(reset_send_line_end_button)
+        reset_TX_line_end_button = Gtk.Button(label="Reset")
+        reset_TX_line_end_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_TX_line_end_button.set_valign(Gtk.Align.CENTER)
+        reset_TX_line_end_button.set_has_frame(False)  # flat
+        reset_TX_line_end_button.set_tooltip_text("Reset")
+        TX_line_end_row.add_suffix(reset_TX_line_end_button)
         # Connect function from main.py to reset
-        reset_send_line_end_button.connect("clicked", self.reset_send_line_end_button_action)
+        reset_TX_line_end_button.connect("clicked", self.reset_TX_line_end_button_action)
+
+        ###################################################################
+        ### RX Received data:
+        RX_line_end_row = Adw.ActionRow(title="End of line of received (RX) data")
+        serial_group.add(RX_line_end_row)
+        self.RX_line_end_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_rx_line_endings)
+        self.RX_line_end_drop_down.set_valign(Gtk.Align.CENTER)
+        # Get saved index from windows.py
+        line_end_index = self.win.get_RX_line_end_saved
+        self.RX_line_end_drop_down.set_selected(position=line_end_index)
+        RX_line_end_row.add_suffix(self.RX_line_end_drop_down)
+        # Connect function from main.py to save
+        self.RX_line_end_drop_down.connect('notify::selected-item', self.serial_RX_line_end_action)
+
+        reset_RX_line_end_button = Gtk.Button(label="Reset")
+        reset_RX_line_end_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_RX_line_end_button.set_valign(Gtk.Align.CENTER)
+        reset_RX_line_end_button.set_has_frame(False)  # flat
+        reset_RX_line_end_button.set_tooltip_text("Reset")
+        RX_line_end_row.add_suffix(reset_RX_line_end_button)
+        # Connect function from main.py to reset
+        reset_RX_line_end_button.connect("clicked", self.reset_RX_line_end_button_action)
 
         ### TODO: Custom baud rate
 
@@ -342,4 +365,5 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         # Display all
         ##################################################################
         self.preferences.present()
+
 

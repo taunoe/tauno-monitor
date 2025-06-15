@@ -50,6 +50,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     banner_no_ports = Gtk.Template.Child()
 
 
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -86,8 +87,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.get_parity_saved = self.settings.get_int("saved-serial-parity-index")
         # Get Stop Bit
         self.get_stop_bit_saved = self.settings.get_int("saved-serial-stop-bit-index")
-        # Get line end
-        self.get_send_line_end_saved = self.settings.get_int("saved-serial-send-line-end-index")
+
+        # Get TX line end index
+        self.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
+
+        # Get RX line end index
+        self.get_RX_line_end_saved = self.settings.get_int("saved-serial-rx-line-end-index")
 
         # font size
         self.font_size_saved = self.settings.get_int("font-size")
@@ -147,6 +152,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.tag_line_end = self.text_buffer.create_tag('line_end', foreground=line_end_color)
 
         self.prev_char = '\n'  # store prev char
+
+         # Also in main.py and tauno_serial.py!!!
+        self.serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
+        self.serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';']
 
         # Reconnect
         self.reconnecting_serial = False
@@ -366,8 +375,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         thread.start()
 
 
+    """
+    Tries to reconnect the serial connection. Using the latest settings.
+    """
     def reconnect_serial(self, selected_port, selected_baudrate):
-        """ Tries to reconnect the serial connection. Using the latest settings. """
         print("Auto reconnecting serial ")
         self.tauno_serial.close()
 
@@ -408,8 +419,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 self.set_title('Tauno Monitor')
 
 
+    """
+    Title animation
+    """
     def reconnecting_msg(self, i):
-        """ Title animation """
         print(".")
         if i == 1:
             self.set_title("Reconnecting .")
@@ -432,13 +445,26 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 self.insert_data_to_text_view(data, 'HEX')
             # Show data as ASCII chars
             else:
+                # TODO:
+                """
                 if self.prev_char == '\n':
                     # Timestamp
                     self.insert_time_to_text_view()
                     # Arrow
                     self.insert_arrow_to_text_view('RX')
                 if data.decode() != '\r':  # ignore \r - is it good idea??
+                    # For some reasons \r causes data loss
                     self.insert_data_to_text_view(data, 'ASCII')
+                    self.insert_line_end_to_text_view('TX')
+                """
+                # Timestamp
+                self.insert_time_to_text_view()
+                # Arrow
+                self.insert_arrow_to_text_view('RX')
+                # data
+                self.insert_data_to_text_view(data, 'ASCII')
+                self.insert_line_end_to_text_view('RX')
+
             # Scroll text view
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
         except Exception as ex:
@@ -461,9 +487,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.logging.write_hex_data(data.hex())
             tag = self.tag_in
         elif type == 'ASCII':
-            self.prev_char = data.decode()  # Store char
-            self.text_buffer.insert(self.text_iter_end, data.decode())
-            self.logging.write_data(data.decode())
+            #self.prev_char = data.decode()  # Store char
+            #self.text_buffer.insert(self.text_iter_end, data.decode())
+            #self.logging.write_data(data.decode())
+            line = data.decode('utf-8').strip()
+            self.text_buffer.insert(self.text_iter_end, line)
+            self.logging.write_data(line)#TODO line end???
             tag = self.tag_in
         elif type == 'TX':
             self.text_buffer.insert(self.text_iter_end, data)
@@ -476,9 +505,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.text_buffer.apply_tag(tag, self.text_buffer.get_iter_at_mark(start_mark), self.text_buffer.get_iter_at_mark(end_mark))
 
 
-
+    """"
+    Display a arrow RX or TX
+    """
     def insert_arrow_to_text_view(self, type):
-        """" Display a arrow RX or TX"""
         if type == 'TX':
             arrow = '<-- '  # TX
         else:
@@ -497,8 +527,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.logging.write_data(arrow)
 
 
+    """
+    Add timestamp if needed
+    """
     def insert_time_to_text_view(self):
-        """ Add timestamp if needed """
         is_timestamp = self.settings.get_boolean("timestamp")
 
         if is_timestamp:
@@ -519,8 +551,58 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.logging.write_data(current_time)
 
 
+    """
+    Add line end for text-view and real
+    """
+    def insert_line_end_to_text_view(self, direction):
+        show_line_end = self.settings.get_boolean("show-line-end")
+
+        if direction == 'TX':
+            index = self.settings.get_int("saved-serial-tx-line-end-index")
+            show_end = self.serial_tx_line_endings[index]
+        if direction == 'RX':
+            index = self.settings.get_int("saved-serial-rx-line-end-index")
+            show_end = self.serial_rx_line_endings[index]
+
+        # Add line end for show
+        if show_line_end:
+
+            # Buffer
+            self.text_buffer = self.input_text_view.get_buffer()
+
+            # Start mark
+            line_end_start_mark = self.text_buffer.create_mark('line_end_start_mark', self.text_buffer.get_end_iter(), True)
+
+            # Insert line end
+            self.text_buffer.insert(self.text_iter_end, show_end)
+
+            # End mark
+            line_end_end_mark = self.text_buffer.create_mark('line_end_end_mark', self.text_buffer.get_end_iter(), True)
+
+            # Tag
+            self.text_buffer.apply_tag(self.tag_line_end, self.text_buffer.get_iter_at_mark(line_end_start_mark), self.text_buffer.get_iter_at_mark(line_end_end_mark))
+
+            # Log
+            self.logging.write_data(show_end)
+        # Add real line end
+        if index == 1:
+            self.text_buffer.insert(self.text_iter_end, '\r')
+            # Log
+            self.logging.write_data('\r')
+        elif index == 2:
+            self.text_buffer.insert(self.text_iter_end, '\r\n')
+            # Log
+            self.logging.write_data('\r\n')
+        else:
+            self.text_buffer.insert(self.text_iter_end, '\n')
+            # Log
+            self.logging.write_data('\n')
+
+
+    """
+    Button Send action
+    """
     def btn_send(self, action, _):
-        """ Button Send action """
         cmd_buffer = self.send_cmd.get_buffer()
         data = cmd_buffer.get_text()
         self.send_to_serial(data)
@@ -536,9 +618,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.send_to_serial(data)
         cmd_buffer.delete_text(0, len(data))
 
-
+    """
+    Write data to Serial port
+    """
     def send_to_serial(self, data):
-        """ Write data to Serial port """
         if self.tauno_serial.is_open:
             self.tauno_serial.write(data)
         else:
@@ -546,20 +629,20 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # TODO: add line ending from settings
         end = ''
-        index = self.get_send_line_end_saved
+        index = self.get_TX_line_end_saved
 
         if index == 0:
+            text_view_end = '\\n'
             end = '\n'
         elif index == 1:
-            end = '\r'
+            end = '\\r'
         elif index == 2:
-            end = '\r\n'
-
-        data =  data + end
+            end = '\\r\\n'
 
         self.insert_time_to_text_view()
         self.insert_arrow_to_text_view('TX')
         self.insert_data_to_text_view(data, 'TX')
+        self.insert_line_end_to_text_view('TX')
 
 
 

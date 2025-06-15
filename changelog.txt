@@ -1,3 +1,7 @@
+0.1.28 (15.06.25)
+
+- Show and select line ends (TX and RX).
+
 0.1.27 (12.06.25)
 
 - New baud rates

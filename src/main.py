@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-VERSION = '0.1.27'
+VERSION = '0.1.28'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -41,7 +41,10 @@ class TaunoMonitorApplication(Adw.Application):
     # Serial parities
     serial_parities = ['None', 'Even', 'Odd', 'Mark', 'Space']
     serial_stop_bits = ['1', '1.5', '2']
-    serial_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
+
+     # Also in:window.py insert_line_end_to_text_view()!!!
+    serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
+    serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';']
 
 
     def __init__(self):
@@ -377,31 +380,64 @@ class TaunoMonitorApplication(Adw.Application):
     """
     Function called when Serial Line End selection is changed in App preferences
     """
-    def serial_send_line_end_action(self, drop_down, g_param_object):
+    def serial_TX_line_end_action(self, drop_down, g_param_object):
         # Get selected index
         string_object = drop_down.get_selected_item()
         index = drop_down.get_selected()
         print(f'Selected Line End Pos: {index} val: {string_object.get_string()}')
         # Save index
-        if self.win.get_send_line_end_saved != index:
+        if self.win.get_TX_line_end_saved != index:
             print("Saving Serial Line End index")
-            self.settings.set_int("saved-serial-send-line-end-index", index)
+            self.settings.set_int("saved-serial-tx-line-end-index", index)
             # Reload setting
-            self.win.get_send_line_end_saved = self.settings.get_int("saved-serial-send-line-end-index")
+            self.win.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
 
 
     """
     Function to reset Serial Line End to default value
     """
-    def reset_send_line_end_button_action(self, widget):
-        defalut_value = self.settings.get_int("default-serial-send-line-end-index")
+    def reset_TX_line_end_button_action(self, widget):
+        defalut_value = self.settings.get_int("default-serial-tx-line-end-index")
         print(f"Reset Line End index to: {defalut_value}")
         # save setting
-        self.settings.set_int("saved-serial-send-line-end-index", defalut_value)
+        self.settings.set_int("saved-serial-tx-line-end-index", defalut_value)
         # reload setting
-        self.win.get_send_line_end_saved = self.settings.get_int("saved-serial-send-line-end-index")
+        self.win.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
         # reload UI from preferences.py
-        self.send_line_end_drop_down.set_selected(position=defalut_value)
+        self.TX_line_end_drop_down.set_selected(position=defalut_value)
+
+
+    """
+    Function called when Serial Line End selection is changed in App preferences
+    RX
+    """
+    def serial_RX_line_end_action(self, drop_down, g_param_object):
+        # Get selected index
+        string_object = drop_down.get_selected_item()
+        index = drop_down.get_selected()
+        print(f'Selected Line End Pos: {index} val: {string_object.get_string()}')
+        # Save index
+        if self.win.get_RX_line_end_saved != index:
+            print("Saving Serial Line End index")
+            self.settings.set_int("saved-serial-rx-line-end-index", index)
+            # Reload setting
+            self.win.get_RX_line_end_saved = self.settings.get_int("saved-serial-rx-line-end-index")
+
+
+    """
+    Function to reset Serial Line End to default value
+    RX
+    """
+    def reset_RX_line_end_button_action(self, widget):
+        defalut_value = self.settings.get_int("default-serial-rx-line-end-index")
+        print(f"Reset Line End index to: {defalut_value}")
+        # save setting
+        self.settings.set_int("saved-serial-rx-line-end-index", defalut_value)
+        # reload setting
+        self.win.get_RX_line_end_saved = self.settings.get_int("saved-serial-rx-line-end-index")
+        # reload UI from preferences.py
+        self.RX_line_end_drop_down.set_selected(position=defalut_value)
+
 
     """
     """
@@ -417,11 +453,14 @@ class TaunoMonitorApplication(Adw.Application):
         self.settings.set_boolean("dark-mode", dark_mode)
 
 
+    """
+    Get notifications settings change and save
+    """
     def notifications_switch_action(self, widget, state):
-        """ Get notifications settings change and save """
         notifications_state = state
         # Save settings
         self.settings.set_boolean("notifications", notifications_state)
+
 
     """
     Get timestamp settings change and save
@@ -430,6 +469,7 @@ class TaunoMonitorApplication(Adw.Application):
         timestamp_state = state
         # Save settings
         self.settings.set_boolean("timestamp", timestamp_state)
+
 
     """
     Get show line endings settings change and save
@@ -445,6 +485,7 @@ class TaunoMonitorApplication(Adw.Application):
         self.win.change_font_size(new_size)
         # Save settings
         self.settings.set_int("font-size", new_size)
+
 
     def on_font_selected(self, font_dialog_button, g_param_boxed):
         font_selected = font_dialog_button.get_font_desc()
@@ -463,4 +504,5 @@ class TaunoMonitorApplication(Adw.Application):
 def main(version):
     app = TaunoMonitorApplication()
     return app.run(sys.argv)
+
 

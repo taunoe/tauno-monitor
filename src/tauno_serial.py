@@ -1,6 +1,6 @@
 # tauno_serial.py
 # Tauno Erik
-# 12.06.2025
+# 15.06.2025
 
 import serial
 import serial.tools.list_ports
@@ -26,6 +26,7 @@ class TaunoSerial():
             self.tauno_serial.baudrate = baud
             self.tauno_serial.port = port
             self.tauno_serial.open()
+            self.tauno_serial.flushInput() # Clear any old data in the buffer
 
             if self.tauno_serial.is_open:
                 self.is_open = True
@@ -44,12 +45,35 @@ class TaunoSerial():
         else:
             print("Unable to open: " + str(self.tauno_serial.port) + " " + str(self.tauno_serial.baudrate) )
 
-
+    """
+    Read byte while serial port is open
+    """
     def read(self):
-        """ Read while serial port is open """
         while self.is_open:
+            # bytes(HEX) or line?
+            print("serial read")
+            type = self.window_reference.get_rx_format_saved
+            print(f"type={type}")
+
+            end_index = self.window_reference.get_RX_line_end_saved
+            if end_index == 0:
+                end = b'\n'
+            elif end_index == 1:
+                end = b'\r'
+            elif end_index == 2:
+                end = b'\r\n'
+            elif end_index == 3:
+                end = b';'
+
             try:
-                data_in = self.tauno_serial.read()  # read a byte
+                if type == 'HEX':
+                    # read a byte
+                    print("try=HEX")
+                    data_in = self.tauno_serial.read()
+                else:
+                    print("try=ASCII")
+                    # Read a line until selected end
+                    data_in = self.tauno_serial.read_until(expected=end)
                 GLib.idle_add(self.window_reference.add_to_text_view, data_in)
             except Exception as ex:
                 print("Serial read error: ", ex)
@@ -57,6 +81,12 @@ class TaunoSerial():
                 if self.tauno_serial.is_open:
                     self.window_reference.reconnect_serial(self.tauno_serial.port, self.tauno_serial.baudrate)
                 return
+
+
+    """
+    Read line while serial port is open
+    """
+
 
 
 

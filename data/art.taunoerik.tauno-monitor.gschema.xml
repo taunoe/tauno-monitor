@@ -82,10 +82,16 @@
     <key name="saved-serial-stop-bit-index" type="i">
       <default>0</default>
     </key>
-    <key name="default-serial-send-line-end-index" type="i">
+    <key name="default-serial-tx-line-end-index" type="i">
       <default>0</default>
     </key>
-    <key name="saved-serial-send-line-end-index" type="i">
+    <key name="saved-serial-tx-line-end-index" type="i">
+      <default>0</default>
+    </key>
+    <key name="default-serial-rx-line-end-index" type="i">
+      <default>0</default>
+    </key>
+    <key name="saved-serial-rx-line-end-index" type="i">
       <default>0</default>
     </key>
   </schema>

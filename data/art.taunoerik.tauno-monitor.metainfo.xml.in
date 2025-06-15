@@ -49,6 +49,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+
+    <release version="0.1.28" date="2025-06-15">
+      <description>
+        <ul>
+          <li>Show and select line ends (TX and RX).</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.27" date="2025-06-12">
       <description>
         <ul>
