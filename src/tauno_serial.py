@@ -1,6 +1,6 @@
 # tauno_serial.py
 # Tauno Erik
-# 15.06.2025
+# 16.06.2025
 
 import serial
 import serial.tools.list_ports
@@ -25,6 +25,24 @@ class TaunoSerial():
             print("Open: " + port + " " + baud)
             self.tauno_serial.baudrate = baud
             self.tauno_serial.port = port
+
+            # Data Bit (index: main.py)
+            bytesize_index = self.window_reference.get_data_bit_saved
+            if bytesize_index == 0:
+                self.tauno_serial.bytesize = serial.FIVEBITS
+            elif bytesize_index == 1:
+                self.tauno_serial.bytesize = serial.SIXBITS
+            elif bytesize_index == 2:
+                self.tauno_serial.bytesize = serial.SEVENBITS
+            elif bytesize_index == 3:
+                self.tauno_serial.bytesize = serial.EIGHTBITS
+            # TODO:
+            self.tauno_serial.parity = serial.PARITY_NONE
+            # TODO:
+            self.tauno_serial.stopbits = serial.STOPBITS_ONE
+            # TODO:
+            self.tauno_serial.timeout = 1
+
             self.tauno_serial.open()
             self.tauno_serial.flushInput() # Clear any old data in the buffer
 

@@ -1,6 +1,6 @@
 # File:        preferences.py
 # Started:     03.08.2024
-# Edited:      15.06.2025
+# Edited:      16.06.2025
 # Author:      Tauno Erik
 # Description: Displays Preferences window
 
@@ -243,7 +243,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         #####################################################################
         ### Data bits row
         ### 5, 6, 7, 8
-        """
         data_bits_row = Adw.ActionRow(title="Data bits")
         serial_group.add(data_bits_row)
         self.data_bits_drop_down = Gtk.DropDown.new_from_strings(strings=self.serial_data_bits)
@@ -313,7 +312,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         stop_bits_row.add_suffix(reset_stop_bits_button)
         # Connect function from main.py to reset
         reset_stop_bits_button.connect("clicked", self.reset_stop_bits_button_action)
-        """
+
         ###################################################################
         ### TX transmitted data, Enter sends:
         ### \n, \r, \r\n or nothing
@@ -358,6 +357,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         RX_line_end_row.add_suffix(reset_RX_line_end_button)
         # Connect function from main.py to reset
         reset_RX_line_end_button.connect("clicked", self.reset_RX_line_end_button_action)
+        ### TODO: Timeout
 
         ### TODO: Custom baud rate
 

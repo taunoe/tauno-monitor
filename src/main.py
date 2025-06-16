@@ -29,20 +29,20 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-VERSION = '0.1.28'
+VERSION = '0.1.29'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
     # Serial byte sizes
-    serial_data_bits = ['FIVEBITS', 'SIXBITS', 'SEVENBITS', 'EIGHTBITS']
+    serial_data_bits = ['5 Bits', '6 Bits', '7 Bits', '8 Bits']
     # Serial data formats
     serial_data_formats = ['ASCII', 'HEX']
     # Serial parities
     serial_parities = ['None', 'Even', 'Odd', 'Mark', 'Space']
     serial_stop_bits = ['1', '1.5', '2']
 
-     # Also in:window.py insert_line_end_to_text_view()!!!
+     # Also in: window.py insert_line_end_to_text_view()!!!
     serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
     serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';']
 

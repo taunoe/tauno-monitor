@@ -81,11 +81,14 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Get saved Serial RX data format
         self.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
-        # Get saved data bit
+
+        # Get saved data bit index
         self.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
-        # Get saved parity
+
+        # Get saved parity index
         self.get_parity_saved = self.settings.get_int("saved-serial-parity-index")
-        # Get Stop Bit
+
+        # Get Stop Bit index
         self.get_stop_bit_saved = self.settings.get_int("saved-serial-stop-bit-index")
 
         # Get TX line end index
