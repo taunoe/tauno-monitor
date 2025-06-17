@@ -3,7 +3,7 @@
 - Bug fixes
 - New app icon
 - Runtime-version 48
-- Advandsed Serial settings
+- Advandced Serial settings
 
 0.1.28 (15.06.25)
 
