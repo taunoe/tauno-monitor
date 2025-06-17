@@ -1,6 +1,6 @@
 # tauno_serial.py
 # Tauno Erik
-# 16.06.2025
+# 17.06.2025
 
 import serial
 import serial.tools.list_ports
@@ -36,12 +36,33 @@ class TaunoSerial():
                 self.tauno_serial.bytesize = serial.SEVENBITS
             elif bytesize_index == 3:
                 self.tauno_serial.bytesize = serial.EIGHTBITS
+
+            # Parity
+            parity_index = self.window_reference.get_parity_saved
+
+            if parity_index == 0:
+                self.tauno_serial.parity = serial.PARITY_NONE
+            elif parity_index == 1:
+                self.tauno_serial.parity = serial.PARITY_EVEN
+            elif parity_index == 2:
+                self.tauno_serial.parity = serial.PARITY_ODD
+            elif parity_index == 3:
+                self.tauno_serial.parity = serial.PARITY_MARK
+            elif parity_index == 5:
+                self.tauno_serial.parity = serial.PARITY_SPACE
+
+            # Stopbit
+            stopbit_index = self.window_reference.get_stop_bit_saved
+
+            if stopbit_index == 0:
+                self.tauno_serial.stopbits = serial.STOPBITS_ONE
+            elif stopbit_index == 1:
+                self.tauno_serial.stopbits = serial.STOPBITS_ONE_POINT_FIVE
+            elif stopbit_index == 2:
+                self.tauno_serial.stopbits = serial.STOPBITS_TWO
+
             # TODO:
-            self.tauno_serial.parity = serial.PARITY_NONE
-            # TODO:
-            self.tauno_serial.stopbits = serial.STOPBITS_ONE
-            # TODO:
-            self.tauno_serial.timeout = 1
+            #self.tauno_serial.timeout = 1
 
             self.tauno_serial.open()
             self.tauno_serial.flushInput() # Clear any old data in the buffer
@@ -86,10 +107,10 @@ class TaunoSerial():
             try:
                 if type == 'HEX':
                     # read a byte
-                    print("try=HEX")
+                    #print("try=HEX")
                     data_in = self.tauno_serial.read()
                 else:
-                    print("try=ASCII")
+                    #print("try=ASCII")
                     # Read a line until selected end
                     data_in = self.tauno_serial.read_until(expected=end)
                 GLib.idle_add(self.window_reference.add_to_text_view, data_in)

@@ -330,7 +330,7 @@ class TaunoMonitorApplication(Adw.Application):
             print("Saving Serial Parity index")
             self.settings.set_int("saved-serial-parity-index", index)
             # Reload setting
-            self.win.get_data_bit_saved = self.settings.get_int("saved-serial-parity-index")
+            self.win.get_parity_saved = self.settings.get_int("saved-serial-parity-index")
 
 
     """
@@ -339,7 +339,7 @@ class TaunoMonitorApplication(Adw.Application):
     def reset_parity_button_action(self, widget):
         defalut_value = self.settings.get_int("default-serial-parity-index")
         print(f"Reset Parity index to: {defalut_value}")
-        # save setting
+        # Save setting
         self.settings.set_int("saved-serial-parity-index", defalut_value)
         # reload setting
         self.win.get_parity_saved = self.settings.get_int("saved-serial-parity-index")

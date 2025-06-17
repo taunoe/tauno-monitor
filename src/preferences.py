@@ -1,6 +1,6 @@
 # File:        preferences.py
 # Started:     03.08.2024
-# Edited:      16.06.2025
+# Edited:      17.06.2025
 # Author:      Tauno Erik
 # Description: Displays Preferences window
 
@@ -12,7 +12,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
 
 
     def on_guide_action(self, widget, _):
@@ -145,7 +144,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         reset_arrow_color_button.connect("clicked", self.reset_arrow_color_button_action)
 
         # Transmitted outgoing data color
-        out_color_row = Adw.ActionRow(title="TX Color")
+        out_color_row = Adw.ActionRow(title="Transmitted (TX) data Color")
         # Color Dialog
         data_group.add(out_color_row)
         self.out_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
@@ -165,7 +164,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         reset_out_color_button.connect("clicked", self.reset_out_color_button_action)
 
         # Received incoming data color
-        in_color_row = Adw.ActionRow(title="RX Color")
+        in_color_row = Adw.ActionRow(title="Received (RX) data Color")
         # Color Dialog
         data_group.add(in_color_row)
         self.in_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)
@@ -196,7 +195,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         show_line_end_switch.connect("state-set", self.show_line_end_switch_action)
 
         ### TODO: Show Line ending color
-        show_line_end_color_row = Adw.ActionRow(title="Line End Color")
+        show_line_end_color_row = Adw.ActionRow(title="Line end color")
         # Color Dialog
         data_group.add(show_line_end_color_row)
         self.show_line_end_color_dialog_button = Gtk.ColorDialogButton.new(dialog=self.color_dialog)

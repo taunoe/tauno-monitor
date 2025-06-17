@@ -49,7 +49,16 @@
     <category>Utility</category>
   </categories>
   <releases>
-
+    <release version="0.1.29" date="2025-06-17">
+      <description>
+        <ul>
+          <li>Bug fixes</li>
+          <li>New app icon</li>
+          <li>Runtime-version 48</li>
+          <li>Advandsed Serial settings</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.28" date="2025-06-15">
       <description>
         <ul>
