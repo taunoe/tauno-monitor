@@ -1,6 +1,6 @@
 # File:        preferences.py
 # Started:     03.08.2024
-# Edited:      17.06.2025
+# Edited:      18.06.2025
 # Author:      Tauno Erik
 # Description: Displays Preferences window
 
@@ -30,17 +30,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         ui_group = Adw.PreferencesGroup(title="Appearance")
         settings_page.add(ui_group)
 
-
-        # TODO font selection
-        #font_dialog = Gtk.FontDialog.new()
-        #font_dialog.set_modal(modal=True)
-        #font_dialog.set_title(title='Select a font.')
-        #font_dialog_row = Adw.ActionRow(title="Font")
-        #ui_group.add(font_dialog_row)
-        #font_dialog_button = Gtk.FontDialogButton.new(dialog=font_dialog)
-        #font_dialog_button.set_valign(Gtk.Align.CENTER)
-        #font_dialog_row.add_suffix(font_dialog_button)
-        #font_dialog_button.connect('notify::font-desc', self.on_font_selected)
 
         ### Text size
         font_size_row = Adw.ActionRow(title="Text size")

@@ -5,14 +5,15 @@
   <project_license>GPL-3.0-or-later</project_license>
   <name>Tauno Monitor</name>
   <developer_name>Tauno Erik</developer_name>
-  <summary>Serial port monitor.</summary>
+  <summary>The serial port monitor</summary>
   <description>
     <p>Features:</p>
     <ul>
-        <li>Remembers the last used settings (Theme, Baud Rate, Port etc).</li>
-        <li>Auto reconnects to the serial port when the connection is lost.</li>
-        <li>Can log data to a file.</li>
-        <li>Customizable colors.</li>
+        <li>Easy to use</li>>
+        <li>Customizable colours</li>
+        <li>Remembers the last used settings</li>
+        <li>Automatically reconnects to the serial port if the connection is lost</li>
+        <li>Can log data to a file</li>
     </ul>
     <p>Depending on your system you may need to add a user to dialout group to open serial ports:
       <code>
@@ -49,6 +50,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.0" date="2025-06-18">
+      <description>
+        <ul>
+          <li>Bug fixes</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.29" date="2025-06-17">
       <description>
         <ul>

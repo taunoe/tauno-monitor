@@ -1,6 +1,6 @@
 # tauno_serial.py
 # Tauno Erik
-# 17.06.2025
+# 18.06.2025
 
 import serial
 import serial.tools.list_ports
@@ -22,8 +22,9 @@ class TaunoSerial():
             self.close()
         else:
             # Open Serial port
-            print("Open: " + port + " " + baud)
+            print("Port: " + port)
             self.tauno_serial.baudrate = baud
+            print("Baud: " + baud)
             self.tauno_serial.port = port
 
             # Data Bit (index: main.py)
@@ -90,9 +91,9 @@ class TaunoSerial():
     def read(self):
         while self.is_open:
             # bytes(HEX) or line?
-            print("serial read")
+            #print("serial read")
             type = self.window_reference.get_rx_format_saved
-            print(f"type={type}")
+            #print(f"type={type}")
 
             end_index = self.window_reference.get_RX_line_end_saved
             if end_index == 0:

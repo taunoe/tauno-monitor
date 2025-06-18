@@ -6,7 +6,7 @@
     <property name="title" translatable="yes">Preferences</property>
     <property name="default-width">500</property>
     <property name="default-height">600</property>
-      <child>
+    <child>
       <object class="AdwToastOverlay">
         <property name="child">
           <object class="AdwToolbarView">
@@ -23,7 +23,6 @@
                 <property name="margin-start">12</property>
                 <child>
                   <object class="AdwPreferencesPage">
-
                     <child>
                       <object class="AdwPreferencesGroup">
                         <property name="title" translatable="yes">Appearance</property>
@@ -49,7 +48,6 @@
                         </child>
                       </object>
                     </child>
-
                   </object>
                 </child>
               </object>
