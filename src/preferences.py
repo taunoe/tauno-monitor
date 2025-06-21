@@ -1,6 +1,6 @@
 # File:        preferences.py
 # Started:     03.08.2024
-# Edited:      18.06.2025
+# Edited:      21.06.2025
 # Author:      Tauno Erik
 # Description: Displays Preferences window
 
@@ -72,14 +72,23 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         ### Data Format
         rx_row = Adw.ActionRow(title="Format")
         data_group.add(rx_row)
-        rx_format = Gtk.DropDown.new_from_strings(strings=self.serial_data_formats)
-        rx_format.set_valign(Gtk.Align.CENTER)
+        self.rx_format = Gtk.DropDown.new_from_strings(strings=self.serial_data_formats)
+        self.rx_format.set_valign(Gtk.Align.CENTER)
         # Get saved index from windows.py
         index = self.serial_data_formats.index(self.win.get_rx_format_saved)
-        rx_format.set_selected(position=index)
-        rx_row.add_suffix(rx_format)
+        self.rx_format.set_selected(position=index)
+        rx_row.add_suffix(self.rx_format)
         # Connect function from main.py
-        rx_format.connect("notify::selected-item", self.rx_data_format_action)
+        self.rx_format.connect("notify::selected-item", self.rx_data_format_action)
+
+        reset_data_format_button = Gtk.Button(label="Reset")
+        reset_data_format_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_data_format_button.set_valign(Gtk.Align.CENTER)
+        reset_data_format_button.set_has_frame(False)
+        reset_data_format_button.set_tooltip_text("Reset")
+        rx_row.add_suffix(reset_data_format_button)
+        # Connect function from main.py to reset
+        reset_data_format_button.connect("clicked", self.reset_data_format_button_action)
 
         ### Timestamp
         timestamp_row = Adw.ActionRow(title="Timestamp")
@@ -183,7 +192,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         # Connect function from main.py to save
         show_line_end_switch.connect("state-set", self.show_line_end_switch_action)
 
-        ### TODO: Show Line ending color
+        ### Show Line ending color
         show_line_end_color_row = Adw.ActionRow(title="Line end color")
         # Color Dialog
         data_group.add(show_line_end_color_row)
@@ -197,6 +206,15 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         show_line_end_color_row.add_suffix(self.show_line_end_color_dialog_button)
         #
         self.show_line_end_color_dialog_button.connect('notify::rgba', self.on_show_line_end_color_selected)
+
+        #TODO: reset
+        reset_line_end_color_button = Gtk.Button(label="Reset")
+        reset_line_end_color_button.set_icon_name("arrow-circular-small-top-left-symbolic")
+        reset_line_end_color_button.set_valign(Gtk.Align.CENTER)
+        reset_line_end_color_button.set_has_frame(False)  # flat
+        reset_line_end_color_button.set_tooltip_text("Reset")
+        show_line_end_color_row.add_suffix(reset_line_end_color_button)
+        reset_line_end_color_button.connect("clicked", self.reset_line_end_color_button_action)
 
 
         ####################################################################

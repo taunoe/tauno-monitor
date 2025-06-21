@@ -14,6 +14,7 @@
         <li>Remembers the last used settings</li>
         <li>Automatically reconnects to the serial port if the connection is lost</li>
         <li>Can log data to a file</li>
+        <li>Displays data in different formats: ASCII, BIN, OCT or DEC</li>
     </ul>
     <p>Depending on your system you may need to add a user to dialout group to open serial ports:
       <code>
@@ -50,9 +51,10 @@
     <category>Utility</category>
   </categories>
   <releases>
-    <release version="0.2.0" date="2025-06-18">
+    <release version="0.2.0" date="2025-06-21">
       <description>
         <ul>
+          <li>Added BIN, DEC and OCT data formats</li>
           <li>Bug fixes</li>
         </ul>
       </description>

@@ -446,20 +446,22 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             # Show data as HEX
             if self.get_rx_format_saved == 'HEX':
                 self.insert_data_to_text_view(data, 'HEX')
-            # Show data as ASCII chars
+            elif self.get_rx_format_saved == 'DEC':
+                self.insert_data_to_text_view(data, 'DEC')
+            elif self.get_rx_format_saved == 'OCT':
+                self.insert_data_to_text_view(data, 'OCT')
+            # Show data as binary
+            elif self.get_rx_format_saved == 'BIN':
+                # Timestamp
+                self.insert_time_to_text_view()
+                # Arrow
+                self.insert_arrow_to_text_view('RX')
+                # Binary
+                self.insert_data_to_text_view(data, 'BIN')
+                # Line end
+                self.insert_line_end_to_text_view('RX')
+            # Show data as ASCII chars == Plain text
             else:
-                # TODO:
-                """
-                if self.prev_char == '\n':
-                    # Timestamp
-                    self.insert_time_to_text_view()
-                    # Arrow
-                    self.insert_arrow_to_text_view('RX')
-                if data.decode() != '\r':  # ignore \r - is it good idea??
-                    # For some reasons \r causes data loss
-                    self.insert_data_to_text_view(data, 'ASCII')
-                    self.insert_line_end_to_text_view('TX')
-                """
                 # Timestamp
                 self.insert_time_to_text_view()
                 # Arrow
@@ -488,6 +490,27 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.text_buffer.insert(self.text_iter_end, data.hex())
             self.text_buffer.insert(self.text_iter_end, ' ')
             self.logging.write_hex_data(data.hex())
+            tag = self.tag_in
+        elif type == 'BIN':
+            for byte in data:
+                # Pad with leading zeros to show the full byte
+                binary_8 = format(byte, '08b')
+                self.text_buffer.insert(self.text_iter_end, binary_8)
+                self.logging.write_data(binary_8)
+            tag = self.tag_in
+        elif type == 'OCT':
+            for byte in data:
+                octal_str = format(byte, '03o')
+                self.text_buffer.insert(self.text_iter_end, octal_str)
+                self.text_buffer.insert(self.text_iter_end, ' ')
+                self.logging.write_hex_data(octal_str)
+            tag = self.tag_in
+        elif type == 'DEC':
+            for byte in data:
+                octal_str = format(byte, '03d')
+                self.text_buffer.insert(self.text_iter_end, octal_str)
+                self.text_buffer.insert(self.text_iter_end, ' ')
+                self.logging.write_hex_data(octal_str)
             tag = self.tag_in
         elif type == 'ASCII':
             #self.prev_char = data.decode()  # Store char

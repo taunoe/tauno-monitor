@@ -37,7 +37,7 @@ class TaunoMonitorApplication(Adw.Application):
     # Serial byte sizes
     serial_data_bits = ['5 Bits', '6 Bits', '7 Bits', '8 Bits']
     # Serial data formats
-    serial_data_formats = ['ASCII', 'HEX']
+    serial_data_formats = ['ASCII', 'HEX', 'BIN', 'DEC', 'OCT']
     # Serial parities
     serial_parities = ['None', 'Even', 'Odd', 'Mark', 'Space']
     serial_stop_bits = ['1', '1.5', '2']
@@ -202,6 +202,15 @@ class TaunoMonitorApplication(Adw.Application):
         # Update tag
         self.win.update_line_end_tag()
 
+    """
+    """
+    def reset_line_end_color_button_action(self, widget):
+        print("reset_line_end_color_button_action")
+        default_color = Gdk.RGBA()
+        default_color.parse(self.settings.get_string("default-show-line-end-color"))
+        self.settings.set_string("saved-show-line-end-color", default_color.to_string())
+        self.show_line_end_color_dialog_button.set_rgba(default_color)
+
 
     def on_in_color_selected(self, color_dialog_button, g_param_boxed):
         """ Get and save In tag color """
@@ -278,13 +287,27 @@ class TaunoMonitorApplication(Adw.Application):
         self.settings.set_string("saved-serial-rx-data-format", new_format)
         # update pos
         self.win.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
+
+        # End the HEX data block with a newline when starting ASCII
         if self.win.get_rx_format_saved != 'HEX':
-            # End the HEX data block with a newline
-            print("HEX --> ASCII")
+            #print("HEX --> ASCII")
             data = '\n'
             self.win.insert_data_to_text_view(data.encode(), 'ASCII')
             self.win.logging.hex_counter = 0;
             self.win.logging.write_data('')
+
+
+    """
+    """
+    def reset_data_format_button_action(self, widget):
+        print("Reset data format")
+        # Get deffault
+        default = self.settings.get_string("default-serial-rx-data-format")
+        # Save setting
+        self.settings.set_string("saved-serial-rx-data-format", default)
+        # Reload UI
+        index = self.serial_data_formats.index(default)
+        self.rx_format.set_selected(position=index)
 
 
     """

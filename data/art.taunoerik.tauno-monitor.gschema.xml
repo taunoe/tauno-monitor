@@ -55,6 +55,9 @@
     <key name="saved-show-line-end-color" type="s">
       <default>'#9a9996'</default>
     </key>
+    <key name="default-show-line-end-color" type="s">
+      <default>'#9a9996'</default>
+    </key>
     <key name="port-str" type="s">
       <default>'/dev/ttyACM0'</default>
     </key>
@@ -62,6 +65,9 @@
       <default>14</default>
     </key>
     <key name="saved-serial-rx-data-format" type="s">
+      <default>'ASCII'</default>
+    </key>
+    <key name="default-serial-rx-data-format" type="s">
       <default>'ASCII'</default>
     </key>
     <key name="default-serial-data-bit-index" type="i">
