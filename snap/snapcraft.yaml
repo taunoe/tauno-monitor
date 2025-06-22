@@ -1,6 +1,6 @@
 #https://forum.snapcraft.io/t/snap-and-gtk4-sdk/37831/4
 name: tauno-monitor
-base: core22
+base: core24 #core22
 version: '0.2.1'
 summary: The serial port monitor
 description: |
@@ -36,9 +36,6 @@ apps:
       - serial-port
       - hardware-observe
       #- removable-media
-    dbus:
-      - art.taunoerik.tauno-monitor
-
 
 layout:
   /usr/share/tauno-monitor:
