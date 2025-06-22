@@ -107,8 +107,8 @@ class TaunoMonitorApplication(Adw.Application):
         #self.win.present()
         # TODO: Every activation creates a new, independent window?
         #win = self.props.active_window
-        win = TaunoMonitorWindow(application=self)
-        win.present()
+        self.win = TaunoMonitorWindow(application=self)
+        self.win.present()
 
     def on_new_window(self, action, parameter):
         # This function is called when the "new-window" action is triggered
