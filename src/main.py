@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-VERSION = '0.2.0'
+APP_VERSION = '0.2.1'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -47,15 +47,23 @@ class TaunoMonitorApplication(Adw.Application):
     serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';']
 
 
-    def __init__(self):
+    def __init__(self, version):
         super().__init__(application_id='art.taunoerik.tauno-monitor',
-                         flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
+                         #flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
+                         flags=Gio.ApplicationFlags.NON_UNIQUE)
+
+        self.version = version
 
         self.settings = Gio.Settings(schema_id="art.taunoerik.tauno-monitor")
 
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
+
+        # Add the "new-window" action
+        new_window_action = Gio.SimpleAction.new("new-window", None)
+        new_window_action.connect("activate", self.on_new_window)
+        self.add_action(new_window_action)
 
         # Shortcuts
         self.set_accels_for_action('win.open', ['<Ctrl>o'])
@@ -89,17 +97,22 @@ class TaunoMonitorApplication(Adw.Application):
         gettext.textdomain('art.taunoerik.tauno-monitor')
         _ = gettext.gettext
 
-
-
+    """
+    Called when the application is activated.
+    We raise the application's main window, creating it if necessary.
+    """
     def do_activate(self):
-        """Called when the application is activated.
+        #self.win = self.props.active_window
+        #self.win = TaunoMonitorWindow(application=self)
+        #self.win.present()
+        # TODO: Every activation creates a new, independent window?
+        #win = self.props.active_window
+        win = TaunoMonitorWindow(application=self)
+        win.present()
 
-        We raise the application's main window, creating it if
-        necessary.
-        """
-        self.win = self.props.active_window
-        self.win = TaunoMonitorWindow(application=self)
-        self.win.present()
+    def on_new_window(self, action, parameter):
+        # This function is called when the "new-window" action is triggered
+        self.do_activate()
 
 
     def create_action(self, name, callback, shortcuts=None):
@@ -130,7 +143,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 application_icon='art.taunoerik.tauno-monitor',
                                 website='https://github.com/taunoe/tauno-monitor',
                                 developer_name='Tauno Erik',
-                                version=VERSION,
+                                version=APP_VERSION,
                                 developers=['Tauno Erik'],
                                 copyright='© 2023-2025 Tauno Erik')
         about.present()
@@ -525,7 +538,7 @@ class TaunoMonitorApplication(Adw.Application):
 
 
 def main(version):
-    app = TaunoMonitorApplication()
+    app = TaunoMonitorApplication(version)
     return app.run(sys.argv)
 
 

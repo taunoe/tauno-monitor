@@ -5,7 +5,7 @@
   <project_license>GPL-3.0-or-later</project_license>
   <name>Tauno Monitor</name>
   <developer_name>Tauno Erik</developer_name>
-  <summary>The serial port monitor</summary>
+  <summary>The serial port monitor for Arduino and other embedded development</summary>
   <description>
     <p>Features:</p>
     <ul>
@@ -15,6 +15,7 @@
         <li>Automatically reconnects to the serial port if the connection is lost</li>
         <li>Can log data to a file</li>
         <li>Displays data in different formats: ASCII, BIN, OCT or DEC</li>
+        <li>Can open multiple instances</li>
     </ul>
     <p>Depending on your system you may need to add a user to dialout group to open serial ports:
       <code>
@@ -51,6 +52,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.1" date="2025-06-22">
+      <description>
+        <ul>
+          <li>Added the ability to open multiple instances of the app</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.0" date="2025-06-21">
       <description>
         <ul>

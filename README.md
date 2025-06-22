@@ -2,16 +2,18 @@
 
 # Tauno Monitor
 
-The goal is to make a stand-alone simple serial port monitor for the GNOME desktop.
+The serial port monitor for Arduino and other embedded development.
 
-It aims to be beginner-friendly, small and easy to use. Not feature-rich and professional.
+The goal is to make a user friendly serial port monitor for the GNOME desktop.
 
 ### Features:
 
- - Remembers the last used settings (Theme, Baud Rate, Port etc.).
- - Auto reconnects to the serial port when the connection is lost.
- - Can log data to a file.
- - Customizable colors.
+ - Remembers the last used settings (Theme, Baud Rate, Port etc.)
+ - Auto reconnects to the serial port when the connection is lost
+ - Can log data to a file
+ - Customizable colors
+ - Displays data in different formats: ASCII, BIN, OCT or DEC
+ - Can open multiple instances
 
 ## Important
 

@@ -1,3 +1,7 @@
+0.2.1 (22.06.25)
+
+ - Added the ability to open multiple instances of the app
+
 0.2.0 (21.06.25)
 
 - Added BIN, DEC and OCT data formats
