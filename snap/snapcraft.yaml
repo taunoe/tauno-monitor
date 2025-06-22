@@ -36,6 +36,8 @@ apps:
       - serial-port
       - hardware-observe
       #- removable-media
+    dbus:
+      - art.taunoerik.tauno-monitor
 
 
 layout:

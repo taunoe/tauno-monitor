@@ -10,5 +10,4 @@ Actions=new-window;
 
 [Desktop Action new-window]
 Name=New Window
-# This command will be executed when the action is triggered
 Exec=tauno-monitor --new-window
