@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.2.1'
+APP_VERSION = '0.2.2'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""

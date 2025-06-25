@@ -52,6 +52,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.2" date="2025-06-25">
+      <description>
+        <ul>
+          <li>Removed snap slot section</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.1" date="2025-06-22">
       <description>
         <ul>

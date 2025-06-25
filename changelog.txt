@@ -1,3 +1,7 @@
+0.2.2 (25.06.25)
+
+ - Removed snap slot section
+
 0.2.1 (22.06.25)
 
  - Added the ability to open multiple instances of the app
