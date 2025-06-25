@@ -14,12 +14,12 @@ architectures:
   - build-on: arm64
   - build-on: armhf
 
-slots:
-  # for GtkApplication registration
-  tauno-monitor:
-    interface: dbus
-    bus: session
-    name: art.taunoerik.tauno-monitor
+#slots:
+ # for GtkApplication registration
+#  tauno-monitor:
+#    interface: dbus
+#    bus: session
+#    name: art.taunoerik.tauno-monitor
 
 apps:
   tauno-monitor:
