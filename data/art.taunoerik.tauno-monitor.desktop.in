@@ -9,5 +9,6 @@ StartupNotify=true
 Actions=new-window;
 
 [Desktop Action new-window]
-Name=New Window
 Exec=tauno-monitor --new-window
+Name=New Window
+

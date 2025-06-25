@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.2.2'
+APP_VERSION = '0.2.3'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -49,8 +49,10 @@ class TaunoMonitorApplication(Adw.Application):
 
     def __init__(self, version):
         super().__init__(application_id='art.taunoerik.tauno-monitor',
-                         #flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
-                         flags=Gio.ApplicationFlags.NON_UNIQUE)
+                         #flags=Gio.ApplicationFlags.DEFAULT_FLAGS,
+                         #flags=Gio.ApplicationFlags.NON_UNIQUE
+                         flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+                         )
 
         self.version = version
 
@@ -110,9 +112,33 @@ class TaunoMonitorApplication(Adw.Application):
         self.win = TaunoMonitorWindow(application=self)
         self.win.present()
 
-    def on_new_window(self, action, parameter):
+    def on_new_window(self):
         # This function is called when the "new-window" action is triggered
         self.do_activate()
+
+
+    def do_command_line(self, command_line: None):
+        """
+        options = command_line.get_arguments()[1:]
+        if "--new-window" in options:
+            self.on_new_window()
+        else:
+            self.do_activate()
+        return 0
+        """
+
+        args = command_line.get_arguments()[1:] # Skip the program name
+        if "--new-window" in args:
+            self.on_new_window()
+        else:
+            self.do_activate()
+        return 0
+
+
+
+    #def do_startup(self):
+        #Gtk.Application.do_startup(self)
+        # Any other startup logic...
 
 
     def create_action(self, name, callback, shortcuts=None):
