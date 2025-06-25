@@ -1,6 +1,6 @@
-0.2.2 (25.06.25)
+0.2.4 (25.06.25)
 
- - Removed snap slot section
+ - New Window fix
 
 0.2.1 (22.06.25)
 

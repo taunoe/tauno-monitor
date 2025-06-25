@@ -52,10 +52,10 @@
     <category>Utility</category>
   </categories>
   <releases>
-    <release version="0.2.2" date="2025-06-25">
+    <release version="0.2.4" date="2025-06-25">
       <description>
         <ul>
-          <li>Removed snap slot section</li>
+          <li>New Window fix</li>
         </ul>
       </description>
     </release>
