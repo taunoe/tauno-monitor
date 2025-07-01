@@ -286,13 +286,22 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             # Does log file exists?
             if self.log_file_exist == False:
                 folder = self.settings.get_string("log-folder")
-                current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-                log_file_path = folder + "/tauno-monitor_log-" + current_datetime + ".txt"
-                # Create log file
-                self.log_file_exist = self.logging.create_file(log_file_path)
+                # Directory write premission
+                if os.access(folder, os.W_OK):
+                    current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+                    log_file_path = folder + "/tauno-monitor_log-" + current_datetime + ".txt"
+                    # Create log file
+                    self.log_file_exist = self.logging.create_file(log_file_path)
+                else:
+                    print(f"No write permission in log directory:{folder}")
+                    # Notification
+                    self.notify(f"No write permission in log directory:{folder}")
+                    # Turn switch off
+                    GLib.idle_add(self.log_switch.set_active, False)
         else:
             print("log switch deactivate")
-            self.logging.close_file()
+            if self.log_file_exist:
+                self.logging.close_file()
             self.write_logs = False
 
 
@@ -358,15 +367,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.open_button.set_label("Open")
             self.set_title("Tauno Monitor")
 
-        display_notifications = self.settings.get_boolean("notifications")
-
         if self.tauno_serial.is_open:
-            if display_notifications:
-                self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} connected"))
+            self.notify(f"{selected_port} {selected_baud_rate} connected")
             self.thread_read_serial()
         else:
-            if display_notifications:
-                self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baud_rate} closed"))
+            self.notify(f"{selected_port} {selected_baud_rate} closed")
 
 
     def thread_read_serial(self):
@@ -386,9 +391,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.tauno_serial.close()
 
         # Display notification
-        display_notifications = self.settings.get_boolean("notifications")
-        if display_notifications:
-            self.toast_overlay.add_toast(Adw.Toast(title=f"{selected_port} {selected_baudrate} lost"))
+        self.notify(f"{selected_port} {selected_baudrate} lost")
 
         self.reconnecting_serial = True
 
@@ -671,4 +674,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.insert_line_end_to_text_view('TX')
 
 
+    def notify(self, message):
+        display_notifications = self.settings.get_boolean("notifications")
+
+        if display_notifications:
+            self.toast_overlay.add_toast(Adw.Toast(title=message))
 

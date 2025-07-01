@@ -1,3 +1,7 @@
+0.2.5 (01.07.25)
+
+ - Turns the logging switch off when the logging folder does not have write permission.
+
 0.2.4 (25.06.25)
 
  - New Window fix

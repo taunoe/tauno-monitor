@@ -52,6 +52,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.5" date="2025-07-01">
+      <description>
+        <ul>
+          <li>Turns the logging switch off when the logging folder does not have write permission.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.4" date="2025-06-25">
       <description>
         <ul>
