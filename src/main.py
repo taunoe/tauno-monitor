@@ -34,23 +34,9 @@ APP_VERSION = '0.2.6'
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
-    # Serial byte sizes
-    serial_data_bits = ['5 Bits', '6 Bits', '7 Bits', '8 Bits']
-    # Serial data formats
-    serial_data_formats = ['ASCII', 'HEX', 'BIN', 'DEC', 'OCT']
-    # Serial parities
-    serial_parities = ['None', 'Even', 'Odd', 'Mark', 'Space']
-    serial_stop_bits = ['1', '1.5', '2']
-
-     # Also in: window.py insert_line_end_to_text_view()!!!
-    serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
-    serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';']
-
-
     def __init__(self, version):
         super().__init__(application_id='art.taunoerik.tauno-monitor',
-                         #flags=Gio.ApplicationFlags.DEFAULT_FLAGS,
-                         #flags=Gio.ApplicationFlags.NON_UNIQUE
+                         #flags=Gio.ApplicationFlags.NON_UNIQUE,
                          flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
                          )
 
@@ -58,9 +44,11 @@ class TaunoMonitorApplication(Adw.Application):
 
         self.settings = Gio.Settings(schema_id="art.taunoerik.tauno-monitor")
 
+        # menu actions
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
+        self.create_action('newwindow', self.on_newwindow)
 
         # Add the "new-window" action
         new_window_action = Gio.SimpleAction.new("new-window", None)
@@ -79,9 +67,6 @@ class TaunoMonitorApplication(Adw.Application):
         else:
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
 
-        #copy
-        # Folder dialog
-        #self.filedialog = Gtk.FileDialog()
 
         # Get saved log folder
         self.log_folder_path = self.settings.get_string("log-folder")
@@ -117,6 +102,11 @@ class TaunoMonitorApplication(Adw.Application):
 
     def on_new_window(self):
         # This function is called when the "new-window" action is triggered
+        self.do_activate()
+
+    def on_newwindow(self, widget, param):
+        """App Menu New Window action """
+        print("New Window")
         self.do_activate()
 
 
@@ -165,7 +155,7 @@ class TaunoMonitorApplication(Adw.Application):
         guide.present()
 
 
-    def on_about_action(self, widget, _):
+    def on_about_action(self, widget, param):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='Tauno Monitor',

@@ -383,10 +383,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         thread.start()
 
 
-    """
-    Tries to reconnect the serial connection. Using the latest settings.
-    """
     def reconnect_serial(self, selected_port, selected_baudrate):
+        """
+        Tries to reconnect the serial connection. Using the latest settings.
+        """
         print("Auto reconnecting serial ")
         self.tauno_serial.close()
 
@@ -425,10 +425,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 self.set_title('Tauno Monitor')
 
 
-    """
-    Title animation
-    """
     def reconnecting_msg(self, i):
+        """
+        Title animation
+        """
         print(".")
         if i == 1:
             self.set_title("Reconnecting .")
@@ -440,11 +440,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
              self.set_title("Reconnecting ")
 
 
-    """
-    Update Text View
-    """
     def add_to_text_view(self, data):
-        #TODO: add line end
+        """
+        Update Text View
+        """
         try:
             # Show data as HEX
             if self.get_rx_format_saved == 'HEX':
@@ -480,11 +479,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             return
 
 
-    """
-    Insert data to text view
-    Types 'HEX', 'ASCII', 'TX'
-    """
     def insert_data_to_text_view(self, data, type):
+        """
+        Insert data to text view
+        Types 'HEX', 'ASCII', 'TX'
+        """
         self.text_buffer = self.input_text_view.get_buffer()
         self.text_iter_end = self.text_buffer.get_end_iter()
         start_mark = self.text_buffer.create_mark('start_mark', self.text_buffer.get_end_iter(), True)
@@ -534,10 +533,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.text_buffer.apply_tag(tag, self.text_buffer.get_iter_at_mark(start_mark), self.text_buffer.get_iter_at_mark(end_mark))
 
 
-    """"
-    Display a arrow RX or TX
-    """
     def insert_arrow_to_text_view(self, type):
+        """"
+        Display a arrow RX or TX
+        """
         if type == 'TX':
             arrow = '<-- '  # TX
         else:
@@ -556,10 +555,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.logging.write_data(arrow)
 
 
-    """
-    Add timestamp if needed
-    """
     def insert_time_to_text_view(self):
+        """
+        Add timestamp if needed
+        """
         is_timestamp = self.settings.get_boolean("timestamp")
 
         if is_timestamp:
@@ -580,10 +579,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.logging.write_data(current_time)
 
 
-    """
-    Add line end for text-view and real
-    """
     def insert_line_end_to_text_view(self, direction):
+        """
+        Add line end for text-view and real
+        """
         show_line_end = self.settings.get_boolean("show-line-end")
 
         if direction == 'TX':
@@ -628,35 +627,35 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.logging.write_data('\n')
 
 
-    """
-    Button Send action
-    """
     def btn_send(self, action, _):
+        """
+        Button Send action
+        """
         cmd_buffer = self.send_cmd.get_buffer()
         data = cmd_buffer.get_text()
         self.send_to_serial(data)
         cmd_buffer.delete_text(0, len(data))
 
 
-    """
-    Send cmd or Enter key pressed
-    """
     def on_key_enter_pressed(self, entry):
+        """
+        Send cmd or Enter key pressed
+        """
         cmd_buffer = self.send_cmd.get_buffer()
         data = cmd_buffer.get_text()
         self.send_to_serial(data)
         cmd_buffer.delete_text(0, len(data))
 
-    """
-    Write data to Serial port
-    """
+
     def send_to_serial(self, data):
+        """
+        Write data to Serial port
+        """
         if self.tauno_serial.is_open:
             self.tauno_serial.write(data)
         else:
             print("Send cmd: Serial is not Open")
 
-        # TODO: add line ending from settings
         end = ''
         index = self.get_TX_line_end_saved
 
@@ -675,6 +674,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
 
     def notify(self, message):
+        """ """
         display_notifications = self.settings.get_boolean("notifications")
 
         if display_notifications:

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tauno-monitor\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-05 17:35+0300\n"
+"POT-Creation-Date: 2025-07-05 17:46+0300\n"
 "PO-Revision-Date: 2024-10-22 22:30+0300\n"
 "Last-Translator: Vladimir Kosolapov\n"
 "Language-Team: Russian\n"
@@ -97,157 +97,165 @@ msgid "Log file"
 msgstr "Файл журнала"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:58
+msgid "Separated preferences logic and ui."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:59
+msgid "Preferences can now be translated"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:66
 msgid ""
 "Turns the logging switch off when the logging folder does not have write "
 "permission."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:65
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:73
 msgid "New Window fix"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:72
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:80
 msgid "Added the ability to open multiple instances of the app"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:79
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:87
 msgid "Added BIN, DEC and OCT data formats"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:80
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:87
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:88
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:95
 msgid "Bug fixes"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:88
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:96
 msgid "New app icon"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:89
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:97
 msgid "Runtime-version 48"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:90
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:98
 msgid "Advandced Serial settings"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:97
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:105
 msgid "Show and select line ends (TX and RX)."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:104
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:112
 msgid "New baud rates"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:105
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:113
 msgid "Select line ending"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:112
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:120
 msgid "Added new baudrate: 1500000"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:119
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:127
 msgid "org.gnome.Platform ver 47"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:126
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:134
 msgid "Improved Estonian translation"
 msgstr "Улучшен перевод на эстонский язык"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:127
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:135
 msgid "Reduced height of the preferences window."
 msgstr "Уменьшена высота окна настроек."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:128
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:136
 msgid "Added Russian translation"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:135
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:143
 msgid "Started Estonian translation."
 msgstr "Начат перевод на эстонский язык."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:142
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:150
 msgid "Logs HEX data."
 msgstr "Запись данных в формате HEX."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:149
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:157
 msgid "User can customise text view colors."
 msgstr "Пользователь может настраивать цвета отображения текста."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:156
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:164
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:172
 msgid "Improved logging."
 msgstr "Улучшена система ведения журнала."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:157
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:165
 msgid "Coloured output."
 msgstr "Вывод получил цветовое оформление."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:171
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:179
 msgid "Auto reconnects to the serial port."
 msgstr "Автоматическое восстановление соединения с последовательным портом."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:178
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:186
 msgid "Logging data to a file."
 msgstr "Запись данных в файл."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:185
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:193
 msgid "Changed back to tauno-monitor."
 msgstr "Возвращено название tauno-monitor."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:192
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:200
 msgid "Removed hyphen(`-`) and underscore (`_`) from app id."
 msgstr "Удалены дефис (`-`) и подчеркивание (`_`) из ID приложения."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:199
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:207
 msgid "Replaced App ID hyphen(`-`) with underscore (`_`)."
 msgstr "Заменен дефис (`-`) на подчеркивание (`_`) в ID приложения."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:206
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:214
 msgid "Added \"Clear\" button."
 msgstr "Добавлена кнопка \"Очистить\"."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:213
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:221
 msgid "Added timestamp setting."
 msgstr "Добавлена настройка временной метки."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:220
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:228
 msgid "Automatically scan ports if connection is lost."
 msgstr "Автоматическое сканирование портов при потере соединения."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:227
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:235
 msgid "Automatically closes the serial port if the connection is lost."
 msgstr "Автоматическое закрытие последовательного порта при потере соединения."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:234
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:242
 msgid "Added RX data HEX mode"
 msgstr "Добавлен режим данных RX в формате HEX"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:241
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:249
 msgid "Enter == Send"
 msgstr "Enter == Отправить"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:248
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:256
 msgid "Reads bytes, not lines!"
 msgstr "Читает байты, а не строки!"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:255
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:263
 msgid "Saves text size. Notifications settings."
 msgstr "Сохраняет размер текста. Параметры уведомлений."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:262
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:270
 msgid "Added a guide: what to do when serial ports are not available"
 msgstr ""
 "Добавлено руководство: что делать, если последовательные порты недоступны"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:269
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:276
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:283
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:277
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:284
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:291
 msgid "Meta info fixes"
 msgstr "Исправления метаданных"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:290
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:298
 msgid "First release"
 msgstr "Первый релиз"
 
