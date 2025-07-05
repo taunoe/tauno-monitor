@@ -52,6 +52,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.6" date="2025-07-05">
+      <description>
+        <ul>
+          <li>Separated preferences logic and ui.</li>
+          <li>Preferences can now be translated</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.5" date="2025-07-01">
       <description>
         <ul>

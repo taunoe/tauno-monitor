@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.2.5'
+APP_VERSION = '0.2.6'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -79,8 +79,10 @@ class TaunoMonitorApplication(Adw.Application):
         else:
             style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
 
+        #copy
         # Folder dialog
-        self.filedialog = Gtk.FileDialog()
+        #self.filedialog = Gtk.FileDialog()
+
         # Get saved log folder
         self.log_folder_path = self.settings.get_string("log-folder")
         # If default get user home
@@ -99,11 +101,12 @@ class TaunoMonitorApplication(Adw.Application):
         gettext.textdomain('art.taunoerik.tauno-monitor')
         _ = gettext.gettext
 
-    """
-    Called when the application is activated.
-    We raise the application's main window, creating it if necessary.
-    """
+
     def do_activate(self):
+        """
+        Called when the application is activated.
+        We raise the application's main window, creating it if necessary.
+        """
         #self.win = self.props.active_window
         #self.win = TaunoMonitorWindow(application=self)
         #self.win.present()
@@ -175,97 +178,17 @@ class TaunoMonitorApplication(Adw.Application):
         about.present()
 
 
-    def on_preferences_action(self, widget, _):
-        """ Dispplay Preferences Window """
-        #preferences_window = TaunoPreferencesWindow(transient_for=self.props.active_window)
-        #preferences_window.present()
-        TaunoPreferencesWindow.on_guide_action(self, widget, _)
+    def on_preferences_action(self, widget, param):
+        """
+        Presents the preferences window.
+        """
+        active_window = self.get_active_window()
 
+        if not active_window:
+            return
 
-    def on_time_color_selected(self, color_dialog_button, g_param_boxed):
-        """ Get and save time tag color """
-        gdk_rgba = color_dialog_button.get_rgba()
-        print("New Time color " + gdk_rgba.to_string())
-        # Save color settings
-        self.settings.set_string("saved-time-color", gdk_rgba.to_string())
-        # Update tag
-        self.win.update_time_tag()
-
-    def reset_time_color_button_action(self, widget):
-        """ Reset time color to default one """
-        default_color = Gdk.RGBA()
-        default_color.parse(self.settings.get_string("default-time-color"))
-        self.settings.set_string("saved-time-color", default_color.to_string())
-        self.time_color_dialog_button.set_rgba(default_color)
-
-    def on_arrow_color_selected(self, color_dialog_button, g_param_boxed):
-        """ Get and save Arrow tag color """
-        gdk_rgba = color_dialog_button.get_rgba()
-        print("New Arrow color " + gdk_rgba.to_string())
-        # Save color settings
-        self.settings.set_string("saved-arrow-color", gdk_rgba.to_string())
-        # Update tag
-        self.win.update_arrow_tag()
-
-    def reset_arrow_color_button_action(self, widget):
-        print("Reset arrow color")
-        default_color = Gdk.RGBA()
-        default_color.parse(self.settings.get_string("default-arrow-color"))
-        self.settings.set_string("saved-arrow-color", default_color.to_string())
-        self.arrow_color_dialog_button.set_rgba(default_color)
-
-    def on_out_color_selected(self, color_dialog_button, g_param_boxed):
-        """ Get and save Out tag color """
-        gdk_rgba = color_dialog_button.get_rgba()
-        print("New TX color " + gdk_rgba.to_string())
-        # Save color settings
-        self.settings.set_string("saved-out-color", gdk_rgba.to_string())
-        # Update tag
-        self.win.update_out_tag()
-
-    def reset_out_color_button_action(self, widget):
-        #print("Reset TX color")
-        default_color = Gdk.RGBA()
-        default_color.parse(self.settings.get_string("default-out-color"))
-        self.settings.set_string("saved-out-color", default_color.to_string())
-        self.out_color_dialog_button.set_rgba(default_color)
-
-    """
-    Get and save line end tag color
-    """
-    def on_show_line_end_color_selected(self, color_dialog_button, g_param_boxed):
-        gdk_rgba = color_dialog_button.get_rgba()
-        print("Line End color " + gdk_rgba.to_string())
-        # Save color settings
-        self.settings.set_string("saved-show-line-end-color", gdk_rgba.to_string())
-        # Update tag
-        self.win.update_line_end_tag()
-
-    """
-    """
-    def reset_line_end_color_button_action(self, widget):
-        print("reset_line_end_color_button_action")
-        default_color = Gdk.RGBA()
-        default_color.parse(self.settings.get_string("default-show-line-end-color"))
-        self.settings.set_string("saved-show-line-end-color", default_color.to_string())
-        self.show_line_end_color_dialog_button.set_rgba(default_color)
-
-
-    def on_in_color_selected(self, color_dialog_button, g_param_boxed):
-        """ Get and save In tag color """
-        gdk_rgba = color_dialog_button.get_rgba()
-        print("New RX color " + gdk_rgba.to_string())
-        # Save color settings
-        self.settings.set_string("saved-in-color", gdk_rgba.to_string())
-        # Update tag
-        self.win.update_in_tag()
-
-    def reset_in_color_button_action(self, widget):
-        #print("Reset RX color")
-        default_color = Gdk.RGBA()
-        default_color.parse(self.settings.get_string("default-in-color"))
-        self.settings.set_string("saved-in-color", default_color.to_string())
-        self.in_color_dialog_button.set_rgba(default_color)
+        preferences_window = TaunoPreferencesWindow(main_window=active_window, settings=self.settings, transient_for=self)
+        preferences_window.present()
 
     # ajutine!
     def on_color_selected(self, color_dialog_button, g_param_boxed):
@@ -275,292 +198,6 @@ class TaunoMonitorApplication(Adw.Application):
         print(f'Red = {gdk_rgba.red}')
         print(f'Green = {gdk_rgba.green}')
         print(f'Blue = {gdk_rgba.blue}')
-
-    def select_log_folder_button_action(self, widget):
-        """ Button to select logging folder action """
-        self.filedialog.select_folder(
-            self.preferences, cancellable=None,
-            callback=self.on_filedialog_select_folder)
-
-
-    def on_filedialog_select_folder(self, filedialog, task):
-        """ Dialog to select logging folder """
-        try:
-            # Folder selection dialog
-            folder = filedialog.select_folder_finish(task)
-        except GLib.GError:
-            return
-
-        if folder is not None:
-            self.log_folder_path = folder.get_path()
-
-            # If not a folder
-            if (os.path.exists(self.log_folder_path) == False):
-                self.win.toast_overlay.add_toast(Adw.Toast(title=f"{self.log_folder_path} is not a folder!"))
-
-            # Is it writeable?
-            test_file_path = self.log_folder_path+'/tauno_monitor_test.txt'
-            # We create test file and then will remove it
-            try:
-                with open(test_file_path, 'w') as file:
-                    file.write('Hello!')
-                    file.close()
-                    os.remove(test_file_path)
-            except IOError as error:
-                self.win.toast_overlay.add_toast(Adw.Toast(title=f"No write permission on this directory!"))
-
-            # Update label on preferences
-            self.entry_buffer.set_text(self.log_folder_path, len(self.log_folder_path))
-            # Update saved settings
-            self.settings.set_string("log-folder", self.log_folder_path)
-
-    """
-    Function called when Serial RX data format is changed in App preferences
-    """
-    def rx_data_format_action(self, drop_down, g_param_object):
-        string_object = drop_down.get_selected_item()
-        index = drop_down.get_selected()
-        new_format = string_object.get_string()
-        #print(f'Position: {index} - value: {string_object.get_string()}')
-        # save settings
-        self.settings.set_string("saved-serial-rx-data-format", new_format)
-        # update pos
-        self.win.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
-
-        # End the HEX data block with a newline when starting ASCII
-        if self.win.get_rx_format_saved != 'HEX':
-            #print("HEX --> ASCII")
-            data = '\n'
-            self.win.insert_data_to_text_view(data.encode(), 'ASCII')
-            self.win.logging.hex_counter = 0;
-            self.win.logging.write_data('')
-
-
-    """
-    """
-    def reset_data_format_button_action(self, widget):
-        print("Reset data format")
-        # Get deffault
-        default = self.settings.get_string("default-serial-rx-data-format")
-        # Save setting
-        self.settings.set_string("saved-serial-rx-data-format", default)
-        # Reload UI
-        index = self.serial_data_formats.index(default)
-        self.rx_format.set_selected(position=index)
-
-
-    """
-    Function called when Serial Data Bits selection is changed in App preferences
-    """
-    def serial_data_bits_action(self, drop_down, g_param_object):
-        # Get selected index
-        string_object = drop_down.get_selected_item()
-        index = drop_down.get_selected()
-        print(f'Selected Data Bit Pos: {index} val: {string_object.get_string()}')
-        # Save index
-        if self.win.get_data_bit_saved != index:
-            print("Saving Serial Data Bit index")
-            self.settings.set_int("saved-serial-data-bit-index", index)
-            # Reload setting
-            self.win.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
-
-
-    """
-    Function to reset Serial Data Bit to default value
-    """
-    def reset_data_bits_button_action(self, widget):
-        defalut_value = self.settings.get_int("default-serial-data-bit-index")
-        print(f"Reset Data Bit index to: {defalut_value}")
-        # save setting
-        self.settings.set_int("saved-serial-data-bit-index", defalut_value)
-        # reload setting
-        self.win.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
-        # reload UI from preferences.py
-        self.data_bits_drop_down.set_selected(position=defalut_value)
-
-
-    """
-    Function called when Serial Parity selection is changed in App preferences
-    """
-    def serial_parity_action(self, drop_down, g_param_object):
-        # Get selected index
-        string_object = drop_down.get_selected_item()
-        index = drop_down.get_selected()
-        print(f'Selected Parity Pos: {index} val: {string_object.get_string()}')
-        # Save index
-        if self.win.get_parity_saved != index:
-            print("Saving Serial Parity index")
-            self.settings.set_int("saved-serial-parity-index", index)
-            # Reload setting
-            self.win.get_parity_saved = self.settings.get_int("saved-serial-parity-index")
-
-
-    """
-    Function to reset Serial Parity to default value
-    """
-    def reset_parity_button_action(self, widget):
-        defalut_value = self.settings.get_int("default-serial-parity-index")
-        print(f"Reset Parity index to: {defalut_value}")
-        # Save setting
-        self.settings.set_int("saved-serial-parity-index", defalut_value)
-        # reload setting
-        self.win.get_parity_saved = self.settings.get_int("saved-serial-parity-index")
-        # reload UI from preferences.py
-        self.parity_drop_down.set_selected(position=defalut_value)
-
-
-    """
-    Function called when Serial Stop Bits selection is changed in App preferences
-    """
-    def serial_stop_bits_action(self, drop_down, g_param_object):
-        # Get selected index
-        string_object = drop_down.get_selected_item()
-        index = drop_down.get_selected()
-        print(f'Selected Stop Bit Pos: {index} val: {string_object.get_string()}')
-        # Save index
-        if self.win.get_stop_bit_saved != index:
-            print("Saving Serial Stop Bit index")
-            self.settings.set_int("saved-serial-stop-bit-index", index)
-            # Reload setting
-            self.win.get_stop_bit_saved = self.settings.get_int("saved-serial-stop-bit-index")
-
-
-    """
-    Function to reset Serial Stop Bit to default value
-    """
-    def reset_stop_bits_button_action(self, widget):
-        defalut_value = self.settings.get_int("default-serial-stop-bit-index")
-        print(f"Reset Stop Bit index to: {defalut_value}")
-        # save setting
-        self.settings.set_int("saved-serial-stop-bit-index", defalut_value)
-        # reload setting
-        self.win.get_stop_bit_saved = self.settings.get_int("saved-serial-stop-bit-index")
-        # reload UI from preferences.py
-        self.stop_bits_drop_down.set_selected(position=defalut_value)
-
-
-    """
-    Function called when Serial Line End selection is changed in App preferences
-    """
-    def serial_TX_line_end_action(self, drop_down, g_param_object):
-        # Get selected index
-        string_object = drop_down.get_selected_item()
-        index = drop_down.get_selected()
-        print(f'Selected Line End Pos: {index} val: {string_object.get_string()}')
-        # Save index
-        if self.win.get_TX_line_end_saved != index:
-            print("Saving Serial Line End index")
-            self.settings.set_int("saved-serial-tx-line-end-index", index)
-            # Reload setting
-            self.win.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
-
-
-    """
-    Function to reset Serial Line End to default value
-    """
-    def reset_TX_line_end_button_action(self, widget):
-        defalut_value = self.settings.get_int("default-serial-tx-line-end-index")
-        print(f"Reset Line End index to: {defalut_value}")
-        # save setting
-        self.settings.set_int("saved-serial-tx-line-end-index", defalut_value)
-        # reload setting
-        self.win.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
-        # reload UI from preferences.py
-        self.TX_line_end_drop_down.set_selected(position=defalut_value)
-
-
-    """
-    Function called when Serial Line End selection is changed in App preferences
-    RX
-    """
-    def serial_RX_line_end_action(self, drop_down, g_param_object):
-        # Get selected index
-        string_object = drop_down.get_selected_item()
-        index = drop_down.get_selected()
-        print(f'Selected Line End Pos: {index} val: {string_object.get_string()}')
-        # Save index
-        if self.win.get_RX_line_end_saved != index:
-            print("Saving Serial Line End index")
-            self.settings.set_int("saved-serial-rx-line-end-index", index)
-            # Reload setting
-            self.win.get_RX_line_end_saved = self.settings.get_int("saved-serial-rx-line-end-index")
-
-
-    """
-    Function to reset Serial Line End to default value
-    RX
-    """
-    def reset_RX_line_end_button_action(self, widget):
-        defalut_value = self.settings.get_int("default-serial-rx-line-end-index")
-        print(f"Reset Line End index to: {defalut_value}")
-        # save setting
-        self.settings.set_int("saved-serial-rx-line-end-index", defalut_value)
-        # reload setting
-        self.win.get_RX_line_end_saved = self.settings.get_int("saved-serial-rx-line-end-index")
-        # reload UI from preferences.py
-        self.RX_line_end_drop_down.set_selected(position=defalut_value)
-
-
-    """
-    """
-    def dark_mode_switch_action(self, widget, state):
-        dark_mode = state
-
-        style_manager = Adw.StyleManager.get_default()
-
-        if dark_mode: # is True
-            style_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
-        else:
-            style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
-        self.settings.set_boolean("dark-mode", dark_mode)
-
-
-    """
-    Get notifications settings change and save
-    """
-    def notifications_switch_action(self, widget, state):
-        notifications_state = state
-        # Save settings
-        self.settings.set_boolean("notifications", notifications_state)
-
-
-    """
-    Get timestamp settings change and save
-    """
-    def timestamp_switch_action(self, widget, state):
-        timestamp_state = state
-        # Save settings
-        self.settings.set_boolean("timestamp", timestamp_state)
-
-
-    """
-    Get show line endings settings change and save
-    """
-    def show_line_end_switch_action(self, widget, state):
-        show_line_end_state = state
-        # Save settings
-        self.settings.set_boolean("show-line-end", show_line_end_state)
-
-
-    def text_size_action(self, action):
-        new_size = action.get_value_as_int()
-        self.win.change_font_size(new_size)
-        # Save settings
-        self.settings.set_int("font-size", new_size)
-
-
-    def on_font_selected(self, font_dialog_button, g_param_boxed):
-        font_selected = font_dialog_button.get_font_desc()
-        print(f'Font name: {font_selected.get_family()}')
-
-        new_size = int(font_selected.get_size() / 1024)
-        print(f'Font size: {new_size}')
-        self.win.change_font_size(new_size)
-        # Save settings
-        self.settings.set_int("font-size", new_size)
-
-        print(f'Font style: {font_selected.get_style()}')
-        print(f'Font weight: {font_selected.get_weight()}')
 
 
 def main(version):

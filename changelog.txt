@@ -1,3 +1,8 @@
+0.2.6 (05.07.25)
+
+ - Separated preferences logic and ui
+ - Preferences can now be translated
+
 0.2.5 (01.07.25)
 
  - Turns the logging switch off when the logging folder does not have write permission.

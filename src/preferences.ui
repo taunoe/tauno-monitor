@@ -1,59 +1,399 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <requires lib="Adw" version="1.0"/>
+  <requires lib="gtk" version="4.0" />
+  <requires lib="Adw" version="1.0" />
   <template class="TaunoPreferencesWindow" parent="AdwPreferencesWindow">
     <property name="title" translatable="yes">Preferences</property>
     <property name="default-width">500</property>
     <property name="default-height">600</property>
+    <property name="search-enabled">True</property>
     <child>
-      <object class="AdwToastOverlay">
-        <property name="child">
-          <object class="AdwToolbarView">
-            <child type="top">
-              <object class="AdwHeaderBar" id="header_bar"></object>
-            </child>
-            <property name="content">
-              <object class="GtkBox">
-                <property name="orientation">1</property>
-                <property name="spacing">12</property>
-                <property name="margin-top">12</property>
-                <property name="margin-end">12</property>
-                <property name="margin-bottom">12</property>
-                <property name="margin-start">12</property>
+      <object class="AdwPreferencesPage">
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Appearance</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Text Size</property>
+                <property name="activatable_widget">font_spin_button</property>
                 <child>
-                  <object class="AdwPreferencesPage">
+                  <object class="GtkSpinButton" id="font_spin_button">
+                    <property name="valign">center</property>
+                    <property name="climb-rate">1</property>
+                    <property name="digits">0</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">2</property>
+                        <property name="upper">100</property>
+                        <property name="step-increment">1</property>
+                        <property name="value">10</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Dark Mode</property>
+                <property name="activatable_widget">dark_mode_switch</property>
+                <child>
+                  <object class="GtkSwitch" id="dark_mode_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Notifications</property>
+                <property name="activatable_widget">notifications_switch</property>
+                <child>
+                  <object class="GtkSwitch" id="notifications_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <!-- Data View Group -->
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Data View</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Format</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
                     <child>
-                      <object class="AdwPreferencesGroup">
-                        <property name="title" translatable="yes">Appearance</property>
-                        <child>
-                          <object class="AdwActionRow">
-                            <property name="title">Text size</property>
-                            <child>
-                              <object class="GtkSpinButton" id="spin_button">
-                                <property name="valign">0</property>
-                                <property name="adjustment">
-                                  <object class="GtkAdjustment" id="spin_adjustment">
-                                    <property name="value">0</property>
-                                    <property name="lower">1</property>
-                                    <property name="upper">100</property>
-                                    <property name="step-increment">1</property>
-                                    <property name="page-increment">1</property>
-                                  </object>
-                                </property>
-                                <property name="digits">0</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
+                      <object class="GtkDropDown" id="rx_format_dropdown">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_data_format_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
                       </object>
                     </child>
                   </object>
                 </child>
               </object>
-            </property>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Timestamp</property>
+                <property name="activatable_widget">timestamp_switch</property>
+                <child>
+                  <object class="GtkSwitch" id="timestamp_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Timestamp Color</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkColorDialogButton" id="time_color_button">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_time_color_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Arrow Color</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkColorDialogButton" id="arrow_color_button">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_arrow_color_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Transmitted (TX) Data Color</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkColorDialogButton" id="out_color_button">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_out_color_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Received (RX) Data Color</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkColorDialogButton" id="in_color_button">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_in_color_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Show Line Endings</property>
+                <property name="activatable_widget">show_line_end_switch</property>
+                <child>
+                  <object class="GtkSwitch" id="show_line_end_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Line End Color</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkColorDialogButton" id="show_line_end_color_button">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_line_end_color_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
-        </property>
+        </child>
+        <!-- Logging Group -->
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Logging</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Folder</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="valign">center</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkEntry" id="log_folder_entry">
+                        <property name="hexpand">true</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="select_log_folder_button">
+                        <property name="icon-name">search-folder-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Select Folder</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <!-- Serial Group -->
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Serial</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Data Bits</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkDropDown" id="data_bits_dropdown">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_data_bits_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Parity</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkDropDown" id="parity_dropdown">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_parity_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Stop Bits</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkDropDown" id="stop_bits_dropdown">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_stop_bits_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">End of line of transmitted (TX) data</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkDropDown" id="tx_line_end_dropdown">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_tx_line_end_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">End of line of received (RX) data</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkDropDown" id="rx_line_end_dropdown">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="reset_rx_line_end_button">
+                        <property name="valign">center</property>
+                        <property name="icon-name">view-refresh-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Reset</property>
+                        <style>
+                          <class name="flat" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
   </template>
