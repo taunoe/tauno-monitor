@@ -1,0 +1,458 @@
+# German translations for Tauno Monitor package.
+# Copyright (C) 2023-2025 Tauno Erik
+# This file is distributed under the same license as the Tauno Monitor package.
+# Pascal Dietrich <pascal.1.dietrich@hotmail.com>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: tauno-monitor\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-05 18:23+0300\n"
+"PO-Revision-Date: 2025-07-06 10:55+0200\n"
+"Last-Translator: Pascal Dietrich <pascal.1.dietrich@hotmail.com>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 48.0\n"
+
+#: data/art.taunoerik.tauno-monitor.desktop.in:3
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:6
+msgid "Tauno Monitor"
+msgstr "Tauno Monitor"
+
+#: data/art.taunoerik.tauno-monitor.desktop.in:14
+msgid "New Window"
+msgstr "Neues Fenster"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:7
+msgid "Tauno Erik"
+msgstr "Tauno Erik"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
+msgid "The serial port monitor for Arduino and other embedded development"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
+msgid "Features:"
+msgstr "Funktionen:"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:12
+msgid "Easy to use"
+msgstr "Einfach zu benutzen"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:13
+msgid "Customizable colours"
+msgstr "Anpassbare Farben"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:14
+msgid "Remembers the last used settings"
+msgstr "Merkt sich die zuletzt genutzten Einstellungen"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:15
+msgid "Automatically reconnects to the serial port if the connection is lost"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:16
+msgid "Can log data to a file"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:17
+msgid "Displays data in different formats: ASCII, BIN, OCT or DEC"
+msgstr "Zeigt Daten in folgenden Formaten an: ASCII, BIN, OCT oder DEC"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:18
+msgid "Can open multiple instances"
+msgstr "Kann mehrere Instanzen öffnen"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:20
+msgid ""
+"Depending on your system you may need to add a user to dialout group to open "
+"serial ports: <code>sudo usermod -a -G dialout $USER</code>&gt;"
+msgstr ""
+"Je nach System müssen Sie ihren Benutzer möglicherweise zur dialout-Gruppe "
+"hinzufügen, um serielle Ports zu öffnen:  <code>sudo usermod -a -G dialout "
+"$USER</code>&gt;"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:35
+msgid "Light mode"
+msgstr "Heller Modus"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:39
+msgid "Dark mode"
+msgstr "Dunkler Modus"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:43 src/preferences.ui:6
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:47
+msgid "Log file"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:58
+msgid "Added \"New Window\" in menu"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:59
+msgid "Separated preferences logic and ui"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:60
+msgid "Preferences can now be translated"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:67
+msgid ""
+"Turns the logging switch off when the logging folder does not have write "
+"permission."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:74
+msgid "New Window fix"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:81
+msgid "Added the ability to open multiple instances of the app"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:88
+msgid "Added BIN, DEC and OCT data formats"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:89
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:96
+msgid "Bug fixes"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:97
+msgid "New app icon"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:98
+msgid "Runtime-version 48"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:99
+msgid "Advandced Serial settings"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:106
+msgid "Show and select line ends (TX and RX)."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:113
+msgid "New baud rates"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:114
+msgid "Select line ending"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:121
+msgid "Added new baudrate: 1500000"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:128
+msgid "org.gnome.Platform ver 47"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:135
+msgid "Improved Estonian translation"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:136
+msgid "Reduced height of the preferences window."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:137
+msgid "Added Russian translation"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:144
+msgid "Started Estonian translation."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:151
+msgid "Logs HEX data."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:158
+msgid "User can customise text view colors."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:165
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:173
+msgid "Improved logging."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:166
+msgid "Coloured output."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:180
+msgid "Auto reconnects to the serial port."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:187
+msgid "Logging data to a file."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:194
+msgid "Changed back to tauno-monitor."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:201
+msgid "Removed hyphen(`-`) and underscore (`_`) from app id."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:208
+msgid "Replaced App ID hyphen(`-`) with underscore (`_`)."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:215
+msgid "Added \"Clear\" button."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:222
+msgid "Added timestamp setting."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:229
+msgid "Automatically scan ports if connection is lost."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:236
+msgid "Automatically closes the serial port if the connection is lost."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:243
+msgid "Added RX data HEX mode"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:250
+msgid "Enter == Send"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:257
+msgid "Reads bytes, not lines!"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:264
+msgid "Saves text size. Notifications settings."
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:271
+msgid "Added a guide: what to do when serial ports are not available"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:278
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:285
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:292
+msgid "Meta info fixes"
+msgstr ""
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:299
+msgid "First release"
+msgstr ""
+
+#: src/window.ui:16
+msgid "Port:"
+msgstr "Port:"
+
+#: src/window.ui:24
+msgid "not available"
+msgstr "nicht verfügbar"
+
+#: src/window.ui:33
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: src/window.ui:40
+msgid "Baud Rate:"
+msgstr "Baudrate:"
+
+#: src/window.ui:103
+msgid "Open"
+msgstr "Öffnen"
+
+#: src/window.ui:113
+msgid "Menu"
+msgstr "Menü"
+
+#: src/window.ui:120
+msgid "Clear screen"
+msgstr ""
+
+#: src/window.ui:126
+msgid "Write logs to file"
+msgstr ""
+
+#: src/window.ui:132
+msgid "Log"
+msgstr ""
+
+#: src/window.ui:141
+msgid "Unable to open serial ports! Learn how to enable ->"
+msgstr ""
+
+#: src/window.ui:142 src/guide.ui:6
+msgid "Guide"
+msgstr "Guide"
+
+#: src/window.ui:161
+msgid "Enter cmd"
+msgstr "Befehl eingeben"
+
+#: src/window.ui:171
+msgid "Send"
+msgstr "Senden"
+
+#: src/window.ui:216
+msgid "_New Window"
+msgstr "_Neues Fenster"
+
+#: src/window.ui:220
+msgid "_Guide"
+msgstr "_Guide"
+
+#: src/window.ui:224
+msgid "_Preferences"
+msgstr "_Einstellungen"
+
+#: src/window.ui:228
+msgid "_Keyboard Shortcuts"
+msgstr "_Tastenkürzel"
+
+#: src/window.ui:232
+msgid "_About"
+msgstr "_Über"
+
+#: src/guide.ui:20
+msgid ""
+"To make serial ports visible to the app add the user to 'dialout' group."
+msgstr ""
+"Um serielle Ports für die App sichtbar zu machen, fügen Sie den Benutzer zur "
+"'dialout'-Gruppe hinzu."
+
+#: src/guide.ui:26
+msgid "Please open Terminal and type:"
+msgstr "Bitte öffnen Sie das Terminal und geben Sie folgendes ein:"
+
+#: src/guide.ui:44
+msgid ""
+"You will need to log out and log back in again (or reboot) for the user "
+"group changes to take effect."
+msgstr ""
+"Sie müssen sich abmelden und wieder anmelden (oder neu starten), damit die "
+"Änderungen an der Benutzergruppe wirksam werden."
+
+#: src/guide.ui:50
+msgid ""
+"Ubuntu users also must enable \"Access USB hardware directly\" in the Ubuntu "
+"Store Software store on or on the command line."
+msgstr ""
+"Ubuntu-User müssen zudem \"Access USB hardware directly\"  im Ubuntu "
+"Software-Store oder über die Kommandozeile aktivieren."
+
+#: src/guide.ui:56
+msgid "More information on:"
+msgstr "Mehr Informationen unter:"
+
+#: src/guide.ui:67
+msgid "Close window"
+msgstr "Fenster schließen"
+
+#: src/preferences.ui:14
+msgid "Appearance"
+msgstr "Erscheinungsbild"
+
+#: src/preferences.ui:17
+msgid "Text Size"
+msgstr "Textgröße"
+
+#: src/preferences.ui:38
+msgid "Dark Mode"
+msgstr "Dunkler Modus"
+
+#: src/preferences.ui:49
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+#: src/preferences.ui:63
+msgid "Data View"
+msgstr "Datenansicht"
+
+#: src/preferences.ui:79 src/preferences.ui:115 src/preferences.ui:140
+#: src/preferences.ui:165 src/preferences.ui:190 src/preferences.ui:226
+#: src/preferences.ui:285 src/preferences.ui:310 src/preferences.ui:335
+#: src/preferences.ui:360 src/preferences.ui:385
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: src/preferences.ui:91
+msgid "Timestamp"
+msgstr "Zeitstempel"
+
+#: src/preferences.ui:102
+msgid "Timestamp Color"
+msgstr "Zeitstempelfarbe"
+
+#: src/preferences.ui:127
+msgid "Arrow Color"
+msgstr "Pfeilfarbe"
+
+#: src/preferences.ui:152
+msgid "Transmitted (TX) Data Color"
+msgstr ""
+
+#: src/preferences.ui:177
+msgid "Received (RX) Data Color"
+msgstr ""
+
+#: src/preferences.ui:202
+msgid "Show Line Endings"
+msgstr "Zeilenenden anzeigen"
+
+#: src/preferences.ui:213
+msgid "Line End Color"
+msgstr ""
+
+#: src/preferences.ui:241
+msgid "Logging"
+msgstr ""
+
+#: src/preferences.ui:244
+msgid "Folder"
+msgstr "Ordner"
+
+#: src/preferences.ui:257
+msgid "Select Folder"
+msgstr "Ordner auswählen"
+
+#: src/preferences.ui:269
+msgid "Serial"
+msgstr ""
+
+#: src/preferences.ui:272
+msgid "Data Bits"
+msgstr "Datenbits"
+
+#: src/preferences.ui:297
+msgid "Parity"
+msgstr "Parität"
+
+#: src/preferences.ui:322
+msgid "Stop Bits"
+msgstr ""
+
+#: src/preferences.ui:347
+msgid "End of line of transmitted (TX) data"
+msgstr ""
+
+#: src/preferences.ui:372
+msgid "End of line of received (RX) data"
+msgstr ""
