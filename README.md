@@ -1,23 +1,23 @@
-<img src="https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/icons/hicolor/scalable/apps/art.taunoerik.tauno-monitor.svg" align="left">
+<img src="https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/icons/hicolor/scalable/apps/art.taunoerik.tauno-monitor.svg" align="center">
 
 # Tauno Monitor
 
 The serial port monitor for Arduino and other embedded development.
 
-The goal is to make a user friendly serial port monitor for the GNOME desktop.
+The goal is to make a user-friendly serial port monitor for the GNOME desktop.
 
 ### Features:
 
- - Remembers the last used settings (Theme, Baud Rate, Port etc.)
+ - Remembers the last used settings (Theme, Baud Rate, Port, etc.)
  - Auto reconnects to the serial port when the connection is lost
  - Can log data to a file
- - Customizable colors
+ - Customizable colours
  - Displays data in different formats: ASCII, BIN, OCT or DEC
  - Can open multiple instances
 
 ## Important
 
-Depending on your system you may need to add a user to dialout group to open serial ports:
+Depending on your system, you may need to add a user to the dialout group to open serial ports:
 
 ```bash
 sudo usermod -a -G dialout $USER
@@ -46,11 +46,11 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/tauno-monitor)
 
-Ubuntu users also must enable "Access USB hardware directly" on the Ubuntu Store Software store:
+Ubuntu users also must enable "Access USB hardware directly" on the Ubuntu Software Store:
 
 ![Ubuntu permissions](data/screenshots/ubuntu_access_usb_directly.png)
 
-or from command line:
+Or from the command line:
 
 ```bash
 snap connect tauno-monitor:raw-usb
