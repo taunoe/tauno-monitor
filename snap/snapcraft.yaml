@@ -1,9 +1,9 @@
 #https://forum.snapcraft.io/t/snap-and-gtk4-sdk/37831/4
 name: tauno-monitor
 base: core22
-version: '0.2.7'
+version: '0.2.8'
 summary: The serial port monitor
-description: |
+description:
   Simple  serial port monitor for the GNOME desktop.
 
 grade: stable

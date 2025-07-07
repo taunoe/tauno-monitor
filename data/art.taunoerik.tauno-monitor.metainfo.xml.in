@@ -52,6 +52,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.8" date="2025-07-07">
+      <description>
+        <ul>
+          <li>Bug fix</li>
+        </ul>
+      </description>
+    </release>
      <release version="0.2.7" date="2025-07-06">
       <description>
         <ul>

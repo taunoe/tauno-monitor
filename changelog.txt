@@ -1,3 +1,7 @@
+0.2.8 (07.07.25)
+
+- Bug fix
+
 0.2.7 (06.07.25)
 
  - Added german translation
