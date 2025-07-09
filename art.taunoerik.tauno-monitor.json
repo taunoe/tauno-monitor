@@ -10,7 +10,8 @@
         "--socket=fallback-x11",
         "--device=all",
         "--socket=wayland",
-        "--filesystem=home"
+        "--filesystem=home",
+        "--talk-name=org.freedesktop.portal.Desktop"
     ],
     "cleanup" : [
         "/include",

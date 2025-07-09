@@ -36,6 +36,8 @@ import gettext, locale, os, random, string
 class TaunoMonitorWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'TaunoMonitorWindow'
 
+
+
     input_text_view = Gtk.Template.Child()
     open_button = Gtk.Template.Child()
     send_button = Gtk.Template.Child()
@@ -48,8 +50,22 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     update_ports = Gtk.Template.Child()
     toast_overlay = Gtk.Template.Child()  # notifications
     banner_no_ports = Gtk.Template.Child()
+    # Sidebar
+    show_sidebar_button = Gtk.Template.Child()
+    info_port_value = Gtk.Template.Child()
+    info_baud_value = Gtk.Template.Child()
+    info_Name = Gtk.Template.Child()
+    info_Description = Gtk.Template.Child()
+    info_HWID = Gtk.Template.Child()
+    info_VID = Gtk.Template.Child()
+    info_PID = Gtk.Template.Child()
+    info_Serial_Number = Gtk.Template.Child()
+    info_Location = Gtk.Template.Child()
+    info_Manufacturer = Gtk.Template.Child()
+    info_Product = Gtk.Template.Child()
+    info_Interface = Gtk.Template.Child()
 
-
+    split_view = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -75,9 +91,14 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         baud_index_saved = self.settings.get_int("baud-index")
         self.baud_drop_down.set_selected(baud_index_saved)
+        # Add to Info Sidebar:
+        selected_str = self.baud_drop_down.get_selected_item().get_string()
+        self.info_baud_value.set_label(selected_str)
+        self.baud_drop_down.connect("notify::selected-item", self.on_baud_drop_down_changed)
 
         self.ports_str_list = []
         self.load_saved_port()
+        self.port_drop_down.connect("notify::selected-item", self.on_port_drop_down_changed)
 
         # Get saved Serial RX data format
         self.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
@@ -166,6 +187,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # https://realpython.com/python-sleep/
         self.event = threading.Event()
 
+
     def create_action(self, name, function, shortcuts=None):
         """ Add an application action.
         Args:
@@ -248,6 +270,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         if port_str in self.ports_str_list:
             port_index = self.ports_str_list.index(port_str)
             self.port_drop_down.set_selected(port_index)
+            # Add to Info Sidebar:
+            self.info_port_value.set_label(port_str)
+            self.get_port_info(port_str)
 
 
     def change_font_size(self, new_size):
@@ -326,26 +351,20 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def btn_open(self, action, _):
         """ Button Open action """
-        # TODO: korrastada ja lihtsustada!
         # rescan ports
         self.scan_serial_ports()
 
-        # Selected Port
-        try:
-            port_obj = self.port_drop_down.get_selected_item()
-            selected_port = port_obj.get_string()
-        except Exception as ex:
-            print("BTN Open error:", ex)
-            selected_port = 'not available'
-        # save port to settings
-        self.settings.set_string("port-str", selected_port)
-
+        """
         # selected Baud Rate
         baud_obj = self.baud_drop_down.get_selected_item()
+
         selected_baud_rate = baud_obj.get_string()
+
         # save baud settings to settings
         baud_index_new = self.baud_drop_down.get_selected()
+
         self.settings.set_int("baud-index", baud_index_new)
+        """
 
         # If we a middle of reconnection
         if self.reconnecting_serial:
@@ -354,6 +373,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.open_button.set_label("Open")
             self.set_title("Tauno Monitor")
         else:
+            # Get saved
+            selected_port = self.settings.get_string("port-str")
+            selected_baud_index = self.settings.get_int("baud-index")
+            selected_baud_rate = self.baud_drop_down.get_selected_item().get_string()
             # Open Serial Port
             self.tauno_serial.open(selected_port, selected_baud_rate)
 
@@ -680,3 +703,95 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         if display_notifications:
             self.toast_overlay.add_toast(Adw.Toast(title=message))
 
+
+    def on_port_drop_down_changed(self, widget, param):
+        """ When user selects new port """
+        try:
+            selected_item = widget.get_selected_item()
+            selected_str = selected_item.get_string()
+            print(f"Selected port: {selected_str}")
+            # Add to Info Sidebar:
+            self.info_port_value.set_label(selected_str)
+            # save port to settings
+            self.settings.set_string("port-str", selected_str)
+            # Get info
+            self.get_port_info(selected_str)
+        except Exception as ex:
+            print("Port selection error:", ex)
+
+
+    def on_baud_drop_down_changed(self, widget, param):
+        """ When user selects new baud rate """
+        selected_item = widget.get_selected_item()
+
+        selected_str = selected_item.get_string()
+        print(f"Selected baud: {selected_str}")
+        # Add to Info Sidebar:
+        self.info_baud_value.set_label(selected_str)
+        # save baud settings to settings
+        baud_index_new = widget.get_selected()
+        baud_index_new = int(baud_index_new)
+        print(f"Baud index: {baud_index_new}")
+        self.settings.set_int("baud-index", baud_index_new)
+
+    def get_port_info(self, port_name):
+        found = False
+        ports = serial.tools.list_ports.comports()
+        for port in ports:
+            if port.device == port_name:
+                found = True
+                #print(f"Port          : {port.device}")
+
+                print(f"Name          : {port.name}")
+                self.info_Name.set_label(port.name)
+
+                print(f"Description   : {port.description}")
+                self.info_Description.set_label(port.description)
+
+                print(f"HWID          : {port.hwid}")
+                self.info_HWID.set_label(port.hwid)
+
+                print(f"VID           : {port.vid}")
+                self.info_VID.set_label(str(port.vid))
+
+                print(f"PID           : {port.pid}")
+                self.info_PID.set_label(str(port.pid))
+
+                print(f"Serial Number : {port.serial_number}")
+                self.info_Serial_Number.set_label(str(port.serial_number))
+
+                print(f"Location      : {port.location}")
+                self.info_Location.set_label(port.location)
+
+                print(f"Manufacturer  : {port.manufacturer}")
+                self.info_Manufacturer.set_label(port.manufacturer)
+
+                print(f"Product       : {port.product}")
+                if port.product == None:
+                    self.info_Product.set_label("None")
+                else:
+                    self.info_Product.set_label(port.product)
+
+                print(f"Interface     : {port.interface}")
+                if port.interface == None:
+                    self.info_Interface.set_label("None")
+                else:
+                    self.info_Interface.set_label(port.interface)
+
+                # Try to open and query serial settings
+                """
+                try:
+                    with serial.Serial(port.device, timeout=1) as ser:
+                        print("Opened successfully.")
+                        print(f"Baudrate      : {ser.baudrate}")
+                        print(f"Bytesize      : {ser.bytesize}")
+                        print(f"Parity        : {ser.parity}")
+                        print(f"Stopbits      : {ser.stopbits}")
+                        print(f"Timeout       : {ser.timeout}")
+                except Exception as e:
+                    print(f"Could not open port: {e}")
+                break
+                """
+
+        #if not found:
+            #print(f"Port {port_name} not found.")

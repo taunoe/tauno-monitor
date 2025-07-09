@@ -22,9 +22,9 @@ class TaunoSerial():
             self.close()
         else:
             # Open Serial port
-            print("Port: " + port)
+            print("Open Port: " + port)
             self.tauno_serial.baudrate = baud
-            print("Baud: " + baud)
+            print(f"Open Baud: {baud}")
             self.tauno_serial.port = port
 
             # Data Bit (index: main.py)

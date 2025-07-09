@@ -18,7 +18,8 @@ action_icons = [
   join_paths(action_dir, 'larger-brush-symbolic.svg'),
   join_paths(action_dir, 'search-folder-symbolic.svg'),
   join_paths(action_dir, 'document-text-symbolic.svg'),
-  join_paths(action_dir, 'arrow-circular-small-top-left-symbolic.svg')
+  join_paths(action_dir, 'arrow-circular-small-top-left-symbolic.svg'),
+  join_paths(action_dir, 'sidebar-show-symbolic.svg')
   ]
 install_data(
   action_icons,
