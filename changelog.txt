@@ -1,3 +1,7 @@
+0.2.9 (10.07.25)
+
+- Added a Sidebar to display device info
+
 0.2.8 (07.07.25)
 
 - Bug fix

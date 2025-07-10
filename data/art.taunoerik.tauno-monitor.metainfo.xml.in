@@ -52,6 +52,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.9" date="2025-07-10">
+      <description>
+        <ul>
+          <li>Added a Sidebar to display device info</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.8" date="2025-07-07">
       <description>
         <ul>

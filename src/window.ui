@@ -257,31 +257,10 @@
                         </layout>
                       </object>
                     </child>
-                    <!-- -->
+                    <!-- //-->
                     <child>
                       <object class="GtkLabel">
-                        <property name="label" translatable="yes">HWID:</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="row">4</property>
-                          <property name="column">0</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="info_HWID">
-                        <property name="label">None</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="row">4</property>
-                          <property name="column">1</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <!-- -->
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">VID:</property>
+                        <property name="label" translatable="yes">Vendor ID:</property>
                         <property name="xalign">0</property>
                         <layout>
                           <property name="row">5</property>
@@ -299,13 +278,34 @@
                         </layout>
                       </object>
                     </child>
-                    <!-- -->
+                    <!-- //-->
                     <child>
                       <object class="GtkLabel">
-                        <property name="label" translatable="yes">PID:</property>
+                        <property name="label" translatable="yes">Vendor:</property>
                         <property name="xalign">0</property>
                         <layout>
                           <property name="row">6</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="info_VID_Vendor">
+                        <property name="label">None</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">6</property>
+                          <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <!-- -->
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Product ID:</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">7</property>
                           <property name="column">0</property>
                         </layout>
                       </object>
@@ -315,70 +315,7 @@
                         <property name="label">None</property>
                         <property name="xalign">0</property>
                         <layout>
-                          <property name="row">6</property>
-                          <property name="column">1</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <!-- -->
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Serial Number:</property>
-                        <property name="xalign">0</property>
-                        <layout>
                           <property name="row">7</property>
-                          <property name="column">0</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="info_Serial_Number">
-                        <property name="label">None</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="row">7</property>
-                          <property name="column">1</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <!-- -->
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Location:</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="row">8</property>
-                          <property name="column">0</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="info_Location">
-                        <property name="label">None</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="row">8</property>
-                          <property name="column">1</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <!-- -->
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Manufacturer:</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="row">9</property>
-                          <property name="column">0</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="info_Manufacturer">
-                        <property name="label">None</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="row">9</property>
                           <property name="column">1</property>
                         </layout>
                       </object>
@@ -389,13 +326,55 @@
                         <property name="label" translatable="yes">Product:</property>
                         <property name="xalign">0</property>
                         <layout>
+                          <property name="row">8</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="info_PID_Product">
+                        <property name="label">None</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">8</property>
+                          <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <!-- -->
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Serial Number:</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">9</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="info_Serial_Number">
+                        <property name="label">None</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">9</property>
+                          <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <!-- -->
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">USB Location:</property>
+                        <property name="xalign">0</property>
+                        <layout>
                           <property name="row">10</property>
                           <property name="column">0</property>
                         </layout>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="info_Product">
+                      <object class="GtkLabel" id="info_Location">
                         <property name="label">None</property>
                         <property name="xalign">0</property>
                         <layout>
@@ -407,10 +386,52 @@
                     <!-- -->
                     <child>
                       <object class="GtkLabel">
-                        <property name="label" translatable="yes">Interface:</property>
+                        <property name="label" translatable="yes">Manufacturer:</property>
                         <property name="xalign">0</property>
                         <layout>
                           <property name="row">11</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="info_Manufacturer">
+                        <property name="label">None</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">11</property>
+                          <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <!-- -->
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Product:</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">12</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="info_Product">
+                        <property name="label">None</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">12</property>
+                          <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <!-- -->
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Interface:</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">13</property>
                           <property name="column">0</property>
                         </layout>
                       </object>
@@ -420,7 +441,7 @@
                         <property name="label">None</property>
                         <property name="xalign">0</property>
                         <layout>
-                          <property name="row">11</property>
+                          <property name="row">13</property>
                           <property name="column">1</property>
                         </layout>
                       </object>
@@ -540,5 +561,6 @@
   </menu>
 
 </interface>
+
 
 

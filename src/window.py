@@ -30,6 +30,8 @@ from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
 from .guide import TaunoGuideWindow
 import gettext, locale, os, random, string
+import re
+from .usb_db import usb_db
 
 
 @Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
@@ -56,9 +58,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     info_baud_value = Gtk.Template.Child()
     info_Name = Gtk.Template.Child()
     info_Description = Gtk.Template.Child()
-    info_HWID = Gtk.Template.Child()
     info_VID = Gtk.Template.Child()
+    info_VID_Vendor = Gtk.Template.Child()
     info_PID = Gtk.Template.Child()
+    info_PID_Product = Gtk.Template.Child()
     info_Serial_Number = Gtk.Template.Child()
     info_Location = Gtk.Template.Child()
     info_Manufacturer = Gtk.Template.Child()
@@ -734,37 +737,52 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         print(f"Baud index: {baud_index_new}")
         self.settings.set_int("baud-index", baud_index_new)
 
+
     def get_port_info(self, port_name):
-        found = False
+        """ Get connected Device Info from serial port """
         ports = serial.tools.list_ports.comports()
         for port in ports:
             if port.device == port_name:
-                found = True
                 #print(f"Port          : {port.device}")
 
                 print(f"Name          : {port.name}")
-                self.info_Name.set_label(port.name)
+                if port.name == None:
+                    self.info_Name.set_label("None")
+                else:
+                    self.info_Name.set_label(port.name)
 
                 print(f"Description   : {port.description}")
-                self.info_Description.set_label(port.description)
+                if port.description == None:
+                    self.info_Description.set_label("None")
+                else:
+                    self.info_Description.set_label(port.description)
 
-                print(f"HWID          : {port.hwid}")
-                self.info_HWID.set_label(port.hwid)
+                print(f"HWID          : {port.hwid}")#raw hex
+                self.parse_hwid(port.hwid)
 
                 print(f"VID           : {port.vid}")
-                self.info_VID.set_label(str(port.vid))
+                #self.info_VID.set_label(str(port.vid))#int
 
                 print(f"PID           : {port.pid}")
-                self.info_PID.set_label(str(port.pid))
+                #self.info_PID.set_label(str(port.pid))#int
 
                 print(f"Serial Number : {port.serial_number}")
-                self.info_Serial_Number.set_label(str(port.serial_number))
+                if port.serial_number == None:
+                    self.info_Serial_Number.set_label("None")
+                else:
+                    self.info_Serial_Number.set_label(str(port.serial_number))
 
                 print(f"Location      : {port.location}")
-                self.info_Location.set_label(port.location)
+                if port.location == None:
+                    self.info_Location.set_label("None")
+                else:
+                    self.info_Location.set_label(port.location)
 
                 print(f"Manufacturer  : {port.manufacturer}")
-                self.info_Manufacturer.set_label(port.manufacturer)
+                if port.manufacturer == None:
+                    self.info_Manufacturer.set_label("None")
+                else:
+                    self.info_Manufacturer.set_label(port.manufacturer)
 
                 print(f"Product       : {port.product}")
                 if port.product == None:
@@ -793,5 +811,43 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 break
                 """
 
-        #if not found:
-            #print(f"Port {port_name} not found.")
+    def parse_hwid(self, hwid_str):
+        """
+        Split HWID
+        http://www.linux-usb.org/usb.ids
+        """
+        result = {}
+        # Match VID and PID
+        vid_pid_match = re.search(r'VID:PID=([0-9A-Fa-f]+):([0-9A-Fa-f]+)', hwid_str)
+        if vid_pid_match:
+            result['VID'] = vid_pid_match.group(1)
+            result['PID'] = vid_pid_match.group(2)
+            self.info_VID.set_label(str(result['VID']))#hex
+            self.info_PID.set_label(str(result['PID']))#hex
+
+            vendor = usb_db.get(result['VID'], {})
+            vendor_name = vendor.get("name")
+            product = vendor.get("products", {}).get(result['PID'])
+            # Add to Sidebar
+            if vendor_name == None:
+                self.info_VID_Vendor.set_label("None")
+            else:
+                self.info_VID_Vendor.set_label(vendor_name.strip())
+            if product == None:
+                self.info_PID_Product.set_label("None")
+            else:
+                self.info_PID_Product.set_label(product.strip())
+
+
+        # Match Serial Number
+        ser_match = re.search(r'SER=([\w\d]+)', hwid_str)
+        if ser_match:
+            result['Serial'] = ser_match.group(1)
+
+        # Match Location
+        loc_match = re.search(r'LOCATION=([\d\-\.]+)', hwid_str)
+        if loc_match:
+            result['Location'] = loc_match.group(1)
+
+
+

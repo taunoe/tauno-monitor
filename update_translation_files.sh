@@ -2,6 +2,8 @@
 cd "$(dirname "$0")"
 echo "Preparing template..."
 xgettext --output=po/tauno-monitor.pot --files-from=po/POTFILES
+echo "Updating German..."
+msgmerge --no-fuzzy-matching -U po/de.po po/tauno-monitor.pot
 echo "Updating Estonian..."
 msgmerge --no-fuzzy-matching -U po/et.po po/tauno-monitor.pot
 echo "Updating Russian..."
