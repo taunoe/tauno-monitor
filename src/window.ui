@@ -546,6 +546,10 @@
         <attribute name="action">win.guide</attribute>
       </item>
       <item>
+        <attribute name="label" translatable="yes">_Find Baud Rate</attribute>
+        <attribute name="action">win.tool_baud</attribute>
+      </item>
+      <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
         <attribute name="action">app.preferences</attribute>
       </item>

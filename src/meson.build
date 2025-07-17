@@ -34,7 +34,8 @@ tauno_monitor_sources = [
   'tauno_logging.py',
   'guide.py',
   'preferences.py',
-  'usb_db.py'
+  'usb_db.py',
+  'tool_baud.py'
 ]
 
 install_data(tauno_monitor_sources, install_dir: moduledir)

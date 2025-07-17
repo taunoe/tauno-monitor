@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.2.9'
+APP_VERSION = '0.2.10'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -153,6 +153,11 @@ class TaunoMonitorApplication(Adw.Application):
         """Callback for the app.guide action."""
         guide = Adw.tWindow(transient_for=self.props.active_window)
         guide.present()
+
+    def on_tool_baud_action(self, widget, _):
+        """Callback for the app.tool_baud action."""
+        tool_baud = Adw.tWindow(transient_for=self.props.active_window)
+        tool_baud.present()
 
 
     def on_about_action(self, widget, param):

@@ -29,6 +29,7 @@ import time
 from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
 from .guide import TaunoGuideWindow
+from .tool_baud import TaunoToolBaudWindow
 import gettext, locale, os, random, string
 import re
 from .usb_db import usb_db
@@ -136,6 +137,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Button Guide
         self.create_action('guide', self.btn_guide)
+
+        # Menu Button Tool Baud
+        self.create_action('tool_baud', self.btn_tool_baud)
 
         # Button clear textview
         self.create_action('clear', self.btn_clear_textview)
@@ -337,6 +341,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """ Dispplay Guide Window """
         guide_window = TaunoGuideWindow(transient_for=self)
         guide_window.present()
+
+
+    def btn_tool_baud(self, action, _):
+        """ Dispplay Tool Baud Window """
+        tool_baud_window = TaunoToolBaudWindow(transient_for=self)
+        tool_baud_window.present()
 
 
     def btn_update_ports(self, action, _):
