@@ -39,8 +39,6 @@ from .usb_db import usb_db
 class TaunoMonitorWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'TaunoMonitorWindow'
 
-
-
     input_text_view = Gtk.Template.Child()
     open_button = Gtk.Template.Child()
     send_button = Gtk.Template.Child()
@@ -92,6 +90,16 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                             Gio.SettingsBindFlags.DEFAULT)
         self.settings.bind("window-maximized", self, "maximized",
                             Gio.SettingsBindFlags.DEFAULT)
+
+        self.COMMON_BAUD_RATES = [50, 75, 110, 134, 150, 200, 300, 600, 750,
+            1200, 1800, 2400, 4800, 7200, 9600, 14400, 19200, 28800, 31250,
+            38400, 56000, 57600, 74880, 76800, 115200, 115600, 128000, 230400,
+            250000, 256000, 460800, 500000, 576000, 921600, 1000000, 1152000,
+            1500000, 2000000, 2500000, 3000000, 3500000, 4000000]
+        self.str_COMMON_BAUD_RATES = [str(i) for i in self.COMMON_BAUD_RATES]
+
+        baud_model = Gtk.StringList.new(self.str_COMMON_BAUD_RATES)
+        self.baud_drop_down.set_model(baud_model)
 
         baud_index_saved = self.settings.get_int("baud-index")
         self.baud_drop_down.set_selected(baud_index_saved)
@@ -345,7 +353,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def btn_tool_baud(self, action, _):
         """ Dispplay Tool Baud Window """
-        tool_baud_window = TaunoToolBaudWindow(transient_for=self)
+        tool_baud_window = TaunoToolBaudWindow(transient_for=self, window_reference=self)
         tool_baud_window.present()
 
 

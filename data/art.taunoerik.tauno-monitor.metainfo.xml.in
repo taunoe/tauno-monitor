@@ -52,6 +52,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.10" date="2025-07-18">
+      <description>
+        <ul>
+          <li>Added tool to find baud rate</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.9" date="2025-07-10">
       <description>
         <ul>

@@ -9,3 +9,5 @@ src/tauno_logging.py
 src/guide.ui
 src/preferences.py
 src/preferences.ui
+src/tool_baud.py
+src/tool_baud.ui

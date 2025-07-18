@@ -7,7 +7,13 @@
     <property name="modal">true</property>
     <property name="default-width">600</property>
     <property name="default-height">300</property>
-    <child>
+    <property name="content">
+    <object class="AdwToolbarView">
+      <child type="top">
+        <object class="AdwHeaderBar"/>
+      </child>
+      <property name="content">
+
       <object class="GtkBox">
         <property name="orientation">1</property>
         <property name="margin-top">20</property>
@@ -69,7 +75,11 @@
           </object>
         </child>
       </object>
-    </child>
+
+    </property>
+    </object>
+  </property>
+
   </template>
   <object class="GtkTextBuffer" id="text_buffer"></object>
 </interface>

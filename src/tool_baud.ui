@@ -1,49 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <requires lib="Adw" version="1.0"/>
+  <requires lib="gtk" version="4.0" />
+  <requires lib="Adw" version="1.0" />
   <template class="TaunoToolBaudWindow" parent="AdwWindow">
     <property name="title" translatable="yes">Find the Baud Rate</property>
     <property name="modal">true</property>
-    <property name="default-width">300</property>
+    <property name="default-width">250</property>
     <property name="default-height">300</property>
-    <child>
-      <object class="GtkBox">
-        <property name="orientation">1</property>
-        <property name="margin-top">20</property>
-        <property name="margin-end">20</property>
-        <property name="margin-bottom">20</property>
-        <property name="margin-start">20</property>
-        <property name="spacing">20</property>
-        <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">Find the Baud Rate</property>
-            <signal name="clicked" handler="on_find_baud_rate"/>
-          </object>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" />
         </child>
+        <property name="content">
+          <object class="GtkBox">
+            <property name="orientation">1</property>
+            <property name="orientation">vertical</property>
+            <property name="halign">center</property>  <!-- Horizontal center -->
+            <property name="valign">center</property>  <!-- Vertical center -->
+            <property name="spacing">10</property>
+            <property name="spacing">20</property>
 
-        <child>
-          <object class="GtkLabel" id="txt_1_label">
-            <property name="label" translatable="yes">Siin peaks olema animatsioon.</property>
-            <property name="xalign">0</property>
-          </object>
-        </child>
+            <child>
+              <object class="GtkButton" id="scan_button">
+                <property name="sensitive">true</property>
+                <child>
+                  <object class="AdwButtonContent">
+                    <property name="label" translatable="yes">Scan</property>
+                    <property name="name">suggested</property>
+                    <property name="icon-name">scanner-symbolic</property>
+                  </object>
+                </child>
+                <signal name="clicked" handler="on_find_baud_rate" />
+                <style>
+                  <class name="suggested-action" />
+                </style>
+              </object>
+            </child>
 
-        <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">Set this baud rate</property>
-            <signal name="clicked" handler="on_set_baud_rate"/>
-          </object>
-        </child>
+            <child>
+              <object class="GtkBox">
+                <property name="hexpand">true</property>
+                <child>
+                  <object class="GtkProgressBar" id="progress_bar">
+                    <property name="hexpand">true</property>
+                    <property name="valign">center</property>
+                    <property name="show-text">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
 
-        <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">Close window</property>
-            <signal name="clicked" handler="on_button_close_clicked"/>
+            <child>
+              <object class="GtkLabel" id="message_label">
+                <property name="halign">center</property>
+                <property name="label" translatable="yes">Click &lt;b&gt;Scan&lt;/b&gt; to start</property>
+                <property name="xalign">0</property>
+                <property name="use-markup">true</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="use_button">
+                <property name="name">disabled</property>
+                <property name="sensitive">false</property>
+                <property name="margin-top">4</property>
+                <property name="margin-bottom">4</property>
+                <child>
+                  <object class="AdwButtonContent">
+                    <property name="label" translatable="yes">Use this baud rate</property>
+                    <property name="icon-name">mouse-click-symbolic</property>
+                  </object>
+                </child>
+                <signal name="clicked" handler="on_set_baud_rate" />
+              </object>
+            </child>
+
           </object>
-        </child>
+        </property>
       </object>
-    </child>
+    </property>
   </template>
-  <object class="GtkTextBuffer" id="text_buffer"></object>
+  <object class="GtkTextBuffer" id="text_buffer" />
 </interface>
+
