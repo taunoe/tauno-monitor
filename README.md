@@ -36,6 +36,8 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ![Log file](data/screenshots/log.png)
 
+![Find the Baud Rate](data/screenshots/find_baud.png)
+
 ## Install
 
 ### Flatpak
