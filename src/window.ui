@@ -16,12 +16,14 @@
       <object class="AdwToolbarView">
         <child type="top">
           <object class="AdwHeaderBar" id="header_bar">
+
             <child type="start">
               <object class="GtkLabel" id="port_label">
                 <property name="margin-start">6</property>
                 <property name="label" translatable="yes">Port:</property>
               </object>
             </child>
+
             <child type="start">
               <object class="GtkDropDown" id="port_drop_down">
                 <property name="model">
@@ -33,13 +35,15 @@
                 </property>
               </object>
             </child>
+
             <child type="start">
               <object class="GtkButton" id="update_ports">
                 <property name="icon-name">update-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Update</property>
                 <property name="action-name">win.update</property>
               </object>
-            </child>>
+            </child>
+
             <child type="start">
               <object class="GtkLabel" id="baud_label">
                 <property name="margin-start">18</property>
@@ -62,12 +66,16 @@
                 </property>
               </object>
             </child>
+
             <child type="start">
               <object class="GtkButton" id="open_button">
                 <property name="margin-start">18</property>
                 <property name="label" translatable="yes">Open</property>
                 <property name="use_underline">True</property>
                 <property name="action-name">win.open</property>
+                <style>
+                  <class name="suggested-action" />
+                </style>
               </object>
             </child>
 
@@ -81,7 +89,7 @@
             </child>
             <child type="end">
               <object class="GtkToggleButton" id="show_sidebar_button">
-                <property name="icon-name">sidebar-show-symbolic</property>
+                <property name="icon-name">dock-right-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Device info</property>
                 <property name="active">False</property>
               </object>
@@ -93,6 +101,7 @@
                 <property name="action-name">win.clear</property>
               </object>
             </child>
+
             <child type="end">
               <object class="GtkSwitch" id="log_switch">
                 <property name="tooltip-text" translatable="yes">Write logs to file</property>
@@ -104,6 +113,7 @@
                 <property name="label" translatable="yes">Log</property>
               </object>
             </child>
+
           </object>
         </child>
         <!-- TOP header end -->
@@ -443,11 +453,20 @@
                         <child>
                           <object class="GtkBox">
                             <child type="end">
-                              <object class="GtkButton" id="send_button">
+                              <!--<object class="GtkButton" id="send_button">
                                 <property name="margin-start">6</property>
                                 <property name="margin-end">6</property>
                                 <property name="margin-top">6</property>
                                 <property name="label" translatable="yes">Send</property>
+                                <property name="action-name">win.send</property>
+                              </object>-->
+
+                              <object class="GtkButton" id="send_button">
+                                <property name="icon-name">paper-plane-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Send</property>
+                                <property name="margin-start">6</property>
+                                <property name="margin-end">6</property>
+                                <property name="margin-top">6</property>
                                 <property name="action-name">win.send</property>
                               </object>
                             </child>

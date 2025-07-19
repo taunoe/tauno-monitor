@@ -80,6 +80,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         gettext.textdomain('art.taunoerik.tauno-monitor')
         _ = gettext.gettext
 
+        self.connect("close-request", self.on_close_request)
 
         self.settings = Gio.Settings(schema_id="art.taunoerik.tauno-monitor")
 
@@ -201,6 +202,13 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # https://realpython.com/python-sleep/
         self.event = threading.Event()
+
+
+    def on_close_request(self, window):
+        print("Window is being closed")
+        if self.log_file_exist:
+                self.logging.close_file()
+        return False  # allow closing
 
 
     def create_action(self, name, function, shortcuts=None):

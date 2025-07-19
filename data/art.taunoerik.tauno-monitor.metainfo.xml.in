@@ -52,6 +52,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.11" date="2025-07-19">
+      <description>
+        <ul>
+          <li>User interface changes</li>
+          <li>Fixed log file writing when the logging is not correctly ended</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.10" date="2025-07-18">
       <description>
         <ul>
