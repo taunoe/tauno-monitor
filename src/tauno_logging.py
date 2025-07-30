@@ -31,7 +31,7 @@ class TaunoLogging():
 
     def write_data(self, data):
         """ Writes data to log file. Adds start time. """
-        print("log:write_data()")
+        #print("log:write_data()")
         if self.window_reference.write_logs:
             # Open the file the first time the method is called
             if self.file_handle is None:
@@ -49,7 +49,8 @@ class TaunoLogging():
             self.file_handle.write(data)
             print(f"log write data: {data}")
         else:
-            print("else:self.window_reference.write_logs")
+            pass
+            #print("else:self.window_reference.write_logs")
 
 
     def write_hex_data(self, data):
