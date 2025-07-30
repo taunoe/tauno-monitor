@@ -14,7 +14,7 @@
       <default>false</default>
     </key>
     <key name="font-size" type="i">
-      <default>12</default>
+      <default>16</default>
     </key>
     <key name="notifications" type="b">
       <default>true</default>
