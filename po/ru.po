@@ -1,5 +1,5 @@
 # Russian translations for Tauno Monitor package.
-# Copyright (C) 2024 Tauno Erik
+# Copyright (C) 2025 Tauno Erik
 # This file is distributed under the same license as the Tauno Monitor package.
 # Vladimir Kosolapov, 2024.
 #
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: tauno-monitor\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-18 20:17+0300\n"
-"PO-Revision-Date: 2024-10-22 22:30+0300\n"
+"PO-Revision-Date: 2025-08-02 19:00+0300\n"
 "Last-Translator: Vladimir Kosolapov\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -25,7 +25,7 @@ msgstr "Tauno Monitor"
 
 #: data/art.taunoerik.tauno-monitor.desktop.in:14
 msgid "New Window"
-msgstr ""
+msgstr "Новое окно"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:7
 msgid "Tauno Erik"
@@ -34,6 +34,7 @@ msgstr "Tauno Erik"
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
 msgid "The serial port monitor for Arduino and other embedded development"
 msgstr ""
+"Монитор последовательного порта для Arduino и разработки микроконтроллеров"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
 msgid "Features:"
@@ -41,7 +42,7 @@ msgstr "Особенности:"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:12
 msgid "Easy to use"
-msgstr ""
+msgstr "Простота в использовании"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:13
 msgid "Customizable colours"
@@ -65,11 +66,11 @@ msgstr "Может записывать данные в файл"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:17
 msgid "Displays data in different formats: ASCII, BIN, OCT or DEC"
-msgstr ""
+msgstr "Отображает данные в различных форматах: ASCII, BIN, OCT или DEC"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:18
 msgid "Can open multiple instances"
-msgstr ""
+msgstr "Может открывать несколько экземпляров"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:20
 msgid ""
@@ -98,86 +99,88 @@ msgstr "Файл журнала"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:58
 msgid "Added tool to find baud rate"
-msgstr ""
+msgstr "Добавлен инструмент поиска скорости передачи"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:65
 msgid "Added a Sidebar to display device info"
-msgstr ""
+msgstr "Добавлена боковая панель для отображения информации об устройстве"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:72
 msgid "Bug fix"
-msgstr ""
+msgstr "Исправление ошибок"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:79
 msgid "Added german translation"
-msgstr ""
+msgstr "Добавлен перевод на немецкий язык"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:86
 msgid "Added \"New Window\" in menu"
-msgstr ""
+msgstr "Добавлено \"Новое окно\" в меню"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:87
 msgid "Separated preferences logic and ui"
-msgstr ""
+msgstr "Отделена логика настроек от интерфейса"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:88
 msgid "Preferences can now be translated"
-msgstr ""
+msgstr "Теперь настройки можно переводить"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:95
 msgid ""
 "Turns the logging switch off when the logging folder does not have write "
 "permission."
 msgstr ""
+"Отключает переключатель журналирования, когда папка журнала не имеет прав на "
+"запись."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:102
 msgid "New Window fix"
-msgstr ""
+msgstr "Исправление \"Новое окно\""
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:109
 msgid "Added the ability to open multiple instances of the app"
-msgstr ""
+msgstr "Добавлена возможность открывать несколько экземпляров приложения"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:116
 msgid "Added BIN, DEC and OCT data formats"
-msgstr ""
+msgstr "Добавлены форматы данных BIN, DEC и OCT"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:117
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:124
 msgid "Bug fixes"
-msgstr ""
+msgstr "Исправления ошибок"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:125
 msgid "New app icon"
-msgstr ""
+msgstr "Новая иконка приложения"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:126
 msgid "Runtime-version 48"
-msgstr ""
+msgstr "Среда выполнения версии 48"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:127
 msgid "Advandced Serial settings"
-msgstr ""
+msgstr "Расширенные настройки последовательного порта"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:134
 msgid "Show and select line ends (TX and RX)."
-msgstr ""
+msgstr "Показывает и выбирает окончания строк (TX и RX)."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:141
 msgid "New baud rates"
-msgstr ""
+msgstr "Новые скорости передачи"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:142
 msgid "Select line ending"
-msgstr ""
+msgstr "Выбор окончания строки"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:149
 msgid "Added new baudrate: 1500000"
-msgstr ""
+msgstr "Добавлена новая скорость передачи: 1500000"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:156
 msgid "org.gnome.Platform ver 47"
-msgstr ""
+msgstr "org.gnome.Platform версии 47"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:163
 msgid "Improved Estonian translation"
@@ -189,7 +192,7 @@ msgstr "Уменьшена высота окна настроек."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:165
 msgid "Added Russian translation"
-msgstr ""
+msgstr "Добавлен перевод на русский язык"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:172
 msgid "Started Estonian translation."
@@ -305,7 +308,7 @@ msgstr "Главное меню"
 
 #: src/window.ui:85
 msgid "Device info"
-msgstr ""
+msgstr "Информация об устройстве"
 
 #: src/window.ui:92
 msgid "Clear screen"
@@ -321,43 +324,43 @@ msgstr "Журнал"
 
 #: src/window.ui:180
 msgid "Name:"
-msgstr ""
+msgstr "Имя:"
 
 #: src/window.ui:201
 msgid "Description:"
-msgstr ""
+msgstr "Описание:"
 
 #: src/window.ui:222
 msgid "Vendor ID:"
-msgstr ""
+msgstr "ID производителя:"
 
 #: src/window.ui:243
 msgid "Vendor:"
-msgstr ""
+msgstr "Производитель:"
 
 #: src/window.ui:264
 msgid "Product ID:"
-msgstr ""
+msgstr "ID продукта:"
 
 #: src/window.ui:285 src/window.ui:369
 msgid "Product:"
-msgstr ""
+msgstr "Продукт:"
 
 #: src/window.ui:306
 msgid "Serial Number:"
-msgstr ""
+msgstr "Серийный номер:"
 
 #: src/window.ui:327
 msgid "USB Location:"
-msgstr ""
+msgstr "Расположение USB:"
 
 #: src/window.ui:348
 msgid "Manufacturer:"
-msgstr ""
+msgstr "Изготовитель:"
 
 #: src/window.ui:390
 msgid "Interface:"
-msgstr ""
+msgstr "Интерфейс:"
 
 #: src/window.ui:420
 msgid "Unable to open serial ports! Learn how to enable ->"
@@ -377,7 +380,7 @@ msgstr "Отправить"
 
 #: src/window.ui:500
 msgid "_New Window"
-msgstr ""
+msgstr "_Новое окно"
 
 #: src/window.ui:504
 msgid "_Guide"
@@ -385,7 +388,7 @@ msgstr "_Руководство"
 
 #: src/window.ui:508
 msgid "_Find Baud Rate"
-msgstr ""
+msgstr "_Найти скорость"
 
 #: src/window.ui:512
 msgid "_Preferences"
@@ -397,7 +400,7 @@ msgstr "_Комбинации клавиш"
 
 #: src/window.ui:520
 msgid "_About"
-msgstr ""
+msgstr "_О приложении"
 
 #: src/guide.ui:26
 msgid ""
@@ -436,131 +439,125 @@ msgstr "Закрыть окно"
 
 #: src/preferences.ui:14
 msgid "Appearance"
-msgstr ""
+msgstr "Внешний вид"
 
 #: src/preferences.ui:17
 msgid "Text Size"
-msgstr ""
+msgstr "Размер текста"
 
 #: src/preferences.ui:38
 msgid "Dark Mode"
-msgstr ""
+msgstr "Тёмная тема"
 
 #: src/preferences.ui:49
 msgid "Notifications"
-msgstr ""
+msgstr "Уведомления"
 
 #: src/preferences.ui:63
 msgid "Data View"
-msgstr ""
+msgstr "Отображение данных"
 
 #: src/preferences.ui:79 src/preferences.ui:115 src/preferences.ui:140
 #: src/preferences.ui:165 src/preferences.ui:190 src/preferences.ui:226
 #: src/preferences.ui:285 src/preferences.ui:310 src/preferences.ui:335
 #: src/preferences.ui:360 src/preferences.ui:385
 msgid "Reset"
-msgstr ""
+msgstr "Сброс"
 
 #: src/preferences.ui:91
 msgid "Timestamp"
-msgstr ""
+msgstr "Временная метка"
 
 #: src/preferences.ui:102
 msgid "Timestamp Color"
-msgstr ""
+msgstr "Цвет временной метки"
 
 #: src/preferences.ui:127
 msgid "Arrow Color"
-msgstr ""
+msgstr "Цвет стрелки"
 
 #: src/preferences.ui:152
 msgid "Transmitted (TX) Data Color"
-msgstr ""
+msgstr "Цвет переданных (TX) данных"
 
 #: src/preferences.ui:177
 msgid "Received (RX) Data Color"
-msgstr ""
+msgstr "Цвет принятых (RX) данных"
 
 #: src/preferences.ui:202
 msgid "Show Line Endings"
-msgstr ""
+msgstr "Показывать окончания строк"
 
 #: src/preferences.ui:213
 msgid "Line End Color"
-msgstr ""
+msgstr "Цвет окончания строки"
 
 #: src/preferences.ui:241
 msgid "Logging"
-msgstr ""
+msgstr "Журналирование"
 
 #: src/preferences.ui:244
 msgid "Folder"
-msgstr ""
+msgstr "Папка"
 
 #: src/preferences.ui:257
 msgid "Select Folder"
-msgstr ""
+msgstr "Выбрать папку"
 
 #: src/preferences.ui:269
 msgid "Serial"
-msgstr ""
+msgstr "Последовательный порт"
 
 #: src/preferences.ui:272
 msgid "Data Bits"
-msgstr ""
+msgstr "Биты данных"
 
 #: src/preferences.ui:297
 msgid "Parity"
-msgstr ""
+msgstr "Чётность"
 
 #: src/preferences.ui:322
 msgid "Stop Bits"
-msgstr ""
+msgstr "Стоп-биты"
 
 #: src/preferences.ui:347
 msgid "End of line of transmitted (TX) data"
-msgstr ""
+msgstr "Окончание строки переданных (TX) данных"
 
 #: src/preferences.ui:372
 msgid "End of line of received (RX) data"
-msgstr ""
+msgstr "Окончание строки принятых (RX) данных"
 
 #: src/tool_baud.py:66
 msgid "Done"
-msgstr ""
+msgstr "Готово"
 
 #: src/tool_baud.py:72
 #, python-brace-format
 msgid "Best match: {baud} baud"
-msgstr ""
+msgstr "Лучшее совпадение: {baud} бод"
 
 #: src/tool_baud.py:89
 #, python-brace-format
 msgid "Trying {baudrate} baud..."
-msgstr ""
+msgstr "Проверяется {baudrate} бод..."
 
 #: src/tool_baud.py:119
 msgid "Connect the device to the port!"
-msgstr ""
+msgstr "Подключите устройство к порту!"
 
 #: src/tool_baud.ui:6
 msgid "Find the Baud Rate"
-msgstr ""
+msgstr "Найти скорость передачи"
 
 #: src/tool_baud.ui:29
 msgid "Scan"
-msgstr ""
+msgstr "Сканировать"
 
 #: src/tool_baud.ui:57
 msgid "Click <b>Scan</b> to start"
-msgstr ""
+msgstr "Нажмите <b>Сканировать</b> для начала"
 
 #: src/tool_baud.ui:71
 msgid "Use this baud rate"
-msgstr ""
-
-#~ msgid "_About Tauno Monitor"
-#~ msgstr "_О приложении"
-
-#~ msgid "The serial port monitor"
-#~ msgstr "Монитор последовательного порта"
+msgstr "Использовать эту скорость передачи"
