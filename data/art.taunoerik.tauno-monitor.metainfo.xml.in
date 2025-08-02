@@ -52,6 +52,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.12" date="2025-08-02">
+      <description>
+        <ul>
+          <li>updated Russian translation</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.11" date="2025-07-19">
       <description>
         <ul>

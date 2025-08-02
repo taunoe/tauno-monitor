@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.2.11'
+APP_VERSION = '0.2.12'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -92,11 +92,6 @@ class TaunoMonitorApplication(Adw.Application):
         Called when the application is activated.
         We raise the application's main window, creating it if necessary.
         """
-        #self.win = self.props.active_window
-        #self.win = TaunoMonitorWindow(application=self)
-        #self.win.present()
-        # TODO: Every activation creates a new, independent window?
-        #win = self.props.active_window
         self.win = TaunoMonitorWindow(application=self)
         self.win.present()
 
@@ -111,22 +106,13 @@ class TaunoMonitorApplication(Adw.Application):
 
 
     def do_command_line(self, command_line: None):
-        """
-        options = command_line.get_arguments()[1:]
-        if "--new-window" in options:
-            self.on_new_window()
-        else:
-            self.do_activate()
-        return 0
-        """
-
+        """ """
         args = command_line.get_arguments()[1:] # Skip the program name
         if "--new-window" in args:
             self.on_new_window()
         else:
             self.do_activate()
         return 0
-
 
 
     #def do_startup(self):

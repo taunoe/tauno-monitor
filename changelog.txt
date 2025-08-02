@@ -1,3 +1,7 @@
+0.2.12 (02.08.25)
+
+- updated Russian translation
+
 0.2.11 (19.07.25)
 
 - User interface changes

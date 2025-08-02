@@ -567,9 +567,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 self.logging.write_hex_data(octal_str)
             tag = self.tag_in
         elif type == 'ASCII':
-            #self.prev_char = data.decode()  # Store char
-            #self.text_buffer.insert(self.text_iter_end, data.decode())
-            #self.logging.write_data(data.decode())
             line = data.decode('utf-8').strip()
             self.text_buffer.insert(self.text_iter_end, line)
             self.logging.write_data(line)#TODO line end???
