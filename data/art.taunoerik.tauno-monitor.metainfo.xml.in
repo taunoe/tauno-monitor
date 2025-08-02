@@ -52,10 +52,11 @@
     <category>Utility</category>
   </categories>
   <releases>
-    <release version="0.2.12" date="2025-08-02">
+    <release version="0.2.13" date="2025-08-02">
       <description>
         <ul>
           <li>updated Russian translation</li>
+          <li>Update categories in the desktop file</li>
         </ul>
       </description>
     </release>

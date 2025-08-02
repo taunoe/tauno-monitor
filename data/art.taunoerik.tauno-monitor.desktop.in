@@ -4,7 +4,7 @@ Exec=tauno-monitor
 Icon=art.taunoerik.tauno-monitor
 Terminal=false
 Type=Application
-Categories=GTK;
+Categories=Development;Utility;Debugger;
 StartupNotify=true
 Actions=new-window;
 
