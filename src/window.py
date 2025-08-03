@@ -34,6 +34,7 @@ import gettext, locale, os, random, string
 import re
 from .usb_db import usb_db
 
+APP_NAME = "Tauno Monitor"
 
 @Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 class TaunoMonitorWindow(Adw.ApplicationWindow):
@@ -400,7 +401,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.tauno_serial.close()
             self.reconnecting_serial = False
             self.open_button.set_label("Open")
-            self.set_title("Tauno Monitor")
+            self.set_title(APP_NAME)
         else:
             # Get saved
             selected_port = self.settings.get_string("port-str")
@@ -417,7 +418,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.logging.write_data("Opened " + title + "\n")
         else:
             self.open_button.set_label("Open")
-            self.set_title("Tauno Monitor")
+            self.set_title(APP_NAME)
 
         if self.tauno_serial.is_open:
             self.notify(f"{selected_port} {selected_baud_rate} connected")
@@ -474,7 +475,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 print(" reconnected!")
             else: # Close button is pressed
                 self.tauno_serial.close()
-                self.set_title('Tauno Monitor')
+                self.set_title(APP_NAME)
 
 
     def reconnecting_msg(self, i):
@@ -569,7 +570,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         elif type == 'ASCII':
             line = data.decode('utf-8').strip()
             self.text_buffer.insert(self.text_iter_end, line)
-            self.logging.write_data(line)#TODO line end???
+            self.logging.write_data(line)
             tag = self.tag_in
         elif type == 'TX':
             self.text_buffer.insert(self.text_iter_end, data)

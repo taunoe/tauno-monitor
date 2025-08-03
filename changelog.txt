@@ -1,6 +1,10 @@
+0.2.14 (03.08.25)
+
+- New USB IDS database (Version: 2025.07.26)
+
 0.2.13 (02.08.25)
 
-- Update categories in the desktop file
+- Updated categories in the desktop file
 
 0.2.12 (02.08.25)
 
