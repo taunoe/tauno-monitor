@@ -1,5 +1,6 @@
 #!/bin/bash
 # http://www.linux-usb.org/usb-ids.html
+# https://github.com/usbids/usbids
 
 INPUT_FILE="usb.ids"
 OUTPUT_FILE="src/usb_db.py"
