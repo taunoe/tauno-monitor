@@ -35,6 +35,7 @@ import re
 from .usb_db import usb_db
 
 APP_NAME = "Tauno Monitor"
+APP_ID = "art.taunoerik.tauno-monitor"
 
 @Gtk.Template(resource_path='/art/taunoerik/tauno-monitor/window.ui')
 class TaunoMonitorWindow(Adw.ApplicationWindow):
@@ -77,13 +78,13 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # # The default language of the operating system will be used.
         localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
         locale.setlocale(locale.LC_ALL, '')
-        gettext.bindtextdomain('art.taunoerik.tauno-monitor', localedir)
-        gettext.textdomain('art.taunoerik.tauno-monitor')
+        gettext.bindtextdomain(APP_ID, localedir)
+        gettext.textdomain(APP_ID)
         _ = gettext.gettext
 
         self.connect("close-request", self.on_close_request)
 
-        self.settings = Gio.Settings(schema_id="art.taunoerik.tauno-monitor")
+        self.settings = Gio.Settings(schema_id=APP_ID)
 
         # Get saved settings from gschema.xml
         self.settings.bind("window-width", self, "default-width",

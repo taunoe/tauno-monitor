@@ -30,19 +30,20 @@ import os
 import gettext, locale
 
 APP_VERSION = '0.2.14'
+APP_ID = 'art.taunoerik.tauno-monitor'
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
 
     def __init__(self, version):
-        super().__init__(application_id='art.taunoerik.tauno-monitor',
+        super().__init__(application_id=APP_ID,
                          #flags=Gio.ApplicationFlags.NON_UNIQUE,
                          flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
                          )
 
         self.version = version
 
-        self.settings = Gio.Settings(schema_id="art.taunoerik.tauno-monitor")
+        self.settings = Gio.Settings(schema_id=APP_ID)
 
         # menu actions
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
@@ -82,8 +83,8 @@ class TaunoMonitorApplication(Adw.Application):
         # Language
         localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
         locale.setlocale(locale.LC_ALL, '')
-        gettext.bindtextdomain('art.taunoerik.tauno-monitor', localedir)
-        gettext.textdomain('art.taunoerik.tauno-monitor')
+        gettext.bindtextdomain(APP_ID, localedir)
+        gettext.textdomain(APP_ID)
         _ = gettext.gettext
 
 
@@ -170,15 +171,6 @@ class TaunoMonitorApplication(Adw.Application):
 
         preferences_window = TaunoPreferencesWindow(main_window=active_window, settings=self.settings, transient_for=self)
         preferences_window.present()
-
-    # ajutine!
-    def on_color_selected(self, color_dialog_button, g_param_boxed):
-        gdk_rgba = color_dialog_button.get_rgba()
-        print(f'Color RGB = {gdk_rgba.to_string()}')
-        print(f'Alpha = {gdk_rgba.alpha}')
-        print(f'Red = {gdk_rgba.red}')
-        print(f'Green = {gdk_rgba.green}')
-        print(f'Blue = {gdk_rgba.blue}')
 
 
 def main(version):
