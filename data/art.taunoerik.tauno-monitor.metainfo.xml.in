@@ -52,10 +52,11 @@
     <category>Utility</category>
   </categories>
   <releases>
-    <release version="0.2.14" date="2025-08-03">
+    <release version="0.2.14" date="2025-08-08">
       <description>
         <ul>
           <li>New USB IDS database (Version: 2025.07.26)</li>
+          <li>Bug fix</li>
         </ul>
       </description>
     </release>
