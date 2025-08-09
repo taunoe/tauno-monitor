@@ -1,5 +1,5 @@
 project('tauno-monitor',
-          version: '0.2.14',
+          version: '0.2.15',
     meson_version: '>= 1.0.0',
   default_options: [ 'warning_level=2', 'werror=false', ],
 )

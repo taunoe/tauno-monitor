@@ -312,11 +312,19 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         old_size = len(self.port_drop_down_list)
 
         try:
-            ports = list(serial.tools.list_ports.comports())
+            all_ports = list(serial.tools.list_ports.comports())
+            ports = []
+
+            for port in all_ports:
+                # Does port have vid/pid number?
+                # If not, then it not useful for us
+                if port.vid != None:
+                    ports.append(port)
 
             if len(ports) == 0:
-                # TODO: Kui päriselt on 0 porti aga kõik töötab?
                 self.banner_no_ports.set_revealed(revealed=True)
+            else:
+                self.banner_no_ports.set_revealed(revealed=False)
 
             self.ports_str_list.clear()
             for port in ports:
@@ -745,7 +753,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             # Get info
             self.get_port_info(selected_str)
         except Exception as ex:
-            print("Port selection error:", ex)
+            print("Ports are not available!")
+            #print("Port selection error:", ex)
 
 
     def on_baud_drop_down_changed(self, widget, param):
@@ -820,6 +829,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                     self.info_Interface.set_label("None")
                 else:
                     self.info_Interface.set_label(port.interface)
+                break # Exit loop
 
                 # Try to open and query serial settings
                 """

@@ -52,6 +52,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+
+    <release version="0.2.15" date="2025-08-09">
+      <description>
+        <ul>
+          <li>Hides unusable ports (without PID/VID number)</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.14" date="2025-08-08">
       <description>
         <ul>

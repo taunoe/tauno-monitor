@@ -1,3 +1,7 @@
+0.2.15 (09.08.25)
+
+- Hides unusable ports (without PID/VID number)
+
 0.2.14 (08.08.25)
 
 - New USB IDS database (Version: 2025.07.26)

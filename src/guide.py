@@ -1,5 +1,6 @@
 # File:    guide.py
 # Started: 03.08.2024
+# Edited:  09.08.2025
 # Author:  Tauno Erik
 # Displays Guide window
 
