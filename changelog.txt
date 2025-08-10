@@ -1,6 +1,7 @@
-0.2.15 (09.08.25)
+0.2.15 (10.08.25)
 
 - Hides unusable ports (without PID/VID number)
+- Updated Estonian translation
 
 0.2.14 (08.08.25)
 

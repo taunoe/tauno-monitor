@@ -63,7 +63,7 @@
             <property name="title" translatable="yes">Data View</property>
             <child>
               <object class="AdwActionRow">
-                <property name="title">Format</property>
+                <property name="title" translatable="yes">Format</property>
                 <child>
                   <object class="GtkBox">
                     <property name="spacing">6</property>
