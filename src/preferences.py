@@ -1,6 +1,6 @@
 # File:        preferences.py
 # Started:     03.08.2024
-# Edited:      05.07.2025
+# Edited:      01.09.2025
 # Author:      Tauno Erik
 # Description: Displays Preferences window
 
@@ -235,10 +235,11 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
 
     def rx_data_format_action(self, drop_down, g_param_object):
         """ """
+        print("Change RX format")
         string_object = drop_down.get_selected_item()
         index = drop_down.get_selected()
         new_format = string_object.get_string()
-        #print(f'Position: {index} - value: {string_object.get_string()}')
+        print(f'Position: {index} - value: {string_object.get_string()}')
         # save settings
         self.settings.set_string("saved-serial-rx-data-format", new_format)
         # update pos
@@ -258,10 +259,12 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         print("Reset data format")
         # Get deffault
         default = self.settings.get_string("default-serial-rx-data-format")
+        print(f"default:{default}")
         # Save setting
         self.settings.set_string("saved-serial-rx-data-format", default)
         # Reload UI
         index = self.serial_data_formats.index(default)
+        print(f"index:{index}")
         self.rx_format_dropdown.set_selected(position=index)#TODO
 
 

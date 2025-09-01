@@ -53,6 +53,13 @@
   </categories>
   <releases>
 
+    <release version="0.2.16" date="2025-09-01">
+      <description>
+        <ul>
+          <li>Fixed TX line end character</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.15" date="2025-08-10">
       <description>
         <ul>

@@ -710,11 +710,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """
         Write data to Serial port
         """
-        if self.tauno_serial.is_open:
-            self.tauno_serial.write(data)
-        else:
-            print("Send cmd: Serial is not Open")
-
         end = ''
         index = self.get_TX_line_end_saved
 
@@ -722,9 +717,15 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             text_view_end = '\\n'
             end = '\n'
         elif index == 1:
-            end = '\\r'
+            end = '\r'
         elif index == 2:
-            end = '\\r\\n'
+            end = '\r\n'
+
+        data = data + end
+        if self.tauno_serial.is_open:
+            self.tauno_serial.write(data)
+        else:
+            print("Send cmd: Serial is not Open")
 
         self.insert_time_to_text_view()
         self.insert_arrow_to_text_view('TX')

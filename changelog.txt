@@ -1,3 +1,7 @@
+0.2.16 (01.09.25)
+
+ - Fixed TX line end character
+
 0.2.15 (10.08.25)
 
 - Hides unusable ports (without PID/VID number)
