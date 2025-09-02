@@ -409,7 +409,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         if self.reconnecting_serial:
             self.tauno_serial.close()
             self.reconnecting_serial = False
-            self.open_button.set_label("Open")
+            #self.open_button.set_label("Open")
+            self.open_button.set_icon_name("play-large-symbolic")
             self.set_title(APP_NAME)
         else:
             # Get saved
@@ -421,12 +422,14 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Change button label and title
         if self.tauno_serial.is_open:
-            self.open_button.set_label("Close")
+            #self.open_button.set_label("Close")
+            self.open_button.set_icon_name("stop-large-symbolic")
             title = str(selected_port)+":"+str(selected_baud_rate)
             self.set_title(title) # port
             self.logging.write_data("Opened " + title + "\n")
         else:
-            self.open_button.set_label("Open")
+            #self.open_button.set_label("Open")
+            self.open_button.set_icon_name("play-large-symbolic")
             self.set_title(APP_NAME)
 
         if self.tauno_serial.is_open:

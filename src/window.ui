@@ -70,8 +70,8 @@
             <child type="start">
               <object class="GtkButton" id="open_button">
                 <property name="margin-start">18</property>
-                <property name="label" translatable="yes">Open</property>
-                <property name="use_underline">True</property>
+                <property name="icon-name">play-large-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Open</property>
                 <property name="action-name">win.open</property>
                 <style>
                   <class name="suggested-action" />
