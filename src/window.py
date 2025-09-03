@@ -46,7 +46,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     send_button = Gtk.Template.Child()
     clear_button = Gtk.Template.Child()
     log_switch = Gtk.Template.Child()
-    send_cmd = Gtk.Template.Child()
+    send_cmd_entry = Gtk.Template.Child()
+    ui_tx_end = Gtk.Template.Child()
+    ui_tx_end_list = Gtk.Template.Child()
     port_drop_down = Gtk.Template.Child()
     port_drop_down_list = Gtk.Template.Child()
     baud_drop_down = Gtk.Template.Child()
@@ -115,6 +117,20 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.load_saved_port()
         self.port_drop_down.connect("notify::selected-item", self.on_port_drop_down_changed)
 
+
+        self.serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
+        self.serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';']
+        ####
+        tx_end_model = Gtk.StringList.new(self.serial_tx_line_endings)
+        self.ui_tx_end.set_model(tx_end_model)
+
+        #self.tx_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
+        # Get TX line end index
+        self.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
+
+        self.ui_tx_end.set_selected(self.get_TX_line_end_saved)
+        self.ui_tx_end.connect("notify::selected-item", self.on_ui_tx_end_changed)
+
         # Get saved Serial RX data format
         self.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
 
@@ -159,7 +175,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.create_action('log', self.btn_log)
 
         # Entry
-        self.send_cmd.connect('activate', self.on_key_enter_pressed)
+        self.send_cmd_entry.connect('activate', self.on_key_enter_pressed)
 
         self.write_logs = False
         self.log_file_exist = False #
@@ -195,15 +211,17 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         self.prev_char = '\n'  # store prev char
 
-         # Also in main.py and tauno_serial.py!!!
-        self.serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
-        self.serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';']
 
         # Reconnect
         self.reconnecting_serial = False
 
         # https://realpython.com/python-sleep/
         self.event = threading.Event()
+
+        # TX command history
+        self.send_cmd_history = []
+        self.send_cmd_history_index = -1
+        self.send_cmd_current = ""
 
 
     def on_close_request(self, window):
@@ -693,7 +711,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """
         Button Send action
         """
-        cmd_buffer = self.send_cmd.get_buffer()
+        cmd_buffer = self.send_cmd_entry.get_buffer()
         data = cmd_buffer.get_text()
         self.send_to_serial(data)
         cmd_buffer.delete_text(0, len(data))
@@ -703,7 +721,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """
         Send cmd or Enter key pressed
         """
-        cmd_buffer = self.send_cmd.get_buffer()
+        cmd_buffer = self.send_cmd_entry.get_buffer()
         data = cmd_buffer.get_text()
         self.send_to_serial(data)
         cmd_buffer.delete_text(0, len(data))
@@ -888,5 +906,18 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         if loc_match:
             result['Location'] = loc_match.group(1)
 
-
+    def on_ui_tx_end_changed(self, drop_down, g_param_object):
+        """
+        Function called when Serial Line End selection is changed in App preferences
+        """
+        # Get selected index
+        string_object = drop_down.get_selected_item()
+        index = drop_down.get_selected()
+        print(f'Selected Line End Pos: {index} val: {string_object.get_string()}')
+        # Save index
+        if self.get_TX_line_end_saved != index:
+            print("Saving Serial Line End index")
+            self.settings.set_int("saved-serial-tx-line-end-index", index)
+            # Reload setting
+            self.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
 

@@ -440,7 +440,7 @@
                       <object class="GtkBox">
                         <property name="orientation">horizontal</property>
                           <child type="start">
-                            <object class="GtkEntry" id="send_cmd">
+                            <object class="GtkEntry" id="send_cmd_entry">
                             <property name="width_chars">60</property>
                             <property name="hexpand">True</property>
                             <property name="visible">True</property>
@@ -450,17 +450,29 @@
                             <property name="placeholder-text" translatable="yes">Enter cmd</property>
                           </object>
                         </child>
+
+                        <child>
+                          <object class="GtkDropDown" id="ui_tx_end">
+                            <property name="model">
+                              <object class="GtkStringList"  id="ui_tx_end_list">
+                                <items>
+                                  <item translatable="no">\r</item>
+                                </items>
+                              </object>
+                            </property>
+                            <property name="tooltip-text" translatable="yes">End of line of transmitted (TX) data</property>
+                            <property name="hexpand">False</property>
+                            <property name="halign">start</property>
+                            <property name="margin-start">6</property>
+                            <property name="margin-end">6</property>
+                            <property name="margin-top">6</property>
+                            <property name="width-request">60</property>
+                          </object>
+                        </child>
+
                         <child>
                           <object class="GtkBox">
                             <child type="end">
-                              <!--<object class="GtkButton" id="send_button">
-                                <property name="margin-start">6</property>
-                                <property name="margin-end">6</property>
-                                <property name="margin-top">6</property>
-                                <property name="label" translatable="yes">Send</property>
-                                <property name="action-name">win.send</property>
-                              </object>-->
-
                               <object class="GtkButton" id="send_button">
                                 <property name="icon-name">paper-plane-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Send</property>
