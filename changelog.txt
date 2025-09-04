@@ -1,7 +1,8 @@
-0.2.17 (03.09.25)
+0.2.17 (04.09.25)
 
 - Replaced "Open" / "Close" button label with icons
-- Added a TX line end selection to ui
+- Added a TX line end selection to UI
+- TX commands are saved and can be navigated between using the up and down arrow keys
 
 0.2.16 (01.09.25)
 

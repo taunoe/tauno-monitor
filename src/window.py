@@ -222,6 +222,61 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.send_cmd_history = []
         self.send_cmd_history_index = -1
         self.send_cmd_current = ""
+        self.send_cmd_history_max_size = 50
+        # Arrow key up
+        # Connect key press event using event controller
+        key_controller = Gtk.EventControllerKey.new()
+        key_controller.connect("key-pressed", self.on_key_pressed)
+        self.add_controller(key_controller)
+
+
+    def on_key_pressed(self, controller, keyval, keycode, state):
+        """
+        Detect key presses
+        UP and DOWN arrow keys for TX history
+        """
+        if keyval == Gdk.KEY_Up:
+            print("up")
+            self.navigate_cmd_history(-1)
+            return True
+        elif keyval == Gdk.KEY_Down:
+            print("down")
+            self.navigate_cmd_history(1)
+            return True
+        return False
+
+
+    def navigate_cmd_history(self, direction):
+        """
+        Navigate in TX command history
+        UP and DOWN arrow keyes
+        """
+        if not self.send_cmd_history:
+            return
+
+        # Save current text if we're at the end of history
+        if self.send_cmd_history_index == len(self.send_cmd_history):
+            current = self.send_cmd_entry.get_buffer()#self.get_text()
+            if type(current) == str:
+                self.send_cmd_current = current
+
+        # Update index
+        self.send_cmd_history_index += direction
+
+        # Boundary checks
+        if self.send_cmd_history_index < 0:
+            self.send_cmd_history_index = 0
+        elif self.send_cmd_history_index > len(self.send_cmd_history):
+            self.send_cmd_history_index = len(self.send_cmd_history)
+
+        # Set text based on history position
+        if self.send_cmd_history_index == len(self.send_cmd_history):
+            self.send_cmd_entry.set_text(self.send_cmd_current)
+        else:
+            self.send_cmd_entry.set_text(self.send_cmd_history[self.send_cmd_history_index])
+
+        # Move cursor to end of text
+        self.send_cmd_entry.set_position(-1)
 
 
     def on_close_request(self, window):
@@ -724,6 +779,20 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         cmd_buffer = self.send_cmd_entry.get_buffer()
         data = cmd_buffer.get_text()
         self.send_to_serial(data)
+
+        # Ad to history
+        cmd = data.strip()
+        if cmd: # Don't store empty commands
+            self.send_cmd_history.append(cmd)
+
+            # Enforce maximum history size
+            if len(self.send_cmd_history) > self.send_cmd_history_max_size:
+                # Remove the oldest command
+                self.send_cmd_history.pop(0)
+
+            self.send_cmd_history_index = len(self.send_cmd_history)
+            self.send_cmd_current = ""
+        # Kustuta puhver
         cmd_buffer.delete_text(0, len(data))
 
 
@@ -920,4 +989,5 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.settings.set_int("saved-serial-tx-line-end-index", index)
             # Reload setting
             self.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
+
 

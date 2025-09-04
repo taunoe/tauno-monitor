@@ -52,7 +52,15 @@
     <category>Utility</category>
   </categories>
   <releases>
-
+     <release version="0.2.17" date="2025-09-04">
+      <description>
+        <ul>
+          <li>Replaced "Open" / "Close" button label with icons</li>
+          <li>Added a TX line end selection to UI</li>
+          <li>TX commands are saved and can be navigated between using the up and down arrow keys</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.16" date="2025-09-01">
       <description>
         <ul>
