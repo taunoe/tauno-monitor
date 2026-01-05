@@ -18704,7 +18704,9 @@ usb_db = {
     "0b0e": {
         "name": " GN Netcom",
         "products": {
+            "0301": " Jabra EVOLVE 20",
             "0305": " Jabra EVOLVE Link MS",
+            "030c": " Jabra EVOLVE 65",
             "0311": " Jabra EVOLVE 65",
             "0312": " enc060:Buttons Volume up/down/mute + phone [Jabra]",
             "0343": " Jabra UC VOICE 150a",
@@ -18723,6 +18725,11 @@ usb_db = {
             "2007": " GN 2000 Stereo Corded Headset",
             "2456": " Jabra SPEAK 810",
             "245e": " Jabra Link 370",
+            "248a": " Jabra Elite 85h",
+            "24b8": " Jabra Evolve2 65",
+            "24bb": " Jabra Evolve2 85",
+            "24c9": " Jabra Link 380",
+            "24ca": " Jabra Link 380",
             "620c": " Jabra BT620s",
             "9330": " Jabra GN9330 Headset",
             "a346": " Jabra Engage 75 Stereo",
@@ -22850,7 +22857,7 @@ usb_db = {
     "0ecd": {
         "name": " Lite-On IT Corp.",
         "products": {
-            "1400": " CD\\RW 40X",
+            "1400": " CD\RW 40X",
             "a100": " LDW-411SX DVD/CD Rewritable Drive",
         },
     },

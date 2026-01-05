@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.2.17'
+APP_VERSION = '0.2.18'
 APP_ID = 'art.taunoerik.tauno-monitor'
 
 class TaunoMonitorApplication(Adw.Application):
@@ -156,7 +156,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 developer_name='Tauno Erik',
                                 version=APP_VERSION,
                                 developers=['Tauno Erik'],
-                                copyright='© 2023-2025 Tauno Erik')
+                                copyright='© 2023-2026 Tauno Erik')
         about.present()
 
 
