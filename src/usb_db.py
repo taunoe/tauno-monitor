@@ -22857,7 +22857,7 @@ usb_db = {
     "0ecd": {
         "name": " Lite-On IT Corp.",
         "products": {
-            "1400": " CD\RW 40X",
+            "1400": " CD\\RW 40X",
             "a100": " LDW-411SX DVD/CD Rewritable Drive",
         },
     },

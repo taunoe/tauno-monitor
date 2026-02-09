@@ -85,10 +85,11 @@ class TaunoSerial():
         else:
             print("Unable to open: " + str(self.tauno_serial.port) + " " + str(self.tauno_serial.baudrate) )
 
-    """
-    Read byte while serial port is open
-    """
+
     def read(self):
+        """
+        Read byte while serial port is open
+        """
         while self.is_open:
             # bytes(HEX) or line?
             #print("serial read")
@@ -104,6 +105,8 @@ class TaunoSerial():
                 end = b'\r\n'
             elif end_index == 3:
                 end = b';'
+            elif end_index == 4: #None
+                end = b''
 
             try:
                 if type == 'HEX':
@@ -111,9 +114,12 @@ class TaunoSerial():
                     #print("try=HEX")
                     data_in = self.tauno_serial.read()
                 else:
-                    #print("try=ASCII")
-                    # Read a line until selected end
-                    data_in = self.tauno_serial.read_until(expected=end)
+                    if end_index == 4:
+                        data_in = self.tauno_serial.read()
+                    else:
+                        #print("try=ASCII")
+                        # Read a line until selected end
+                        data_in = self.tauno_serial.read_until(expected=end)
                 GLib.idle_add(self.window_reference.add_to_text_view, data_in)
             except Exception as ex:
                 print("Serial read error: ", ex)

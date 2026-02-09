@@ -5,7 +5,7 @@
   <project_license>GPL-3.0-or-later</project_license>
   <name>Tauno Monitor</name>
   <developer_name>Tauno Erik</developer_name>
-  <summary>The serial port monitor for Arduino and other embedded development</summary>
+  <summary>The serial port monitor for Arduino</summary>
   <description>
     <p>Features:</p>
     <ul>
@@ -52,6 +52,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.19" date="2026-02-09">
+      <description>
+        <ul>
+          <li>The line ending option was moved from the preferences to the main window.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.18" date="2026-01-05">
       <description>
         <ul>

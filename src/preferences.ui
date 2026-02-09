@@ -88,7 +88,7 @@
             </child>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Timestamp</property>
+                <property name="title" translatable="yes">Show Timestamp</property>
                 <property name="activatable_widget">timestamp_switch</property>
                 <child>
                   <object class="GtkSwitch" id="timestamp_switch">
@@ -122,6 +122,18 @@
                 </child>
               </object>
             </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Show Arrow</property>
+                <property name="activatable_widget">arrow_switch</property>
+                <child>
+                  <object class="GtkSwitch" id="arrow_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
             <child>
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">Arrow Color</property>
@@ -147,6 +159,7 @@
                 </child>
               </object>
             </child>
+
             <child>
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">Transmitted (TX) Data Color</property>
@@ -172,6 +185,7 @@
                 </child>
               </object>
             </child>
+
             <child>
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">Received (RX) Data Color</property>
@@ -342,6 +356,7 @@
                 </child>
               </object>
             </child>
+            <!--
             <child>
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">End of line of transmitted (TX) data</property>
@@ -367,6 +382,8 @@
                 </child>
               </object>
             </child>
+            -->
+            <!--
             <child>
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">End of line of received (RX) data</property>
@@ -392,6 +409,7 @@
                 </child>
               </object>
             </child>
+            -->
           </object>
         </child>
       </object>

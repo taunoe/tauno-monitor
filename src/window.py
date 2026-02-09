@@ -47,6 +47,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     clear_button = Gtk.Template.Child()
     log_switch = Gtk.Template.Child()
     send_cmd_entry = Gtk.Template.Child()
+    rx_line_end_label_drop_down = Gtk.Template.Child()
+    rx_line_end_label_drop_down_list = Gtk.Template.Child()
     ui_tx_end = Gtk.Template.Child()
     ui_tx_end_list = Gtk.Template.Child()
     port_drop_down = Gtk.Template.Child()
@@ -119,20 +121,18 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
 
         self.serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
-        self.serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';']
+        self.serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';', 'None']
         ####
         tx_end_model = Gtk.StringList.new(self.serial_tx_line_endings)
         self.ui_tx_end.set_model(tx_end_model)
 
-        #self.tx_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
-        # Get TX line end index
-        self.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
-
-        self.ui_tx_end.set_selected(self.get_TX_line_end_saved)
-        self.ui_tx_end.connect("notify::selected-item", self.on_ui_tx_end_changed)
+        rx_end_model = Gtk.StringList.new(self.serial_rx_line_endings)
+        self.rx_line_end_label_drop_down.set_model(rx_end_model)
 
         # Get saved Serial RX data format
         self.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
+
+
 
         # Get saved data bit index
         self.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
@@ -146,8 +146,14 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # Get TX line end index
         self.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
 
+        self.ui_tx_end.set_selected(self.get_TX_line_end_saved)
+        self.ui_tx_end.connect("notify::selected-item", self.on_ui_tx_end_changed)
+
         # Get RX line end index
         self.get_RX_line_end_saved = self.settings.get_int("saved-serial-rx-line-end-index")
+
+        self.rx_line_end_label_drop_down.set_selected(self.get_RX_line_end_saved)
+        self.rx_line_end_label_drop_down.connect("notify::selected-item", self.on_ui_rx_end_changed)
 
         # font size
         self.font_size_saved = self.settings.get_int("font-size")
@@ -654,6 +660,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             tag = self.tag_in
         elif type == 'ASCII':
             line = data.decode('utf-8').strip()
+            print("line " + line)
             self.text_buffer.insert(self.text_iter_end, line)
             self.logging.write_data(line)
             tag = self.tag_in
@@ -672,22 +679,25 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """"
         Display a arrow RX or TX
         """
+        is_arrow = self.settings.get_boolean("arrow")
+
         if type == 'TX':
             arrow = '<-- '  # TX
         else:
             arrow = '--> '  # RX
 
-        self.text_buffer = self.input_text_view.get_buffer()
-        # start
-        arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
-        # arrow
-        self.text_buffer.insert(self.text_iter_end, arrow)
-        # end
-        arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
-        # tag
-        self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
-        # Log arrow
-        self.logging.write_data(arrow)
+        if is_arrow:
+            self.text_buffer = self.input_text_view.get_buffer()
+            # start
+            arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
+            # arrow
+            self.text_buffer.insert(self.text_iter_end, arrow)
+            # end
+            arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
+            # tag
+            self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
+            # Log arrow
+            self.logging.write_data(arrow)
 
 
     def insert_time_to_text_view(self):
@@ -725,7 +735,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             show_end = self.serial_tx_line_endings[index]
         if direction == 'RX':
             index = self.settings.get_int("saved-serial-rx-line-end-index")
-            show_end = self.serial_rx_line_endings[index]
+            print(index)
+            if index == 4: #None
+                show_end = ''
+            else:
+                show_end = self.serial_rx_line_endings[index]
 
         # Add line end for show
         if show_line_end:
@@ -756,6 +770,14 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.text_buffer.insert(self.text_iter_end, '\r\n')
             # Log
             self.logging.write_data('\r\n')
+        elif index == 3:
+            self.text_buffer.insert(self.text_iter_end, ';')
+            # Log
+            self.logging.write_data(';')
+        elif index == 4: #none
+            self.text_buffer.insert(self.text_iter_end, '')
+            # Log
+            self.logging.write_data('')
         else:
             self.text_buffer.insert(self.text_iter_end, '\n')
             # Log
@@ -982,12 +1004,26 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # Get selected index
         string_object = drop_down.get_selected_item()
         index = drop_down.get_selected()
-        print(f'Selected Line End Pos: {index} val: {string_object.get_string()}')
+        print(f'Selected TX Line End Pos: {index} val: {string_object.get_string()}')
         # Save index
         if self.get_TX_line_end_saved != index:
-            print("Saving Serial Line End index")
+            print("Saving TX Line End index")
             self.settings.set_int("saved-serial-tx-line-end-index", index)
             # Reload setting
             self.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
 
 
+    def on_ui_rx_end_changed(self, drop_down, g_param_object):
+        """
+        Function called when Serial Line End selection is changed in App preferences
+        """
+        # Get selected index
+        string_object = drop_down.get_selected_item()
+        index = drop_down.get_selected()
+        print(f'Selected RX Line End Pos: {index} val: {string_object.get_string()}')
+        # Save index
+        if self.get_RX_line_end_saved != index:
+            print("Saving RX Line End index")
+            self.settings.set_int("saved-serial-rx-line-end-index", index)
+            # Reload setting
+            self.get_RX_line_end_saved = self.settings.get_int("saved-serial-rx-line-end-index")

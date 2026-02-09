@@ -1,3 +1,7 @@
+0.2.19 (27.01.26)
+
+- The line ending option was moved from the preferences to the main window.
+
 0.2.18 (05.01.26)
 
 - Added "Serial" keyword to .desktop file.

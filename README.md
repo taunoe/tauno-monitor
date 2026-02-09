@@ -68,4 +68,4 @@ You can build Tauno Monitor using [GNOME Builder](https://flathub.org/et/apps/or
 
  ___
 
-Copyright 2023-2025 Tauno Erik https://taunoerik.art
+Copyright 2023-2026 Tauno Erik https://taunoerik.art

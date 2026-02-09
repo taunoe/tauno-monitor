@@ -31,6 +31,9 @@
     <key name="saved-time-color" type="s">
       <default>'#9a9996'</default>
     </key>
+    <key name="arrow" type="b">
+      <default>true</default>
+    </key>
     <key name="default-arrow-color" type="s">
       <default>'#9a9996'</default>
     </key>

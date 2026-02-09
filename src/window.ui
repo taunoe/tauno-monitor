@@ -68,6 +68,32 @@
             </child>
 
             <child type="start">
+              <object class="GtkLabel" id="rx_line_end_label">
+                <property name="margin-start">18</property>
+                <property name="label" translatable="yes">Line end:</property>
+              </object>
+            </child>
+            <child type="start">
+              <object class="GtkDropDown" id="rx_line_end_label_drop_down">
+                <property name="model">
+                  <object class="GtkStringList" id="rx_line_end_label_drop_down_list">
+                    <items>
+                      <item translatable="no">none</item>
+                    </items>
+                  </object>
+                </property>
+                <property name="tooltip-text" translatable="yes">End of line of received (rX) data</property>
+                <property name="enable-search">false</property>
+                <property name="hexpand">False</property>
+                <property name="halign">end</property>
+                <property name="width-request">60</property>
+                <property name="expression">
+                  <lookup type="GtkStringObject" name="string"></lookup>
+                </property>
+              </object>
+            </child>
+
+            <child type="start">
               <object class="GtkButton" id="open_button">
                 <property name="margin-start">18</property>
                 <property name="icon-name">play-large-symbolic</property>
