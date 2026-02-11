@@ -1,7 +1,7 @@
 # German translations for Tauno Monitor package.
-# Copyright (C) 2023-2025 Tauno Erik
+# Copyright (C) 2023-2026 Tauno Erik
 # This file is distributed under the same license as the Tauno Monitor package.
-# Pascal Dietrich <pascal.1.dietrich@hotmail.com>, 2025.
+# Pascal Dietrich <pascal.1.dietrich@hotmail.com>, 2026.
 #
 #, fuzzy
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tauno-monitor\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-09 21:07+0200\n"
-"PO-Revision-Date: 2025-07-06 10:55+0200\n"
+"PO-Revision-Date: 2026-02-12 00:30+0200\n"
 "Last-Translator: Pascal Dietrich <pascal.1.dietrich@hotmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -26,7 +26,7 @@ msgstr "Tauno Monitor"
 
 #: data/art.taunoerik.tauno-monitor.desktop.in:9 src/preferences.ui:283
 msgid "Serial"
-msgstr ""
+msgstr "Seriell"
 
 #: data/art.taunoerik.tauno-monitor.desktop.in:15
 msgid "New Window"
@@ -38,7 +38,7 @@ msgstr "Tauno Erik"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
 msgid "The serial port monitor for Arduino and other embedded development"
-msgstr ""
+msgstr "Der Monitor für serielle Ports für Arduino und andere Embedded-Entwicklung"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
 msgid "Features:"
@@ -58,11 +58,11 @@ msgstr "Merkt sich die zuletzt genutzten Einstellungen"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:15
 msgid "Automatically reconnects to the serial port if the connection is lost"
-msgstr ""
+msgstr "Verbindung zum seriellen Port automatisch wiederherstellen, wenn sie verloren geht"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:16
 msgid "Can log data to a file"
-msgstr ""
+msgstr "Kann Daten in eine Datei loggen"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:17
 msgid "Displays data in different formats: ASCII, BIN, OCT or DEC"
@@ -95,7 +95,7 @@ msgstr "Einstellungen"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:47
 msgid "Log file"
-msgstr ""
+msgstr "Logdatei"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:58
 msgid "Added \"Serial\" keyword to .desktop file."
@@ -348,11 +348,11 @@ msgstr "Baudrate:"
 
 #: src/window.ui:73
 msgid "Line end:"
-msgstr ""
+msgstr "Zeilenende:"
 
 #: src/window.ui:85
 msgid "End of line of received (rX) data"
-msgstr ""
+msgstr "Zeilenende für empfangene Daten (RX)"
 
 #: src/window.ui:100
 msgid "Open"
@@ -364,47 +364,47 @@ msgstr "Menü"
 
 #: src/window.ui:119
 msgid "Device info"
-msgstr ""
+msgstr "Geräteinfo"
 
 #: src/window.ui:126
 msgid "Clear screen"
-msgstr ""
+msgstr "Bildschirm leeren"
 
 #: src/window.ui:133
 msgid "Write logs to file"
-msgstr ""
+msgstr "Logs in eine Datei schreiben"
 
 #: src/window.ui:139
 msgid "Log"
-msgstr ""
+msgstr "Loggen"
 
 #: src/window.ui:216
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 #: src/window.ui:237
 msgid "Description:"
-msgstr ""
+msgstr "Beschreibung:"
 
 #: src/window.ui:258
 msgid "Vendor ID:"
-msgstr ""
+msgstr "Verkäufer-ID:"
 
 #: src/window.ui:279
 msgid "Vendor:"
-msgstr ""
+msgstr "Verkäufer:"
 
 #: src/window.ui:300
 msgid "Product ID:"
-msgstr ""
+msgstr "Produkt-ID:"
 
 #: src/window.ui:321 src/window.ui:405
 msgid "Product:"
-msgstr ""
+msgstr "Produkt:"
 
 #: src/window.ui:342
 msgid "Serial Number:"
-msgstr ""
+msgstr "Seriennummer;"
 
 #: src/window.ui:363
 msgid "USB Location:"
@@ -412,15 +412,15 @@ msgstr ""
 
 #: src/window.ui:384
 msgid "Manufacturer:"
-msgstr ""
+msgstr "Hersteller:"
 
 #: src/window.ui:426
 msgid "Interface:"
-msgstr ""
+msgstr "Schnittstelle:"
 
 #: src/window.ui:456
 msgid "Unable to open serial ports! Learn how to enable ->"
-msgstr ""
+msgstr "Serielle Ports können nicht geöffnet werden! Zur Anleitung ->"
 
 #: src/window.ui:457 src/guide.ui:6
 msgid "Guide"
@@ -432,7 +432,7 @@ msgstr "Befehl eingeben"
 
 #: src/window.ui:489
 msgid "End of line of transmitted (TX) data"
-msgstr ""
+msgstr "Zeilenende für gesendete Daten (TX)"
 
 #: src/window.ui:504
 msgid "Send"
@@ -448,7 +448,7 @@ msgstr "_Guide"
 
 #: src/window.ui:565
 msgid "_Find Baud Rate"
-msgstr ""
+msgstr "_Baudrate finden"
 
 #: src/window.ui:569
 msgid "_Preferences"
@@ -519,7 +519,7 @@ msgstr "Datenansicht"
 
 #: src/preferences.ui:66
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: src/preferences.ui:79 src/preferences.ui:115 src/preferences.ui:152
 #: src/preferences.ui:178 src/preferences.ui:204 src/preferences.ui:240
@@ -529,15 +529,15 @@ msgstr "Zurücksetzen"
 
 #: src/preferences.ui:91
 msgid "Show Timestamp"
-msgstr ""
+msgstr "Zeitstempel anzeigen"
 
 #: src/preferences.ui:102
 msgid "Timestamp Color"
-msgstr "Zeitstempelfarbe"
+msgstr "Farbe für Zeitstempel"
 
 #: src/preferences.ui:128
 msgid "Show Arrow"
-msgstr ""
+msgstr "Pfeil anzeigen"
 
 #: src/preferences.ui:139
 msgid "Arrow Color"
@@ -545,11 +545,11 @@ msgstr "Pfeilfarbe"
 
 #: src/preferences.ui:165
 msgid "Transmitted (TX) Data Color"
-msgstr ""
+msgstr "Farbe für gesendete Daten (TX)"
 
 #: src/preferences.ui:191
 msgid "Received (RX) Data Color"
-msgstr ""
+msgstr "Farbe für empfangene Daten (RX)"
 
 #: src/preferences.ui:216
 msgid "Show Line Endings"
@@ -557,11 +557,11 @@ msgstr "Zeilenenden anzeigen"
 
 #: src/preferences.ui:227
 msgid "Line End Color"
-msgstr ""
+msgstr "Farbe für Zeilenenden"
 
 #: src/preferences.ui:255
 msgid "Logging"
-msgstr ""
+msgstr "Logging"
 
 #: src/preferences.ui:258
 msgid "Folder"
@@ -581,41 +581,41 @@ msgstr "Parität"
 
 #: src/preferences.ui:336
 msgid "Stop Bits"
-msgstr ""
+msgstr "Stoppbits"
 
 #: src/tool_baud.py:66
 msgid "Done"
-msgstr ""
+msgstr "Erledigt"
 
 #: src/tool_baud.py:72
 #, python-brace-format
 msgid "Best match: {baud} baud"
-msgstr ""
+msgstr "Bester Treffer: {baud} Baud"
 
 #: src/tool_baud.py:89
 #, python-brace-format
 msgid "Trying {baudrate} baud..."
-msgstr ""
+msgstr "Versuche {baudrate} Baud..."
 
 #: src/tool_baud.py:119
 msgid "Connect the device to the port!"
-msgstr ""
+msgstr "Verbinden Sie das Gerät mit dem Port!"
 
 #: src/tool_baud.ui:6
 msgid "Find the Baud Rate"
-msgstr ""
+msgstr "Baudrate finden"
 
 #: src/tool_baud.ui:29
 msgid "Scan"
-msgstr ""
+msgstr "Scannen"
 
 #: src/tool_baud.ui:57
 msgid "Click <b>Scan</b> to start"
-msgstr ""
+msgstr "Klicken Sie <b>Scannen</b> zum Starten"
 
 #: src/tool_baud.ui:71
 msgid "Use this baud rate"
-msgstr ""
+msgstr "Diese Baudrate nutzen"
 
 #~ msgid "Timestamp"
 #~ msgstr "Zeitstempel"
