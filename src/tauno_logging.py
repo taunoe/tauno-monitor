@@ -1,9 +1,11 @@
 # File:    tauno_logging.py
 # Author:  Tauno Erik
 # Started: 29.07.2024
-# Edited:  19.07.2025
+# Edited:  11.02.2026
 
 from datetime import datetime
+import os
+import atexit
 
 class TaunoLogging():
 
@@ -12,13 +14,37 @@ class TaunoLogging():
         self.log_file_path = ''
         self.file_handle = None
         self.hex_counter = 0
+        self.data = ''
+        atexit.register(self.cleanup)
+
+
+    def cleanup(self):
+        """Ensure file is closed on exit"""
+        if self.file_handle is not None:
+            try:
+                self.file_handle.close()
+            except:
+                pass
+            self.file_handle = None
 
 
     def create_file(self, file_path):
         """ Creates log file. Returns True if successful. """
         print("log:create_file()")
-
         self.log_file_path = file_path
+
+        allowed_dir = os.path.expanduser("~")
+        real_path = os.path.realpath(file_path)
+
+        if not real_path.startswith(os.path.realpath(allowed_dir)):
+            raise ValueError("Path traversal attempt detected")
+
+        # Sanitize filename
+        filename = os.path.basename(file_path)
+        if ".." in filename or "/" in filename:
+            raise ValueError("Invalid filename")
+
+        self.log_file_path = real_path
 
         try:
             open(self.log_file_path, "x")
@@ -33,24 +59,21 @@ class TaunoLogging():
         """ Writes data to log file. Adds start time. """
         #print("log:write_data()")
         if self.window_reference.write_logs:
-            # Open the file the first time the method is called
-            if self.file_handle is None:
-                try:
+            try:
+                if self.file_handle is None:
+                    # Use exclusive open for first write
                     self.file_handle = open(self.log_file_path, 'a')
+                    # Verify file descriptor
+                    os.fstat(self.file_handle.fileno())
                     # Write start time
                     current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
                     self.write_data("Tauno-Monitor log started: " + current_datetime + "\n")
-                except Exception as e:
-                    print(f"Error writing data: {e}")
-            else:
-                print("else:self.file_handle is None")
 
-            # Write data to the file
-            self.file_handle.write(data)
-            print(f"log write data: {data}")
-        else:
-            pass
-            #print("else:self.window_reference.write_logs")
+                self.file_handle.write(data)
+                # print(f"log write data: {data}")
+            except (OSError, IOError) as e:
+                print(f"Error writing data: {e}")
+                self.file_handle = None
 
 
     def write_hex_data(self, data):

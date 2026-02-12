@@ -1,6 +1,7 @@
-# tauno_serial.py
-# Tauno Erik
-# 18.06.2025
+# File:    tauno_serial.py
+# Author:  Tauno Erik
+# Started: 18.06.2025
+# Edited:  11.02.2026
 
 import serial
 import serial.tools.list_ports
@@ -49,7 +50,7 @@ class TaunoSerial():
                 self.tauno_serial.parity = serial.PARITY_ODD
             elif parity_index == 3:
                 self.tauno_serial.parity = serial.PARITY_MARK
-            elif parity_index == 5:
+            elif parity_index == 4:
                 self.tauno_serial.parity = serial.PARITY_SPACE
 
             # Stopbit
@@ -66,7 +67,8 @@ class TaunoSerial():
             #self.tauno_serial.timeout = 1
 
             self.tauno_serial.open()
-            self.tauno_serial.flushInput() # Clear any old data in the buffer
+            #self.tauno_serial.flushInput() # Clear any old data in the buffer
+            self.tauno_serial.reset_input_buffer()  # Modern pyserial API
 
             if self.tauno_serial.is_open:
                 self.is_open = True
@@ -92,9 +94,7 @@ class TaunoSerial():
         """
         while self.is_open:
             # bytes(HEX) or line?
-            #print("serial read")
             type = self.window_reference.get_rx_format_saved
-            #print(f"type={type}")
 
             end_index = self.window_reference.get_RX_line_end_saved
             if end_index == 0:
@@ -129,16 +129,24 @@ class TaunoSerial():
                 return
 
 
-    """
-    Read line while serial port is open
-    """
-
-
-
-
     def write(self, data):
         """ Write to serial port """
-        print(f"Serial Port Write: {data}")
-        if self.tauno_serial.is_open:
-            self.tauno_serial.write(data.encode('utf-8'))
+        print(f"Serial Port Write:{data}")
+
+        if not self.tauno_serial.is_open:
+            print("not open")
+            return
+
+        # Sanitize control characters
+        data = ''.join(c for c in data if c.isprintable() or c in '\r\n\t')
+
+        # Limit length to prevent buffer overflow on device
+        MAX_LENGTH = 1024
+        if len(data) > MAX_LENGTH:
+            print(f"Warning: Data truncated to {MAX_LENGTH} bytes")
+            data = data[:MAX_LENGTH]
+
+        self.tauno_serial.write(data.encode('utf-8'))
+        self.tauno_serial.flush()
+
 

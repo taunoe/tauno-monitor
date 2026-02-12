@@ -8,9 +8,14 @@
         "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
-        "--device=all",
         "--socket=wayland",
         "--filesystem=home",
+        // "--device=all",
+        "--device=dri",
+        "--filesystem=/dev/ttyUSB0:rw",
+        "--filesystem=/dev/ttyUSB1:rw",
+        "--filesystem=/dev/ttyACM0:rw",
+        "--filesystem=/dev/ttyACM1:rw",
         "--talk-name=org.freedesktop.portal.Desktop"
     ],
     "cleanup" : [

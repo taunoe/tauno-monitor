@@ -160,25 +160,25 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.change_font_size(self.font_size_saved)
 
         # Button Update available ports list
-        self.create_action('update', self.btn_update_ports)
+        self.create_action('update', self.on_btn_update_ports)
 
         # Button Open action
-        self.create_action('open', self.btn_open)
+        self.create_action('open', self.on_btn_open)
 
         # Button Send
-        self.create_action('send', self.btn_send)
+        self.create_action('send', self.on_btn_send)
 
         # Button Guide
-        self.create_action('guide', self.btn_guide)
+        self.create_action('guide', self.on_btn_guide)
 
         # Menu Button Tool Baud
-        self.create_action('tool_baud', self.btn_tool_baud)
+        self.create_action('tool_baud', self.on_btn_tool_baud)
 
         # Button clear textview
-        self.create_action('clear', self.btn_clear_textview)
+        self.create_action('clear', self.on_btn_clear_textview)
 
         # Switch log
-        self.create_action('log', self.btn_log)
+        self.create_action('log', self.on_btn_log)
 
         # Entry
         self.send_cmd_entry.connect('activate', self.on_key_enter_pressed)
@@ -415,26 +415,28 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             return
 
 
-    def btn_log(self, switch, _gparam):
+    def on_btn_log(self, switch, _gparam):
         """ Logging switch action """
         if self.log_switch.props.active:
             print("log switch active")
             self.write_logs = True
-            # Does log file exists?
-            if self.log_file_exist == False:
-                folder = self.settings.get_string("log-folder")
-                # Directory write premission
-                if os.access(folder, os.W_OK):
-                    current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-                    log_file_path = folder + "/tauno-monitor_log-" + current_datetime + ".txt"
-                    # Create log file
-                    self.log_file_exist = self.logging.create_file(log_file_path)
-                else:
-                    print(f"No write permission in log directory:{folder}")
-                    # Notification
-                    self.notify(f"No write permission in log directory:{folder}")
-                    # Turn switch off
-                    GLib.idle_add(self.log_switch.set_active, False)
+            folder = self.settings.get_string("log-folder")
+
+            # Validate folder exists and is writable
+            if not os.path.isdir(folder):
+                self.notify(f"Log directory does not exist: {folder}")
+                GLib.idle_add(self.log_switch.set_active, False)
+                return
+
+            if not os.access(folder, os.W_OK):
+                self.notify(f"No write permission: {folder}")
+                GLib.idle_add(self.log_switch.set_active, False)
+                return
+
+            # Now create file
+            current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            log_file_path = os.path.join(folder, f"tauno-monitor_log-{current_datetime}.txt")
+            self.log_file_exist = self.logging.create_file(log_file_path)
         else:
             print("log switch deactivate")
             if self.log_file_exist:
@@ -442,23 +444,23 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.write_logs = False
 
 
-    def btn_guide(self, action, _):
+    def on_btn_guide(self, action, _):
         """ Dispplay Guide Window """
         guide_window = TaunoGuideWindow(transient_for=self)
         guide_window.present()
 
 
-    def btn_tool_baud(self, action, _):
+    def on_btn_tool_baud(self, action, _):
         """ Dispplay Tool Baud Window """
         tool_baud_window = TaunoToolBaudWindow(transient_for=self, window_reference=self)
         tool_baud_window.present()
 
 
-    def btn_update_ports(self, action, _):
+    def on_btn_update_ports(self, action, _):
         """ Button Update ports list action """
         self.scan_serial_ports()
 
-    def btn_clear_textview(self, action, _):
+    def on_btn_clear_textview(self, action, _):
         """ Clear textview buffer: data printed by serial """
         # print("btn_clear_textview")
         self.text_buffer = self.input_text_view.get_buffer()
@@ -467,22 +469,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.text_buffer.delete(self.text_iter_start, self.text_iter_end)
 
 
-    def btn_open(self, action, _):
+    def on_btn_open(self, action, _):
         """ Button Open action """
-        # rescan ports
-        self.scan_serial_ports()
-
-        """
-        # selected Baud Rate
-        baud_obj = self.baud_drop_down.get_selected_item()
-
-        selected_baud_rate = baud_obj.get_string()
-
-        # save baud settings to settings
-        baud_index_new = self.baud_drop_down.get_selected()
-
-        self.settings.set_int("baud-index", baud_index_new)
-        """
+        #self.scan_serial_ports()
 
         # If we a middle of reconnection
         if self.reconnecting_serial:
@@ -660,7 +649,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             tag = self.tag_in
         elif type == 'ASCII':
             line = data.decode('utf-8').strip()
-            print("line " + line)
+            print(f"line: {line}")
             self.text_buffer.insert(self.text_iter_end, line)
             self.logging.write_data(line)
             tag = self.tag_in
@@ -784,7 +773,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.logging.write_data('\n')
 
 
-    def btn_send(self, action, _):
+    def on_btn_send(self, action, _):
         """
         Button Send action
         """

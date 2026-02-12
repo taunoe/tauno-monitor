@@ -1,6 +1,6 @@
 # main.py
 #
-# Copyright 2023-2025 Tauno Erik
+# Copyright 2023-2026 Tauno Erik
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,6 @@ class TaunoMonitorApplication(Adw.Application):
 
     def __init__(self, version):
         super().__init__(application_id=APP_ID,
-                         #flags=Gio.ApplicationFlags.NON_UNIQUE,
                          flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
                          )
 
