@@ -53,6 +53,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.20" date="2026-02-12">
+      <description>
+        <ul>
+          <li>Updated German translation.</li>
+          <li>Bug fixes.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.19" date="2026-02-09">
       <description>
         <ul>

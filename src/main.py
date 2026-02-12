@@ -29,8 +29,14 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.2.19'
+APP_VERSION = '0.2.20'
 APP_ID = 'art.taunoerik.tauno-monitor'
+
+TRANSLATORS = [
+'Pascal Dietrich  (German) https://github.com/Cameo007',
+'Vladimir Kosolapov  (Russian) https://github.com/vmkspv',
+'Tauno Erik (Estonian) https://github.com/taunoe',
+]
 
 class TaunoMonitorApplication(Adw.Application):
     """The main application singleton class."""
@@ -155,6 +161,7 @@ class TaunoMonitorApplication(Adw.Application):
                                 developer_name='Tauno Erik',
                                 version=APP_VERSION,
                                 developers=['Tauno Erik'],
+                                translator_credits='\n'.join(TRANSLATORS),
                                 copyright='© 2023-2026 Tauno Erik')
         about.present()
 
