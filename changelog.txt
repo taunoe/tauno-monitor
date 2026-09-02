@@ -1,3 +1,7 @@
+0.2.21 (02.09.26)
+
+ - new usbids
+
 0.2.20 (12.00.26)
 
 - Updated German translation.

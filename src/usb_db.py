@@ -14727,6 +14727,7 @@ usb_db = {
             "4500": " LV-20 Digital Camera",
             "6101": " fx-9750gII",
             "6102": " fx-CP400",
+            "6103": " fx-CG50",
             "6801": " PL-40R",
             "6802": " MIDI Keyboard",
             "6803": " CTK-3500 (MIDI keyboard)",
@@ -17913,6 +17914,7 @@ usb_db = {
             "5804": " BCM5880 Secure Applications Processor with fingerprint swipe sensor",
             "5832": " BCM5880 Secure Applications Processor Smartcard reader",
             "5843": " BCM58200 ControlVault 3 (FingerPrint sensor + Contacted SmartCard)",
+            "5865": " Fingerprint Reader (Dell Control Vault)",
             "6300": " Pirelli Remote NDIS Device",
             "6410": " BCM20703A1 Bluetooth 4.1 + LE",
             "bd11": " BCM4320 802.11bg Wireless Adapter",
@@ -22857,7 +22859,7 @@ usb_db = {
     "0ecd": {
         "name": " Lite-On IT Corp.",
         "products": {
-            "1400": " CD\\RW 40X",
+            "1400": " CD\RW 40X",
             "a100": " LDW-411SX DVD/CD Rewritable Drive",
         },
     },

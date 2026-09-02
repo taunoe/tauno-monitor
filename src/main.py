@@ -29,13 +29,14 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.2.20'
+APP_VERSION = '0.2.21'
 APP_ID = 'art.taunoerik.tauno-monitor'
 
 TRANSLATORS = [
 'Pascal Dietrich  (German) https://github.com/Cameo007',
 'Vladimir Kosolapov  (Russian) https://github.com/vmkspv',
 'Tauno Erik (Estonian) https://github.com/taunoe',
+'Tauno Erik (English) https://github.com/taunoe',
 ]
 
 class TaunoMonitorApplication(Adw.Application):
