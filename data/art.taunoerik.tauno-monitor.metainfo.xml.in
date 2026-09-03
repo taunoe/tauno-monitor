@@ -53,6 +53,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.21" date="2026-09-03">
+      <description>
+        <ul>
+          <li>New Theme selection: System, Dark, Light.</li>
+          <li>Updated usbids.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.20" date="2026-02-12">
       <description>
         <ul>
