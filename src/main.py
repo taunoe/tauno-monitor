@@ -65,14 +65,14 @@ class TaunoMonitorApplication(Adw.Application):
         # Shortcuts
         self.set_accels_for_action('win.open', ['<Ctrl>o'])
 
-        # Get saved Color Mode
-        self.dark_mode_saved = self.settings.get_boolean("dark-mode")
-        style_manager = Adw.StyleManager.get_default()
-
-        if self.dark_mode_saved: # is True
-            style_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
+        self.saved_theme = self.settings.get_string("saved-theme")
+        theme_manager = Adw.StyleManager.get_default()
+        if self.saved_theme == "Dark":
+            theme_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
+        elif self.saved_theme == "Light":
+            theme_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
         else:
-            style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
+            pass
 
 
         # Get saved log folder

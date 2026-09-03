@@ -10,8 +10,11 @@
     <key name="window-maximized" type="b">
       <default>false</default>
     </key>
-    <key name="dark-mode" type="b">
-      <default>false</default>
+    <key name="saved-theme" type="s">
+      <default>'System'</default>
+    </key>
+    <key name="saved-theme-index" type="i">
+      <default>0</default>
     </key>
     <key name="font-size" type="i">
       <default>16</default>

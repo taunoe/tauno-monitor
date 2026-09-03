@@ -17,7 +17,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
 
     # Appearance
     font_spin_button = Gtk.Template.Child()
-    dark_mode_switch = Gtk.Template.Child()
+    theme_dropdown = Gtk.Template.Child()
     notifications_switch = Gtk.Template.Child()
 
     # Data View
@@ -48,10 +48,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
     reset_parity_button = Gtk.Template.Child()
     stop_bits_dropdown = Gtk.Template.Child()
     reset_stop_bits_button = Gtk.Template.Child()
-    #tx_line_end_dropdown = Gtk.Template.Child()
-    #reset_tx_line_end_button = Gtk.Template.Child()
-    #rx_line_end_dropdown = Gtk.Template.Child()
-    #reset_rx_line_end_button = Gtk.Template.Child()
 
 
     def __init__(self, main_window, settings, **kwargs):
@@ -80,7 +76,11 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         # --- Appearance ---
         adj = self.font_spin_button.get_adjustment()
         adj.set_value(self.win.font_size_saved)
-        self.dark_mode_switch.set_active(self.settings.get_boolean("dark-mode"))
+
+        self.theme_modes = ['System', 'Dark', 'Light']
+        self.theme_dropdown.set_model(Gtk.StringList.new(self.theme_modes))
+        self.theme_dropdown.set_selected(0)
+
         self.notifications_switch.set_active(self.settings.get_boolean("notifications"))
 
         # --- Data View ---
@@ -128,16 +128,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.stop_bits_dropdown.set_model(Gtk.StringList.new(self.serial_stop_bits))
         self.stop_bits_dropdown.set_selected(self.get_stop_bit_saved)
 
-        # Get TX line end index
-        #self.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
-        #self.tx_line_end_dropdown.set_model(Gtk.StringList.new(self.win.serial_tx_line_endings))
-        #self.tx_line_end_dropdown.set_selected(self.get_TX_line_end_saved)
-
-        # Get RX line end index
-        #self.get_RX_line_end_saved = self.settings.get_int("saved-serial-rx-line-end-index")
-        #self.rx_line_end_dropdown.set_model(Gtk.StringList.new(self.win.serial_rx_line_endings))
-        #self.rx_line_end_dropdown.set_selected(self.get_RX_line_end_saved)
-
 
     def setup_color_button(self, button, setting_key):
         """ Helper function to configure a GtkColorDialogButton."""
@@ -151,7 +141,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         """ Connects widget signals to their handler methods."""
         # --- Appearance ---
         self.font_spin_button.connect("value-changed", self.text_size_action)
-        self.dark_mode_switch.connect("state-set", self.dark_mode_switch_action)
+        self.theme_dropdown.connect("notify::selected-item", self.theme_dropdown_action)
         self.notifications_switch.connect("state-set", self.notifications_switch_action)
 
         # --- Data View ---
@@ -189,12 +179,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.stop_bits_dropdown.connect('notify::selected-item', self.serial_stop_bits_action)
         self.reset_stop_bits_button.connect("clicked", self.reset_stop_bits_button_action)
 
-        #self.tx_line_end_dropdown.connect('notify::selected-item', self.serial_TX_line_end_action)
-        #self.reset_tx_line_end_button.connect("clicked", self.reset_TX_line_end_button_action)
-
-        #self.rx_line_end_dropdown.connect('notify::selected-item', self.serial_RX_line_end_action)
-        #self.reset_rx_line_end_button.connect("clicked", self.reset_RX_line_end_button_action)
-
 
     def text_size_action(self, action):
         """ """
@@ -204,16 +188,25 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.settings.set_int("font-size", new_size)
 
 
-    def dark_mode_switch_action(self, widget, state):
-        dark_mode = state
+    def theme_dropdown_action(self, drop_down, g_param_object):
+        """ Select theme from drop-down """
+        string_object = drop_down.get_selected_item()
+        index = drop_down.get_selected()
+        new_theme = string_object.get_string()
+        print(f'theme: pos: {index} - val: {string_object.get_string()}')
+        # save settings
+        self.settings.set_string("saved-theme", new_theme)
+        self.settings.set_int("saved-theme-index", index)
 
-        style_manager = Adw.StyleManager.get_default()
+        theme_manager = Adw.StyleManager.get_default()
 
-        if dark_mode: # is True
-            style_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
+        if new_theme == "Dark":
+            theme_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
+        elif new_theme == "Light":
+            theme_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
         else:
-            style_manager.set_color_scheme(Adw.ColorScheme.FORCE_LIGHT)
-        self.settings.set_boolean("dark-mode", dark_mode)
+            theme_manager.set_color_scheme(Adw.ColorScheme.DEFAULT)
+
 
 
     def notifications_switch_action(self, widget, state):

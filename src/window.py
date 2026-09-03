@@ -120,7 +120,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.port_drop_down.connect("notify::selected-item", self.on_port_drop_down_changed)
 
 
-        self.serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', 'None']
+        self.serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', ';', 'None']
         self.serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';', 'None']
         ####
         tx_end_model = Gtk.StringList.new(self.serial_tx_line_endings)
