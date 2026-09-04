@@ -53,6 +53,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.22" date="2026-09-04">
+      <description>
+        <ul>
+          <li>Changed default values.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.21" date="2026-09-03">
       <description>
         <ul>

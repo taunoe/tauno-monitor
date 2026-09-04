@@ -1,7 +1,11 @@
+0.2.22 (04.09.26)
+
+- Changed default values.
+
 0.2.21 (03.09.26)
 
- - New Theme selection: System, Dark, Light
- - Updated usbids
+ - New Theme selection: System, Dark, Light.
+ - Updated USB-ids.
 
 0.2.20 (12.00.26)
 

@@ -8,31 +8,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-04 18:37+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2026-09-03 21:11+0300\n"
+"PO-Revision-Date: 2024-07-29 14:23+0300\n"
+"Last-Translator: Tauno Erik <sedumacre@gmail.com>\n"
+"Language-Team: Estonia\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: data/art.taunoerik.tauno-monitor.desktop.in:2
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:6
 msgid "Tauno Monitor"
-msgstr ""
+msgstr "Tauno Monitor"
 
 #: data/art.taunoerik.tauno-monitor.desktop.in:8 src/preferences.ui:288
 msgid "Serial"
-msgstr ""
+msgstr "Jadaühendus"
 
 #: data/art.taunoerik.tauno-monitor.desktop.in:14
 msgid "New Window"
-msgstr ""
+msgstr "Uus aken"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:7
 msgid "Tauno Erik"
-msgstr ""
+msgstr "Tauno Erik"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
 msgid "The serial port monitor for Arduino"
@@ -40,35 +40,35 @@ msgstr ""
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
 msgid "Features:"
-msgstr ""
+msgstr "Omadused:"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:12
 msgid "Easy to use"
-msgstr ""
+msgstr "Lihtne kasutada"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:13
 msgid "Customizable colours"
-msgstr ""
+msgstr "Muudetavad värvid"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:14
 msgid "Remembers the last used settings"
-msgstr ""
+msgstr "Jätab meelde viimati kasutatud seaded"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:15
 msgid "Automatically reconnects to the serial port if the connection is lost"
-msgstr ""
+msgstr "Taastab automaatselt ühenduse, kui see on katkenud"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:16
 msgid "Can log data to a file"
-msgstr ""
+msgstr "Logib andmeid faili"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:17
 msgid "Displays data in different formats: ASCII, BIN, OCT or DEC"
-msgstr ""
+msgstr "Kuvab andmeid erinevas formaadis: ASCII, BIN, OCT või DEC"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:18
 msgid "Can open multiple instances"
-msgstr ""
+msgstr "Saab avada mitu akent"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:20
 msgid ""
@@ -78,557 +78,567 @@ msgstr ""
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:36
 msgid "Light mode"
-msgstr ""
+msgstr "Hele teema"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:40
 msgid "Dark mode"
-msgstr ""
+msgstr "Tume teema"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:44 src/preferences.ui:6
 msgid "Preferences"
-msgstr ""
+msgstr "Seaded"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:48
 msgid "Log file"
-msgstr ""
+msgstr "Logi fail"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:59
-msgid "Changed default values."
-msgstr ""
-
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:66
-msgid "New Theme selection: System, Dark, Light."
-msgstr ""
-
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:67
-msgid "Updated usbids."
-msgstr ""
-
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:74
 msgid "Updated German translation."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:75
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:60
 msgid "Bug fixes."
-msgstr ""
+msgstr "Veaparandused"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:82
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:67
 msgid ""
 "The line ending option was moved from the preferences to the main window."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:89
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:74
 msgid "Added \"Serial\" keyword to .desktop file."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:96
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:81
 msgid "Replaced \"Open\" / \"Close\" button label with icons"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:97
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:82
 msgid "Added a TX line end selection to UI"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:98
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:83
 msgid ""
 "TX commands are saved and can be navigated between using the up and down "
 "arrow keys"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:105
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:90
 msgid "Fixed TX line end character"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:112
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:97
 msgid "Hides unusable ports (without PID/VID number)"
-msgstr ""
+msgstr "Peidab pordid mida ei saa kasutada"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:98
+msgid "Updated Estonian translation"
+msgstr "Uuendatud eesti keele tõlge"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:105
+msgid "New USB IDS database (Version: 2025.07.26)"
+msgstr "Uus USB IDS andmebaas"
+
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:106
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:143
+msgid "Bug fix"
+msgstr "Vea parandus"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:113
-msgid "Updated Estonian translation"
-msgstr ""
-
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:120
-msgid "New USB IDS database (Version: 2025.07.26)"
-msgstr ""
-
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:121
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:158
-msgid "Bug fix"
-msgstr ""
-
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:128
 msgid "updated Russian translation"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:129
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:114
 msgid "Update categories in the desktop file"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:136
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:121
 msgid "User interface changes"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:137
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:122
 msgid "Fixed log file writing when the logging is not correctly ended"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:144
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:129
 msgid "Added tool to find baud rate"
-msgstr ""
+msgstr "Lisatud tööriist baudikiiruse leidmiseks"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:151
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:136
 msgid "Added a Sidebar to display device info"
-msgstr ""
+msgstr "Lisatud külgpaneel seadme info kohta"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:165
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:150
 msgid "Added german translation"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:172
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:157
 msgid "Added \"New Window\" in menu"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:173
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:158
 msgid "Separated preferences logic and ui"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:174
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:159
 msgid "Preferences can now be translated"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:181
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:166
 msgid ""
 "Turns the logging switch off when the logging folder does not have write "
 "permission."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:188
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:173
 msgid "New Window fix"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:195
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:180
 msgid "Added the ability to open multiple instances of the app"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:202
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:187
 msgid "Added BIN, DEC and OCT data formats"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:203
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:210
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:188
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:195
 msgid "Bug fixes"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:211
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:196
 msgid "New app icon"
-msgstr ""
+msgstr "Uus ikoon"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:212
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:197
 msgid "Runtime-version 48"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:213
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:198
 msgid "Advandced Serial settings"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:220
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:205
 msgid "Show and select line ends (TX and RX)."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:227
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:212
 msgid "New baud rates"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:228
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:213
 msgid "Select line ending"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:235
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:220
 msgid "Added new baudrate: 1500000"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:242
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:227
 msgid "org.gnome.Platform ver 47"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:249
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:234
 msgid "Improved Estonian translation"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:250
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:235
 msgid "Reduced height of the preferences window."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:251
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:236
 msgid "Added Russian translation"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:258
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:243
 msgid "Started Estonian translation."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:265
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:250
 msgid "Logs HEX data."
-msgstr ""
+msgstr "Logib andmeid HEX kujul."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:272
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:257
 msgid "User can customise text view colors."
-msgstr ""
+msgstr "Kasutaja saab kohandada tekstivaate värve."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:279
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:287
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:264
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:272
 msgid "Improved logging."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:280
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:265
 msgid "Coloured output."
-msgstr ""
+msgstr "Värviline väljund."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:294
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:279
 msgid "Auto reconnects to the serial port."
-msgstr ""
+msgstr "Taastab ühenduse."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:301
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:286
 msgid "Logging data to a file."
-msgstr ""
+msgstr "Logib andmed faili."
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:308
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:293
 msgid "Changed back to tauno-monitor."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:315
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:300
 msgid "Removed hyphen(`-`) and underscore (`_`) from app id."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:322
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:307
 msgid "Replaced App ID hyphen(`-`) with underscore (`_`)."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:329
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:314
 msgid "Added \"Clear\" button."
-msgstr ""
+msgstr "Lisatud ekraani puhastus nupp"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:336
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:321
 msgid "Added timestamp setting."
-msgstr ""
+msgstr "Lisatud ajatempel"
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:343
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:328
 msgid "Automatically scan ports if connection is lost."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:350
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:335
 msgid "Automatically closes the serial port if the connection is lost."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:357
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:342
 msgid "Added RX data HEX mode"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:364
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:349
 msgid "Enter == Send"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:371
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:356
 msgid "Reads bytes, not lines!"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:378
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:363
 msgid "Saves text size. Notifications settings."
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:385
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:370
 msgid "Added a guide: what to do when serial ports are not available"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:392
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:399
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:406
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:377
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:384
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:391
 msgid "Meta info fixes"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:413
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:398
 msgid "First release"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:419
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:404
 msgid "serial port monitor"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:420
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:405
 msgid "arduino tool"
 msgstr ""
 
-#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:421
+#: data/art.taunoerik.tauno-monitor.metainfo.xml.in:406
 msgid "embedded development software"
 msgstr ""
 
 #: src/window.ui:23 src/window.ui:174
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: src/window.ui:32
 msgid "not available"
-msgstr ""
+msgstr "pole saadaval"
 
 #: src/window.ui:42
 msgid "Update"
-msgstr ""
+msgstr "Uuenda"
 
 #: src/window.ui:50 src/window.ui:195
 msgid "Baud Rate:"
-msgstr ""
+msgstr "Kiirus"
 
 #: src/window.ui:73
 msgid "Line end:"
-msgstr ""
+msgstr "Rea lõpp:"
 
 #: src/window.ui:85
 msgid "End of line of received (rX) data"
-msgstr ""
+msgstr "Vastuvõetud (RX) andmete rea lõpp"
 
 #: src/window.ui:100
 msgid "Open"
-msgstr ""
+msgstr "Ava"
 
 #: src/window.ui:112
 msgid "Menu"
-msgstr ""
+msgstr "Menüü"
 
 #: src/window.ui:119
 msgid "Device info"
-msgstr ""
+msgstr "Seadme info"
 
 #: src/window.ui:126
 msgid "Clear screen"
-msgstr ""
+msgstr "Puhasta ekraan"
 
 #: src/window.ui:133
 msgid "Write logs to file"
-msgstr ""
+msgstr "Kirjuta logid faili"
 
 #: src/window.ui:139
 msgid "Log"
-msgstr ""
+msgstr "Logi"
 
 #: src/window.ui:216
 msgid "Name:"
-msgstr ""
+msgstr "Nimi:"
 
 #: src/window.ui:237
 msgid "Description:"
-msgstr ""
+msgstr "Kirjeldus:"
 
 #: src/window.ui:258
 msgid "Vendor ID:"
-msgstr ""
+msgstr "Tarnija ID:"
 
 #: src/window.ui:279
 msgid "Vendor:"
-msgstr ""
+msgstr "Tarnija:"
 
 #: src/window.ui:300
 msgid "Product ID:"
-msgstr ""
+msgstr "Toote ID"
 
 #: src/window.ui:321 src/window.ui:405
 msgid "Product:"
-msgstr ""
+msgstr "Toode:"
 
 #: src/window.ui:342
 msgid "Serial Number:"
-msgstr ""
+msgstr "Seerianumber:"
 
 #: src/window.ui:363
 msgid "USB Location:"
-msgstr ""
+msgstr "USB asukoht:"
 
 #: src/window.ui:384
 msgid "Manufacturer:"
-msgstr ""
+msgstr "Valmistaja:"
 
 #: src/window.ui:426
 msgid "Interface:"
-msgstr ""
+msgstr "Liides:"
 
 #: src/window.ui:456
 msgid "Unable to open serial ports! Learn how to enable ->"
-msgstr ""
+msgstr "Jadaporte ei saanud avada! Uuri, kuidas lubada ->"
 
 #: src/window.ui:457 src/guide.ui:6
 msgid "Guide"
-msgstr ""
+msgstr "Juhend"
 
 #: src/window.ui:476
 msgid "Enter cmd"
-msgstr ""
+msgstr "Sisesta käsk"
 
 #: src/window.ui:489
 msgid "End of line of transmitted (TX) data"
-msgstr ""
+msgstr "Edastatud (TX) andmete rea lõpp"
 
 #: src/window.ui:504
 msgid "Send"
-msgstr ""
+msgstr "Saada"
 
 #: src/window.ui:557
 msgid "_New Window"
-msgstr ""
+msgstr "_Uus aken"
 
 #: src/window.ui:561
 msgid "_Guide"
-msgstr ""
+msgstr "_Juhend"
 
 #: src/window.ui:565
 msgid "_Find Baud Rate"
-msgstr ""
+msgstr "_Leia baudikiirus"
 
 #: src/window.ui:569
 msgid "_Preferences"
-msgstr ""
+msgstr "_Seaded"
 
 #: src/window.ui:573
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Kiirklahvid"
 
 #: src/window.ui:577
 msgid "_About"
-msgstr ""
+msgstr "_Teave"
 
 #: src/guide.ui:26
 msgid ""
 "To make serial ports visible to the app add the user to 'dialout' group."
-msgstr ""
+msgstr "Lisa kasutaja 'dialout' gruppi, et rakendus näeks jadaporte."
 
 #: src/guide.ui:32
 msgid "Please open Terminal and type:"
-msgstr ""
+msgstr "Ava termainal ja sisesta käsud:"
 
 #: src/guide.ui:50
 msgid ""
 "You will need to log out and log back in again (or reboot) for the user "
 "group changes to take effect."
-msgstr ""
+msgstr "Pead välja- ja uuesti sisse logima, et muudatused rakenduksid."
 
 #: src/guide.ui:56
 msgid ""
 "Ubuntu users also must enable \"Access USB hardware directly\" in the Ubuntu "
 "Store Software store on or on the command line."
 msgstr ""
+"Ubuntu kasutajad peavad lubama \"Access USB hardware directly\" Ubuntu "
+"rakenduste poest või käsurealt"
 
 #: src/guide.ui:62
 msgid "More information on:"
-msgstr ""
+msgstr "Rohkem infot:"
 
 #: src/guide.ui:73
 msgid "Close window"
-msgstr ""
+msgstr "Sule aken"
 
 #: src/preferences.ui:14
 msgid "Appearance"
-msgstr ""
+msgstr "Välimus"
 
 #: src/preferences.ui:17
 msgid "Text Size"
-msgstr ""
+msgstr "Teksti suurus"
 
 #: src/preferences.ui:38
 msgid "Theme"
-msgstr ""
+msgstr "Teema"
 
 #: src/preferences.ui:54
 msgid "Notifications"
-msgstr ""
+msgstr "Märguanded"
 
 #: src/preferences.ui:68
 msgid "Data View"
-msgstr ""
+msgstr "Andmed"
 
 #: src/preferences.ui:71
 msgid "Format"
-msgstr ""
+msgstr "Vorming"
 
 #: src/preferences.ui:84 src/preferences.ui:120 src/preferences.ui:157
 #: src/preferences.ui:183 src/preferences.ui:209 src/preferences.ui:245
 #: src/preferences.ui:304 src/preferences.ui:329 src/preferences.ui:354
 msgid "Reset"
-msgstr ""
+msgstr "Lähtesta"
 
 #: src/preferences.ui:96
 msgid "Show Timestamp"
-msgstr ""
+msgstr "Näita ajatemplit"
 
 #: src/preferences.ui:107
 msgid "Timestamp Color"
-msgstr ""
+msgstr "Ajatempli värv"
 
 #: src/preferences.ui:133
 msgid "Show Arrow"
-msgstr ""
+msgstr "Näita noolt"
 
 #: src/preferences.ui:144
 msgid "Arrow Color"
-msgstr ""
+msgstr "Noole värv"
 
 #: src/preferences.ui:170
 msgid "Transmitted (TX) Data Color"
-msgstr ""
+msgstr "Edastatud (TX) andmete värv"
 
 #: src/preferences.ui:196
 msgid "Received (RX) Data Color"
-msgstr ""
+msgstr "Vastuvõetud (RX) andmete värv"
 
 #: src/preferences.ui:221
 msgid "Show Line Endings"
-msgstr ""
+msgstr "Näita rea lõppe"
 
 #: src/preferences.ui:232
 msgid "Line End Color"
-msgstr ""
+msgstr "Rea lõpu värv"
 
 #: src/preferences.ui:260
 msgid "Logging"
-msgstr ""
+msgstr "Logimine"
 
 #: src/preferences.ui:263
 msgid "Folder"
-msgstr ""
+msgstr "Katalog"
 
 #: src/preferences.ui:276
 msgid "Select Folder"
-msgstr ""
+msgstr "Vali katalog"
 
 #: src/preferences.ui:291
 msgid "Data Bits"
-msgstr ""
+msgstr "Andmebitid"
 
 #: src/preferences.ui:316
 msgid "Parity"
-msgstr ""
+msgstr "Paarsus"
 
 #: src/preferences.ui:341
 msgid "Stop Bits"
-msgstr ""
+msgstr "Stopp-bitid"
 
 #: src/tool_baud.py:66
 msgid "Done"
-msgstr ""
+msgstr "Valmis"
 
 #: src/tool_baud.py:119
 msgid "Connect the device to the port!"
-msgstr ""
+msgstr "Ühenda seade porti!"
 
 #: src/tool_baud.ui:6
 msgid "Find the Baud Rate"
-msgstr ""
+msgstr "Leia baudikiirus"
 
 #: src/tool_baud.ui:29
 msgid "Scan"
-msgstr ""
+msgstr "Skaneeri"
 
 #: src/tool_baud.ui:57
 msgid "Click <b>Scan</b> to start"
-msgstr ""
+msgstr "Vajuta <b>Skaneeri</b> alustamiseks"
 
 #: src/tool_baud.ui:71
 msgid "Use this baud rate"
-msgstr ""
+msgstr "Kasuta seda baudikiirust"
+
+#~ msgid "The serial port monitor for Arduino and other embedded development"
+#~ msgstr "Jadapordi monitor Arduino ja teiste manussüsteemide arenduseks"
+
+#~ msgid "Dark Mode"
+#~ msgstr "Tume teema"
+
+#, python-brace-format
+#~ msgid "Best match: {baud} baud"
+#~ msgstr "Parim tulemus kiirusel {baud}"
+
+#, python-brace-format
+#~ msgid "Trying {baudrate} baud..."
+#~ msgstr "Proovin kiirust {baudrate}"
+
+#~ msgid "Timestamp"
+#~ msgstr "Ajatempel"
+
+#~ msgid "End of line of received (RX) data"
+#~ msgstr "Vastuvõetud (RX) andmete rea lõpp"
