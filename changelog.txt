@@ -1,6 +1,7 @@
 0.2.23 (05.09.26)
 
 - ANSI color support to monitor output.
+- Bug fixes.
 
 0.2.22 (04.09.26)
 

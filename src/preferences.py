@@ -79,7 +79,8 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
 
         self.theme_modes = ['System', 'Dark', 'Light']
         self.theme_dropdown.set_model(Gtk.StringList.new(self.theme_modes))
-        self.theme_dropdown.set_selected(0)
+        self.saved_theme_index = self.settings.get_int("saved-theme-index")
+        self.theme_dropdown.set_selected(self.saved_theme_index)
 
         self.notifications_switch.set_active(self.settings.get_boolean("notifications"))
 
@@ -87,7 +88,8 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         # Serial data formats
         self.serial_data_formats = ['ASCII', 'HEX', 'BIN', 'DEC', 'OCT']
         self.rx_format_dropdown.set_model(Gtk.StringList.new(self.serial_data_formats))
-        self.rx_format_dropdown.set_selected(0)
+        self.saved_data_format_index = self.settings.get_int("saved-serial-rx-data-format-index")
+        self.rx_format_dropdown.set_selected(self.saved_data_format_index)
 
         self.timestamp_switch.set_active(self.settings.get_boolean("timestamp"))
         self.arrow_switch.set_active(self.settings.get_boolean("arrow"))
@@ -225,6 +227,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         print(f'Position: {index} - value: {string_object.get_string()}')
         # save settings
         self.settings.set_string("saved-serial-rx-data-format", new_format)
+        self.settings.set_int("saved-serial-rx-data-format-index", index)
         # update pos
         self.win.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
 

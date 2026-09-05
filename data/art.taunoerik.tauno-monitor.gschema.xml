@@ -73,6 +73,9 @@
     <key name="saved-serial-rx-data-format" type="s">
       <default>'ASCII'</default>
     </key>
+    <key name="saved-serial-rx-data-format-index" type="i">
+      <default>0</default>
+    </key>
     <key name="default-serial-rx-data-format" type="s">
       <default>'ASCII'</default>
     </key>
