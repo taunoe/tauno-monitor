@@ -19,7 +19,7 @@
 
 # https://pygobject.gnome.org/tutorials/gtk4/textview.html
 
-from gi.repository import Adw, Gtk, Gio, GObject, GLib, Gdk
+from gi.repository import Adw, Gtk, Gio, GObject, GLib, Gdk, Pango
 import serial
 import serial.tools.list_ports
 import threading
@@ -214,6 +214,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         line_end_color = self.settings.get_string("saved-show-line-end-color")
         self.tag_line_end = self.text_buffer.create_tag('line_end', foreground=line_end_color)
+        self.ansi_tags = {}
 
         self.prev_char = '\n'  # store prev char
 
@@ -648,20 +649,94 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 self.logging.write_hex_data(octal_str)
             tag = self.tag_in
         elif type == 'ASCII':
-            line = data.decode('utf-8').strip()
+            line = data.decode('utf-8', errors='replace').strip()
             print(f"line: {line}")
-            self.text_buffer.insert(self.text_iter_end, line)
-            self.logging.write_data(line)
+            self.insert_ansi_text(line, self.tag_in)
+            self.logging.write_data(self.strip_ansi_escape_codes(line))
             tag = self.tag_in
         elif type == 'TX':
-            self.text_buffer.insert(self.text_iter_end, data)
-            self.logging.write_data(data)
+            self.insert_ansi_text(data, self.tag_out)
+            self.logging.write_data(self.strip_ansi_escape_codes(data))
             tag = self.tag_out
         else:
             print("Wrong data type!")
 
         end_mark = self.text_buffer.create_mark('end_mark', self.text_buffer.get_end_iter(), True)
-        self.text_buffer.apply_tag(tag, self.text_buffer.get_iter_at_mark(start_mark), self.text_buffer.get_iter_at_mark(end_mark))
+        if type not in ('ASCII', 'TX'):
+            self.text_buffer.apply_tag(tag, self.text_buffer.get_iter_at_mark(start_mark), self.text_buffer.get_iter_at_mark(end_mark))
+
+
+    @staticmethod
+    def strip_ansi_escape_codes(text):
+        """Remove ANSI SGR sequences before writing received data to a log."""
+        return re.sub(r'\x1b\[[0-9;]*m', '', text)
+
+
+    def get_ansi_tag(self, foreground=None, bold=False):
+        """Return a cached GTK tag for an ANSI foreground/bold combination."""
+        key = (foreground, bold)
+        if key not in self.ansi_tags:
+            properties = {}
+            if foreground is not None:
+                properties['foreground'] = foreground
+            if bold:
+                properties['weight'] = Pango.Weight.BOLD
+            self.ansi_tags[key] = self.text_buffer.create_tag(
+                f'ansi-{len(self.ansi_tags)}', **properties)
+        return self.ansi_tags[key]
+
+
+    def insert_ansi_text(self, text, base_tag):
+        """Insert text while interpreting ANSI SGR color and bold sequences."""
+        colors = {
+            30: 'black', 31: 'red', 32: 'green', 33: 'yellow',
+            34: 'blue', 35: 'magenta', 36: 'cyan', 37: 'white',
+            90: 'gray', 91: 'lightcoral', 92: 'lightgreen',
+            93: 'lightyellow', 94: 'lightblue', 95: 'violet',
+            96: 'lightcyan', 97: 'white',
+        }
+        ansi_pattern = re.compile(r'\x1b\[([0-9;]*)m')
+        position = 0
+        foreground = None
+        bold = False
+
+        for match in ansi_pattern.finditer(text):
+            self.insert_ansi_segment(text[position:match.start()], base_tag, foreground, bold)
+            codes = [int(code) if code else 0 for code in match.group(1).split(';')]
+            for code in codes:
+                if code == 0:
+                    foreground = None
+                    bold = False
+                elif code == 1:
+                    bold = True
+                elif code == 22:
+                    bold = False
+                elif code == 39:
+                    foreground = None
+                elif code in colors:
+                    foreground = colors[code]
+            position = match.end()
+
+        self.insert_ansi_segment(text[position:], base_tag, foreground, bold)
+
+
+    def insert_ansi_segment(self, text, base_tag, foreground, bold):
+        """Insert one visible ANSI-styled text segment."""
+        if not text:
+            return
+        start_mark = self.text_buffer.create_mark(
+            None, self.text_buffer.get_end_iter(), True)
+        self.text_buffer.insert(self.text_buffer.get_end_iter(), text)
+        end_mark = self.text_buffer.create_mark(
+            None, self.text_buffer.get_end_iter(), True)
+        start = self.text_buffer.get_iter_at_mark(start_mark)
+        end = self.text_buffer.get_iter_at_mark(end_mark)
+        self.text_buffer.apply_tag(base_tag, start, end)
+        if foreground is not None or bold:
+            self.text_buffer.apply_tag(
+                self.get_ansi_tag(foreground, bold), start, end)
+        self.text_buffer.delete_mark(start_mark)
+        self.text_buffer.delete_mark(end_mark)
 
 
     def insert_arrow_to_text_view(self, type):
@@ -717,6 +792,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """
         Add line end for text-view and real
         """
+        self.text_buffer = self.input_text_view.get_buffer()
+
         show_line_end = self.settings.get_boolean("show-line-end")
 
         if direction == 'TX':
@@ -733,14 +810,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         # Add line end for show
         if show_line_end:
 
-            # Buffer
-            self.text_buffer = self.input_text_view.get_buffer()
-
             # Start mark
             line_end_start_mark = self.text_buffer.create_mark('line_end_start_mark', self.text_buffer.get_end_iter(), True)
 
             # Insert line end
-            self.text_buffer.insert(self.text_iter_end, show_end)
+            self.text_buffer.insert(self.text_buffer.get_end_iter(), show_end)
 
             # End mark
             line_end_end_mark = self.text_buffer.create_mark('line_end_end_mark', self.text_buffer.get_end_iter(), True)
@@ -752,23 +826,23 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.logging.write_data(show_end)
         # Add real line end
         if index == 1:
-            self.text_buffer.insert(self.text_iter_end, '\r')
+            self.text_buffer.insert(self.text_buffer.get_end_iter(), '\r')
             # Log
             self.logging.write_data('\r')
         elif index == 2:
-            self.text_buffer.insert(self.text_iter_end, '\r\n')
+            self.text_buffer.insert(self.text_buffer.get_end_iter(), '\r\n')
             # Log
             self.logging.write_data('\r\n')
         elif index == 3:
-            self.text_buffer.insert(self.text_iter_end, ';')
+            self.text_buffer.insert(self.text_buffer.get_end_iter(), ';')
             # Log
             self.logging.write_data(';')
         elif index == 4: #none
-            self.text_buffer.insert(self.text_iter_end, '')
+            self.text_buffer.insert(self.text_buffer.get_end_iter(), '')
             # Log
             self.logging.write_data('')
         else:
-            self.text_buffer.insert(self.text_iter_end, '\n')
+            self.text_buffer.insert(self.text_buffer.get_end_iter(), '\n')
             # Log
             self.logging.write_data('\n')
 
