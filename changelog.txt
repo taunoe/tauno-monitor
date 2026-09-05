@@ -1,3 +1,7 @@
+0.2.23 (05.09.26)
+
+- ANSI color support to monitor output.
+
 0.2.22 (04.09.26)
 
 - Changed default values.

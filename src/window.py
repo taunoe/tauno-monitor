@@ -1,6 +1,6 @@
 # window.py
 #
-# Copyright 2023-2025 Tauno Erik
+# Copyright 2023-2026 Tauno Erik
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -689,11 +689,22 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def insert_ansi_text(self, text, base_tag):
         """Insert text while interpreting ANSI SGR color and bold sequences."""
         colors = {
-            30: 'black', 31: 'red', 32: 'green', 33: 'yellow',
-            34: 'blue', 35: 'magenta', 36: 'cyan', 37: 'white',
-            90: 'gray', 91: 'lightcoral', 92: 'lightgreen',
-            93: 'lightyellow', 94: 'lightblue', 95: 'violet',
-            96: 'lightcyan', 97: 'white',
+            30: 'black',
+            31: 'red',
+            32: 'green',
+            33: 'yellow',
+            34: 'blue',
+            35: 'magenta',
+            36: 'cyan',
+            37: 'white',
+            90: 'gray',
+            91: 'lightcoral',
+            92: 'lightgreen',
+            93: 'lightyellow',
+            94: 'lightblue',
+            95: 'violet',
+            96: 'lightcyan',
+            97: 'white',
         }
         ansi_pattern = re.compile(r'\x1b\[([0-9;]*)m')
         position = 0

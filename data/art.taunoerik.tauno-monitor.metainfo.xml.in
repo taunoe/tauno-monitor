@@ -53,6 +53,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.2.23" date="2026-09-05">
+      <description>
+        <ul>
+          <li>ANSI color support to monitor output..</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.22" date="2026-09-04">
       <description>
         <ul>
