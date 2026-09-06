@@ -1,3 +1,8 @@
+0.2.24 (06.09.26)
+
+- New App icon.
+- Code cleanup.
+
 0.2.23 (05.09.26)
 
 - ANSI color support to monitor output.

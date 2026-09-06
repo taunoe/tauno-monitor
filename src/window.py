@@ -17,8 +17,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# https://pygobject.gnome.org/tutorials/gtk4/textview.html
-
 from gi.repository import Adw, Gtk, Gio, GObject, GLib, Gdk, Pango
 import serial
 import serial.tools.list_ports
@@ -78,7 +76,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # https://github.com/natorsc/python-gtk-pygobject/blob/ac01a136a480ee18b55d5062f986336373a26d9b/src/gtk-widgets/translator-gettext/MainWindow.py
         # # The default language of the operating system will be used.
         localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
         locale.setlocale(locale.LC_ALL, '')
@@ -122,7 +119,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         self.serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', ';', 'None']
         self.serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';', 'None']
-        ####
+
         tx_end_model = Gtk.StringList.new(self.serial_tx_line_endings)
         self.ui_tx_end.set_model(tx_end_model)
 
@@ -131,8 +128,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Get saved Serial RX data format
         self.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
-
-
 
         # Get saved data bit index
         self.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
@@ -197,9 +192,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.text_mark_end = self.text_buffer.create_mark("", self.text_iter_end, False)
 
         # Tags
-        # https://pygobject.gnome.org/tutorials/gtk4/textview.html
-        # https://stackoverflow.com/questions/24619467/pygobject-hex-color-to-gdk-rgba
-
         time_color = self.settings.get_string("saved-time-color")
         self.tag_time = self.text_buffer.create_tag('time', foreground=time_color)
 
@@ -218,11 +210,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         self.prev_char = '\n'  # store prev char
 
-
         # Reconnect
         self.reconnecting_serial = False
 
-        # https://realpython.com/python-sleep/
         self.event = threading.Event()
 
         # TX command history
@@ -243,11 +233,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         UP and DOWN arrow keys for TX history
         """
         if keyval == Gdk.KEY_Up:
-            print("up")
+            #print("up")
             self.navigate_cmd_history(-1)
             return True
         elif keyval == Gdk.KEY_Down:
-            print("down")
+            #print("down")
             self.navigate_cmd_history(1)
             return True
         return False
@@ -419,7 +409,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def on_btn_log(self, switch, _gparam):
         """ Logging switch action """
         if self.log_switch.props.active:
-            print("log switch active")
+            #print("log switch active")
             self.write_logs = True
             folder = self.settings.get_string("log-folder")
 
@@ -439,7 +429,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             log_file_path = os.path.join(folder, f"tauno-monitor_log-{current_datetime}.txt")
             self.log_file_exist = self.logging.create_file(log_file_path)
         else:
-            print("log switch deactivate")
+            #print("log switch deactivate")
             if self.log_file_exist:
                 self.logging.close_file()
             self.write_logs = False
@@ -511,7 +501,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def thread_read_serial(self):
         """ Thread to read serial port"""
         # THREAD version
-        # https://pygobject.readthedocs.io/en/latest/guide/threading.html
         thread = threading.Thread(target=self.tauno_serial.read)
         thread.daemon = True
         thread.start()
@@ -735,17 +724,25 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """Insert one visible ANSI-styled text segment."""
         if not text:
             return
+
         start_mark = self.text_buffer.create_mark(
             None, self.text_buffer.get_end_iter(), True)
+
         self.text_buffer.insert(self.text_buffer.get_end_iter(), text)
+
         end_mark = self.text_buffer.create_mark(
             None, self.text_buffer.get_end_iter(), True)
+
         start = self.text_buffer.get_iter_at_mark(start_mark)
+
         end = self.text_buffer.get_iter_at_mark(end_mark)
+
         self.text_buffer.apply_tag(base_tag, start, end)
+
         if foreground is not None or bold:
             self.text_buffer.apply_tag(
                 self.get_ansi_tag(foreground, bold), start, end)
+
         self.text_buffer.delete_mark(start_mark)
         self.text_buffer.delete_mark(end_mark)
 
@@ -965,7 +962,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         for port in ports:
             if port.device == port_name:
                 #print(f"Port          : {port.device}")
-
                 print(f"Name          : {port.name}")
                 if port.name == None:
                     self.info_Name.set_label("None")
@@ -1018,20 +1014,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                     self.info_Interface.set_label(port.interface)
                 break # Exit loop
 
-                # Try to open and query serial settings
-                """
-                try:
-                    with serial.Serial(port.device, timeout=1) as ser:
-                        print("Opened successfully.")
-                        print(f"Baudrate      : {ser.baudrate}")
-                        print(f"Bytesize      : {ser.bytesize}")
-                        print(f"Parity        : {ser.parity}")
-                        print(f"Stopbits      : {ser.stopbits}")
-                        print(f"Timeout       : {ser.timeout}")
-                except Exception as e:
-                    print(f"Could not open port: {e}")
-                break
-                """
 
     def parse_hwid(self, hwid_str):
         """
