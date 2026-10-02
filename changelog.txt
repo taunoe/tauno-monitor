@@ -1,3 +1,7 @@
+0.2.25 (02.10.26)
+
+- Added log folder selection from the main window.
+
 0.2.24 (06.09.26)
 
 - New App icon.

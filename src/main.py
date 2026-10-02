@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.2.24'
+APP_VERSION = '0.2.25'
 APP_ID = 'art.taunoerik.tauno-monitor'
 
 TRANSLATORS = [
@@ -183,5 +183,4 @@ class TaunoMonitorApplication(Adw.Application):
 def main(version):
     app = TaunoMonitorApplication(version)
     return app.run(sys.argv)
-
 
