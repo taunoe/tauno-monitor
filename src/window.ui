@@ -138,8 +138,8 @@
             <child type="end">
               <object class="GtkButton" id="log_icon">
                 <property name="icon-name">paper-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Log to file:</property>
-                <property name="action-name">win.clear</property>
+                <property name="tooltip-text" translatable="yes">Select log folder</property>
+                <property name="action-name">win.select_log_folder</property>
               </object>
             </child>
 
@@ -583,4 +583,3 @@
     </section>
   </menu>
 </interface>
-

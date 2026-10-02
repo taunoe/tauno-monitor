@@ -44,6 +44,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     send_button = Gtk.Template.Child()
     clear_button = Gtk.Template.Child()
     log_switch = Gtk.Template.Child()
+    log_icon = Gtk.Template.Child()
     send_cmd_entry = Gtk.Template.Child()
     rx_line_end_label_drop_down = Gtk.Template.Child()
     rx_line_end_label_drop_down_list = Gtk.Template.Child()
@@ -174,6 +175,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Switch log
         self.create_action('log', self.on_btn_log)
+
+        # Select log folder
+        self.create_action('select_log_folder', self.on_btn_select_log_folder)
+        self.log_folder_dialog = None
 
         # Entry
         self.send_cmd_entry.connect('activate', self.on_key_enter_pressed)
@@ -433,6 +438,42 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             if self.log_file_exist:
                 self.logging.close_file()
             self.write_logs = False
+
+
+    def on_btn_select_log_folder(self, action, _parameter):
+        """Open a folder chooser for the log destination."""
+        self.log_folder_dialog = Gtk.FileDialog()
+        self.log_folder_dialog.set_title("Select log folder")
+        current_folder = self.settings.get_string("log-folder")
+        if os.path.isdir(current_folder):
+            self.log_folder_dialog.set_initial_folder(
+                Gio.File.new_for_path(current_folder))
+        self.log_folder_dialog.select_folder(
+            self, cancellable=None, callback=self.on_log_folder_selected)
+
+
+    def on_log_folder_selected(self, dialog, task):
+        """Save the selected log folder."""
+        try:
+            folder = dialog.select_folder_finish(task)
+        except GLib.Error as error:
+            self.log_folder_dialog = None
+            if error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED):
+                return
+            self.notify(f"Could not select log folder: {error.message}")
+            return
+
+        self.log_folder_dialog = None
+        folder_path = folder.get_path()
+        if folder_path is None or not os.path.isdir(folder_path):
+            self.notify("The selected location is not a local folder.")
+            return
+        if not os.access(folder_path, os.W_OK):
+            self.notify(f"No write permission for folder: {folder_path}")
+            return
+
+        self.settings.set_string("log-folder", folder_path)
+        self.log_icon.set_tooltip_text(f"Log folder: {folder_path}")
 
 
     def on_btn_guide(self, action, _):
