@@ -73,6 +73,7 @@
                 <property name="label" translatable="yes">Line end:</property>
               </object>
             </child>
+
             <child type="start">
               <object class="GtkDropDown" id="rx_line_end_label_drop_down">
                 <property name="model">
@@ -82,7 +83,7 @@
                     </items>
                   </object>
                 </property>
-                <property name="tooltip-text" translatable="yes">End of line of received (rX) data</property>
+                <property name="tooltip-text" translatable="yes">End of line of received (rx) data</property>
                 <property name="enable-search">false</property>
                 <property name="hexpand">False</property>
                 <property name="halign">end</property>
