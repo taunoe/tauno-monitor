@@ -134,9 +134,12 @@
                 <property name="action-name">win.log</property>
               </object>
             </child>
+
             <child type="end">
-              <object class="GtkLabel" id="log_label">
-                <property name="label" translatable="yes">Log</property>
+              <object class="GtkButton" id="log_icon">
+                <property name="icon-name">paper-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Log to file:</property>
+                <property name="action-name">win.clear</property>
               </object>
             </child>
 

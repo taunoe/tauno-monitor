@@ -24,6 +24,7 @@ action_icons = [
   join_paths(action_dir, 'paper-plane-symbolic.svg'),
   join_paths(action_dir, 'play-large-symbolic.svg'),
   join_paths(action_dir, 'stop-large-symbolic.svg'),
+  join_paths(action_dir, 'paper-symbolic.svg'),
   ]
 install_data(
   action_icons,
