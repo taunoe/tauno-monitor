@@ -1,3 +1,7 @@
+0.2.26 (03.10.26)
+
+- Preserve leading spaces in received text.
+
 0.2.25 (02.10.26)
 
 - Added log folder selection from the main window.
