@@ -30,6 +30,8 @@ tauno_monitor_sources = [
   '__init__.py',
   'main.py',
   'window.py',
+  'plot_data.py',
+  'plot_window.py',
   'tauno_serial.py',
   'tauno_logging.py',
   'guide.py',

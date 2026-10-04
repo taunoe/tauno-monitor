@@ -26,6 +26,8 @@ import codecs
 import time
 from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
+from .plot_data import SerialPlotData
+from .plot_window import TaunoPlotWindow
 from .guide import TaunoGuideWindow
 from .tool_baud import TaunoToolBaudWindow
 import gettext, locale, os, random, string
@@ -87,6 +89,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.connect("close-request", self.on_close_request)
 
         self.settings = Gio.Settings(schema_id=APP_ID)
+        self.plot_data = SerialPlotData()
+        self.plot_window = None
 
         # Get saved settings from gschema.xml
         self.settings.bind("window-width", self, "default-width",
@@ -169,6 +173,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Menu Button Tool Baud
         self.create_action('tool_baud', self.on_btn_tool_baud)
+
+        # Live plot window
+        self.create_action('plot', self.on_plot)
 
         # Button clear textview
         self.create_action('clear', self.on_btn_clear_textview)
@@ -285,7 +292,24 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         print("Window is being closed")
         if self.log_file_exist:
                 self.logging.close_file()
+        if self.plot_window is not None:
+            self.plot_window.close()
         return False  # allow closing
+
+
+    def on_plot(self, action, _):
+        if self.plot_window is None:
+            self.plot_window = TaunoPlotWindow(self, self.plot_data)
+            self.plot_window.connect(
+                "close-request", self.on_plot_window_close_request
+            )
+        self.plot_window.present()
+
+
+    def on_plot_window_close_request(self, window):
+        if self.plot_window is window:
+            self.plot_window = None
+        return False
 
 
     def create_action(self, name, function, shortcuts=None):
@@ -638,6 +662,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
             # Scroll text view
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
+            plot_updated = self.plot_data.feed(data)
+            if plot_updated and self.plot_window is not None:
+                self.plot_window.queue_refresh()
         except Exception as ex:
             print("add_to_text_view error:", ex)
             return

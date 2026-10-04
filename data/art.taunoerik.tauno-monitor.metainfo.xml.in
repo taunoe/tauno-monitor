@@ -15,6 +15,7 @@
         <li>Automatically reconnects to the serial port if the connection is lost</li>
         <li>Can log data to a file</li>
         <li>Displays data in different formats: ASCII, BIN, OCT or DEC</li>
+        <li>Plots labeled numeric values from comma-separated serial data in a separate live graph window</li>
         <li>Can open multiple instances</li>
     </ul>
     <p>Depending on your system you may need to add a user to dialout group to open serial ports:
