@@ -1,7 +1,8 @@
 0.3.0 (04.10.26)
 
  - New App icon
- - Moved to Snap Base core24
+ - Moved to Snap Base core26
+ - Added Live Plot
 
 0.2.26 (03.10.26)
 
