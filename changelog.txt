@@ -1,3 +1,8 @@
+0.3.0 (04.10.26)
+
+ - New App icon
+ - Moved to Snap Base core24
+
 0.2.26 (03.10.26)
 
 - Preserve leading spaces in received text.
