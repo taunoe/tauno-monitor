@@ -35,7 +35,7 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ![Preferences window](data/screenshots/pref.png)
 
-![Log file](data/screenshots/log.png)
+![Live Plot](data/screenshots/plot.png)
 
 ![Find the Baud Rate](data/screenshots/find_baud.png)
 
@@ -49,11 +49,9 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/tauno-monitor)
 
-Ubuntu users also must enable "Access USB hardware directly" on the Ubuntu Software Store:
+Snap users also must enable "Access USB hardware directly":
 
-![Ubuntu permissions](data/screenshots/ubuntu_access_usb_directly.png)
-
-Or from the command line:
+From the command line:
 
 ```bash
 snap connect tauno-monitor:raw-usb
