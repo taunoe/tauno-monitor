@@ -18,9 +18,10 @@
           <object class="AdwHeaderBar" id="header_bar">
 
             <child type="start">
-              <object class="GtkLabel" id="port_label">
-                <property name="margin-start">6</property>
-                <property name="label" translatable="yes">Port:</property>
+              <object class="GtkButton" id="port_icon">
+                <property name="margin-start">0</property>
+                <property name="icon-name">computer-chip-symbolic</property>
+                <property name="action-name"></property>
               </object>
             </child>
 
@@ -33,6 +34,7 @@
                     </items>
                   </object>
                 </property>
+                <property name="tooltip-text" translatable="yes">Port</property>
               </object>
             </child>
 
@@ -45,11 +47,13 @@
             </child>
 
             <child type="start">
-              <object class="GtkLabel" id="baud_label">
-                <property name="margin-start">18</property>
-                <property name="label" translatable="yes">Baud Rate:</property>
+              <object class="GtkButton" id="baud_rate_icon">
+                <property name="margin-start">0</property>
+                <property name="icon-name">speedometer-symbolic</property>
+                <property name="action-name"></property>
               </object>
             </child>
+
             <child type="start">
               <object class="GtkDropDown" id="baud_drop_down">
                 <property name="model">
@@ -64,13 +68,15 @@
                 <property name="expression">
                   <lookup type="GtkStringObject" name="string"></lookup>
                 </property>
+                <property name="tooltip-text" translatable="yes">Baud Rate</property>
               </object>
             </child>
 
             <child type="start">
-              <object class="GtkLabel" id="rx_line_end_label">
-                <property name="margin-start">18</property>
-                <property name="label" translatable="yes">Line end:</property>
+              <object class="GtkButton" id="line_end_icon">
+                <property name="margin-start">0</property>
+                <property name="icon-name">keyboard-enter-symbolic</property>
+                <property name="action-name"></property>
               </object>
             </child>
 
@@ -96,7 +102,7 @@
 
             <child type="start">
               <object class="GtkButton" id="open_button">
-                <property name="margin-start">18</property>
+                <property name="margin-start">0</property>
                 <property name="icon-name">play-large-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Open</property>
                 <property name="action-name">win.open</property>

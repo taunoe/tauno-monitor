@@ -4,7 +4,7 @@ base: core24
 version: '0.3.0'
 summary: The serial port monitor
 description:
-  Simple  serial port monitor for the GNOME desktop.
+  Simple  serial port monitor.
 
 grade: stable
 confinement: strict
