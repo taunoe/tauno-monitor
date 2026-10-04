@@ -150,11 +150,11 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.rx_format_dropdown.connect("notify::selected-item", self.rx_data_format_action)
         self.reset_data_format_button.connect("clicked", self.reset_data_format_button_action)
 
-        self.timestamp_switch.connect("state-set", self.timestamp_switch_action)
+        self.timestamp_switch.connect("notify::active", self.timestamp_switch_action)
         self.time_color_button.connect('notify::rgba', self.on_time_color_selected)
         self.reset_time_color_button.connect("clicked", self.reset_time_color_button_action)
 
-        self.arrow_switch.connect("state-set", self.arrow_switch_action)
+        self.arrow_switch.connect("notify::active", self.arrow_switch_action)
         self.arrow_color_button.connect('notify::rgba', self.on_arrow_color_selected)
         self.reset_arrow_color_button.connect("clicked", self.reset_arrow_color_button_action)
 
@@ -254,11 +254,8 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.rx_format_dropdown.set_selected(position=index)#TODO
 
 
-    def timestamp_switch_action(self, widget, state):
-        """ """
-        timestamp_state = state
-        # Save settings
-        self.settings.set_boolean("timestamp", timestamp_state)
+    def timestamp_switch_action(self, widget, _property):
+        self.settings.set_boolean("timestamp", widget.get_active())
 
 
     def on_time_color_selected(self, color_dialog_button, g_param_boxed):
@@ -279,11 +276,8 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.time_color_button.set_rgba(default_color)
 
 
-    def arrow_switch_action(self, widget, state):
-        """ Display "-->" ON/OFF"""
-        arrow_state = state
-        # Save settings
-        self.settings.set_boolean("arrow", arrow_state)
+    def arrow_switch_action(self, widget, _property):
+        self.settings.set_boolean("arrow", widget.get_active())
 
 
     def on_arrow_color_selected(self, color_dialog_button, g_param_boxed):
@@ -560,4 +554,3 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
             self.entry_buffer.set_text(self.log_folder_path, len(self.log_folder_path))
             # Update saved settings
             self.settings.set_string("log-folder", self.log_folder_path)
-
