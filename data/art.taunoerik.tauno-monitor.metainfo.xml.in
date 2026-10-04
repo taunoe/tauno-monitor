@@ -5,7 +5,7 @@
   <project_license>GPL-3.0-or-later</project_license>
   <name>Tauno Monitor</name>
   <developer_name>Tauno Erik</developer_name>
-  <summary>The serial port monitor for Arduino</summary>
+  <summary>Serial port monitor</summary>
   <description>
     <p>Features:</p>
     <ul>
@@ -20,7 +20,7 @@
     <p>Depending on your system you may need to add a user to dialout group to open serial ports:
       <code>
         sudo usermod -a -G dialout $USER
-      </code>>
+      </code>
     </p>
   </description>
   <launchable type="desktop-id">art.taunoerik.tauno-monitor.desktop</launchable>

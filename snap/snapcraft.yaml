@@ -2,17 +2,17 @@
 name: tauno-monitor
 base: core24
 version: '0.3.0'
-summary: The serial port monitor
+summary: Serial port monitor
 description:
-  Simple  serial port monitor.
+  Simple serial port monitor.
 
 grade: stable
 confinement: strict
 
 platforms:
-  - build-on: amd64
-  - build-on: arm64
-  - build-on: riscv64
+  amd64:
+  arm64:
+  riscv64:
 
 slots:
  # for GtkApplication registration
