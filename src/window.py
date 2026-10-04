@@ -633,6 +633,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         Update Text View
         """
         try:
+            self.insert_time_to_text_view()
+            self.insert_arrow_to_text_view('RX')
+
             # Show data as HEX
             if self.get_rx_format_saved == 'HEX':
                 self.insert_data_to_text_view(data, 'HEX')
@@ -642,20 +645,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 self.insert_data_to_text_view(data, 'OCT')
             # Show data as binary
             elif self.get_rx_format_saved == 'BIN':
-                # Timestamp
-                self.insert_time_to_text_view()
-                # Arrow
-                self.insert_arrow_to_text_view('RX')
                 # Binary
                 self.insert_data_to_text_view(data, 'BIN')
                 # Line end
                 self.insert_line_end_to_text_view('RX')
             # Show data as ASCII chars == Plain text
             else:
-                # Timestamp
-                self.insert_time_to_text_view()
-                # Arrow
-                self.insert_arrow_to_text_view('RX')
                 # data
                 self.insert_data_to_text_view(data, 'ASCII')
                 self.insert_line_end_to_text_view('RX')
@@ -676,33 +671,32 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         Types 'HEX', 'ASCII', 'TX'
         """
         self.text_buffer = self.input_text_view.get_buffer()
-        self.text_iter_end = self.text_buffer.get_end_iter()
         start_mark = self.text_buffer.create_mark('start_mark', self.text_buffer.get_end_iter(), True)
 
         if type == 'HEX':
-            self.text_buffer.insert(self.text_iter_end, data.hex())
-            self.text_buffer.insert(self.text_iter_end, ' ')
+            self.insert_text_at_end(data.hex())
+            self.insert_text_at_end(' ')
             self.logging.write_hex_data(data.hex())
             tag = self.tag_in
         elif type == 'BIN':
             for byte in data:
                 # Pad with leading zeros to show the full byte
                 binary_8 = format(byte, '08b')
-                self.text_buffer.insert(self.text_iter_end, binary_8)
+                self.insert_text_at_end(binary_8)
                 self.logging.write_data(binary_8)
             tag = self.tag_in
         elif type == 'OCT':
             for byte in data:
                 octal_str = format(byte, '03o')
-                self.text_buffer.insert(self.text_iter_end, octal_str)
-                self.text_buffer.insert(self.text_iter_end, ' ')
+                self.insert_text_at_end(octal_str)
+                self.insert_text_at_end(' ')
                 self.logging.write_hex_data(octal_str)
             tag = self.tag_in
         elif type == 'DEC':
             for byte in data:
                 octal_str = format(byte, '03d')
-                self.text_buffer.insert(self.text_iter_end, octal_str)
-                self.text_buffer.insert(self.text_iter_end, ' ')
+                self.insert_text_at_end(octal_str)
+                self.insert_text_at_end(' ')
                 self.logging.write_hex_data(octal_str)
             tag = self.tag_in
         elif type == 'ASCII':
@@ -721,6 +715,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         end_mark = self.text_buffer.create_mark('end_mark', self.text_buffer.get_end_iter(), True)
         if type not in ('ASCII', 'TX'):
             self.text_buffer.apply_tag(tag, self.text_buffer.get_iter_at_mark(start_mark), self.text_buffer.get_iter_at_mark(end_mark))
+        self.text_buffer.delete_mark(start_mark)
+        self.text_buffer.delete_mark(end_mark)
+
+
+    def insert_text_at_end(self, text):
+        self.text_buffer.insert(self.text_buffer.get_end_iter(), text)
 
 
     @staticmethod
@@ -831,13 +831,15 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             # start
             arrow_start_mark = self.text_buffer.create_mark('arrow_start_mark', self.text_buffer.get_end_iter(), True)
             # arrow
-            self.text_buffer.insert(self.text_iter_end, arrow)
+            self.insert_text_at_end(arrow)
             # end
             arrow_end_mark = self.text_buffer.create_mark('arrow_end_mark', self.text_buffer.get_end_iter(), True)
             # tag
             self.text_buffer.apply_tag(self.tag_arrow, self.text_buffer.get_iter_at_mark(arrow_start_mark), self.text_buffer.get_iter_at_mark(arrow_end_mark))
             # Log arrow
             self.logging.write_data(arrow)
+            self.text_buffer.delete_mark(arrow_start_mark)
+            self.text_buffer.delete_mark(arrow_end_mark)
 
 
     def insert_time_to_text_view(self):
@@ -855,13 +857,15 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             # Start
             time_start_mark = self.text_buffer.create_mark('time_start_mark', self.text_buffer.get_end_iter(), True)
             # Time
-            self.text_buffer.insert(self.text_iter_end, current_time)
+            self.insert_text_at_end(current_time)
             # End
             time_end_mark = self.text_buffer.create_mark('time_end_mark', self.text_buffer.get_end_iter(), True)
             # Tag
             self.text_buffer.apply_tag(self.tag_time, self.text_buffer.get_iter_at_mark(time_start_mark), self.text_buffer.get_iter_at_mark(time_end_mark))
             # Log
             self.logging.write_data(current_time)
+            self.text_buffer.delete_mark(time_start_mark)
+            self.text_buffer.delete_mark(time_end_mark)
 
 
     def insert_line_end_to_text_view(self, direction):
