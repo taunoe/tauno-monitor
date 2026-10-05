@@ -26,6 +26,7 @@ import codecs
 import time
 from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
+from .text_format import strip_ansi_escape_codes, tx_line_ending
 from .plot_data import SerialPlotData
 from .plot_window import TaunoPlotWindow
 from .guide import TaunoGuideWindow
@@ -726,7 +727,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     @staticmethod
     def strip_ansi_escape_codes(text):
         """Remove ANSI SGR sequences before writing received data to a log."""
-        return re.sub(r'\x1b\[[0-9;]*m', '', text)
+        return strip_ansi_escape_codes(text)
 
 
     def get_ansi_tag(self, foreground=None, bold=False):
@@ -965,18 +966,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """
         Write data to Serial port
         """
-        end = ''
-        index = self.get_TX_line_end_saved
-
-        if index == 0:
-            text_view_end = '\\n'
-            end = '\n'
-        elif index == 1:
-            end = '\r'
-        elif index == 2:
-            end = '\r\n'
-
-        data = data + end
+        data = data + tx_line_ending(self.get_TX_line_end_saved)
         if self.tauno_serial.is_open:
             self.tauno_serial.write(data)
         else:

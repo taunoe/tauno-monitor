@@ -33,21 +33,18 @@ class TaunoLogging():
         print("log:create_file()")
         self.log_file_path = file_path
 
-        allowed_dir = os.path.expanduser("~")
         real_path = os.path.realpath(file_path)
-
-        if not real_path.startswith(os.path.realpath(allowed_dir)):
-            raise ValueError("Path traversal attempt detected")
 
         # Sanitize filename
         filename = os.path.basename(file_path)
-        if ".." in filename or "/" in filename:
+        if filename in ("", ".", ".."):
             raise ValueError("Invalid filename")
 
         self.log_file_path = real_path
 
         try:
-            open(self.log_file_path, "x")
+            with open(self.log_file_path, "x"):
+                pass
             print(f"logfile:{self.log_file_path}")
             return True
         except Exception as e:
@@ -108,4 +105,3 @@ class TaunoLogging():
         if self.file_handle is not None:
             self.file_handle.close()
             self.file_handle = None
-

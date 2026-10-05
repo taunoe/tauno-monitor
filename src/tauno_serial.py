@@ -5,7 +5,7 @@
 
 import serial
 import serial.tools.list_ports
-from gi.repository import Adw, Gtk, Gio, GObject, GLib, Gdk
+from gi.repository import GLib
 
 class TaunoSerial():
 
@@ -148,5 +148,4 @@ class TaunoSerial():
 
         self.tauno_serial.write(data.encode('utf-8'))
         self.tauno_serial.flush()
-
 
