@@ -1,0 +1,33 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  meson:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build and test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            appstream \
+            desktop-file-utils \
+            gettext \
+            libglib2.0-bin \
+            libgtk-4-bin \
+            meson \
+            ninja-build \
+            python3-gi \
+            python3-serial
+      - name: Configure
+        run: meson setup build
+      - name: Build
+        run: meson compile -C build
+      - name: Test
+        run: meson test -C build --print-errorlogs

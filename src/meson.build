@@ -34,6 +34,7 @@ tauno_monitor_sources = [
   'plot_window.py',
   'tauno_serial.py',
   'tauno_logging.py',
+  'text_format.py',
   'guide.py',
   'preferences.py',
   'usb_db.py',
