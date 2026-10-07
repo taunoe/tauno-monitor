@@ -7,6 +7,8 @@ src/window.ui
 src/tauno_serial.py
 src/tauno_logging.py
 src/guide.ui
+src/gtk/help-overlay.ui
+src/plot_window.py
 src/preferences.py
 src/preferences.ui
 src/tool_baud.py
