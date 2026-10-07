@@ -69,7 +69,9 @@ class TaunoToolBaudWindow(Adw.Window):
         # Find best
         best = max(self.scores, key=lambda x: x[0])
         score, baud, lines = best
-        self.message_label.set_label(_(f"Best match: {baud} baud"))
+        self.message_label.set_label(
+            _("Best match: {baud} baud").format(baud=baud)
+        )
         print("\nBest match:")
         print(f"{baud} with {score} valid lines")
         # Print valid lines
@@ -86,7 +88,10 @@ class TaunoToolBaudWindow(Adw.Window):
 
 
     def try_baud_rate(self, port, baudrate, timeout=2.0):
-        GLib.idle_add(self.message_label.set_label, _(f"Trying {baudrate} baud..."))
+        GLib.idle_add(
+            self.message_label.set_label,
+            _("Trying {baudrate} baud...").format(baudrate=baudrate),
+        )
         print(f"Trying {baudrate} baud...")
 
         try:
