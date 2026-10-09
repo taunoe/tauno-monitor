@@ -2,10 +2,9 @@ import gettext
 
 import gi
 gi.require_version('Adw', '1')
-gi.require_version('Gdk', '4.0')
 gi.require_version('Gtk', '4.0')
 
-from gi.repository import Adw, Gdk, GLib, Gtk
+from gi.repository import Adw, GLib, Gtk
 from html import escape
 
 _ = gettext.gettext
@@ -22,8 +21,7 @@ class TaunoPlotWindow(Adw.ApplicationWindow):
         )
 
         self.plot_data = plot_data
-        self._refresh_pending = False
-        self._refresh_source_id = GLib.timeout_add(33, self.refresh_pending)
+        self._refresh_source_id = None
 
         root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         header = Adw.HeaderBar()
@@ -35,26 +33,19 @@ class TaunoPlotWindow(Adw.ApplicationWindow):
         header.pack_end(clear_button)
         root.append(header)
 
-        self.picture = Gtk.Picture()
-        self.picture.set_content_fit(Gtk.ContentFit.CONTAIN)
-        self.picture.set_hexpand(True)
-        self.picture.set_vexpand(True)
-        self.picture.set_margin_start(12)
-        self.picture.set_margin_end(12)
-        self.picture.set_margin_top(12)
-        self.picture.set_accessible_role(Gtk.AccessibleRole.IMG)
-        self.picture.update_property(
+        self.plot_area = Gtk.DrawingArea()
+        self.plot_area.set_hexpand(True)
+        self.plot_area.set_vexpand(True)
+        self.plot_area.set_margin_start(12)
+        self.plot_area.set_margin_end(12)
+        self.plot_area.set_margin_top(12)
+        self.plot_area.set_accessible_role(Gtk.AccessibleRole.IMG)
+        self.plot_area.update_property(
             [Gtk.AccessibleProperty.LABEL], [_("Live serial plot")]
         )
+        self.plot_area.set_draw_func(self.draw_plot)
 
-        value_label = Gtk.Label(label=_("Value"))
-        value_label.set_halign(Gtk.Align.CENTER)
-        root.append(value_label)
-        root.append(self.picture)
-
-        sample_label = Gtk.Label(label=_("Sample"))
-        sample_label.set_halign(Gtk.Align.CENTER)
-        root.append(sample_label)
+        root.append(self.plot_area)
 
         self.legend_label = Gtk.Label(xalign=0)
         self.legend_label.set_use_markup(True)
@@ -85,13 +76,13 @@ class TaunoPlotWindow(Adw.ApplicationWindow):
         return False
 
     def queue_refresh(self):
-        self._refresh_pending = True
+        if self._refresh_source_id is None:
+            self._refresh_source_id = GLib.timeout_add(16, self.refresh_pending)
 
     def refresh_pending(self):
-        if self._refresh_pending:
-            self._refresh_pending = False
-            self.refresh()
-        return True
+        self._refresh_source_id = None
+        self.refresh()
+        return False
 
     def refresh(self):
         series = self.plot_data.series
@@ -108,35 +99,9 @@ class TaunoPlotWindow(Adw.ApplicationWindow):
             for index, label in enumerate(series)
         ]
         self.legend_label.set_markup("    ".join(legend))
-        self.picture.set_paintable(self.render_texture())
+        self.plot_area.queue_draw()
 
-    @staticmethod
-    def _draw_line(pixels, width, height, x1, y1, x2, y2, color, thickness=1):
-        dx = abs(x2 - x1)
-        sx = 1 if x1 < x2 else -1
-        dy = -abs(y2 - y1)
-        sy = 1 if y1 < y2 else -1
-        error = dx + dy
-
-        while True:
-            radius = thickness // 2
-            for y in range(max(0, y1 - radius), min(height, y1 + radius + 1)):
-                for x in range(max(0, x1 - radius), min(width, x1 + radius + 1)):
-                    offset = (y * width + x) * 4
-                    pixels[offset:offset + 4] = color
-            if x1 == x2 and y1 == y2:
-                break
-            doubled_error = 2 * error
-            if doubled_error >= dy:
-                error += dy
-                x1 += sx
-            if doubled_error <= dx:
-                error += dx
-                y1 += sy
-
-    def render_texture(self):
-        width, height = 960, 500
-        pixels = bytearray(width * height * 4)
+    def draw_plot(self, area, context, width, height):
         series = [
             list(values)
             for values in self.plot_data.series.values()
@@ -146,39 +111,31 @@ class TaunoPlotWindow(Adw.ApplicationWindow):
         plot_width = max(1, width - left - right)
         plot_height = max(1, height - top - bottom)
         foreground = self.get_style_context().get_color()
-        grid_color = (
-            round(foreground.red * 255),
-            round(foreground.green * 255),
-            round(foreground.blue * 255),
-            52,
+        context.set_source_rgba(
+            foreground.red, foreground.green, foreground.blue, 0.2
         )
-        axis_color = (*grid_color[:3], 150)
-        series_colors = self._series_colors()
+        context.set_line_width(1)
 
         for tick in range(5):
-            y = top + plot_height * tick // 4
-            self._draw_line(
-                pixels, width, height, left, y, width - right, y, grid_color
-            )
-        self._draw_line(
-            pixels, width, height, left, top, left, top + plot_height, axis_color
-        )
-        self._draw_line(
-            pixels, width, height, left, top + plot_height,
-            width - right, top + plot_height, axis_color
-        )
+            y = top + plot_height * tick / 4
+            context.move_to(left, y)
+            context.line_to(width - right, y)
+        context.stroke()
 
+        context.set_source_rgba(
+            foreground.red, foreground.green, foreground.blue, 0.6
+        )
+        context.move_to(left, top)
+        context.line_to(left, top + plot_height)
+        context.line_to(width - right, top + plot_height)
+        context.stroke()
+
+        series_colors = self._series_colors()
         flat_values = [value for values in series for value in values]
         if flat_values:
             value_scale = max(1.0, abs(min(flat_values)), abs(max(flat_values)))
-            scaled_series = [
-                [value / value_scale for value in values] for values in series
-            ]
-            all_scaled_values = [
-                value for values in scaled_series for value in values
-            ]
-            minimum = min(all_scaled_values)
-            maximum = max(all_scaled_values)
+            minimum = min(flat_values) / value_scale
+            maximum = max(flat_values) / value_scale
             value_range = maximum - minimum
             padding = (
                 value_range * 0.05
@@ -188,40 +145,32 @@ class TaunoPlotWindow(Adw.ApplicationWindow):
             minimum -= padding
             maximum += padding
 
-            for series_index, values in enumerate(scaled_series):
-                points = []
+            for series_index, values in enumerate(series):
+                color = self._rgb_color(series_colors[series_index])
+                context.set_source_rgba(*(component / 255 for component in color))
+                context.set_line_width(2)
+
                 for index, value in enumerate(values):
-                    x = left + plot_width * index // max(1, len(values) - 1)
-                    y = top + round(
-                        plot_height * (maximum - value) / (maximum - minimum)
+                    x = left + plot_width * index / max(1, len(values) - 1)
+                    scaled_value = value / value_scale
+                    y = top + plot_height * (
+                        (maximum - scaled_value) / (maximum - minimum)
                     )
-                    points.append((x, y))
+                    if index == 0:
+                        context.move_to(x, y)
+                    else:
+                        context.line_to(x, y)
 
-                line_color = self._rgb_color(series_colors[series_index])
-                if len(points) == 1:
-                    self._draw_line(
-                        pixels,
-                        width,
-                        height,
-                        *points[0],
-                        *points[0],
-                        line_color,
-                        5,
+                if len(values) == 1:
+                    x = left
+                    y = top + plot_height * (
+                        (maximum - values[0] / value_scale)
+                        / (maximum - minimum)
                     )
+                    context.arc(x, y, 2.5, 0, 2 * 3.141592653589793)
+                    context.fill()
                 else:
-                    for start, end in zip(points, points[1:]):
-                        self._draw_line(
-                            pixels, width, height, *start, *end, line_color, 2
-                        )
-
-        texture_data = GLib.Bytes.new(pixels)
-        return Gdk.MemoryTexture.new(
-            width,
-            height,
-            Gdk.MemoryFormat.R8G8B8A8,
-            texture_data,
-            width * 4,
-        )
+                    context.stroke()
 
     @staticmethod
     def _series_colors():
