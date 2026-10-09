@@ -105,6 +105,14 @@ class TaunoSerialTests(unittest.TestCase):
         self.connection.write("x" * 1025)
         self.assertEqual(self.device.write.call_args.args[0], b"x" * 1024)
 
+    def test_write_preserves_raw_bytes(self):
+        self.connection.open("/dev/fake", 9600)
+
+        self.connection.write(b"\x00\xff\n")
+
+        self.device.write.assert_called_once_with(b"\x00\xff\n")
+        self.device.flush.assert_called_once_with()
+
     def test_write_does_nothing_when_port_is_closed(self):
         self.connection.write("hello")
 

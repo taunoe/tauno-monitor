@@ -137,8 +137,12 @@ class TaunoSerial():
             print("not open")
             return
 
-        # Sanitize control characters
-        data = ''.join(c for c in data if c.isprintable() or c in '\r\n\t')
+        if isinstance(data, str):
+            # Sanitize control characters in text input.
+            data = ''.join(c for c in data if c.isprintable() or c in '\r\n\t')
+            data = data.encode('utf-8')
+        elif not isinstance(data, bytes):
+            raise TypeError("Serial data must be text or bytes")
 
         # Limit length to prevent buffer overflow on device
         MAX_LENGTH = 1024
@@ -146,6 +150,5 @@ class TaunoSerial():
             print(f"Warning: Data truncated to {MAX_LENGTH} bytes")
             data = data[:MAX_LENGTH]
 
-        self.tauno_serial.write(data.encode('utf-8'))
+        self.tauno_serial.write(data)
         self.tauno_serial.flush()
-
