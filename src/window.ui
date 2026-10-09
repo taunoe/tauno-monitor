@@ -128,14 +128,6 @@
               </object>
             </child>
             <child type="end">
-              <object class="GtkButton" id="clear_button">
-                <property name="icon-name">larger-brush-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Clear screen</property>
-                <property name="action-name">win.clear</property>
-              </object>
-            </child>
-
-            <child type="end">
               <object class="GtkSwitch" id="log_switch">
                 <property name="tooltip-text" translatable="yes">Write logs to file</property>
                 <property name="action-name">win.log</property>
@@ -153,6 +145,18 @@
           </object>
         </child>
         <!-- TOP header end -->
+
+        <child type="bottom">
+          <object class="GtkActionBar">
+            <child type="end">
+              <object class="GtkButton" id="clear_button">
+                <property name="icon-name">larger-brush-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Clear screen</property>
+                <property name="action-name">win.clear</property>
+              </object>
+            </child>
+          </object>
+        </child>
 
         <property name="content">
           <object class="AdwOverlaySplitView" id="split_view" >
@@ -475,6 +479,18 @@
                     <child>
                       <object class="GtkBox">
                         <property name="orientation">horizontal</property>
+
+                          <child type="start">
+                            <object class="GtkDropDown" id="tx_format_dropdown">
+                              <property name="tooltip-text" translatable="yes">Transmit data format</property>
+                              <property name="hexpand">False</property>
+                              <property name="halign">start</property>
+                              <property name="margin-start">6</property>
+                              <property name="margin-top">6</property>
+                              <property name="width-request">72</property>
+                            </object>
+                          </child>
+
                           <child type="start">
                             <object class="GtkEntry" id="send_cmd_entry">
                             <property name="width_chars">60</property>
@@ -486,6 +502,8 @@
                             <property name="placeholder-text" translatable="yes">Enter cmd</property>
                           </object>
                         </child>
+
+
 
                         <child>
                           <object class="GtkDropDown" id="ui_tx_end">

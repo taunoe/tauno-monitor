@@ -26,7 +26,7 @@ import codecs
 import time
 from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
-from .text_format import strip_ansi_escape_codes, tx_line_ending
+from .text_format import encode_tx_data, strip_ansi_escape_codes, tx_line_ending
 from .plot_data import SerialPlotData
 from .plot_window import TaunoPlotWindow
 from .guide import TaunoGuideWindow
@@ -49,6 +49,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     log_switch = Gtk.Template.Child()
     log_icon = Gtk.Template.Child()
     send_cmd_entry = Gtk.Template.Child()
+    tx_format_dropdown = Gtk.Template.Child()
     rx_line_end_label_drop_down = Gtk.Template.Child()
     rx_line_end_label_drop_down_list = Gtk.Template.Child()
     ui_tx_end = Gtk.Template.Child()
@@ -125,6 +126,16 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         self.serial_tx_line_endings = ['\\n', '\\r', '\\r\\n', ';', 'None']
         self.serial_rx_line_endings = ['\\n', '\\r', '\\r\\n', ';', 'None']
+
+        self.serial_tx_data_formats = ['ASCII', 'HEX', 'BIN', 'DEC', 'OCT']
+        self.tx_format_dropdown.set_model(Gtk.StringList.new(self.serial_tx_data_formats))
+        self.get_tx_format_saved = self.settings.get_string("saved-serial-tx-data-format")
+        if self.get_tx_format_saved not in self.serial_tx_data_formats:
+            self.get_tx_format_saved = 'ASCII'
+        self.tx_format_dropdown.set_selected(
+            self.serial_tx_data_formats.index(self.get_tx_format_saved))
+        self.tx_format_dropdown.connect(
+            "notify::selected-item", self.on_ui_tx_format_changed)
 
         tx_end_model = Gtk.StringList.new(self.serial_tx_line_endings)
         self.ui_tx_end.set_model(tx_end_model)
@@ -934,8 +945,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """
         cmd_buffer = self.send_cmd_entry.get_buffer()
         data = cmd_buffer.get_text()
-        self.send_to_serial(data)
-        cmd_buffer.delete_text(0, len(data))
+        if self.send_to_serial(data):
+            cmd_buffer.delete_text(0, len(data))
 
 
     def on_key_enter_pressed(self, entry):
@@ -944,7 +955,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """
         cmd_buffer = self.send_cmd_entry.get_buffer()
         data = cmd_buffer.get_text()
-        self.send_to_serial(data)
+        if not self.send_to_serial(data):
+            return
 
         # Ad to history
         cmd = data.strip()
@@ -966,16 +978,27 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """
         Write data to Serial port
         """
-        data = data + tx_line_ending(self.get_TX_line_end_saved)
+        try:
+            payload = encode_tx_data(data, self.get_tx_format_saved)
+        except ValueError as error:
+            self.notify(str(error))
+            return False
+
+        line_ending = tx_line_ending(self.get_TX_line_end_saved)
+        payload += line_ending.encode('ascii')
         if self.tauno_serial.is_open:
-            self.tauno_serial.write(data)
+            if self.get_tx_format_saved == 'ASCII':
+                self.tauno_serial.write(data + line_ending)
+            else:
+                self.tauno_serial.write(payload)
         else:
             print("Send cmd: Serial is not Open")
 
         self.insert_time_to_text_view()
         self.insert_arrow_to_text_view('TX')
-        self.insert_data_to_text_view(data, 'TX')
+        self.insert_data_to_text_view(data + line_ending, 'TX')
         self.insert_line_end_to_text_view('TX')
+        return True
 
 
     def notify(self, message):
@@ -1129,6 +1152,16 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.settings.set_int("saved-serial-tx-line-end-index", index)
             # Reload setting
             self.get_TX_line_end_saved = self.settings.get_int("saved-serial-tx-line-end-index")
+
+
+    def on_ui_tx_format_changed(self, drop_down, _):
+        selected_item = drop_down.get_selected_item()
+        if selected_item is None:
+            return
+        data_format = selected_item.get_string()
+        if data_format != self.get_tx_format_saved:
+            self.settings.set_string("saved-serial-tx-data-format", data_format)
+            self.get_tx_format_saved = data_format
 
 
     def on_ui_rx_end_changed(self, drop_down, g_param_object):
