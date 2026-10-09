@@ -16,7 +16,7 @@
       <object class="AdwToolbarView">
         <child type="top">
           <object class="AdwHeaderBar" id="header_bar">
-
+<!--
             <child type="start">
               <object class="GtkButton" id="port_icon">
                 <property name="margin-start">0</property>
@@ -24,7 +24,7 @@
                 <property name="action-name"></property>
               </object>
             </child>
-
+//-->
             <child type="start">
               <object class="GtkDropDown" id="port_drop_down">
                 <property name="model">
@@ -45,7 +45,7 @@
                 <property name="action-name">win.update</property>
               </object>
             </child>
-
+<!--
             <child type="start">
               <object class="GtkButton" id="baud_rate_icon">
                 <property name="margin-start">0</property>
@@ -53,7 +53,7 @@
                 <property name="action-name"></property>
               </object>
             </child>
-
+//-->
             <child type="start">
               <object class="GtkDropDown" id="baud_drop_down">
                 <property name="model">
@@ -71,7 +71,7 @@
                 <property name="tooltip-text" translatable="yes">Baud Rate</property>
               </object>
             </child>
-
+<!--
             <child type="start">
               <object class="GtkButton" id="line_end_icon">
                 <property name="margin-start">0</property>
@@ -79,7 +79,7 @@
                 <property name="action-name"></property>
               </object>
             </child>
-
+//-->
             <child type="start">
               <object class="GtkDropDown" id="rx_line_end_label_drop_down">
                 <property name="model">
@@ -148,6 +148,30 @@
 
         <child type="bottom">
           <object class="GtkActionBar">
+            <child type="start">
+              <object class="GtkToggleButton" id="timestamp_button">
+                <property name="icon-name">stopwatch-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Show Timestamp</property>
+              </object>
+            </child>
+            <child type="start">
+              <object class="GtkToggleButton" id="arrow_button">
+                <property name="icon-name">arrow1-right-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Show Arrow</property>
+              </object>
+            </child>
+            <child type="start">
+              <object class="GtkDropDown" id="rx_format_dropdown">
+                <property name="tooltip-text" translatable="yes">RX data format</property>
+                <property name="width-request">84</property>
+              </object>
+            </child>
+            <child type="start">
+              <object class="GtkToggleButton" id="line_endings_button">
+                <property name="icon-name">keyboard-enter-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Show Line Endings</property>
+              </object>
+            </child>
             <child type="end">
               <object class="GtkButton" id="clear_button">
                 <property name="icon-name">larger-brush-symbolic</property>

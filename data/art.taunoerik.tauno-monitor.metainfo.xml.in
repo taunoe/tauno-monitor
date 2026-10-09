@@ -54,6 +54,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.3.2" date="2026-10-09">
+      <description>
+        <ul>
+          <li>Added selectable TX data formats and bottom-toolbar display controls.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.3.1" date="2026-10-07">
       <description>
         <ul>

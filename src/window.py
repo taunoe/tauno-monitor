@@ -45,11 +45,15 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     input_text_view = Gtk.Template.Child()
     open_button = Gtk.Template.Child()
     send_button = Gtk.Template.Child()
+    timestamp_button = Gtk.Template.Child()
+    arrow_button = Gtk.Template.Child()
+    line_endings_button = Gtk.Template.Child()
     clear_button = Gtk.Template.Child()
     log_switch = Gtk.Template.Child()
     log_icon = Gtk.Template.Child()
     send_cmd_entry = Gtk.Template.Child()
     tx_format_dropdown = Gtk.Template.Child()
+    rx_format_dropdown = Gtk.Template.Child()
     rx_line_end_label_drop_down = Gtk.Template.Child()
     rx_line_end_label_drop_down_list = Gtk.Template.Child()
     ui_tx_end = Gtk.Template.Child()
@@ -101,6 +105,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                             Gio.SettingsBindFlags.DEFAULT)
         self.settings.bind("window-maximized", self, "maximized",
                             Gio.SettingsBindFlags.DEFAULT)
+        self.settings.bind("timestamp", self.timestamp_button, "active",
+                            Gio.SettingsBindFlags.DEFAULT)
+        self.settings.bind("arrow", self.arrow_button, "active",
+                            Gio.SettingsBindFlags.DEFAULT)
+        self.settings.bind("show-line-end", self.line_endings_button, "active",
+                            Gio.SettingsBindFlags.DEFAULT)
 
         self.COMMON_BAUD_RATES = [50, 75, 110, 134, 150, 200, 300, 600, 750,
             1200, 1800, 2400, 4800, 7200, 9600, 14400, 19200, 28800, 31250,
@@ -145,6 +155,15 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Get saved Serial RX data format
         self.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
+        self.serial_rx_data_formats = ['ASCII', 'HEX', 'BIN', 'DEC', 'OCT']
+        if self.get_rx_format_saved not in self.serial_rx_data_formats:
+            self.get_rx_format_saved = 'ASCII'
+        self.rx_format_dropdown.set_model(
+            Gtk.StringList.new(self.serial_rx_data_formats))
+        self.rx_format_dropdown.set_selected(
+            self.serial_rx_data_formats.index(self.get_rx_format_saved))
+        self.rx_format_dropdown.connect(
+            "notify::selected-item", self.on_ui_rx_format_changed)
 
         # Get saved data bit index
         self.get_data_bit_saved = self.settings.get_int("saved-serial-data-bit-index")
@@ -1162,6 +1181,29 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         if data_format != self.get_tx_format_saved:
             self.settings.set_string("saved-serial-tx-data-format", data_format)
             self.get_tx_format_saved = data_format
+
+
+    def on_ui_rx_format_changed(self, drop_down, _):
+        selected_item = drop_down.get_selected_item()
+        if selected_item is None:
+            return
+        self.set_rx_data_format(
+            selected_item.get_string(), drop_down.get_selected())
+
+
+    def set_rx_data_format(self, data_format, index):
+        if data_format == self.get_rx_format_saved:
+            return
+
+        self.settings.set_string("saved-serial-rx-data-format", data_format)
+        self.settings.set_int("saved-serial-rx-data-format-index", index)
+        self.get_rx_format_saved = data_format
+        self.rx_format_dropdown.set_selected(index)
+
+        if data_format != 'HEX':
+            self.insert_data_to_text_view(b'\n', 'ASCII')
+            self.logging.hex_counter = 0
+            self.logging.write_data('')
 
 
     def on_ui_rx_end_changed(self, drop_down, g_param_object):
