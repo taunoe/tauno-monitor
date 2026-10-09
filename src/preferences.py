@@ -225,19 +225,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         index = drop_down.get_selected()
         new_format = string_object.get_string()
         print(f'Position: {index} - value: {string_object.get_string()}')
-        # save settings
-        self.settings.set_string("saved-serial-rx-data-format", new_format)
-        self.settings.set_int("saved-serial-rx-data-format-index", index)
-        # update pos
-        self.win.get_rx_format_saved = self.settings.get_string("saved-serial-rx-data-format")
-
-        # End the HEX data block with a newline when starting ASCII
-        if self.win.get_rx_format_saved != 'HEX':
-            #print("HEX --> ASCII")
-            data = '\n'
-            self.win.insert_data_to_text_view(data.encode(), 'ASCII')
-            self.win.logging.hex_counter = 0;
-            self.win.logging.write_data('')
+        self.win.set_rx_data_format(new_format, index)
 
 
     def reset_data_format_button_action(self, widget):
@@ -246,12 +234,9 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         # Get deffault
         default = self.settings.get_string("default-serial-rx-data-format")
         print(f"default:{default}")
-        # Save setting
-        self.settings.set_string("saved-serial-rx-data-format", default)
-        # Reload UI
         index = self.serial_data_formats.index(default)
         print(f"index:{index}")
-        self.rx_format_dropdown.set_selected(position=index)#TODO
+        self.rx_format_dropdown.set_selected(position=index)
 
 
     def timestamp_switch_action(self, widget, _property):

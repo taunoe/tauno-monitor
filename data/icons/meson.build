@@ -28,6 +28,8 @@ action_icons = [
   join_paths(action_dir, 'keyboard-enter-symbolic.svg'),
   join_paths(action_dir, 'speedometer-symbolic.svg'),
   join_paths(action_dir, 'computer-chip-symbolic.svg'),
+  join_paths(action_dir, 'stopwatch-symbolic.svg'),
+  join_paths(action_dir, 'arrow1-right-symbolic.svg'),
   ]
 install_data(
   action_icons,
