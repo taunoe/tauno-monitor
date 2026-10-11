@@ -192,6 +192,20 @@
                 <property name="tooltip-text" translatable="yes">Show Line Endings</property>
               </object>
             </child>
+            <child type="start">
+              <object class="GtkEntry" id="search_entry">
+                <property name="placeholder-text" translatable="yes">Find in data</property>
+                <property name="tooltip-text" translatable="yes">Text to highlight in the text view</property>
+                <property name="width-chars">10</property>
+                <property name="margin-start">20</property>
+              </object>
+            </child>
+            <child type="start">
+              <object class="GtkToggleButton" id="search_toggle">
+                <property name="icon-name">eye-open-negative-filled-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Highlight matching text</property>
+              </object>
+            </child>
             <child type="end">
               <object class="GtkButton" id="clear_button">
                 <property name="icon-name">larger-brush-symbolic</property>
