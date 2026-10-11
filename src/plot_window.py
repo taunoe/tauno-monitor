@@ -1,37 +1,23 @@
 import gettext
 
 import gi
-gi.require_version('Adw', '1')
 gi.require_version('Gtk', '4.0')
 
-from gi.repository import Adw, GLib, Gtk
+from gi.repository import GLib, Gtk
 from html import escape
 
 _ = gettext.gettext
 
 
-class TaunoPlotWindow(Adw.ApplicationWindow):
-    def __init__(self, parent, plot_data):
-        super().__init__(
-            application=parent.get_application(),
-            transient_for=parent,
-            title=_("Live Plot"),
-            default_width=800,
-            default_height=500,
-        )
-
+class TaunoPlotView(Gtk.Box):
+    def __init__(self, plot_data):
+        super().__init__(orientation=Gtk.Orientation.VERTICAL)
         self.plot_data = plot_data
         self._refresh_source_id = None
 
-        root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        header = Adw.HeaderBar()
-        header.set_title_widget(Gtk.Label(label=_("Live Plot")))
-
-        clear_button = Gtk.Button.new_from_icon_name("edit-clear-symbolic")
-        clear_button.set_tooltip_text(_("Clear plot"))
-        clear_button.connect("clicked", self.on_clear_clicked)
-        header.pack_end(clear_button)
-        root.append(header)
+        title = Gtk.Label(label=_("Live Plot"), xalign=0)
+        title.set_margin_start(6)
+        self.append(title)
 
         self.plot_area = Gtk.DrawingArea()
         self.plot_area.set_hexpand(True)
@@ -45,35 +31,25 @@ class TaunoPlotWindow(Adw.ApplicationWindow):
         )
         self.plot_area.set_draw_func(self.draw_plot)
 
-        root.append(self.plot_area)
+        self.append(self.plot_area)
 
         self.legend_label = Gtk.Label(xalign=0)
         self.legend_label.set_use_markup(True)
         self.legend_label.set_wrap(True)
         self.legend_label.set_margin_start(12)
         self.legend_label.set_margin_end(12)
-        root.append(self.legend_label)
+        self.append(self.legend_label)
 
         self.status_label = Gtk.Label(xalign=1)
         self.status_label.set_margin_start(12)
         self.status_label.set_margin_end(12)
         self.status_label.set_margin_top(6)
         self.status_label.set_margin_bottom(12)
-        root.append(self.status_label)
+        self.append(self.status_label)
 
-        self.set_content(root)
-        self.connect("close-request", self.on_close_request)
+        self.set_hexpand(True)
+        self.set_vexpand(True)
         self.refresh()
-
-    def on_clear_clicked(self, button):
-        self.plot_data.clear()
-        self.refresh()
-
-    def on_close_request(self, window):
-        if self._refresh_source_id is not None:
-            GLib.source_remove(self._refresh_source_id)
-            self._refresh_source_id = None
-        return False
 
     def queue_refresh(self):
         if self._refresh_source_id is None:

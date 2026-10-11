@@ -9,7 +9,7 @@
     <child>
       <object class="AdwBreakpoint">
         <condition>max-width: 420sp</condition>
-        <setter object="split_view" property="collapsed">True</setter>
+        <setter object="show_sidebar_button" property="active">False</setter>
       </object>
     </child>
     <property name="content">
@@ -112,6 +112,25 @@
               </object>
             </child>
 
+            <child type="start">
+              <object class="GtkMenuButton">
+                <property name="icon-name">computer-chip-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Device info</property>
+                <property name="popover">
+                  <object class="GtkPopover" id="device_info_popover">
+                    <property name="child">
+                      <object class="GtkScrolledWindow" id="device_info_scroller">
+                        <property name="width-request">360</property>
+                        <property name="max-content-width">480</property>
+                        <property name="max-content-height">600</property>
+                        <property name="propagate-natural-height">True</property>
+                      </object>
+                    </property>
+                  </object>
+                </property>
+              </object>
+            </child>
+
             <child type="end">
               <object class="GtkMenuButton">
                 <property name="primary">True</property>
@@ -120,10 +139,11 @@
                 <property name="menu-model">primary_menu</property>
               </object>
             </child>
+
             <child type="end">
               <object class="GtkToggleButton" id="show_sidebar_button">
                 <property name="icon-name">dock-right-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Device info</property>
+                <property name="tooltip-text" translatable="yes">Sidebar</property>
                 <property name="active">False</property>
               </object>
             </child>
@@ -183,25 +203,32 @@
         </child>
 
         <property name="content">
-          <object class="AdwOverlaySplitView" id="split_view" >
-            <property name="sidebar-position">GTK_PACK_END</property>
-            <property name="show-sidebar"
-                    bind-source="show_sidebar_button"
-                    bind-property="active"
-                    bind-flags="sync-create|bidirectional"
-                    />
-            <property name="max-sidebar-width">234</property>
-            <property name="sidebar-width-fraction">0.25</property>
-            <property name="sidebar-width-unit">px</property>
-            <property name="sidebar">
+          <object class="GtkPaned" id="split_view">
+            <property name="orientation">horizontal</property>
+            <property name="position">800</property>
+            <property name="resize-start-child">True</property>
+            <property name="resize-end-child">True</property>
+            <property name="wide-handle">True</property>
+            <child type="end">
 
               <!-- Utility Sidebar pane -->
-              <object class="GtkBox">
+              <object class="GtkBox" id="sidebar_panel">
                 <property name="orientation">vertical</property>
                 <property name="margin-top">12</property>
                 <property name="margin-bottom">12</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">12</property>
+                <property name="visible"
+                          bind-source="show_sidebar_button"
+                          bind-property="active"
+                          bind-flags="sync-create|bidirectional"/>
+                <child>
+                  <object class="GtkBox" id="plot_view_container">
+                    <property name="orientation">vertical</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                  </object>
+                </child>
                 <child>
                   <object class="GtkGrid" id="device_info_grid">
                     <property name="row-spacing">6</property>
@@ -485,9 +512,9 @@
                 </child>
               </object>
 
-            </property>
+            </child>
 
-            <property name="content">
+            <child type="start">
               <object class="GtkOverlay" id="overlay">
                 <child type="overlay">
                   <object class="AdwBanner" id="banner_no_ports">
@@ -593,7 +620,7 @@
                </object>
               </child>
             </object>
-          </property>
+            </child>
 
           </object>
         </property>
@@ -616,10 +643,6 @@
       <item>
         <attribute name="label" translatable="yes">_Find Baud Rate</attribute>
         <attribute name="action">win.tool_baud</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Live Plot</attribute>
-        <attribute name="action">win.plot</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>

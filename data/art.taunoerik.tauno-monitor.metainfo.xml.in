@@ -15,7 +15,7 @@
         <li>Automatically reconnects to the serial port if the connection is lost</li>
         <li>Can log data to a file</li>
         <li>Displays data in different formats: ASCII, BIN, OCT or DEC</li>
-        <li>Plots labeled numeric values from comma-separated serial data in a separate live graph window</li>
+        <li>Plots labeled numeric values from comma-separated serial data in a live sidebar graph</li>
         <li>Can open multiple instances</li>
     </ul>
     <p>Depending on your system you may need to add a user to dialout group to open serial ports:
@@ -54,6 +54,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.3.3" date="2026-10-11">
+      <description>
+        <ul>
+          <li>Moved Live Plot into the resizable sidebar and added device information to a toolbar popover.</li>
+          <li>Clear screen now also clears plotted data.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.3.2" date="2026-10-09">
       <description>
         <ul>
