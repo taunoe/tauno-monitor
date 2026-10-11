@@ -28,7 +28,7 @@ from .tauno_serial import TaunoSerial
 from .tauno_logging import TaunoLogging
 from .text_format import encode_tx_data, strip_ansi_escape_codes, tx_line_ending
 from .plot_data import SerialPlotData
-from .plot_window import TaunoPlotWindow
+from .plot_window import TaunoPlotView
 from .guide import TaunoGuideWindow
 from .tool_baud import TaunoToolBaudWindow
 import gettext, locale, os, random, string
@@ -66,6 +66,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     banner_no_ports = Gtk.Template.Child()
     # Sidebar
     show_sidebar_button = Gtk.Template.Child()
+    plot_view_container = Gtk.Template.Child()
+    device_info_grid = Gtk.Template.Child()
+    device_info_scroller = Gtk.Template.Child()
     info_port_value = Gtk.Template.Child()
     info_baud_value = Gtk.Template.Child()
     info_Name = Gtk.Template.Child()
@@ -85,6 +88,10 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        info_grid_parent = self.device_info_grid.get_parent()
+        info_grid_parent.remove(self.device_info_grid)
+        self.device_info_scroller.set_child(self.device_info_grid)
+
         # # The default language of the operating system will be used.
         localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
         locale.setlocale(locale.LC_ALL, '')
@@ -96,7 +103,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         self.settings = Gio.Settings(schema_id=APP_ID)
         self.plot_data = SerialPlotData()
-        self.plot_window = None
+        self.plot_view = TaunoPlotView(self.plot_data)
+        self.plot_view_container.append(self.plot_view)
 
         # Get saved settings from gschema.xml
         self.settings.bind("window-width", self, "default-width",
@@ -204,9 +212,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Menu Button Tool Baud
         self.create_action('tool_baud', self.on_btn_tool_baud)
-
-        # Live plot window
-        self.create_action('plot', self.on_plot)
 
         # Button clear textview
         self.create_action('clear', self.on_btn_clear_textview)
@@ -323,24 +328,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         print("Window is being closed")
         if self.log_file_exist:
                 self.logging.close_file()
-        if self.plot_window is not None:
-            self.plot_window.close()
         return False  # allow closing
-
-
-    def on_plot(self, action, _):
-        if self.plot_window is None:
-            self.plot_window = TaunoPlotWindow(self, self.plot_data)
-            self.plot_window.connect(
-                "close-request", self.on_plot_window_close_request
-            )
-        self.plot_window.present()
-
-
-    def on_plot_window_close_request(self, window):
-        if self.plot_window is window:
-            self.plot_window = None
-        return False
 
 
     def create_action(self, name, function, shortcuts=None):
@@ -554,6 +542,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.text_iter_start = self.text_buffer.get_start_iter()
         self.text_iter_end = self.text_buffer.get_end_iter()
         self.text_buffer.delete(self.text_iter_start, self.text_iter_end)
+        self.plot_data.clear()
+        self.plot_view.refresh()
 
 
     def on_btn_open(self, action, _):
@@ -689,8 +679,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             # Scroll text view
             self.input_text_view.scroll_to_mark(self.text_mark_end, 0, False, 0, 0)
             plot_updated = self.plot_data.feed(data)
-            if plot_updated and self.plot_window is not None:
-                self.plot_window.queue_refresh()
+            if plot_updated:
+                self.plot_view.queue_refresh()
         except Exception as ex:
             print("add_to_text_view error:", ex)
             return
