@@ -52,6 +52,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     log_switch = Gtk.Template.Child()
     log_icon = Gtk.Template.Child()
     send_cmd_entry = Gtk.Template.Child()
+    search_entry = Gtk.Template.Child()
+    search_toggle = Gtk.Template.Child()
     tx_format_dropdown = Gtk.Template.Child()
     rx_format_dropdown = Gtk.Template.Child()
     rx_line_end_label_drop_down = Gtk.Template.Child()
@@ -254,6 +256,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         line_end_color = self.settings.get_string("saved-show-line-end-color")
         self.tag_line_end = self.text_buffer.create_tag('line_end', foreground=line_end_color)
+        self.search_highlight_tag = self.text_buffer.create_tag(
+            'search-highlight', background='#f9f06b')
+        self.search_update_source = 0
+        self.text_buffer.connect('changed', self.on_text_buffer_changed)
+        self.search_entry.connect('changed', self.on_search_changed)
+        self.search_toggle.connect('toggled', self.on_search_toggled)
         self.ansi_tags = {}
 
         self.prev_char = '\n'  # store prev char
@@ -544,6 +552,53 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.text_buffer.delete(self.text_iter_start, self.text_iter_end)
         self.plot_data.clear()
         self.plot_view.refresh()
+
+
+    def on_text_buffer_changed(self, _buffer):
+        """Schedule one highlight refresh after a batch of text insertions."""
+        if (not self.search_toggle.get_active()
+                or not self.search_entry.get_text()):
+            return
+        self.schedule_search_highlight_update()
+
+
+    def on_search_changed(self, _entry):
+        self.schedule_search_highlight_update()
+
+
+    def on_search_toggled(self, _button):
+        self.schedule_search_highlight_update()
+
+
+    def schedule_search_highlight_update(self):
+        if self.search_update_source == 0:
+            self.search_update_source = GLib.idle_add(self.update_search_highlights)
+
+
+    def update_search_highlights(self):
+        """Highlight every case-insensitive literal match in the text buffer."""
+        self.search_update_source = 0
+        start = self.text_buffer.get_start_iter()
+        end = self.text_buffer.get_end_iter()
+        self.text_buffer.remove_tag(self.search_highlight_tag, start, end)
+
+        query = self.search_entry.get_text()
+        if not self.search_toggle.get_active() or not query:
+            return GLib.SOURCE_REMOVE
+
+        start = self.text_buffer.get_start_iter()
+        end = self.text_buffer.get_end_iter()
+        while True:
+            match = start.forward_search(
+                query, Gtk.TextSearchFlags.CASE_INSENSITIVE, end)
+            if match is None:
+                break
+            match_start, match_end = match
+            self.text_buffer.apply_tag(
+                self.search_highlight_tag, match_start, match_end)
+            start = match_end
+
+        return GLib.SOURCE_REMOVE
 
 
     def on_btn_open(self, action, _):

@@ -30,6 +30,7 @@ action_icons = [
   join_paths(action_dir, 'computer-chip-symbolic.svg'),
   join_paths(action_dir, 'stopwatch-symbolic.svg'),
   join_paths(action_dir, 'arrow1-right-symbolic.svg'),
+  join_paths(action_dir, 'eye-open-negative-filled-symbolic.svg'),
   ]
 install_data(
   action_icons,
