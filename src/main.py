@@ -29,7 +29,7 @@ from .preferences import TaunoPreferencesWindow
 import os
 import gettext, locale
 
-APP_VERSION = '0.3.3'
+APP_VERSION = '0.3.4'
 APP_ID = 'art.taunoerik.tauno-monitor'
 
 TRANSLATORS = [

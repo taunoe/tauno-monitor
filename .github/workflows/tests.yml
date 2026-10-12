@@ -25,6 +25,8 @@ jobs:
             meson \
             ninja-build \
             python3-gi \
+            python3-gi-cairo \
+            python3-matplotlib \
             python3-serial
       - name: Configure
         run: meson setup build

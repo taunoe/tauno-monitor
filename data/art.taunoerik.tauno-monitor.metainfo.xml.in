@@ -54,6 +54,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.3.4" date="2026-10-12">
+      <description>
+        <ul>
+          <li>Replaced the live plot renderer with Matplotlib and added light/dark themes.</li>
+          <li>Added a visible-sample slider for the live plot.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.3.3" date="2026-10-11">
       <description>
         <ul>

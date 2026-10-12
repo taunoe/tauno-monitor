@@ -1,10 +1,14 @@
 import gettext
 
 import gi
+gi.require_version('Adw', '1')
 gi.require_version('Gtk', '4.0')
 
-from gi.repository import GLib, Gtk
+from gi.repository import Adw, GLib, Gtk
 from html import escape
+from matplotlib.backends.backend_gtk4agg import FigureCanvasGTK4Agg
+from matplotlib.figure import Figure
+from .plot_chart import series_colors, update_axes
 
 _ = gettext.gettext
 
@@ -14,24 +18,50 @@ class TaunoPlotView(Gtk.Box):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
         self.plot_data = plot_data
         self._refresh_source_id = None
+        self._visible_samples = 100
 
-        title = Gtk.Label(label=_("Live Plot"), xalign=0)
-        title.set_margin_start(6)
-        self.append(title)
+        controls = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL, spacing=12
+        )
+        controls.set_margin_start(12)
+        controls.set_margin_end(12)
+        controls.set_margin_bottom(6)
+        self.append(controls)
 
-        self.plot_area = Gtk.DrawingArea()
-        self.plot_area.set_hexpand(True)
-        self.plot_area.set_vexpand(True)
-        self.plot_area.set_margin_start(12)
-        self.plot_area.set_margin_end(12)
-        self.plot_area.set_margin_top(12)
-        self.plot_area.set_accessible_role(Gtk.AccessibleRole.IMG)
-        self.plot_area.update_property(
+        visible_samples_label = Gtk.Label(label=_("Visible samples"), xalign=0)
+        controls.append(visible_samples_label)
+
+        self.visible_samples_scale = Gtk.Scale.new_with_range(
+            Gtk.Orientation.HORIZONTAL, 0, 800, 1
+        )
+        self.visible_samples_scale.set_hexpand(True)
+        self.visible_samples_scale.set_digits(0)
+        self.visible_samples_scale.set_draw_value(True)
+        self.visible_samples_scale.set_value(self._visible_samples)
+        self.visible_samples_scale.set_tooltip_text(
+            _("Choose how many recent samples to show; 0 shows all retained samples.")
+        )
+        self.visible_samples_scale.update_property(
+            [Gtk.AccessibleProperty.LABEL], [_("Visible samples")]
+        )
+        self.visible_samples_scale.connect(
+            "value-changed", self._on_visible_samples_changed
+        )
+        controls.append(self.visible_samples_scale)
+
+        self.figure = Figure(figsize=(3.2, 2.4))
+        self.axes = self.figure.add_subplot(111)
+        self.canvas = FigureCanvasGTK4Agg(self.figure)
+        self.canvas.set_hexpand(True)
+        self.canvas.set_vexpand(True)
+        self.canvas.set_margin_start(12)
+        self.canvas.set_margin_end(12)
+        self.canvas.set_margin_top(12)
+        self.canvas.set_accessible_role(Gtk.AccessibleRole.IMG)
+        self.canvas.update_property(
             [Gtk.AccessibleProperty.LABEL], [_("Live serial plot")]
         )
-        self.plot_area.set_draw_func(self.draw_plot)
-
-        self.append(self.plot_area)
+        self.append(self.canvas)
 
         self.legend_label = Gtk.Label(xalign=0)
         self.legend_label.set_use_markup(True)
@@ -49,6 +79,10 @@ class TaunoPlotView(Gtk.Box):
 
         self.set_hexpand(True)
         self.set_vexpand(True)
+        self._style_manager = Adw.StyleManager.get_default()
+        self._style_manager.connect_object(
+            "notify::dark", self._on_theme_changed, self
+        )
         self.refresh()
 
     def queue_refresh(self):
@@ -60,6 +94,13 @@ class TaunoPlotView(Gtk.Box):
         self.refresh()
         return False
 
+    def _on_theme_changed(self, *_args):
+        self.refresh()
+
+    def _on_visible_samples_changed(self, scale):
+        self._visible_samples = int(scale.get_value())
+        self.refresh()
+
     def refresh(self):
         series = self.plot_data.series
         series_count = len(series)
@@ -69,106 +110,21 @@ class TaunoPlotView(Gtk.Box):
                 series=series_count, samples=sample_count
             )
         )
-        colors = self._series_colors()
+        dark = self._style_manager.get_dark()
+        colors = series_colors(dark)
+        background = "#242424" if dark else "#ffffff"
+        foreground = "#f6f5f4" if dark else "#2e3436"
         legend = [
             f'<span foreground="{colors[index]}">■</span> {escape(label)}'
             for index, label in enumerate(series)
         ]
         self.legend_label.set_markup("    ".join(legend))
-        self.plot_area.queue_draw()
-
-    def draw_plot(self, area, context, width, height):
-        series = [
-            list(values)
-            for values in self.plot_data.series.values()
-            if values
-        ]
-        left, right, top, bottom = 72, 20, 20, 52
-        plot_width = max(1, width - left - right)
-        plot_height = max(1, height - top - bottom)
-        foreground = self.get_style_context().get_color()
-        context.set_source_rgba(
-            foreground.red, foreground.green, foreground.blue, 0.2
+        update_axes(
+            self.axes,
+            series,
+            colors,
+            foreground,
+            background,
+            self._visible_samples,
         )
-        context.set_line_width(1)
-
-        for tick in range(5):
-            y = top + plot_height * tick / 4
-            context.move_to(left, y)
-            context.line_to(width - right, y)
-        context.stroke()
-
-        context.set_source_rgba(
-            foreground.red, foreground.green, foreground.blue, 0.6
-        )
-        context.move_to(left, top)
-        context.line_to(left, top + plot_height)
-        context.line_to(width - right, top + plot_height)
-        context.stroke()
-
-        series_colors = self._series_colors()
-        flat_values = [value for values in series for value in values]
-        if flat_values:
-            value_scale = max(1.0, abs(min(flat_values)), abs(max(flat_values)))
-            minimum = min(flat_values) / value_scale
-            maximum = max(flat_values) / value_scale
-            value_range = maximum - minimum
-            padding = (
-                value_range * 0.05
-                if value_range
-                else max(0.05, abs(maximum) * 0.05)
-            )
-            minimum -= padding
-            maximum += padding
-
-            for series_index, values in enumerate(series):
-                color = self._rgb_color(series_colors[series_index])
-                context.set_source_rgba(*(component / 255 for component in color))
-                context.set_line_width(2)
-
-                for index, value in enumerate(values):
-                    x = left + plot_width * index / max(1, len(values) - 1)
-                    scaled_value = value / value_scale
-                    y = top + plot_height * (
-                        (maximum - scaled_value) / (maximum - minimum)
-                    )
-                    if index == 0:
-                        context.move_to(x, y)
-                    else:
-                        context.line_to(x, y)
-
-                if len(values) == 1:
-                    x = left
-                    y = top + plot_height * (
-                        (maximum - values[0] / value_scale)
-                        / (maximum - minimum)
-                    )
-                    context.arc(x, y, 2.5, 0, 2 * 3.141592653589793)
-                    context.fill()
-                else:
-                    context.stroke()
-
-    @staticmethod
-    def _series_colors():
-        return (
-            "#3584e4",
-            "#e66100",
-            "#33d17a",
-            "#c061cb",
-            "#f6d32d",
-            "#ff7800",
-            "#62a0ea",
-            "#ed333b",
-            "#26a269",
-            "#9141ac",
-            "#1c71d8",
-            "#a51d2d",
-            "#865e3c",
-            "#5e5c64",
-            "#c64600",
-            "#1a5fb4",
-        )
-
-    @staticmethod
-    def _rgb_color(color):
-        return tuple(int(color[index:index + 2], 16) for index in (1, 3, 5)) + (255,)
+        self.canvas.draw_idle()

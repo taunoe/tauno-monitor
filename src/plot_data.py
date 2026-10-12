@@ -4,7 +4,7 @@ from collections import deque
 
 
 class SerialPlotData:
-    MAX_SAMPLES = 500
+    MAX_SAMPLES = 800
     MAX_LINE_BYTES = 256
     MAX_SERIES = 16
     SEPARATORS = (ord(','), ord('\n'), ord('\r'), ord(';'))
