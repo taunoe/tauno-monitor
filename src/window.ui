@@ -16,15 +16,7 @@
       <object class="AdwToolbarView">
         <child type="top">
           <object class="AdwHeaderBar" id="header_bar">
-<!--
-            <child type="start">
-              <object class="GtkButton" id="port_icon">
-                <property name="margin-start">0</property>
-                <property name="icon-name">computer-chip-symbolic</property>
-                <property name="action-name"></property>
-              </object>
-            </child>
-//-->
+
             <child type="start">
               <object class="GtkDropDown" id="port_drop_down">
                 <property name="model">
@@ -45,15 +37,7 @@
                 <property name="action-name">win.update</property>
               </object>
             </child>
-<!--
-            <child type="start">
-              <object class="GtkButton" id="baud_rate_icon">
-                <property name="margin-start">0</property>
-                <property name="icon-name">speedometer-symbolic</property>
-                <property name="action-name"></property>
-              </object>
-            </child>
-//-->
+
             <child type="start">
               <object class="GtkDropDown" id="baud_drop_down">
                 <property name="model">
@@ -71,15 +55,7 @@
                 <property name="tooltip-text" translatable="yes">Baud Rate</property>
               </object>
             </child>
-<!--
-            <child type="start">
-              <object class="GtkButton" id="line_end_icon">
-                <property name="margin-start">0</property>
-                <property name="icon-name">keyboard-enter-symbolic</property>
-                <property name="action-name"></property>
-              </object>
-            </child>
-//-->
+
             <child type="start">
               <object class="GtkDropDown" id="rx_line_end_label_drop_down">
                 <property name="model">
@@ -558,7 +534,7 @@
 
                           <child type="start">
                             <object class="GtkEntry" id="send_cmd_entry">
-                            <property name="width_chars">60</property>
+                            <property name="width_chars">30</property>
                             <property name="hexpand">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
