@@ -1,7 +1,7 @@
 #https://forum.snapcraft.io/t/snap-and-gtk4-sdk/37831/4
 name: tauno-monitor
 base: core24
-version: '0.3.3'
+version: '0.3.4'
 summary: Serial port monitor
 description:
   Simple serial port monitor.
@@ -45,6 +45,9 @@ parts:
   tauno-monitor:
     plugin: meson
     source: .
+    stage-packages:
+      - python3-gi-cairo
+      - python3-matplotlib
     parse-info: [ usr/share/metainfo/art.taunoerik.tauno-monitor.metainfo.xml ]
     meson-parameters:
       - --prefix=/usr
