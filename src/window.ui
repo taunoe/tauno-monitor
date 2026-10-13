@@ -116,7 +116,6 @@
               </object>
             </child>
 
-
             <child type="end">
               <object class="GtkSwitch" id="log_switch">
                 <property name="tooltip-text" translatable="yes">Write logs to file</property>
@@ -547,8 +546,6 @@
                             <property name="placeholder-text" translatable="yes">Enter cmd</property>
                           </object>
                         </child>
-
-
 
                         <child>
                           <object class="GtkDropDown" id="ui_tx_end">

@@ -35,8 +35,6 @@ You may also need to install udev rules. PlatformIO have a good [instructions](h
 
 ![Preferences window](data/screenshots/pref.png)
 
-![Live Plot](data/screenshots/plot.png)
-
 ![Find the Baud Rate](data/screenshots/find_baud.png)
 
 ## Install
