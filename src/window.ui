@@ -9,7 +9,7 @@
     <child>
       <object class="AdwBreakpoint">
         <condition>max-width: 420sp</condition>
-        <setter object="show_sidebar_button" property="active">False</setter>
+        <setter object="live_plot_button" property="active">False</setter>
       </object>
     </child>
     <property name="content">
@@ -116,13 +116,7 @@
               </object>
             </child>
 
-            <child type="end">
-              <object class="GtkToggleButton" id="show_sidebar_button">
-                <property name="icon-name">dock-right-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Sidebar</property>
-                <property name="active">False</property>
-              </object>
-            </child>
+
             <child type="end">
               <object class="GtkSwitch" id="log_switch">
                 <property name="tooltip-text" translatable="yes">Write logs to file</property>
@@ -182,6 +176,16 @@
                 <property name="tooltip-text" translatable="yes">Highlight matching text</property>
               </object>
             </child>
+
+            <child type="start">
+              <object class="GtkToggleButton" id="live_plot_button">
+                <property name="icon-name">graph2-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Live plot</property>
+                <property name="active">False</property>
+                <property name="margin-start">20</property>
+              </object>
+            </child>
+
             <child type="end">
               <object class="GtkButton" id="clear_button">
                 <property name="icon-name">larger-brush-symbolic</property>
@@ -209,7 +213,7 @@
                 <property name="margin-start">12</property>
                 <property name="margin-end">12</property>
                 <property name="visible"
-                          bind-source="show_sidebar_button"
+                          bind-source="live_plot_button"
                           bind-property="active"
                           bind-flags="sync-create|bidirectional"/>
                 <child>

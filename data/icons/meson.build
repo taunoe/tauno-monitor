@@ -19,6 +19,7 @@ action_icons = [
   join_paths(action_dir, 'search-folder-symbolic.svg'),
   join_paths(action_dir, 'arrow-circular-small-top-left-symbolic.svg'),
   join_paths(action_dir, 'dock-right-symbolic.svg'),
+  join_paths(action_dir, 'graph2-symbolic.svg'),
   join_paths(action_dir, 'scanner-symbolic.svg'),
   join_paths(action_dir, 'mouse-click-symbolic.svg'),
   join_paths(action_dir, 'paper-plane-symbolic.svg'),
