@@ -68,42 +68,6 @@
             <property name="title" translatable="yes">Data View</property>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Format</property>
-                <child>
-                  <object class="GtkBox">
-                    <property name="spacing">6</property>
-                    <child>
-                      <object class="GtkDropDown" id="rx_format_dropdown">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="reset_data_format_button">
-                        <property name="valign">center</property>
-                        <property name="icon-name">view-refresh-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Reset</property>
-                        <style>
-                          <class name="flat" />
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="AdwActionRow">
-                <property name="title" translatable="yes">Show Timestamp</property>
-                <property name="activatable_widget">timestamp_switch</property>
-                <child>
-                  <object class="GtkSwitch" id="timestamp_switch">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="AdwActionRow">
                 <property name="title" translatable="yes">Timestamp Color</property>
                 <child>
                   <object class="GtkBox">
@@ -128,17 +92,6 @@
               </object>
             </child>
 
-            <child>
-              <object class="AdwActionRow">
-                <property name="title" translatable="yes">Show Arrow</property>
-                <property name="activatable_widget">arrow_switch</property>
-                <child>
-                  <object class="GtkSwitch" id="arrow_switch">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
-              </object>
-            </child>
             <child>
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">Arrow Color</property>
@@ -212,17 +165,6 @@
                         </style>
                       </object>
                     </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="AdwActionRow">
-                <property name="title" translatable="yes">Show Line Endings</property>
-                <property name="activatable_widget">show_line_end_switch</property>
-                <child>
-                  <object class="GtkSwitch" id="show_line_end_switch">
-                    <property name="valign">center</property>
                   </object>
                 </child>
               </object>
@@ -421,4 +363,3 @@
     </child>
   </template>
 </interface>
-
