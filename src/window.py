@@ -67,7 +67,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     toast_overlay = Gtk.Template.Child()  # notifications
     banner_no_ports = Gtk.Template.Child()
     # Sidebar
-    show_sidebar_button = Gtk.Template.Child()
+    live_plot_button = Gtk.Template.Child()
     plot_view_container = Gtk.Template.Child()
     device_info_grid = Gtk.Template.Child()
     device_info_scroller = Gtk.Template.Child()
