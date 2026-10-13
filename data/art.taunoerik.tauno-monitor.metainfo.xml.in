@@ -54,6 +54,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.3.5" date="2026-10-13">
+      <description>
+        <ul>
+          <li>Bumped application version for the next release.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.3.4" date="2026-10-12">
       <description>
         <ul>
