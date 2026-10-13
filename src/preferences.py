@@ -21,19 +21,14 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
     notifications_switch = Gtk.Template.Child()
 
     # Data View
-    rx_format_dropdown = Gtk.Template.Child()
-    reset_data_format_button = Gtk.Template.Child()
-    timestamp_switch = Gtk.Template.Child()
     time_color_button = Gtk.Template.Child()
     reset_time_color_button = Gtk.Template.Child()
-    arrow_switch = Gtk.Template.Child()
     arrow_color_button = Gtk.Template.Child()
     reset_arrow_color_button = Gtk.Template.Child()
     out_color_button = Gtk.Template.Child()
     reset_out_color_button = Gtk.Template.Child()
     in_color_button = Gtk.Template.Child()
     reset_in_color_button = Gtk.Template.Child()
-    show_line_end_switch = Gtk.Template.Child()
     show_line_end_color_button = Gtk.Template.Child()
     reset_line_end_color_button = Gtk.Template.Child()
 
@@ -85,23 +80,12 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.notifications_switch.set_active(self.settings.get_boolean("notifications"))
 
         # --- Data View ---
-        # Serial data formats
-        self.serial_data_formats = ['ASCII', 'HEX', 'BIN', 'DEC', 'OCT']
-        self.rx_format_dropdown.set_model(Gtk.StringList.new(self.serial_data_formats))
-        self.saved_data_format_index = self.settings.get_int("saved-serial-rx-data-format-index")
-        self.rx_format_dropdown.set_selected(self.saved_data_format_index)
-
-        self.timestamp_switch.set_active(self.settings.get_boolean("timestamp"))
-        self.arrow_switch.set_active(self.settings.get_boolean("arrow"))
-
         # Setup Color Buttons
         self.setup_color_button(self.time_color_button, "saved-time-color")
         self.setup_color_button(self.arrow_color_button, "saved-arrow-color")
         self.setup_color_button(self.out_color_button, "saved-out-color")
         self.setup_color_button(self.in_color_button, "saved-in-color")
         self.setup_color_button(self.show_line_end_color_button, "saved-show-line-end-color")
-
-        self.show_line_end_switch.set_active(self.settings.get_boolean("show-line-end"))
 
         # --- Logging ---
         # Get saved log folder
@@ -147,14 +131,9 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.notifications_switch.connect("state-set", self.notifications_switch_action)
 
         # --- Data View ---
-        self.rx_format_dropdown.connect("notify::selected-item", self.rx_data_format_action)
-        self.reset_data_format_button.connect("clicked", self.reset_data_format_button_action)
-
-        self.timestamp_switch.connect("notify::active", self.timestamp_switch_action)
         self.time_color_button.connect('notify::rgba', self.on_time_color_selected)
         self.reset_time_color_button.connect("clicked", self.reset_time_color_button_action)
 
-        self.arrow_switch.connect("notify::active", self.arrow_switch_action)
         self.arrow_color_button.connect('notify::rgba', self.on_arrow_color_selected)
         self.reset_arrow_color_button.connect("clicked", self.reset_arrow_color_button_action)
 
@@ -164,7 +143,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.in_color_button.connect('notify::rgba', self.on_in_color_selected)
         self.reset_in_color_button.connect("clicked", self.reset_in_color_button_action)
 
-        self.show_line_end_switch.connect("state-set", self.show_line_end_switch_action)
         self.show_line_end_color_button.connect('notify::rgba', self.on_show_line_end_color_selected)
         self.reset_line_end_color_button.connect("clicked", self.reset_line_end_color_button_action)
 
@@ -218,31 +196,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         self.settings.set_boolean("notifications", notifications_state)
 
 
-    def rx_data_format_action(self, drop_down, g_param_object):
-        """ """
-        print("Change RX format")
-        string_object = drop_down.get_selected_item()
-        index = drop_down.get_selected()
-        new_format = string_object.get_string()
-        print(f'Position: {index} - value: {string_object.get_string()}')
-        self.win.set_rx_data_format(new_format, index)
-
-
-    def reset_data_format_button_action(self, widget):
-        """ """
-        print("Reset data format")
-        # Get deffault
-        default = self.settings.get_string("default-serial-rx-data-format")
-        print(f"default:{default}")
-        index = self.serial_data_formats.index(default)
-        print(f"index:{index}")
-        self.rx_format_dropdown.set_selected(position=index)
-
-
-    def timestamp_switch_action(self, widget, _property):
-        self.settings.set_boolean("timestamp", widget.get_active())
-
-
     def on_time_color_selected(self, color_dialog_button, g_param_boxed):
         """ Get and save time tag color """
         gdk_rgba = color_dialog_button.get_rgba()
@@ -259,10 +212,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         default_color.parse(self.settings.get_string("default-time-color"))
         self.settings.set_string("saved-time-color", default_color.to_string())
         self.time_color_button.set_rgba(default_color)
-
-
-    def arrow_switch_action(self, widget, _property):
-        self.settings.set_boolean("arrow", widget.get_active())
 
 
     def on_arrow_color_selected(self, color_dialog_button, g_param_boxed):
@@ -315,16 +264,6 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
         default_color.parse(self.settings.get_string("default-in-color"))
         self.settings.set_string("saved-in-color", default_color.to_string())
         self.in_color_button.set_rgba(default_color)
-
-
-
-    def show_line_end_switch_action(self, widget, state):
-        """
-        Get show line endings settings change and save
-        """
-        show_line_end_state = state
-        # Save settings
-        self.settings.set_boolean("show-line-end", show_line_end_state)
 
 
 
