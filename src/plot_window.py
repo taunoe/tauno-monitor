@@ -28,8 +28,27 @@ class TaunoPlotView(Gtk.Box):
         controls.set_margin_bottom(6)
         self.append(controls)
 
-        visible_samples_label = Gtk.Label(label=_("Visible samples"), xalign=0)
-        controls.append(visible_samples_label)
+        plot_type_label = Gtk.Label(label=_("Plot type"), xalign=0)
+        controls.append(plot_type_label)
+
+        self.plot_type_dropdown = Gtk.DropDown.new(
+            Gtk.StringList.new([_("Timeline"), _("Bar chart"), _("Pie chart")]),
+            None,
+        )
+        self.plot_type_dropdown.set_tooltip_text(_("Choose how to display the data."))
+        self.plot_type_dropdown.update_property(
+            [Gtk.AccessibleProperty.LABEL], [_("Plot type")]
+        )
+        self.plot_type_dropdown.connect(
+            "notify::selected", self._on_plot_type_changed
+        )
+        controls.append(self.plot_type_dropdown)
+        self._plot_type = "timeline"
+
+        self.visible_samples_label = Gtk.Label(
+            label=_("Visible samples"), xalign=0
+        )
+        controls.append(self.visible_samples_label)
 
         self.visible_samples_scale = Gtk.Scale.new_with_range(
             Gtk.Orientation.HORIZONTAL, 0, 800, 1
@@ -101,6 +120,17 @@ class TaunoPlotView(Gtk.Box):
         self._visible_samples = int(scale.get_value())
         self.refresh()
 
+    def _on_plot_type_changed(self, dropdown, _property):
+        plot_types = ("timeline", "bar", "pie")
+        selected = dropdown.get_selected()
+        self._plot_type = (
+            plot_types[selected] if selected < len(plot_types) else "timeline"
+        )
+        show_visible_samples = self._plot_type == "timeline"
+        self.visible_samples_label.set_visible(show_visible_samples)
+        self.visible_samples_scale.set_visible(show_visible_samples)
+        self.refresh()
+
     def refresh(self):
         series = self.plot_data.series
         series_count = len(series)
@@ -126,5 +156,6 @@ class TaunoPlotView(Gtk.Box):
             foreground,
             background,
             self._visible_samples,
+            self._plot_type,
         )
         self.canvas.draw_idle()
