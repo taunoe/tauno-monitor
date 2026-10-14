@@ -48,6 +48,9 @@ parts:
     stage-packages:
       - python3-gi-cairo
       - python3-matplotlib
+    stage:
+      # Use the HarfBuzz libraries from the refreshable GNOME runtime as a matched set.
+      - -usr/lib/*/libharfbuzz*
     parse-info: [ usr/share/metainfo/art.taunoerik.tauno-monitor.metainfo.xml ]
     meson-parameters:
       - --prefix=/usr
