@@ -52,6 +52,19 @@ parts:
     stage:
       # Use the HarfBuzz libraries from the refreshable GNOME runtime as a matched set.
       - -usr/lib/*/libharfbuzz*
+    override-prime: |
+      craftctl default
+
+      for arch_lib_dir in "$CRAFT_PRIME"/usr/lib/*; do
+        [ -d "$arch_lib_dir" ] || continue
+        for library in blas/libblas.so.3 lapack/liblapack.so.3; do
+          [ -e "$arch_lib_dir/$library" ] || continue
+          library_name="${library##*/}"
+          if [ ! -e "$arch_lib_dir/$library_name" ] || [ -L "$arch_lib_dir/$library_name" ]; then
+            ln -sfn "$library" "$arch_lib_dir/$library_name"
+          fi
+        done
+      done
     parse-info: [ usr/share/metainfo/art.taunoerik.tauno-monitor.metainfo.xml ]
     meson-parameters:
       - --prefix=/usr
