@@ -28,7 +28,7 @@ apps:
     desktop: usr/share/applications/art.taunoerik.tauno-monitor.desktop
     common-id: art.taunoerik.tauno-monitor
     environment:
-      PYTHONPATH: $SNAP/usr/lib/python3.12/dist-packages:$SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages
+      PYTHONPATH: $SNAP/usr/lib/python3.12/dist-packages:$SNAP/usr/lib/python3/dist-packages
     plugs:
       - home
       - desktop
