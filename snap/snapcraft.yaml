@@ -48,6 +48,7 @@ parts:
     stage-packages:
       - python3-gi-cairo
       - python3-matplotlib
+      - libblas3
     stage:
       # Use the HarfBuzz libraries from the refreshable GNOME runtime as a matched set.
       - -usr/lib/*/libharfbuzz*
