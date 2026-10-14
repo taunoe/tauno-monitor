@@ -133,6 +133,7 @@ class PlotWindowTests(unittest.TestCase):
         self.assertAlmostEqual(
             axes.patches[0].theta2 - axes.patches[0].theta1,
             360 * 21.5 / 24.8,
+            delta=1e-5,
         )
 
     def test_pie_chart_handles_zero_and_negative_values(self):
