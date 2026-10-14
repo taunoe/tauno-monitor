@@ -38,6 +38,8 @@ apps:
       #- removable-media
 
 layout:
+  /usr/share/matplotlib:
+    bind: $SNAP/usr/share/matplotlib
   /usr/share/tauno-monitor:
     bind: $SNAP/usr/share/tauno-monitor
 
