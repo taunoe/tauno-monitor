@@ -42,7 +42,13 @@ def series_colors(dark):
 
 
 def update_axes(
-    axes, series, colors, foreground, background, visible_samples=0
+    axes,
+    series,
+    colors,
+    foreground,
+    background,
+    visible_samples=0,
+    plot_type="timeline",
 ):
     axes.clear()
     axes.figure.patch.set_facecolor(background)
@@ -54,17 +60,50 @@ def update_axes(
         spine.set_color(foreground)
         spine.set_alpha(0.6)
 
-    for index, values in enumerate(series.values()):
-        if values:
-            values = list(values)
-            if visible_samples:
-                values = values[-visible_samples:]
-            axes.plot(
-                range(len(values)),
-                values,
-                color=colors[index],
-                linewidth=2,
-                marker='o' if len(values) == 1 else None,
-                markersize=5,
+    if plot_type == "pie":
+        labels = []
+        latest_values = []
+        pie_colors = []
+        for index, (label, values) in enumerate(series.items()):
+            if values:
+                labels.append(label)
+                latest_values.append(abs(values[-1]))
+                pie_colors.append(colors[index])
+        if labels:
+            if not any(latest_values):
+                latest_values = [1] * len(latest_values)
+            axes.pie(
+                latest_values,
+                labels=labels,
+                colors=pie_colors,
+                textprops={"color": foreground},
             )
+        axes.set_aspect("equal")
+        axes.grid(False)
+    elif plot_type == "bar":
+        labels = []
+        latest_values = []
+        bar_colors = []
+        for index, (label, values) in enumerate(series.items()):
+            if values:
+                labels.append(label)
+                latest_values.append(values[-1])
+                bar_colors.append(colors[index])
+        axes.barh(labels, latest_values, color=bar_colors)
+        axes.grid(True, axis='x', color=foreground, alpha=0.2)
+        axes.invert_yaxis()
+    else:
+        for index, values in enumerate(series.values()):
+            if values:
+                values = list(values)
+                if visible_samples:
+                    values = values[-visible_samples:]
+                axes.plot(
+                    range(len(values)),
+                    values,
+                    color=colors[index],
+                    linewidth=2,
+                    marker='o' if len(values) == 1 else None,
+                    markersize=5,
+                )
     axes.margins(x=0.02, y=0.05)

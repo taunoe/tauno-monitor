@@ -77,6 +77,80 @@ class PlotWindowTests(unittest.TestCase):
         self.assertEqual(len(line.get_ydata()), 100)
         self.assertEqual(list(line.get_ydata()), list(range(101, 201)))
 
+    def test_bar_chart_shows_latest_value_for_each_series(self):
+        figure = Figure()
+        FigureCanvasAgg(figure)
+        axes = figure.add_subplot(111)
+        series = {
+            "temperature": [20.0, 21.5],
+            "voltage": [3.3],
+            "empty": [],
+        }
+
+        update_axes(
+            axes,
+            series,
+            series_colors(False),
+            "#202020",
+            "#ffffff",
+            visible_samples=1,
+            plot_type="bar",
+        )
+
+        self.assertEqual(
+            [bar.get_width() for bar in axes.patches], [21.5, 3.3]
+        )
+        self.assertEqual(
+            [label.get_text() for label in axes.get_yticklabels()],
+            ["temperature", "voltage"],
+        )
+        self.assertEqual(axes.get_lines(), [])
+
+    def test_pie_chart_shows_one_sector_for_each_series(self):
+        figure = Figure()
+        FigureCanvasAgg(figure)
+        axes = figure.add_subplot(111)
+        series = {
+            "temperature": [20.0, 21.5],
+            "voltage": [3.3],
+            "empty": [],
+        }
+
+        update_axes(
+            axes,
+            series,
+            series_colors(False),
+            "#202020",
+            "#ffffff",
+            plot_type="pie",
+        )
+
+        self.assertEqual(len(axes.patches), 2)
+        self.assertEqual(
+            [label.get_text() for label in axes.texts],
+            ["temperature", "voltage"],
+        )
+        self.assertAlmostEqual(
+            axes.patches[0].theta2 - axes.patches[0].theta1,
+            360 * 21.5 / 24.8,
+        )
+
+    def test_pie_chart_handles_zero_and_negative_values(self):
+        figure = Figure()
+        FigureCanvasAgg(figure)
+        axes = figure.add_subplot(111)
+
+        update_axes(
+            axes,
+            {"zero": [0], "negative": [-2]},
+            series_colors(False),
+            "#202020",
+            "#ffffff",
+            plot_type="pie",
+        )
+
+        self.assertEqual(len(axes.patches), 2)
+
     def test_zero_visible_sample_limit_shows_all_available_samples(self):
         figure = Figure()
         FigureCanvasAgg(figure)

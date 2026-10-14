@@ -54,6 +54,14 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.3.6" date="2026-10-14">
+      <description>
+        <ul>
+          <li>Added bar and pie chart types to the live plot.</li>
+          <li>Added a plot-type selector and show visible-sample controls only for timelines.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.3.5" date="2026-10-13">
       <description>
         <ul>
