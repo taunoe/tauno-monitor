@@ -29,6 +29,7 @@ apps:
     common-id: art.taunoerik.tauno-monitor
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3.12/dist-packages:$SNAP/usr/lib/python3/dist-packages
+      MATPLOTLIBRC: $SNAP/usr/share/matplotlib/mpl-data/matplotlibrc
     plugs:
       - home
       - desktop
