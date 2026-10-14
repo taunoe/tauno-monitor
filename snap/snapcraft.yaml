@@ -28,7 +28,7 @@ apps:
     desktop: usr/share/applications/art.taunoerik.tauno-monitor.desktop
     common-id: art.taunoerik.tauno-monitor
     environment:
-      PYTHONPATH: $SNAP/usr/lib/python3.10/dist-packages:$SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages
+      PYTHONPATH: $SNAP/usr/lib/python3.12/dist-packages:$SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages
     plugs:
       - home
       - desktop
@@ -58,7 +58,7 @@ parts:
 
       craftctl default
 
-      sed -i -e 's|/snap/gnome-42-2204-sdk/current/usr/bin/python3|/usr/bin/env python3|g' $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
+      sed -i -e 's|/snap/gnome-44-2404-sdk/current/usr/bin/python3|/usr/bin/env python3|g' $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
 
       chmod +x $CRAFT_PART_INSTALL/usr/bin/tauno-monitor
   pyserial:
