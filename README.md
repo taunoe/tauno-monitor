@@ -27,6 +27,12 @@ sudo usermod -a -G plugdev $USER
 
 You may also need to install udev rules. PlatformIO have a good [instructions](https://docs.platformio.org/en/latest/core/installation/udev-rules.html)
 
+And Ubuntu Snap users also must enable "Access USB hardware directly":
+
+```bash
+snap connect tauno-monitor:raw-usb
+```
+
 ## Screenshots
 
 ![Light mode](data/screenshots/light.png)
