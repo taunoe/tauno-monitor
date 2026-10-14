@@ -152,6 +152,34 @@ class PlotWindowTests(unittest.TestCase):
 
         self.assertEqual(len(axes.patches), 2)
 
+    def test_timeline_restores_auto_aspect_after_pie_chart(self):
+        figure = Figure()
+        FigureCanvasAgg(figure)
+        axes = figure.add_subplot(111)
+        colors = series_colors(False)
+
+        update_axes(
+            axes,
+            {"temperature": [20.0, 21.5]},
+            colors,
+            "#202020",
+            "#ffffff",
+            plot_type="pie",
+        )
+        self.assertEqual(axes.get_aspect(), 1.0)
+
+        update_axes(
+            axes,
+            {"temperature": [20.0, 21.5]},
+            colors,
+            "#202020",
+            "#ffffff",
+            plot_type="timeline",
+        )
+
+        self.assertEqual(axes.get_aspect(), "auto")
+        self.assertEqual(len(axes.get_lines()), 1)
+
     def test_zero_visible_sample_limit_shows_all_available_samples(self):
         figure = Figure()
         FigureCanvasAgg(figure)

@@ -51,6 +51,7 @@ def update_axes(
     plot_type="timeline",
 ):
     axes.clear()
+    axes.set_aspect("auto")
     axes.figure.patch.set_facecolor(background)
     axes.set_facecolor(background)
     axes.grid(True, color=foreground, alpha=0.2)
