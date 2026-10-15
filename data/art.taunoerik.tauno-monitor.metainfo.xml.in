@@ -38,12 +38,24 @@
       <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/light.png</image>
     </screenshot>
     <screenshot >
+      <caption>Timeline</caption>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/light-plot-1.png</image>
+    </screenshot>
+    <screenshot >
+      <caption>Bar chart</caption>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/light-plot-2.png</image>
+    </screenshot>
+    <screenshot >
+      <caption>Pie chart</caption>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/light-plot-3.png</image>
+    </screenshot>
+    <screenshot >
       <caption>Dark mode</caption>
       <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/dark.png</image>
     </screenshot>
     <screenshot >
-      <caption>Live Plot</caption>
-      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/plot.png</image>
+      <caption>Bar chart</caption>
+      <image>https://raw.githubusercontent.com/taunoe/tauno-monitor/main/data/screenshots/dark-plot-2.png</image>
     </screenshot>
     <screenshot>
       <caption>Preferences</caption>

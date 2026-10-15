@@ -37,7 +37,15 @@ snap connect tauno-monitor:raw-usb
 
 ![Light mode](data/screenshots/light.png)
 
+![Light mode](data/screenshots/light-plot-1.png)
+
+![Light mode](data/screenshots/light-plot-2.png)
+
+![Light mode](data/screenshots/light-plot-2.png)
+
 ![Dark mode](data/screenshots/dark.png)
+
+![Light mode](data/screenshots/dark-plot-2.png)
 
 ![Preferences window](data/screenshots/pref.png)
 
