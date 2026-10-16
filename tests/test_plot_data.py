@@ -18,6 +18,17 @@ class SerialPlotDataTests(unittest.TestCase):
         self.assertEqual(list(self.plot.series["voltage"]), [3.3])
         self.assertEqual(list(self.plot.series["offset"]), [-2.0])
 
+    def test_parses_multiple_labeled_values_per_line(self):
+        self.plot.feed(
+            b"X 0.00 Y 0.05 Z 1.05\r\n"
+            b"X: 0.00 Y: 0.05 Z: 1.05\r\n"
+            b"X = 0.00 Y = 0.05 Z = 1.05\r\n"
+        )
+
+        self.assertEqual(list(self.plot.series["X"]), [0.0, 0.0, 0.0])
+        self.assertEqual(list(self.plot.series["Y"]), [0.05, 0.05, 0.05])
+        self.assertEqual(list(self.plot.series["Z"]), [1.05, 1.05, 1.05])
+
     def test_reading_can_span_multiple_input_chunks(self):
         self.assertFalse(self.plot.feed(b"temperature: 2"))
         self.assertTrue(self.plot.feed(b"1.5\n"))
