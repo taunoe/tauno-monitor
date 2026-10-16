@@ -9,8 +9,8 @@ class SerialPlotData:
     MAX_SERIES = 16
     SEPARATORS = (ord(','), ord('\n'), ord('\r'), ord(';'))
     READING_PATTERN = re.compile(
-        r'^\s*(?P<label>.+?)(?:\s*[:=]\s*|\s+)'
-        r'(?P<value>[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*$'
+        r'\s*(?P<label>.+?)(?:\s*[:=]\s*|\s+)'
+        r'(?P<value>[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)(?=\s|$)'
     )
 
     def __init__(self):
@@ -40,24 +40,39 @@ class SerialPlotData:
         except UnicodeDecodeError:
             return False
 
-        match = self.READING_PATTERN.fullmatch(reading)
-        if match is None:
+        matches = list(self.READING_PATTERN.finditer(reading))
+        if not matches:
             return False
 
-        label = match.group('label').strip()
-        try:
-            value = float(match.group('value'))
-        except ValueError:
-            return False
-
-        if not label or not math.isfinite(value):
-            return False
-        if label not in self.series:
-            if len(self.series) >= self.MAX_SERIES:
+        readings = []
+        previous_end = 0
+        for match in matches:
+            if reading[previous_end:match.start()].strip():
                 return False
-            self.series[label] = deque(maxlen=self.MAX_SAMPLES)
-        self.series[label].append(value)
-        return True
+
+            label = match.group('label').strip()
+            try:
+                value = float(match.group('value'))
+            except ValueError:
+                return False
+
+            if not label or not math.isfinite(value):
+                return False
+            readings.append((label, value))
+            previous_end = match.end()
+
+        if reading[previous_end:].strip():
+            return False
+
+        updated = False
+        for label, value in readings:
+            if label not in self.series:
+                if len(self.series) >= self.MAX_SERIES:
+                    continue
+                self.series[label] = deque(maxlen=self.MAX_SAMPLES)
+            self.series[label].append(value)
+            updated = True
+        return updated
 
     def clear(self):
         self.series.clear()

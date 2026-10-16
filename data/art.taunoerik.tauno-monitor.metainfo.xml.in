@@ -66,6 +66,13 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="0.3.7" date="2026-10-16">
+      <description>
+        <ul>
+          <li>Parse multiple labeled values per line in the live plot.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.3.6" date="2026-10-14">
       <description>
         <ul>
