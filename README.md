@@ -2,7 +2,7 @@
 
 # Tauno Monitor
 
-The serial port monitor for Arduino and other embedded development.
+The serial port monitor and plotter for Arduino and other embedded development.
 
 The goal is to make a user-friendly serial port monitor for the GNOME desktop.
 
