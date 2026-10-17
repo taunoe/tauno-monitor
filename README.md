@@ -13,7 +13,7 @@ The goal is to make a user-friendly serial port monitor for the GNOME desktop.
  - Can log data to a file
  - Customizable colours
  - Displays data in different formats: ASCII, BIN, OCT or DEC
- - Plots labeled numeric values from comma-separated serial data in the live-plot sidebar, with an adjustable visible sample range
+ - Plots labeled numeric values from comma-separated serial data as timelines, bar charts, pie charts, or histograms in the live-plot sidebar
  - Can open multiple instances
 
 ## Important

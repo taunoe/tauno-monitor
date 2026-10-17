@@ -1,3 +1,6 @@
+import numpy as np
+
+
 LIGHT_SERIES_COLORS = (
     "#1c71d8",
     "#c64600",
@@ -93,6 +96,26 @@ def update_axes(
         axes.barh(labels, latest_values, color=bar_colors)
         axes.grid(True, axis='x', color=foreground, alpha=0.2)
         axes.invert_yaxis()
+    elif plot_type == "histogram":
+        histogram_series = [
+            (label, list(values), colors[index])
+            for index, (label, values) in enumerate(series.items())
+            if values
+        ]
+        if histogram_series:
+            histogram_values = [
+                value
+                for _label, values, _color in histogram_series
+                for value in values
+            ]
+            axes.hist(
+                [values for _label, values, _color in histogram_series],
+                bins=np.histogram_bin_edges(histogram_values, bins="auto"),
+                color=[color for _label, _values, color in histogram_series],
+                label=[label for label, _values, _color in histogram_series],
+                alpha=0.6,
+                histtype="stepfilled",
+            )
     else:
         for index, values in enumerate(series.values()):
             if values:

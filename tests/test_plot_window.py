@@ -152,6 +152,43 @@ class PlotWindowTests(unittest.TestCase):
 
         self.assertEqual(len(axes.patches), 2)
 
+    def test_histogram_shows_distribution_of_each_nonempty_series(self):
+        figure = Figure()
+        FigureCanvasAgg(figure)
+        axes = figure.add_subplot(111)
+        series = {
+            "temperature": [1.0, 1.2, 1.4, 1.8],
+            "voltage": [3.0, 3.2],
+            "empty": [],
+        }
+        colors = series_colors(False)
+
+        update_axes(
+            axes,
+            series,
+            colors,
+            "#202020",
+            "#ffffff",
+            visible_samples=1,
+            plot_type="histogram",
+        )
+        figure.canvas.draw()
+
+        self.assertEqual(len(axes.patches), 2)
+        first_path, second_path = (
+            patch.get_path().vertices for patch in axes.patches
+        )
+        self.assertEqual(list(first_path[:, 0]), list(second_path[:, 0]))
+        self.assertEqual(
+            sorted((max(path[:, 1]) for path in (first_path, second_path))),
+            [2.0, 3.0],
+        )
+        self.assertEqual(
+            {patch.get_facecolor() for patch in axes.patches},
+            {to_rgba(colors[0], 0.6), to_rgba(colors[1], 0.6)},
+        )
+        self.assertEqual(axes.get_lines(), [])
+
     def test_timeline_restores_auto_aspect_after_pie_chart(self):
         figure = Figure()
         FigureCanvasAgg(figure)

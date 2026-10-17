@@ -669,17 +669,21 @@ msgstr "Välju"
 msgid "Plot type"
 msgstr "Graafiku tüüp"
 
-#: src/plot_window.py:35
+#: src/plot_window.py:37
 msgid "Timeline"
 msgstr "Ajatelg"
 
-#: src/plot_window.py:35
+#: src/plot_window.py:38
 msgid "Bar chart"
 msgstr "Tulpdiagramm"
 
-#: src/plot_window.py:35
+#: src/plot_window.py:39
 msgid "Pie chart"
 msgstr "Sektordiagramm"
+
+#: src/plot_window.py:40
+msgid "Histogram"
+msgstr "Histogramm"
 
 #: src/plot_window.py:38
 msgid "Choose how to display the data."
