@@ -2,9 +2,9 @@
 name: tauno-monitor
 base: core24
 version: '0.3.8'
-summary: Serial port monitor
+summary: Serial port monitor and plotter
 description:
-  Simple serial port monitor.
+  Simple serial port monitor and plotter.
 
 grade: stable
 confinement: strict
