@@ -688,17 +688,21 @@ msgstr "Beenden"
 msgid "Plot type"
 msgstr "Diagrammtyp"
 
-#: src/plot_window.py:35
+#: src/plot_window.py:37
 msgid "Timeline"
 msgstr "Zeitverlauf"
 
-#: src/plot_window.py:35
+#: src/plot_window.py:38
 msgid "Bar chart"
 msgstr "Balkendiagramm"
 
-#: src/plot_window.py:35
+#: src/plot_window.py:39
 msgid "Pie chart"
 msgstr "Kreisdiagramm"
+
+#: src/plot_window.py:40
+msgid "Histogram"
+msgstr "Histogramm"
 
 #: src/plot_window.py:38
 msgid "Choose how to display the data."

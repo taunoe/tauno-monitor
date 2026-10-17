@@ -32,7 +32,14 @@ class TaunoPlotView(Gtk.Box):
         controls.append(plot_type_label)
 
         self.plot_type_dropdown = Gtk.DropDown.new(
-            Gtk.StringList.new([_("Timeline"), _("Bar chart"), _("Pie chart")]),
+            Gtk.StringList.new(
+                [
+                    _("Timeline"),
+                    _("Bar chart"),
+                    _("Pie chart"),
+                    _("Histogram"),
+                ]
+            ),
             None,
         )
         self.plot_type_dropdown.set_tooltip_text(_("Choose how to display the data."))
@@ -121,7 +128,7 @@ class TaunoPlotView(Gtk.Box):
         self.refresh()
 
     def _on_plot_type_changed(self, dropdown, _property):
-        plot_types = ("timeline", "bar", "pie")
+        plot_types = ("timeline", "bar", "pie", "histogram")
         selected = dropdown.get_selected()
         self._plot_type = (
             plot_types[selected] if selected < len(plot_types) else "timeline"

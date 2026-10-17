@@ -659,16 +659,20 @@ msgstr ""
 msgid "Plot type"
 msgstr ""
 
-#: src/plot_window.py:35
+#: src/plot_window.py:37
 msgid "Timeline"
 msgstr ""
 
-#: src/plot_window.py:35
+#: src/plot_window.py:38
 msgid "Bar chart"
 msgstr ""
 
-#: src/plot_window.py:35
+#: src/plot_window.py:39
 msgid "Pie chart"
+msgstr ""
+
+#: src/plot_window.py:40
+msgid "Histogram"
 msgstr ""
 
 #: src/plot_window.py:38

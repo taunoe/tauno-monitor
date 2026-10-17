@@ -1,3 +1,7 @@
+0.3.8 (17.10.26)
+
+- Added histogram plot type to the live plot.
+
 0.3.7 (16.10.26)
 
 - Parse multiple labeled values per line in the live plot.

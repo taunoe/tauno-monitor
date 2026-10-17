@@ -685,17 +685,21 @@ msgstr "Выйти"
 msgid "Plot type"
 msgstr "Тип графика"
 
-#: src/plot_window.py:35
+#: src/plot_window.py:37
 msgid "Timeline"
 msgstr "Временной график"
 
-#: src/plot_window.py:35
+#: src/plot_window.py:38
 msgid "Bar chart"
 msgstr "Столбчатая диаграмма"
 
-#: src/plot_window.py:35
+#: src/plot_window.py:39
 msgid "Pie chart"
 msgstr "Круговая диаграмма"
+
+#: src/plot_window.py:40
+msgid "Histogram"
+msgstr "Гистограмма"
 
 #: src/plot_window.py:38
 msgid "Choose how to display the data."
