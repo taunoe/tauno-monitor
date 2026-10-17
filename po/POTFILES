@@ -13,3 +13,7 @@ src/preferences.py
 src/preferences.ui
 src/tool_baud.py
 src/tool_baud.ui
+src/plot_chart.py
+src/plot_data.py
+src/plot_window.py
+src/text_format.py
