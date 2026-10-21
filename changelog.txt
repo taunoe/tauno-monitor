@@ -1,3 +1,7 @@
+0.3.9 (21.10.26)
+
+- Improved serial port selection with device product names.
+
 0.3.8 (17.10.26)
 
 - Added histogram plot type to the live plot.
