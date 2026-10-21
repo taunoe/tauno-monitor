@@ -120,6 +120,7 @@
               <object class="GtkSwitch" id="log_switch">
                 <property name="tooltip-text" translatable="yes">Write logs to file</property>
                 <property name="action-name">win.log</property>
+                <property name="valign">center</property>
               </object>
             </child>
 

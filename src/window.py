@@ -31,6 +31,7 @@ from .plot_data import SerialPlotData
 from .plot_window import TaunoPlotView
 from .guide import TaunoGuideWindow
 from .tool_baud import TaunoToolBaudWindow
+from .port_utils import format_port_label
 import gettext, locale, os, random, string
 import re
 from .usb_db import usb_db
@@ -90,6 +91,16 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        port_factory = Gtk.SignalListItemFactory()
+        port_factory.connect("setup", self.on_port_item_setup)
+        port_factory.connect("bind", self.on_port_item_bind)
+        self.port_drop_down.set_factory(port_factory)
+
+        port_list_factory = Gtk.SignalListItemFactory()
+        port_list_factory.connect("setup", self.on_port_item_setup)
+        port_list_factory.connect("bind", self.on_port_item_bind)
+        self.port_drop_down.set_list_factory(port_list_factory)
+
         info_grid_parent = self.device_info_grid.get_parent()
         info_grid_parent.remove(self.device_info_grid)
         self.device_info_scroller.set_child(self.device_info_grid)
@@ -140,6 +151,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.baud_drop_down.connect("notify::selected-item", self.on_baud_drop_down_changed)
 
         self.ports_str_list = []
+        self.port_labels_list = []
         self.load_saved_port()
         self.port_drop_down.connect("notify::selected-item", self.on_port_drop_down_changed)
 
@@ -402,6 +414,32 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.tag_in = self.text_buffer.create_tag(new_tag_name, foreground=color)
 
 
+    def on_port_item_setup(self, factory, list_item):
+        item_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        device_label = Gtk.Label(xalign=0)
+        device_label.set_ellipsize(Pango.EllipsizeMode.END)
+        device_label.set_max_width_chars(36)
+        product_label = Gtk.Label(xalign=0)
+        product_label.add_css_class("dim-label")
+        product_label.add_css_class("caption")
+        product_label.set_ellipsize(Pango.EllipsizeMode.END)
+        product_label.set_max_width_chars(36)
+        item_box.append(device_label)
+        item_box.append(product_label)
+        list_item.set_child(item_box)
+
+
+    def on_port_item_bind(self, factory, list_item):
+        item_box = list_item.get_child()
+        device_label = item_box.get_first_child()
+        product_label = device_label.get_next_sibling()
+        label_parts = list_item.get_item().get_string().split("\n", 1)
+        device_label.set_label(label_parts[0])
+        product_name = label_parts[1] if len(label_parts) > 1 else ""
+        product_label.set_label(product_name)
+        product_label.set_visible(bool(product_name))
+
+
     def update_line_end_tag(self):
         """ Creates new tag with a new color """
         #print("update_line_end_tag")
@@ -453,10 +491,12 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
                 self.banner_no_ports.set_revealed(revealed=False)
 
             self.ports_str_list.clear()
+            self.port_labels_list.clear()
             for port in ports:
-                self.ports_str_list.append(str(port[0]))
+                self.ports_str_list.append(port.device)
+                self.port_labels_list.append(format_port_label(port))
 
-            self.port_drop_down_list.splice(0, old_size, self.ports_str_list)
+            self.port_drop_down_list.splice(0, old_size, self.port_labels_list)
         except Exception as e:
             print("Scan serial ports error: ", e)
             return
@@ -661,8 +701,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         if self.reconnecting_serial:
             self.set_title("Reconnecting")
-            port_obj = self.port_drop_down.get_selected_item()
-            last_port = port_obj.get_string()
+            last_port = self.ports_str_list[self.port_drop_down.get_selected()]
 
             baud_obj = self.baud_drop_down.get_selected_item()
             last_baud = baud_obj.get_string()
@@ -1076,8 +1115,8 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
     def on_port_drop_down_changed(self, widget, param):
         """ When user selects new port """
         try:
-            selected_item = widget.get_selected_item()
-            selected_str = selected_item.get_string()
+            selected_index = widget.get_selected()
+            selected_str = self.ports_str_list[selected_index]
             print(f"Selected port: {selected_str}")
             # Add to Info Sidebar:
             self.info_port_value.set_label(selected_str)
