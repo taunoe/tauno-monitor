@@ -415,15 +415,15 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
 
     def on_port_item_setup(self, factory, list_item):
-        item_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        item_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         device_label = Gtk.Label(xalign=0)
         device_label.set_ellipsize(Pango.EllipsizeMode.END)
-        device_label.set_max_width_chars(36)
+        device_label.set_max_width_chars(24)
         product_label = Gtk.Label(xalign=0)
         product_label.add_css_class("dim-label")
         product_label.add_css_class("caption")
         product_label.set_ellipsize(Pango.EllipsizeMode.END)
-        product_label.set_max_width_chars(36)
+        product_label.set_max_width_chars(24)
         item_box.append(device_label)
         item_box.append(product_label)
         list_item.set_child(item_box)
