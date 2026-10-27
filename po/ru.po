@@ -37,7 +37,7 @@ msgstr "Tauno Erik"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
 msgid "Serial port monitor and plotter"
-msgstr ""
+msgstr "Монитор последовательного порта и построитель графиков"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
 msgid "Features:"
@@ -72,13 +72,12 @@ msgid "Displays data in different formats: ASCII, BIN, OCT or DEC"
 msgstr "Отображает данные в различных форматах: ASCII, BIN, OCT или DEC"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:18
-#, fuzzy
 msgid ""
 "Plots labeled numeric values from comma-separated serial data in a live "
 "sidebar graph"
 msgstr ""
-"Отображает подписанные числовые значения из последовательных данных, "
-"разделённых запятыми, в отдельном окне графика в реальном времени"
+"Подписанные числовые значения из последовательных данных, разделённых "
+"запятыми, отображаются на графике в боковой панели в реальном времени"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:19
 msgid "Can open multiple instances"
@@ -120,48 +119,52 @@ msgstr "Параметры"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:72
 msgid "Added histogram plot type to the live plot."
-msgstr ""
+msgstr "В график реального времени добавлен тип «Гистограмма»."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:79
 msgid "Parse multiple labeled values per line in the live plot."
-msgstr ""
+msgstr "Добавлен разбор нескольких подписанных значений в строке для графика реального времени."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:86
 msgid "Added bar and pie chart types to the live plot."
-msgstr ""
+msgstr "В график реального времени добавлены столбчатая и круговая диаграммы."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:87
 msgid ""
 "Added a plot-type selector and show visible-sample controls only for "
 "timelines."
 msgstr ""
+"Добавлен выбор типа графика; элементы управления числом видимых отсчётов "
+"показываются только для временных графиков."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:94
 msgid "Bumped application version for the next release."
-msgstr ""
+msgstr "Повышена версия приложения для следующего выпуска."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:101
 msgid ""
 "Replaced the live plot renderer with Matplotlib and added light/dark themes."
-msgstr ""
+msgstr "Средство отрисовки графика реального времени заменено на Matplotlib; добавлены светлая и тёмная темы."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:102
 msgid "Added a visible-sample slider for the live plot."
-msgstr ""
+msgstr "В график реального времени добавлен ползунок числа видимых отсчётов."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:109
 msgid ""
 "Moved Live Plot into the resizable sidebar and added device information to a "
 "toolbar popover."
 msgstr ""
+"График реального времени перемещён в изменяемую по ширине боковую панель, "
+"а сведения об устройстве добавлены во всплывающее меню панели инструментов."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:110
 msgid "Clear screen now also clears plotted data."
-msgstr ""
+msgstr "Очистка экрана теперь также удаляет данные графика."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:117
 msgid "Added selectable TX data formats and bottom-toolbar display controls."
-msgstr ""
+msgstr "Добавлены выбор формата передаваемых данных TX и элементы управления отображением на нижней панели."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:124
 msgid "Updated translations and gettext extraction."
@@ -518,27 +521,25 @@ msgstr "Показывать стрелку"
 
 #: src/window.ui:154
 msgid "RX data format"
-msgstr ""
+msgstr "Формат принимаемых данных RX"
 
 #: src/window.ui:161
 msgid "Show Line Endings"
 msgstr "Показывать окончания строк"
 
 #: src/window.ui:166
-#, fuzzy
 msgid "Find in data"
-msgstr "Найти скорость передачи"
+msgstr "Найти в данных"
 
 #: src/window.ui:167
 msgid "Text to highlight in the text view"
-msgstr ""
+msgstr "Текст для выделения в текстовом поле"
 
 #: src/window.ui:175
 msgid "Highlight matching text"
-msgstr ""
+msgstr "Выделять совпадающий текст"
 
 #: src/window.ui:182
-#, fuzzy
 msgid "Live plot"
 msgstr "График в реальном времени"
 
@@ -603,9 +604,8 @@ msgid "Guide"
 msgstr "Руководство"
 
 #: src/window.ui:529
-#, fuzzy
 msgid "Transmit data format"
-msgstr "Цвет переданных (TX) данных"
+msgstr "Формат передаваемых данных"
 
 #: src/window.ui:546
 msgid "Enter cmd"

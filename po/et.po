@@ -35,7 +35,7 @@ msgstr "Tauno Erik"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:8
 msgid "Serial port monitor and plotter"
-msgstr ""
+msgstr "Jadapordi monitor ja graafikute koostaja"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:10
 msgid "Features:"
@@ -66,13 +66,12 @@ msgid "Displays data in different formats: ASCII, BIN, OCT or DEC"
 msgstr "Kuvab andmeid erinevas formaadis: ASCII, BIN, OCT või DEC"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:18
-#, fuzzy
 msgid ""
 "Plots labeled numeric values from comma-separated serial data in a live "
 "sidebar graph"
 msgstr ""
-"Kuvab komadega eraldatud jadaandmetest sildistatud arvväärtused eraldi "
-"reaalajas graafikuaknas"
+"Komadega eraldatud jadaandmete nimega arvväärtused kuvatakse külgpaneeli "
+"reaalajagraafikul"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:19
 msgid "Can open multiple instances"
@@ -113,48 +112,52 @@ msgstr "Seaded"
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:72
 msgid "Added histogram plot type to the live plot."
-msgstr ""
+msgstr "Reaalajagraafikule lisati histogrammi tüübi valik."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:79
 msgid "Parse multiple labeled values per line in the live plot."
-msgstr ""
+msgstr "Reaalajagraafikus saab nüüd ühelt realt parsida mitu nimega väärtust."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:86
 msgid "Added bar and pie chart types to the live plot."
-msgstr ""
+msgstr "Reaalajagraafikule lisati tulp- ja sektordiagramm."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:87
 msgid ""
 "Added a plot-type selector and show visible-sample controls only for "
 "timelines."
 msgstr ""
+"Lisati diagrammitüübi valija; nähtavate näidiste juhtnupud kuvatakse ainult "
+"ajatelje puhul."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:94
 msgid "Bumped application version for the next release."
-msgstr ""
+msgstr "Rakenduse versiooni suurendati järgmise väljalaske jaoks."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:101
 msgid ""
 "Replaced the live plot renderer with Matplotlib and added light/dark themes."
-msgstr ""
+msgstr "Reaalajagraafiku joonistaja asendati Matplotlibiga ning lisati heledad ja tumedad teemad."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:102
 msgid "Added a visible-sample slider for the live plot."
-msgstr ""
+msgstr "Reaalajagraafikule lisati nähtavate näidiste liugur."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:109
 msgid ""
 "Moved Live Plot into the resizable sidebar and added device information to a "
 "toolbar popover."
 msgstr ""
+"Reaalajagraafik viidi muudetava suurusega külgpaneeli ning seadme teave "
+"lisati tööriistariba hüpikmenüüsse."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:110
 msgid "Clear screen now also clears plotted data."
-msgstr ""
+msgstr "Ekraani tühjendamine kustutab nüüd ka graafikuandmed."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:117
 msgid "Added selectable TX data formats and bottom-toolbar display controls."
-msgstr ""
+msgstr "Lisati valitavad TX-andmevormingud ja alumise tööriistariba kuvaseaded."
 
 #: data/art.taunoerik.tauno-monitor.metainfo.xml.in:124
 msgid "Updated translations and gettext extraction."
@@ -506,16 +509,15 @@ msgstr "Näita noolt"
 
 #: src/window.ui:154
 msgid "RX data format"
-msgstr ""
+msgstr "RX-andmete vorming"
 
 #: src/window.ui:161
 msgid "Show Line Endings"
 msgstr "Näita rea lõppe"
 
 #: src/window.ui:166
-#, fuzzy
 msgid "Find in data"
-msgstr "Leia baudikiirus"
+msgstr "Leia andmetest"
 
 #: src/window.ui:167
 msgid "Text to highlight in the text view"
@@ -526,9 +528,8 @@ msgid "Highlight matching text"
 msgstr "Tõsta vastav tekst esile"
 
 #: src/window.ui:182
-#, fuzzy
 msgid "Live plot"
-msgstr "Reaalajagraafik"
+msgstr "Graafik"
 
 #: src/window.ui:191
 msgid "Clear screen"
@@ -591,9 +592,8 @@ msgid "Guide"
 msgstr "Juhend"
 
 #: src/window.ui:529
-#, fuzzy
 msgid "Transmit data format"
-msgstr "Edastatud (TX) andmete värv"
+msgstr "Edastatud (TX) andmetüüp"
 
 #: src/window.ui:546
 msgid "Enter cmd"
