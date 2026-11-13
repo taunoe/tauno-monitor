@@ -31,7 +31,7 @@ from .plot_data import SerialPlotData
 from .plot_window import TaunoPlotView
 from .guide import TaunoGuideWindow
 from .tool_baud import TaunoToolBaudWindow
-from .port_utils import format_port_label
+from .port_utils import format_port_label, lookup_usb_names
 import gettext, locale, os, random, string
 import re
 from .usb_db import usb_db
@@ -1217,18 +1217,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.info_VID.set_label(str(result['VID']))#hex
             self.info_PID.set_label(str(result['PID']))#hex
 
-            vendor = usb_db.get(result['VID'], {})
-            vendor_name = vendor.get("name")
-            product = vendor.get("products", {}).get(result['PID'])
+            vendor_name, product = lookup_usb_names(
+                result['VID'], result['PID'], usb_db)
             # Add to Sidebar
-            if vendor_name == None:
-                self.info_VID_Vendor.set_label("None")
-            else:
-                self.info_VID_Vendor.set_label(vendor_name.strip())
-            if product == None:
-                self.info_PID_Product.set_label("None")
-            else:
-                self.info_PID_Product.set_label(product.strip())
+            self.info_VID_Vendor.set_label(vendor_name or "None")
+            self.info_PID_Product.set_label(product or "None")
 
 
         # Match Serial Number

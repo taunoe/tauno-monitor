@@ -1,7 +1,7 @@
 import unittest
 from types import SimpleNamespace
 
-from src.port_utils import format_port_label
+from src.port_utils import format_port_label, lookup_usb_names
 
 
 class FormatPortLabelTests(unittest.TestCase):
@@ -47,6 +47,28 @@ class FormatPortLabelTests(unittest.TestCase):
         )
 
         self.assertEqual(format_port_label(port), "/dev/ttyACM0\nArduino")
+
+
+class LookupUsbNamesTests(unittest.TestCase):
+    DB = {
+        "1a86": {
+            "name": " QinHeng Electronics",
+            "products": {"7523": " CH340 serial converter"},
+        },
+    }
+
+    def test_lookup_is_case_insensitive_and_strips_names(self):
+        self.assertEqual(
+            lookup_usb_names("1A86", "7523", self.DB),
+            ("QinHeng Electronics", "CH340 serial converter"),
+        )
+
+    def test_unknown_product_and_vendor_return_none(self):
+        self.assertEqual(
+            lookup_usb_names("1a86", "FFFF", self.DB),
+            ("QinHeng Electronics", None),
+        )
+        self.assertEqual(lookup_usb_names("FFFF", "0001", self.DB), (None, None))
 
 
 if __name__ == "__main__":
