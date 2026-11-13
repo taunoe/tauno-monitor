@@ -89,7 +89,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
 
         # --- Logging ---
         # Get saved log folder
-        self.log_folder_path = self.settings.get_string("log-folder")
+        self.log_folder_path = self.win.get_log_folder()
         log_buffer = self.log_folder_entry.get_buffer()
         log_buffer.set_text(self.log_folder_path, -1)
 

@@ -511,7 +511,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         if self.log_switch.props.active:
             #print("log switch active")
             self.write_logs = True
-            folder = self.settings.get_string("log-folder")
+            folder = self.get_log_folder()
 
             # Validate folder exists and is writable
             if not os.path.isdir(folder):
@@ -535,11 +535,16 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.write_logs = False
 
 
+    def get_log_folder(self):
+        """ Saved log folder. The default '~' means the home folder. """
+        return os.path.expanduser(self.settings.get_string("log-folder"))
+
+
     def on_btn_select_log_folder(self, action, _parameter):
         """Open a folder chooser for the log destination."""
         self.log_folder_dialog = Gtk.FileDialog()
         self.log_folder_dialog.set_title("Select log folder")
-        current_folder = self.settings.get_string("log-folder")
+        current_folder = self.get_log_folder()
         if os.path.isdir(current_folder):
             self.log_folder_dialog.set_initial_folder(
                 Gio.File.new_for_path(current_folder))

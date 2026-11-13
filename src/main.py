@@ -75,12 +75,6 @@ class TaunoMonitorApplication(Adw.Application):
             pass
 
 
-        # Get saved log folder
-        self.log_folder_path = self.settings.get_string("log-folder")
-        # If default get user home
-        if self.log_folder_path == '~':
-            self.log_folder_path = os.path.expanduser("~")
-
         # Color dialog
         self.color_dialog = Gtk.ColorDialog.new()
         self.color_dialog.set_modal(modal=True)
