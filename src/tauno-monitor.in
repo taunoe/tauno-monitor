@@ -34,6 +34,10 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 locale.setlocale(locale.LC_ALL, '')
 locale.bindtextdomain('tauno-monitor', localedir)
 locale.textdomain('tauno-monitor')
+# Python-side translations: modules use "_ = gettext.gettext", which looks
+# up the global text domain, so it has to point at the installed catalogue.
+gettext.bindtextdomain('tauno-monitor', localedir)
+gettext.textdomain('tauno-monitor')
 gettext.install('tauno-monitor', localedir)
 _ = gettext.gettext
 

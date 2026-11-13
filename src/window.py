@@ -32,7 +32,7 @@ from .plot_window import TaunoPlotView
 from .guide import TaunoGuideWindow
 from .tool_baud import TaunoToolBaudWindow
 from .port_utils import describe_open_error, format_port_label, lookup_usb_names
-import gettext, locale, os, random, string
+import os, random, string
 import re
 from .usb_db import usb_db
 
@@ -104,13 +104,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         info_grid_parent = self.device_info_grid.get_parent()
         info_grid_parent.remove(self.device_info_grid)
         self.device_info_scroller.set_child(self.device_info_grid)
-
-        # # The default language of the operating system will be used.
-        localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
-        locale.setlocale(locale.LC_ALL, '')
-        gettext.bindtextdomain(APP_ID, localedir)
-        gettext.textdomain(APP_ID)
-        _ = gettext.gettext
 
         self.connect("close-request", self.on_close_request)
 

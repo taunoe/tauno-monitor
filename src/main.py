@@ -80,13 +80,6 @@ class TaunoMonitorApplication(Adw.Application):
         self.color_dialog.set_modal(modal=True)
         self.color_dialog.set_title(title='Select a color.')
 
-        # Language
-        localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
-        locale.setlocale(locale.LC_ALL, '')
-        gettext.bindtextdomain(APP_ID, localedir)
-        gettext.textdomain(APP_ID)
-        _ = gettext.gettext
-
 
     def do_activate(self):
         """
