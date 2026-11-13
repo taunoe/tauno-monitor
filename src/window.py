@@ -280,8 +280,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Reconnect
         self.reconnecting_serial = False
-
-        self.event = threading.Event()
+        self.reconnect_source = 0  # GLib timeout id
+        self.reconnect_port = None
+        self.reconnect_step = 0
 
         # TX command history
         self.send_cmd_history = []
@@ -346,6 +347,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def on_close_request(self, window):
         print("Window is being closed")
+        self.cancel_reconnect_serial()
+        if self.tauno_serial.is_open:
+            self.tauno_serial.close()
         if self.log_file_exist:
                 self.logging.close_file()
         return False  # allow closing
@@ -645,7 +649,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         """ Button Open action """
         # Stop pressed in the middle of a reconnection: give up
         if self.reconnecting_serial:
-            self.reconnecting_serial = False
+            self.cancel_reconnect_serial()
             self.tauno_serial.close()
             self.open_button.set_icon_name("play-large-symbolic")
             self.set_title(APP_NAME)
@@ -692,8 +696,15 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def reconnect_serial(self, selected_port, selected_baudrate):
         """
-        Tries to reconnect the serial connection. Using the latest settings.
+        Start reconnecting after the serial connection was lost.
+
+        Runs on the GTK main loop: the reader thread schedules it with
+        GLib.idle_add, because widgets must not be touched from a thread.
         """
+        if self.reconnecting_serial or not self.tauno_serial.is_open:
+            # Already reconnecting, or the user closed the port meanwhile
+            return GLib.SOURCE_REMOVE
+
         print("Auto reconnecting serial ")
         self.tauno_serial.close()
 
@@ -701,34 +712,49 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.notify(f"{selected_port} {selected_baudrate} lost")
 
         self.reconnecting_serial = True
+        self.reconnect_port = selected_port
+        self.reconnect_step = 0
+        self.set_title("Reconnecting")
+        self.reconnect_source = GLib.timeout_add(500, self.try_reconnect_serial)
+        return GLib.SOURCE_REMOVE
 
-        if self.reconnecting_serial:
-            self.set_title("Reconnecting")
-            last_port = self.ports_str_list[self.port_drop_down.get_selected()]
 
-            baud_obj = self.baud_drop_down.get_selected_item()
-            last_baud = baud_obj.get_string()
+    def try_reconnect_serial(self):
+        """
+        One reconnection attempt. Repeats every 0.5 s until the port
+        opens or the user presses Stop.
+        """
+        if not self.reconnecting_serial:
+            self.reconnect_source = 0
+            return GLib.SOURCE_REMOVE
 
-            i = 0
-            while self.tauno_serial.is_open == False and self.reconnecting_serial == True:
-                self.event.wait(0.5)
-                try:
-                    self.tauno_serial.open(last_port, last_baud)
-                except:
-                    self.reconnecting_msg(i)  # Title animation
-                    i = i+1
-                    if i > 3:
-                        i = 0
+        # Use the latest baud rate setting
+        baud = self.baud_drop_down.get_selected_item().get_string()
 
-            self.thread_read_serial()  # Start reading
-            self.reconnecting_serial = False
+        try:
+            self.tauno_serial.open(self.reconnect_port, baud)
+        except (OSError, ValueError):
+            pass
 
-            if self.tauno_serial.is_open:
-                self.set_title(str(last_port)+":"+str(last_baud))
-                print(" reconnected!")
-            else: # Close button is pressed
-                self.tauno_serial.close()
-                self.set_title(APP_NAME)
+        if not self.tauno_serial.is_open:
+            self.reconnect_step = (self.reconnect_step + 1) % 4
+            self.reconnecting_msg(self.reconnect_step)  # Title animation
+            return GLib.SOURCE_CONTINUE
+
+        self.reconnecting_serial = False
+        self.reconnect_source = 0
+        self.set_title(str(self.reconnect_port)+":"+str(baud))
+        print(" reconnected!")
+        self.thread_read_serial()  # Start reading
+        return GLib.SOURCE_REMOVE
+
+
+    def cancel_reconnect_serial(self):
+        """ Stop a running reconnection, if any """
+        self.reconnecting_serial = False
+        if self.reconnect_source:
+            GLib.source_remove(self.reconnect_source)
+            self.reconnect_source = 0
 
 
     def reconnecting_msg(self, i):

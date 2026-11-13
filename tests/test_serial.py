@@ -152,6 +152,23 @@ class TaunoSerialTests(unittest.TestCase):
         self.device.read_until.assert_not_called()
         idle_add.assert_called_once_with(self.window.add_to_text_view, b"\xff")
 
+    def test_read_error_schedules_reconnect_on_main_loop(self):
+        self.window.reconnect_serial = Mock()
+        self.device.is_open = True
+        self.device.port = "/dev/fake"
+        self.device.baudrate = 9600
+        self.connection.is_open = True
+        self.device.read_until.side_effect = serial.SerialException("gone")
+
+        with patch.object(tauno_serial.GLib, "idle_add", return_value=0) as idle_add:
+            self.connection.read()
+
+        # The reader thread must not call into the window (GTK) directly.
+        self.window.reconnect_serial.assert_not_called()
+        idle_add.assert_called_once_with(
+            self.window.reconnect_serial, "/dev/fake", 9600
+        )
+
     def stop_after_read(self, data):
         self.connection.is_open = False
         return data

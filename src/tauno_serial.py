@@ -123,9 +123,15 @@ class TaunoSerial():
                 GLib.idle_add(self.window_reference.add_to_text_view, data_in)
             except Exception as ex:
                 print("Serial read error: ", ex)
-                # Close serial port
+                # Connection lost (not closed by the user): let the window
+                # reconnect. This is a worker thread, so hand over to the
+                # GTK main loop instead of calling the window directly.
                 if self.tauno_serial.is_open:
-                    self.window_reference.reconnect_serial(self.tauno_serial.port, self.tauno_serial.baudrate)
+                    GLib.idle_add(
+                        self.window_reference.reconnect_serial,
+                        self.tauno_serial.port,
+                        self.tauno_serial.baudrate,
+                    )
                 return
 
 
