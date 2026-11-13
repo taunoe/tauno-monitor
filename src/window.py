@@ -1124,10 +1124,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         payload += line_ending.encode('ascii')
 
         try:
-            if self.get_tx_format_saved == 'ASCII':
-                self.tauno_serial.write(data + line_ending)
-            else:
-                self.tauno_serial.write(payload)
+            self.tauno_serial.write(payload)
         except OSError as error:
             print("Serial write error: ", error)
             self.notify(f"Not sent: {error}", important=True)

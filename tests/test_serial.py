@@ -94,16 +94,16 @@ class TaunoSerialTests(unittest.TestCase):
         self.assertFalse(self.connection.is_open)
         self.device.close.assert_called_once_with()
 
-    def test_write_filters_controls_and_caps_payload_length(self):
+    def test_write_sends_text_unmodified(self):
         self.connection.open("/dev/fake", 9600)
 
-        self.connection.write("hello\x00\nworld")
-        self.device.write.assert_called_once_with(b"hello\nworld")
+        self.connection.write("AT\x1b\x03\x00\nõ")
+        self.device.write.assert_called_once_with("AT\x1b\x03\x00\nõ".encode("utf-8"))
         self.device.flush.assert_called_once_with()
 
         self.device.write.reset_mock()
-        self.connection.write("x" * 1025)
-        self.assertEqual(self.device.write.call_args.args[0], b"x" * 1024)
+        self.connection.write("x" * 5000)
+        self.assertEqual(self.device.write.call_args.args[0], b"x" * 5000)
 
     def test_write_preserves_raw_bytes(self):
         self.connection.open("/dev/fake", 9600)
