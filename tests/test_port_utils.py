@@ -1,7 +1,11 @@
 import unittest
 from types import SimpleNamespace
 
-from src.port_utils import format_port_label
+from src.port_utils import (
+    describe_open_error,
+    format_port_label,
+    lookup_usb_names,
+)
 
 
 class FormatPortLabelTests(unittest.TestCase):
@@ -47,6 +51,50 @@ class FormatPortLabelTests(unittest.TestCase):
         )
 
         self.assertEqual(format_port_label(port), "/dev/ttyACM0\nArduino")
+
+
+class LookupUsbNamesTests(unittest.TestCase):
+    DB = {
+        "1a86": {
+            "name": " QinHeng Electronics",
+            "products": {"7523": " CH340 serial converter"},
+        },
+    }
+
+    def test_lookup_is_case_insensitive_and_strips_names(self):
+        self.assertEqual(
+            lookup_usb_names("1A86", "7523", self.DB),
+            ("QinHeng Electronics", "CH340 serial converter"),
+        )
+
+    def test_unknown_product_and_vendor_return_none(self):
+        self.assertEqual(
+            lookup_usb_names("1a86", "FFFF", self.DB),
+            ("QinHeng Electronics", None),
+        )
+        self.assertEqual(lookup_usb_names("FFFF", "0001", self.DB), (None, None))
+
+
+class DescribeOpenErrorTests(unittest.TestCase):
+    def test_known_errno_values_get_short_messages(self):
+        self.assertIn(
+            "No permission",
+            describe_open_error("/dev/ttyUSB0", PermissionError(13, "denied")),
+        )
+        self.assertIn(
+            "not found",
+            describe_open_error("/dev/ttyUSB0", FileNotFoundError(2, "missing")),
+        )
+        self.assertIn(
+            "in use",
+            describe_open_error("/dev/ttyUSB0", OSError(16, "busy")),
+        )
+
+    def test_other_errors_keep_their_text(self):
+        self.assertEqual(
+            describe_open_error("/dev/ttyUSB0", ValueError("bad baud")),
+            "Could not open /dev/ttyUSB0: bad baud",
+        )
 
 
 if __name__ == "__main__":

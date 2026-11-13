@@ -94,16 +94,16 @@ class TaunoSerialTests(unittest.TestCase):
         self.assertFalse(self.connection.is_open)
         self.device.close.assert_called_once_with()
 
-    def test_write_filters_controls_and_caps_payload_length(self):
+    def test_write_sends_text_unmodified(self):
         self.connection.open("/dev/fake", 9600)
 
-        self.connection.write("hello\x00\nworld")
-        self.device.write.assert_called_once_with(b"hello\nworld")
+        self.connection.write("AT\x1b\x03\x00\nõ")
+        self.device.write.assert_called_once_with("AT\x1b\x03\x00\nõ".encode("utf-8"))
         self.device.flush.assert_called_once_with()
 
         self.device.write.reset_mock()
-        self.connection.write("x" * 1025)
-        self.assertEqual(self.device.write.call_args.args[0], b"x" * 1024)
+        self.connection.write("x" * 5000)
+        self.assertEqual(self.device.write.call_args.args[0], b"x" * 5000)
 
     def test_write_preserves_raw_bytes(self):
         self.connection.open("/dev/fake", 9600)
@@ -151,6 +151,23 @@ class TaunoSerialTests(unittest.TestCase):
         self.device.read.assert_called_once_with()
         self.device.read_until.assert_not_called()
         idle_add.assert_called_once_with(self.window.add_to_text_view, b"\xff")
+
+    def test_read_error_schedules_reconnect_on_main_loop(self):
+        self.window.reconnect_serial = Mock()
+        self.device.is_open = True
+        self.device.port = "/dev/fake"
+        self.device.baudrate = 9600
+        self.connection.is_open = True
+        self.device.read_until.side_effect = serial.SerialException("gone")
+
+        with patch.object(tauno_serial.GLib, "idle_add", return_value=0) as idle_add:
+            self.connection.read()
+
+        # The reader thread must not call into the window (GTK) directly.
+        self.window.reconnect_serial.assert_not_called()
+        idle_add.assert_called_once_with(
+            self.window.reconnect_serial, "/dev/fake", 9600
+        )
 
     def stop_after_read(self, data):
         self.connection.is_open = False

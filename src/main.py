@@ -75,23 +75,10 @@ class TaunoMonitorApplication(Adw.Application):
             pass
 
 
-        # Get saved log folder
-        self.log_folder_path = self.settings.get_string("log-folder")
-        # If default get user home
-        if self.log_folder_path == '~':
-            self.log_folder_path = os.path.expanduser("~")
-
         # Color dialog
         self.color_dialog = Gtk.ColorDialog.new()
         self.color_dialog.set_modal(modal=True)
         self.color_dialog.set_title(title='Select a color.')
-
-        # Language
-        localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
-        locale.setlocale(locale.LC_ALL, '')
-        gettext.bindtextdomain(APP_ID, localedir)
-        gettext.textdomain(APP_ID)
-        _ = gettext.gettext
 
 
     def do_activate(self):
@@ -102,8 +89,9 @@ class TaunoMonitorApplication(Adw.Application):
         self.win = TaunoMonitorWindow(application=self)
         self.win.present()
 
-    def on_new_window(self):
-        # This function is called when the "new-window" action is triggered
+    def on_new_window(self, *_args):
+        # Called for --new-window and by the "new-window" action,
+        # which passes (action, parameter)
         self.do_activate()
 
     def on_newwindow(self, widget, param):
@@ -140,17 +128,6 @@ class TaunoMonitorApplication(Adw.Application):
         self.add_action(action)
         if shortcuts:
             self.set_accels_for_action(f"app.{name}", shortcuts)
-
-
-    def on_guide_action(self, widget, _):
-        """Callback for the app.guide action."""
-        guide = Adw.tWindow(transient_for=self.props.active_window)
-        guide.present()
-
-    def on_tool_baud_action(self, widget, _):
-        """Callback for the app.tool_baud action."""
-        tool_baud = Adw.tWindow(transient_for=self.props.active_window)
-        tool_baud.present()
 
 
     def on_about_action(self, widget, param):

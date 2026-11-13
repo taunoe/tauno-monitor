@@ -69,22 +69,28 @@ class TaunoToolBaudWindow(Adw.Window):
         # Find best
         best = max(self.scores, key=lambda x: x[0])
         score, baud, lines = best
-        self.message_label.set_label(
-            _("Best match: {baud} baud").format(baud=baud)
-        )
         print("\nBest match:")
         print(f"{baud} with {score} valid lines")
         # Print valid lines
         for line in lines:
             print(f"  {line.decode('utf-8', errors='ignore').strip()}")
 
+        # This is a worker thread: update the widgets on the GTK main loop
+        GLib.idle_add(self.on_scan_finished, baud)
+
+
+    def on_scan_finished(self, baud):
+        """ Show the result of the scan """
+        self.message_label.set_label(
+            _("Best match: {baud} baud").format(baud=baud)
+        )
         self.best_baud = baud
         #Enable Scan button
         self.scan_button.set_sensitive(True)
         self.scan_button.remove_css_class("suggested-action")
         self.use_button.set_sensitive(True)
         self.use_button.add_css_class("suggested-action")
-        return
+        return GLib.SOURCE_REMOVE
 
 
     def try_baud_rate(self, port, baudrate, timeout=2.0):
@@ -121,7 +127,10 @@ class TaunoToolBaudWindow(Adw.Window):
                 self.scores.append((score, baudrate, good_lines[:5]))
         except Exception as e:
             print(f"Error at {baudrate} baud: {e}")
-            self.message_label.set_label(_(f"Connect the device to the port!"))
+            GLib.idle_add(
+                self.message_label.set_label,
+                _("Connect the device to the port!"),
+            )
             #return 0, []
             self.scores.append((0, baudrate, []))
 

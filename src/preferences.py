@@ -89,7 +89,7 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
 
         # --- Logging ---
         # Get saved log folder
-        self.log_folder_path = self.settings.get_string("log-folder")
+        self.log_folder_path = self.win.get_log_folder()
         log_buffer = self.log_folder_entry.get_buffer()
         log_buffer.set_text(self.log_folder_path, -1)
 
@@ -456,23 +456,19 @@ class TaunoPreferencesWindow(Adw.PreferencesWindow):
             return
 
         if folder is not None:
-            self.log_folder_path = folder.get_path()
+            folder_path = folder.get_path()
 
-            # If not a folder
-            if (os.path.exists(self.log_folder_path) == False):
-                self.win.toast_overlay.add_toast(Adw.Toast(title=f"{self.log_folder_path} is not a folder!"))
+            # Remote locations have no local path
+            if folder_path is None or not os.path.isdir(folder_path):
+                self.win.toast_overlay.add_toast(Adw.Toast(title=f"{folder_path} is not a folder!"))
+                return
 
             # Is it writeable?
-            test_file_path = self.log_folder_path+'/tauno_monitor_test.txt'
-            # We create test file and then will remove it
-            try:
-                with open(test_file_path, 'w') as file:
-                    file.write('Hello!')
-                    file.close()
-                    os.remove(test_file_path)
-            except IOError as error:
-                self.win.toast_overlay.add_toast(Adw.Toast(title=f"No write permission on this directory!"))
+            if not os.access(folder_path, os.W_OK):
+                self.win.toast_overlay.add_toast(Adw.Toast(title="No write permission on this directory!"))
+                return
 
+            self.log_folder_path = folder_path
             self.entry_buffer = self.log_folder_entry.get_buffer()
             # Update label on preferences
             self.entry_buffer.set_text(self.log_folder_path, len(self.log_folder_path))

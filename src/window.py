@@ -31,8 +31,8 @@ from .plot_data import SerialPlotData
 from .plot_window import TaunoPlotView
 from .guide import TaunoGuideWindow
 from .tool_baud import TaunoToolBaudWindow
-from .port_utils import format_port_label
-import gettext, locale, os, random, string
+from .port_utils import describe_open_error, format_port_label, lookup_usb_names
+import os, random, string
 import re
 from .usb_db import usb_db
 
@@ -104,13 +104,6 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         info_grid_parent = self.device_info_grid.get_parent()
         info_grid_parent.remove(self.device_info_grid)
         self.device_info_scroller.set_child(self.device_info_grid)
-
-        # # The default language of the operating system will be used.
-        localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
-        locale.setlocale(locale.LC_ALL, '')
-        gettext.bindtextdomain(APP_ID, localedir)
-        gettext.textdomain(APP_ID)
-        _ = gettext.gettext
 
         self.connect("close-request", self.on_close_request)
 
@@ -280,8 +273,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
         # Reconnect
         self.reconnecting_serial = False
-
-        self.event = threading.Event()
+        self.reconnect_source = 0  # GLib timeout id
+        self.reconnect_port = None
+        self.reconnect_step = 0
 
         # TX command history
         self.send_cmd_history = []
@@ -346,6 +340,9 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def on_close_request(self, window):
         print("Window is being closed")
+        self.cancel_reconnect_serial()
+        if self.tauno_serial.is_open:
+            self.tauno_serial.close()
         if self.log_file_exist:
                 self.logging.close_file()
         return False  # allow closing
@@ -507,7 +504,7 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         if self.log_switch.props.active:
             #print("log switch active")
             self.write_logs = True
-            folder = self.settings.get_string("log-folder")
+            folder = self.get_log_folder()
 
             # Validate folder exists and is writable
             if not os.path.isdir(folder):
@@ -531,11 +528,16 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.write_logs = False
 
 
+    def get_log_folder(self):
+        """ Saved log folder. The default '~' means the home folder. """
+        return os.path.expanduser(self.settings.get_string("log-folder"))
+
+
     def on_btn_select_log_folder(self, action, _parameter):
         """Open a folder chooser for the log destination."""
         self.log_folder_dialog = Gtk.FileDialog()
         self.log_folder_dialog.set_title("Select log folder")
-        current_folder = self.settings.get_string("log-folder")
+        current_folder = self.get_log_folder()
         if os.path.isdir(current_folder):
             self.log_folder_dialog.set_initial_folder(
                 Gio.File.new_for_path(current_folder))
@@ -643,39 +645,42 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def on_btn_open(self, action, _):
         """ Button Open action """
-        #self.scan_serial_ports()
-
-        # If we a middle of reconnection
+        # Stop pressed in the middle of a reconnection: give up
         if self.reconnecting_serial:
+            self.cancel_reconnect_serial()
             self.tauno_serial.close()
-            self.reconnecting_serial = False
-            #self.open_button.set_label("Open")
             self.open_button.set_icon_name("play-large-symbolic")
             self.set_title(APP_NAME)
-        else:
-            # Get saved
-            selected_port = self.settings.get_string("port-str")
-            selected_baud_index = self.settings.get_int("baud-index")
-            selected_baud_rate = self.baud_drop_down.get_selected_item().get_string()
-            # Open Serial Port
+            self.notify("Reconnecting cancelled")
+            return
+
+        # Get saved
+        selected_port = self.settings.get_string("port-str")
+        selected_baud_rate = self.baud_drop_down.get_selected_item().get_string()
+
+        try:
+            # Opens the port, or closes it when it is already open
             self.tauno_serial.open(selected_port, selected_baud_rate)
+        except (OSError, ValueError) as error:
+            # serial.SerialException is an OSError: no permission,
+            # device missing, port busy, unsupported settings...
+            print("Serial open error: ", error)
+            self.open_button.set_icon_name("play-large-symbolic")
+            self.set_title(APP_NAME)
+            self.notify(describe_open_error(selected_port, error), important=True)
+            return
 
         # Change button label and title
         if self.tauno_serial.is_open:
-            #self.open_button.set_label("Close")
             self.open_button.set_icon_name("stop-large-symbolic")
             title = str(selected_port)+":"+str(selected_baud_rate)
             self.set_title(title) # port
             self.logging.write_data("Opened " + title + "\n")
-        else:
-            #self.open_button.set_label("Open")
-            self.open_button.set_icon_name("play-large-symbolic")
-            self.set_title(APP_NAME)
-
-        if self.tauno_serial.is_open:
             self.notify(f"{selected_port} {selected_baud_rate} connected")
             self.thread_read_serial()
         else:
+            self.open_button.set_icon_name("play-large-symbolic")
+            self.set_title(APP_NAME)
             self.notify(f"{selected_port} {selected_baud_rate} closed")
 
 
@@ -689,8 +694,15 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def reconnect_serial(self, selected_port, selected_baudrate):
         """
-        Tries to reconnect the serial connection. Using the latest settings.
+        Start reconnecting after the serial connection was lost.
+
+        Runs on the GTK main loop: the reader thread schedules it with
+        GLib.idle_add, because widgets must not be touched from a thread.
         """
+        if self.reconnecting_serial or not self.tauno_serial.is_open:
+            # Already reconnecting, or the user closed the port meanwhile
+            return GLib.SOURCE_REMOVE
+
         print("Auto reconnecting serial ")
         self.tauno_serial.close()
 
@@ -698,34 +710,49 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         self.notify(f"{selected_port} {selected_baudrate} lost")
 
         self.reconnecting_serial = True
+        self.reconnect_port = selected_port
+        self.reconnect_step = 0
+        self.set_title("Reconnecting")
+        self.reconnect_source = GLib.timeout_add(500, self.try_reconnect_serial)
+        return GLib.SOURCE_REMOVE
 
-        if self.reconnecting_serial:
-            self.set_title("Reconnecting")
-            last_port = self.ports_str_list[self.port_drop_down.get_selected()]
 
-            baud_obj = self.baud_drop_down.get_selected_item()
-            last_baud = baud_obj.get_string()
+    def try_reconnect_serial(self):
+        """
+        One reconnection attempt. Repeats every 0.5 s until the port
+        opens or the user presses Stop.
+        """
+        if not self.reconnecting_serial:
+            self.reconnect_source = 0
+            return GLib.SOURCE_REMOVE
 
-            i = 0
-            while self.tauno_serial.is_open == False and self.reconnecting_serial == True:
-                self.event.wait(0.5)
-                try:
-                    self.tauno_serial.open(last_port, last_baud)
-                except:
-                    self.reconnecting_msg(i)  # Title animation
-                    i = i+1
-                    if i > 3:
-                        i = 0
+        # Use the latest baud rate setting
+        baud = self.baud_drop_down.get_selected_item().get_string()
 
-            self.thread_read_serial()  # Start reading
-            self.reconnecting_serial = False
+        try:
+            self.tauno_serial.open(self.reconnect_port, baud)
+        except (OSError, ValueError):
+            pass
 
-            if self.tauno_serial.is_open:
-                self.set_title(str(last_port)+":"+str(last_baud))
-                print(" reconnected!")
-            else: # Close button is pressed
-                self.tauno_serial.close()
-                self.set_title(APP_NAME)
+        if not self.tauno_serial.is_open:
+            self.reconnect_step = (self.reconnect_step + 1) % 4
+            self.reconnecting_msg(self.reconnect_step)  # Title animation
+            return GLib.SOURCE_CONTINUE
+
+        self.reconnecting_serial = False
+        self.reconnect_source = 0
+        self.set_title(str(self.reconnect_port)+":"+str(baud))
+        print(" reconnected!")
+        self.thread_read_serial()  # Start reading
+        return GLib.SOURCE_REMOVE
+
+
+    def cancel_reconnect_serial(self):
+        """ Stop a running reconnection, if any """
+        self.reconnecting_serial = False
+        if self.reconnect_source:
+            GLib.source_remove(self.reconnect_source)
+            self.reconnect_source = 0
 
 
     def reconnecting_msg(self, i):
@@ -1079,36 +1106,46 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def send_to_serial(self, data):
         """
-        Write data to Serial port
+        Write data to Serial port.
+        Returns True when the data was sent.
         """
         try:
             payload = encode_tx_data(data, self.get_tx_format_saved)
         except ValueError as error:
-            self.notify(str(error))
+            self.notify(str(error), important=True)
+            return False
+
+        if not self.tauno_serial.is_open:
+            # Keep the text in the entry instead of showing it as sent
+            self.notify("Not sent: the serial port is not open", important=True)
             return False
 
         line_ending = tx_line_ending(self.get_TX_line_end_saved)
         payload += line_ending.encode('ascii')
-        if self.tauno_serial.is_open:
-            if self.get_tx_format_saved == 'ASCII':
-                self.tauno_serial.write(data + line_ending)
-            else:
-                self.tauno_serial.write(payload)
-        else:
-            print("Send cmd: Serial is not Open")
+
+        try:
+            self.tauno_serial.write(payload)
+        except OSError as error:
+            print("Serial write error: ", error)
+            self.notify(f"Not sent: {error}", important=True)
+            return False
 
         self.insert_time_to_text_view()
         self.insert_arrow_to_text_view('TX')
-        self.insert_data_to_text_view(data + line_ending, 'TX')
+        # The line ending is added (and logged) by insert_line_end_to_text_view
+        self.insert_data_to_text_view(data, 'TX')
         self.insert_line_end_to_text_view('TX')
         return True
 
 
-    def notify(self, message):
-        """ """
+    def notify(self, message, important=False):
+        """
+        Show a toast. Important messages (errors the user must see)
+        are shown even when notifications are turned off.
+        """
         display_notifications = self.settings.get_boolean("notifications")
 
-        if display_notifications:
+        if display_notifications or important:
             self.toast_overlay.add_toast(Adw.Toast(title=message))
 
 
@@ -1217,18 +1254,11 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
             self.info_VID.set_label(str(result['VID']))#hex
             self.info_PID.set_label(str(result['PID']))#hex
 
-            vendor = usb_db.get(result['VID'], {})
-            vendor_name = vendor.get("name")
-            product = vendor.get("products", {}).get(result['PID'])
+            vendor_name, product = lookup_usb_names(
+                result['VID'], result['PID'], usb_db)
             # Add to Sidebar
-            if vendor_name == None:
-                self.info_VID_Vendor.set_label("None")
-            else:
-                self.info_VID_Vendor.set_label(vendor_name.strip())
-            if product == None:
-                self.info_PID_Product.set_label("None")
-            else:
-                self.info_PID_Product.set_label(product.strip())
+            self.info_VID_Vendor.set_label(vendor_name or "None")
+            self.info_PID_Product.set_label(product or "None")
 
 
         # Match Serial Number

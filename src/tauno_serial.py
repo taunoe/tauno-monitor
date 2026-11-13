@@ -123,9 +123,15 @@ class TaunoSerial():
                 GLib.idle_add(self.window_reference.add_to_text_view, data_in)
             except Exception as ex:
                 print("Serial read error: ", ex)
-                # Close serial port
+                # Connection lost (not closed by the user): let the window
+                # reconnect. This is a worker thread, so hand over to the
+                # GTK main loop instead of calling the window directly.
                 if self.tauno_serial.is_open:
-                    self.window_reference.reconnect_serial(self.tauno_serial.port, self.tauno_serial.baudrate)
+                    GLib.idle_add(
+                        self.window_reference.reconnect_serial,
+                        self.tauno_serial.port,
+                        self.tauno_serial.baudrate,
+                    )
                 return
 
 
@@ -137,18 +143,13 @@ class TaunoSerial():
             print("not open")
             return
 
+        # Send exactly what the user entered: a serial monitor has to be
+        # able to transmit control characters (ESC, Ctrl-C, NUL) and long
+        # payloads, and the echo in the window shows the full text.
         if isinstance(data, str):
-            # Sanitize control characters in text input.
-            data = ''.join(c for c in data if c.isprintable() or c in '\r\n\t')
             data = data.encode('utf-8')
         elif not isinstance(data, bytes):
             raise TypeError("Serial data must be text or bytes")
-
-        # Limit length to prevent buffer overflow on device
-        MAX_LENGTH = 1024
-        if len(data) > MAX_LENGTH:
-            print(f"Warning: Data truncated to {MAX_LENGTH} bytes")
-            data = data[:MAX_LENGTH]
 
         self.tauno_serial.write(data)
         self.tauno_serial.flush()
