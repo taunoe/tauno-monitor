@@ -1106,27 +1106,37 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def send_to_serial(self, data):
         """
-        Write data to Serial port
+        Write data to Serial port.
+        Returns True when the data was sent.
         """
         try:
             payload = encode_tx_data(data, self.get_tx_format_saved)
         except ValueError as error:
-            self.notify(str(error))
+            self.notify(str(error), important=True)
+            return False
+
+        if not self.tauno_serial.is_open:
+            # Keep the text in the entry instead of showing it as sent
+            self.notify("Not sent: the serial port is not open", important=True)
             return False
 
         line_ending = tx_line_ending(self.get_TX_line_end_saved)
         payload += line_ending.encode('ascii')
-        if self.tauno_serial.is_open:
+
+        try:
             if self.get_tx_format_saved == 'ASCII':
                 self.tauno_serial.write(data + line_ending)
             else:
                 self.tauno_serial.write(payload)
-        else:
-            print("Send cmd: Serial is not Open")
+        except OSError as error:
+            print("Serial write error: ", error)
+            self.notify(f"Not sent: {error}", important=True)
+            return False
 
         self.insert_time_to_text_view()
         self.insert_arrow_to_text_view('TX')
-        self.insert_data_to_text_view(data + line_ending, 'TX')
+        # The line ending is added (and logged) by insert_line_end_to_text_view
+        self.insert_data_to_text_view(data, 'TX')
         self.insert_line_end_to_text_view('TX')
         return True
 
