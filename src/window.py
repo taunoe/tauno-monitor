@@ -31,7 +31,7 @@ from .plot_data import SerialPlotData
 from .plot_window import TaunoPlotView
 from .guide import TaunoGuideWindow
 from .tool_baud import TaunoToolBaudWindow
-from .port_utils import format_port_label, lookup_usb_names
+from .port_utils import describe_open_error, format_port_label, lookup_usb_names
 import gettext, locale, os, random, string
 import re
 from .usb_db import usb_db
@@ -643,39 +643,42 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
 
     def on_btn_open(self, action, _):
         """ Button Open action """
-        #self.scan_serial_ports()
-
-        # If we a middle of reconnection
+        # Stop pressed in the middle of a reconnection: give up
         if self.reconnecting_serial:
-            self.tauno_serial.close()
             self.reconnecting_serial = False
-            #self.open_button.set_label("Open")
+            self.tauno_serial.close()
             self.open_button.set_icon_name("play-large-symbolic")
             self.set_title(APP_NAME)
-        else:
-            # Get saved
-            selected_port = self.settings.get_string("port-str")
-            selected_baud_index = self.settings.get_int("baud-index")
-            selected_baud_rate = self.baud_drop_down.get_selected_item().get_string()
-            # Open Serial Port
+            self.notify("Reconnecting cancelled")
+            return
+
+        # Get saved
+        selected_port = self.settings.get_string("port-str")
+        selected_baud_rate = self.baud_drop_down.get_selected_item().get_string()
+
+        try:
+            # Opens the port, or closes it when it is already open
             self.tauno_serial.open(selected_port, selected_baud_rate)
+        except (OSError, ValueError) as error:
+            # serial.SerialException is an OSError: no permission,
+            # device missing, port busy, unsupported settings...
+            print("Serial open error: ", error)
+            self.open_button.set_icon_name("play-large-symbolic")
+            self.set_title(APP_NAME)
+            self.notify(describe_open_error(selected_port, error), important=True)
+            return
 
         # Change button label and title
         if self.tauno_serial.is_open:
-            #self.open_button.set_label("Close")
             self.open_button.set_icon_name("stop-large-symbolic")
             title = str(selected_port)+":"+str(selected_baud_rate)
             self.set_title(title) # port
             self.logging.write_data("Opened " + title + "\n")
-        else:
-            #self.open_button.set_label("Open")
-            self.open_button.set_icon_name("play-large-symbolic")
-            self.set_title(APP_NAME)
-
-        if self.tauno_serial.is_open:
             self.notify(f"{selected_port} {selected_baud_rate} connected")
             self.thread_read_serial()
         else:
+            self.open_button.set_icon_name("play-large-symbolic")
+            self.set_title(APP_NAME)
             self.notify(f"{selected_port} {selected_baud_rate} closed")
 
 
@@ -1104,11 +1107,14 @@ class TaunoMonitorWindow(Adw.ApplicationWindow):
         return True
 
 
-    def notify(self, message):
-        """ """
+    def notify(self, message, important=False):
+        """
+        Show a toast. Important messages (errors the user must see)
+        are shown even when notifications are turned off.
+        """
         display_notifications = self.settings.get_boolean("notifications")
 
-        if display_notifications:
+        if display_notifications or important:
             self.toast_overlay.add_toast(Adw.Toast(title=message))
 
 
