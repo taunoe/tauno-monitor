@@ -66,9 +66,10 @@
     <category>Utility</category>
   </categories>
   <releases>
-    <release version="0.3.10" date="2026-10-27">
+    <release version="0.3.10" date="2026-11-13">
       <description>
         <ul>
+          <li>Bug fixes.<li/>
           <li>Updated German, Estonian, and Russian translations.</li>
         </ul>
       </description>
